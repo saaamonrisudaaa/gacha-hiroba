@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="ガチャガチャどこの新着情報。新規スポット・イベント・限定品情報をお届けします。" />
+  <title>新着情報 | ガチャガチャどこ</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header class="gh-header">
+    <div class="gh-header__top">
+      <div class="gh-container gh-header__inner">
+        <a class="gh-logo" href="index.html" aria-label="ガチャガチャどこ トップへ">
+          <span class="gh-logo__icon">G</span>
+          <span class="gh-logo__text">ガチャガチャ<em>どこ</em></span>
+        </a>
+        <form class="gh-search" role="search">
+          <input class="gh-search__input" type="search" placeholder="エリア・駅名・店名で検索" aria-label="ガチャ場所を検索" />
+          <button class="gh-search__btn" type="submit" aria-label="検索">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          </button>
+        </form>
+        <nav class="gh-header__nav" aria-label="ユーザーメニュー">
+          <a href="#">ログイン</a>
+          <a href="#" class="gh-btn gh-btn--sm gh-btn--outline-white">無料登録</a>
+        </nav>
+        <button class="gh-hamburger" aria-label="メニューを開く" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+    <div class="gh-subnav">
+      <div class="gh-container">
+        <nav class="gh-nav-tabs" aria-label="メインナビゲーション">
+          <a href="index.html">トップ</a>
+          <a href="area.html">エリア別</a>
+          <a href="category.html">カテゴリー別</a>
+          <a href="ranking.html">ランキング</a>
+          <a href="news.html" class="active">新着情報</a>
+          <a href="map.html">マップ検索</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="gh-main">
+    <div class="gh-container">
+
+      <div class="gh-page-hero">
+        <h1 class="gh-page-hero__title">新着情報</h1>
+        <p class="gh-page-hero__desc">新規オープンスポット・期間限定イベント・限定品情報をいち早くお届けします。</p>
+      </div>
+
+      <div class="gh-main__layout">
+        <div class="gh-main__content">
+
+          <!-- フィルタータブ -->
+          <div class="gh-tab-group" style="margin-bottom:20px" id="newsFilterTabs">
+            <button class="gh-tab active" data-news="all">すべて</button>
+            <button class="gh-tab" data-news="spot">新着スポット</button>
+            <button class="gh-tab" data-news="event">イベント</button>
+            <button class="gh-tab" data-news="item">限定品情報</button>
+            <button class="gh-tab" data-news="info">お知らせ</button>
+          </div>
+
+          <!-- ニュース記事一覧 -->
+          <section class="gh-section">
+            <div class="gh-news-feed" id="newsFeed">
+
+              <!-- 新着スポット -->
+              <article class="gh-news-article" data-news="spot">
+                <div class="gh-news-article__head">
+                  <span class="gh-badge gh-badge--new">新着スポット</span>
+                  <time class="gh-news-article__date">2026年6月27日</time>
+                </div>
+                <h2 class="gh-news-article__title"><a href="location.html">【渋谷】渋谷ヒカリエに大型ガチャコーナーがオープン！100台以上設置予定</a></h2>
+                <p class="gh-news-article__body">渋谷ヒカリエ ShinQs地下1階に、6月30日より大型ガチャガチャコーナーがオープン予定です。アニメ・フィギュア・ぬいぐるみなど幅広いジャンルを取り揃え、100台以上の設置が確認されています。オープン記念として先着500名に限定ガチャ1回無料券を配布予定。</p>
+                <div class="gh-news-article__footer">
+                  <div class="gh-tags">
+                    <span>渋谷</span><span>新規オープン</span><span>大型</span>
+                  </div>
+                  <a href="location.html" class="gh-btn gh-btn--xs">スポット詳細</a>
+                </div>
+              </article>
+
+              <article class="gh-news-article" data-news="event">
+                <div class="gh-news-article__head">
+                  <span class="gh-badge gh-badge--hot">イベント</span>
+                  <time class="gh-news-article__date">2026年6月25日</time>
+                </div>
+                <h2 class="gh-news-article__title"><a href="location.html">【秋葉原】ヨドバシAkiba「夏のガチャ祭り2026」7月1日〜8月31日開催</a></h2>
+                <p class="gh-news-article__body">ヨドバシAkiba ガチャコーナーにて、夏の大型イベント「夏のガチャ祭り2026」が開催されます。期間中は限定コラボガチャが多数登場。人気アニメとのコラボ景品や、夏限定デザインのスペシャルセットも登場予定です。</p>
+                <div class="gh-news-article__footer">
+                  <div class="gh-tags">
+                    <span>秋葉原</span><span>夏イベント</span><span>限定</span>
+                  </div>
+                  <a href="location.html" class="gh-btn gh-btn--xs">スポット詳細</a>
+                </div>
+              </article>
+
+              <article class="gh-news-article" data-news="item">
+                <div class="gh-news-article__head">
+                  <span class="gh-badge" style="background:#d1fae5;color:#15803d">限定品</span>
+                  <time class="gh-news-article__date">2026年6月24日</time>
+                </div>
+                <h2 class="gh-news-article__title"><a href="location.html">【全国展開】「呪術廻戦」最新弾ガチャが全国スポットに一斉入荷</a></h2>
+                <p class="gh-news-article__body">大人気アニメ「呪術廻戦」の最新ガチャが、全国のガチャガチャどこ掲載スポットに順次入荷中です。新キャラクター対応の全6種類で構成。一部スポットではシークレット入りのプレミアムセットも取り扱い。</p>
+                <div class="gh-news-article__footer">
+                  <div class="gh-tags">
+                    <span>全国</span><span>呪術廻戦</span><span>新弾</span>
+                  </div>
+                  <a href="location.html" class="gh-btn gh-btn--xs">在庫スポットを見る</a>
+                </div>
+              </article>
+
+              <article class="gh-news-article" data-news="spot">
+                <div class="gh-news-article__head">
+                  <span class="gh-badge gh-badge--new">新着スポット</span>
+                  <time class="gh-news-article__date">2026年6月22日</time>
+                </div>
+                <h2 class="gh-news-article__title"><a href="location.html">【大阪・天王寺】あべのハルカスにガチャ専門フロアが誕生</a></h2>
+                <p class="gh-news-article__body">大阪・天王寺のあべのハルカス近鉄本店にガチャガチャ専門フロアが新設されました。関西最大級の約150台を設置。関西限定品も多数ラインナップ。</p>
+                <div class="gh-news-article__footer">
+                  <div class="gh-tags">
+                    <span>大阪</span><span>天王寺</span><span>新規オープン</span>
+                  </div>
+                  <a href="location.html" class="gh-btn gh-btn--xs">スポット詳細</a>
+                </div>
+              </article>
+
+              <article class="gh-news-article" data-news="info">
+                <div class="gh-news-article__head">
+                  <span class="gh-badge">お知らせ</span>
+                  <time class="gh-news-article__date">2026年6月20日</time>
+                </div>
+                <h2 class="gh-news-article__title"><a href="#">ガチャガチャどこ スポット情報更新機能をリリースしました</a></h2>
+                <p class="gh-news-article__body">本日よりユーザーによるスポット情報の更新申請機能がリリースされました。営業時間の変更・閉店情報・新機種入荷情報などをリアルタイムでご報告いただけます。</p>
+                <div class="gh-news-article__footer">
+                  <div class="gh-tags">
+                    <span>お知らせ</span><span>機能更新</span>
+                  </div>
+                </div>
+              </article>
+
+              <article class="gh-news-article" data-news="event">
+                <div class="gh-news-article__head">
+                  <span class="gh-badge gh-badge--hot">イベント</span>
+                  <time class="gh-news-article__date">2026年6月18日</time>
+                </div>
+                <h2 class="gh-news-article__title"><a href="location.html">【名古屋】大須ガチャガチャ通りで「ガチャ博覧会」開催決定</a></h2>
+                <p class="gh-news-article__body">名古屋・大須の大須ガチャガチャ通りで7月15日〜16日の2日間、「ガチャ博覧会2026」が開催されます。希少なレアガチャの展示や、ガチャ回し放題チケットの販売も予定されています。</p>
+                <div class="gh-news-article__footer">
+                  <div class="gh-tags">
+                    <span>名古屋</span><span>大須</span><span>イベント</span>
+                  </div>
+                  <a href="location.html" class="gh-btn gh-btn--xs">スポット詳細</a>
+                </div>
+              </article>
+
+              <article class="gh-news-article" data-news="item">
+                <div class="gh-news-article__head">
+                  <span class="gh-badge" style="background:#d1fae5;color:#15803d">限定品</span>
+                  <time class="gh-news-article__date">2026年6月15日</time>
+                </div>
+                <h2 class="gh-news-article__title"><a href="location.html">ポケモンコラボ夏限定ガチャが全国発売開始</a></h2>
+                <p class="gh-news-article__body">ポケモンとのコラボ夏限定ガチャ「ポケモン サマーコレクション2026」が全国一斉発売スタート。ピカチュウをはじめとした人気ポケモンの夏バージョン全8種類。</p>
+                <div class="gh-news-article__footer">
+                  <div class="gh-tags">
+                    <span>全国</span><span>ポケモン</span><span>夏限定</span>
+                  </div>
+                  <a href="location.html" class="gh-btn gh-btn--xs">在庫スポットを見る</a>
+                </div>
+              </article>
+
+              <article class="gh-news-article" data-news="spot">
+                <div class="gh-news-article__head">
+                  <span class="gh-badge gh-badge--new">新着スポット</span>
+                  <time class="gh-news-article__date">2026年6月12日</time>
+                </div>
+                <h2 class="gh-news-article__title"><a href="location.html">【福岡・天神】天神地下街に新ガチャスポットがオープン</a></h2>
+                <p class="gh-news-article__body">福岡・天神の天神地下街に新ガチャスポットが登場。九州最大規模の70台を設置し、九州・沖縄限定品も取り揃える予定です。</p>
+                <div class="gh-news-article__footer">
+                  <div class="gh-tags">
+                    <span>福岡</span><span>天神</span><span>新規オープン</span>
+                  </div>
+                  <a href="location.html" class="gh-btn gh-btn--xs">スポット詳細</a>
+                </div>
+              </article>
+
+            </div>
+
+            <!-- ページネーション -->
+            <div class="gh-pagination">
+              <a href="#" class="gh-page-btn gh-page-btn--active">1</a>
+              <a href="#" class="gh-page-btn">2</a>
+              <a href="#" class="gh-page-btn">3</a>
+              <span class="gh-page-ellipsis">…</span>
+              <a href="#" class="gh-page-btn">12</a>
+              <a href="#" class="gh-page-btn gh-page-btn--next">次へ →</a>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="gh-sidebar">
+          <div class="gh-widget">
+            <h3 class="gh-widget__title">カテゴリー</h3>
+            <ul class="gh-category-list">
+              <li><a href="news.html" class="gh-category-item"><span class="gh-category-item__icon">📍</span><span>新着スポット</span><span class="gh-category-item__count">48</span></a></li>
+              <li><a href="news.html" class="gh-category-item"><span class="gh-category-item__icon">🎪</span><span>イベント</span><span class="gh-category-item__count">23</span></a></li>
+              <li><a href="news.html" class="gh-category-item"><span class="gh-category-item__icon">✨</span><span>限定品情報</span><span class="gh-category-item__count">31</span></a></li>
+              <li><a href="news.html" class="gh-category-item"><span class="gh-category-item__icon">📢</span><span>お知らせ</span><span class="gh-category-item__count">12</span></a></li>
+            </ul>
+          </div>
+
+          <div class="gh-widget">
+            <h3 class="gh-widget__title">注目スポット</h3>
+            <div class="gh-nearby">
+              <a href="location.html" class="gh-nearby__item">
+                <span style="font-size:28px">🎰</span>
+                <div>
+                  <strong>ヨドバシAkiba</strong>
+                  <small>東京・秋葉原 ★4.9</small>
+                </div>
+              </a>
+              <a href="location.html" class="gh-nearby__item">
+                <span style="font-size:28px">🎰</span>
+                <div>
+                  <strong>なんばウォーク</strong>
+                  <small>大阪・なんば ★4.7</small>
+                </div>
+              </a>
+              <a href="location.html" class="gh-nearby__item">
+                <span style="font-size:28px">🎰</span>
+                <div>
+                  <strong>大須ガチャガチャ通り</strong>
+                  <small>愛知・名古屋 ★4.5</small>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <div class="gh-widget gh-widget--accent">
+            <h3 class="gh-widget__title">メール通知</h3>
+            <p class="gh-widget__text">新着スポット情報やイベント情報をいち早くお届けします。</p>
+            <div class="gh-widget__form">
+              <input type="email" placeholder="メールアドレス" style="padding:8px 10px;border-radius:6px;border:none;font-size:13px;width:100%;box-sizing:border-box" />
+              <button class="gh-app-btn" type="button">📧 通知を受け取る</button>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="gh-footer">
+    <div class="gh-container">
+      <div class="gh-footer__main">
+        <div class="gh-footer__brand">
+          <a class="gh-logo" href="index.html"><span class="gh-logo__icon">G</span><span class="gh-logo__text">ガチャガチャ<em>どこ</em></span></a>
+          <p>全国のガチャガチャ設置場所情報を網羅。<br />あなたのガチャライフをサポートします。</p>
+        </div>
+        <div class="gh-footer__links">
+          <div><strong>サービス</strong><a href="index.html">トップ</a><a href="ranking.html">ランキング</a><a href="news.html">新着情報</a><a href="map.html">マップ検索</a></div>
+          <div><strong>情報</strong><a href="#">ガチャとは</a><a href="#">クチコミを書く</a><a href="#">スポットを登録</a></div>
+          <div><strong>サポート</strong><a href="#">お問い合わせ</a><a href="#">利用規約</a><a href="#">プライバシー</a></div>
+        </div>
+      </div>
+      <div class="gh-footer__bottom">
+        <span>© 2026 ガチャガチャどこ (gacha-hiroba.com)</span>
+        <span>Powered by ガチャひろば</span>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

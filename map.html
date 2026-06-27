@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="地図からガチャガチャスポットを検索。現在地・駅名・エリアから周辺のスポットを探せます。" />
+  <title>マップ検索 | ガチャガチャどこ</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header class="gh-header">
+    <div class="gh-header__top">
+      <div class="gh-container gh-header__inner">
+        <a class="gh-logo" href="index.html" aria-label="ガチャガチャどこ トップへ">
+          <span class="gh-logo__icon">G</span>
+          <span class="gh-logo__text">ガチャガチャ<em>どこ</em></span>
+        </a>
+        <form class="gh-search" role="search">
+          <input class="gh-search__input" type="search" placeholder="エリア・駅名・店名で検索" aria-label="ガチャ場所を検索" />
+          <button class="gh-search__btn" type="submit" aria-label="検索">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          </button>
+        </form>
+        <nav class="gh-header__nav" aria-label="ユーザーメニュー">
+          <a href="#">ログイン</a>
+          <a href="#" class="gh-btn gh-btn--sm gh-btn--outline-white">無料登録</a>
+        </nav>
+        <button class="gh-hamburger" aria-label="メニューを開く" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+    <div class="gh-subnav">
+      <div class="gh-container">
+        <nav class="gh-nav-tabs" aria-label="メインナビゲーション">
+          <a href="index.html">トップ</a>
+          <a href="area.html">エリア別</a>
+          <a href="category.html">カテゴリー別</a>
+          <a href="ranking.html">ランキング</a>
+          <a href="news.html">新着情報</a>
+          <a href="map.html" class="active">マップ検索</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="gh-main">
+    <div class="gh-container">
+
+      <div class="gh-page-hero">
+        <h1 class="gh-page-hero__title">マップ検索</h1>
+        <p class="gh-page-hero__desc">現在地・駅名・エリア名から周辺のガチャガチャスポットを地図上で探せます。</p>
+      </div>
+
+      <!-- 検索フォーム -->
+      <section class="gh-section" style="margin-bottom:0">
+        <div class="gh-map-search-bar">
+          <form class="gh-map-search-form">
+            <div class="gh-map-search-input-wrap">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--gh-muted);pointer-events:none"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+              <input class="gh-map-search-input" type="search" placeholder="駅名・スポット名・エリアで検索（例: 秋葉原駅）" aria-label="検索キーワード" />
+            </div>
+            <button type="button" class="gh-btn gh-btn--primary" id="currentLocBtn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
+              現在地
+            </button>
+            <button type="submit" class="gh-btn gh-btn--primary">検索</button>
+          </form>
+
+          <!-- フィルター -->
+          <div class="gh-map-filters">
+            <select class="gh-select" style="width:auto;min-width:120px">
+              <option>都道府県</option>
+              <option>東京都</option>
+              <option>神奈川県</option>
+              <option>大阪府</option>
+              <option>愛知県</option>
+              <option>福岡県</option>
+            </select>
+            <select class="gh-select" style="width:auto;min-width:130px">
+              <option>カテゴリー</option>
+              <option>アニメ・キャラ</option>
+              <option>フィギュア</option>
+              <option>ぬいぐるみ</option>
+              <option>食玩・お菓子</option>
+            </select>
+            <select class="gh-select" style="width:auto;min-width:110px">
+              <option>半径 500m</option>
+              <option>半径 1km</option>
+              <option>半径 3km</option>
+              <option>半径 5km</option>
+              <option>半径 10km</option>
+            </select>
+            <select class="gh-select" style="width:auto;min-width:120px">
+              <option>台数: すべて</option>
+              <option>10台以上</option>
+              <option>50台以上</option>
+              <option>100台以上</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <!-- マップ + リスト -->
+      <div class="gh-map-layout">
+
+        <!-- マップエリア -->
+        <div class="gh-map-area">
+          <div class="gh-map-placeholder">
+            <div class="gh-map-placeholder__inner">
+              <span style="font-size:64px;display:block;margin-bottom:16px">🗺️</span>
+              <p style="font-size:15px;font-weight:700;color:var(--gh-text);margin:0 0 8px">インタラクティブマップ</p>
+              <p style="font-size:13px;color:var(--gh-muted);margin:0 0 20px">実際のサービスでは Google Maps / Mapbox などと連携し、<br />ピンでスポットを表示します。</p>
+              <button class="gh-btn gh-btn--primary" type="button" id="currentLocBtn2">
+                📍 現在地周辺を表示
+              </button>
+            </div>
+            <!-- サンプルピン -->
+            <div class="gh-map-pin" style="top:30%;left:55%">
+              <div class="gh-map-pin__dot gh-map-pin__dot--hot"></div>
+              <div class="gh-map-pin__label">ヨドバシAkiba</div>
+            </div>
+            <div class="gh-map-pin" style="top:45%;left:40%">
+              <div class="gh-map-pin__dot"></div>
+              <div class="gh-map-pin__label">アキバ横丁</div>
+            </div>
+            <div class="gh-map-pin" style="top:60%;left:65%">
+              <div class="gh-map-pin__dot"></div>
+              <div class="gh-map-pin__label">池袋P'PARCO</div>
+            </div>
+            <div class="gh-map-pin" style="top:25%;left:30%">
+              <div class="gh-map-pin__dot"></div>
+              <div class="gh-map-pin__label">渋谷マルキュー</div>
+            </div>
+          </div>
+          <div class="gh-map-controls">
+            <button class="gh-map-ctrl-btn" aria-label="拡大">＋</button>
+            <button class="gh-map-ctrl-btn" aria-label="縮小">－</button>
+            <button class="gh-map-ctrl-btn" aria-label="現在地">📍</button>
+          </div>
+        </div>
+
+        <!-- リストパネル -->
+        <div class="gh-map-list">
+          <div class="gh-map-list__header">
+            <strong>周辺スポット</strong>
+            <span class="gh-map-list__count">5件表示中</span>
+            <div class="gh-tab-group">
+              <button class="gh-tab active" style="font-size:11px;padding:3px 8px">リスト</button>
+              <button class="gh-tab" style="font-size:11px;padding:3px 8px">地図優先</button>
+            </div>
+          </div>
+
+          <a href="location.html" class="gh-map-spot gh-map-spot--selected">
+            <div class="gh-map-spot__num gh-map-spot__num--1">1</div>
+            <div class="gh-map-spot__info">
+              <strong class="gh-map-spot__name">ヨドバシAkiba ガチャコーナー</strong>
+              <span class="gh-map-spot__area">東京都千代田区外神田1丁目</span>
+              <div class="gh-map-spot__meta">
+                <span class="gh-rating">★ 4.9</span>
+                <span>200台</span>
+                <span class="gh-status gh-status--active">営業中</span>
+              </div>
+              <div class="gh-tags" style="margin-top:4px">
+                <span>アニメ</span><span>フィギュア</span><span>ぬいぐるみ</span>
+              </div>
+            </div>
+            <span class="gh-map-spot__dist">0.3km</span>
+          </a>
+
+          <a href="location.html" class="gh-map-spot">
+            <div class="gh-map-spot__num">2</div>
+            <div class="gh-map-spot__info">
+              <strong class="gh-map-spot__name">アキバガチャ横丁</strong>
+              <span class="gh-map-spot__area">東京都千代田区外神田4丁目</span>
+              <div class="gh-map-spot__meta">
+                <span class="gh-rating">★ 4.8</span>
+                <span>120台</span>
+                <span class="gh-status gh-status--active">営業中</span>
+              </div>
+              <div class="gh-tags" style="margin-top:4px">
+                <span>アニメ</span><span>限定</span>
+              </div>
+            </div>
+            <span class="gh-map-spot__dist">0.5km</span>
+          </a>
+
+          <a href="location.html" class="gh-map-spot">
+            <div class="gh-map-spot__num">3</div>
+            <div class="gh-map-spot__info">
+              <strong class="gh-map-spot__name">秋葉原UDX ガチャコーナー</strong>
+              <span class="gh-map-spot__area">東京都千代田区外神田6丁目</span>
+              <div class="gh-map-spot__meta">
+                <span class="gh-rating">★ 4.3</span>
+                <span>45台</span>
+                <span class="gh-status gh-status--busy">混雑中</span>
+              </div>
+              <div class="gh-tags" style="margin-top:4px">
+                <span>フィギュア</span>
+              </div>
+            </div>
+            <span class="gh-map-spot__dist">0.7km</span>
+          </a>
+
+          <a href="location.html" class="gh-map-spot">
+            <div class="gh-map-spot__num">4</div>
+            <div class="gh-map-spot__info">
+              <strong class="gh-map-spot__name">末広町ガチャ専門店</strong>
+              <span class="gh-map-spot__area">東京都千代田区外神田3丁目</span>
+              <div class="gh-map-spot__meta">
+                <span class="gh-rating">★ 4.1</span>
+                <span>30台</span>
+                <span class="gh-status gh-status--active">営業中</span>
+              </div>
+              <div class="gh-tags" style="margin-top:4px">
+                <span>ぬいぐるみ</span><span>食玩</span>
+              </div>
+            </div>
+            <span class="gh-map-spot__dist">1.1km</span>
+          </a>
+
+          <a href="location.html" class="gh-map-spot">
+            <div class="gh-map-spot__num">5</div>
+            <div class="gh-map-spot__info">
+              <strong class="gh-map-spot__name">御茶ノ水マルイ ガチャコーナー</strong>
+              <span class="gh-map-spot__area">東京都千代田区神田小川町1丁目</span>
+              <div class="gh-map-spot__meta">
+                <span class="gh-rating">★ 4.0</span>
+                <span>22台</span>
+                <span class="gh-status gh-status--low">残りわずか</span>
+              </div>
+              <div class="gh-tags" style="margin-top:4px">
+                <span>アクセサリー</span>
+              </div>
+            </div>
+            <span class="gh-map-spot__dist">1.4km</span>
+          </a>
+
+          <div class="gh-map-list__footer">
+            <a href="area.html" class="gh-btn gh-btn--block">もっと見る</a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="gh-footer">
+    <div class="gh-container">
+      <div class="gh-footer__main">
+        <div class="gh-footer__brand">
+          <a class="gh-logo" href="index.html"><span class="gh-logo__icon">G</span><span class="gh-logo__text">ガチャガチャ<em>どこ</em></span></a>
+          <p>全国のガチャガチャ設置場所情報を網羅。<br />あなたのガチャライフをサポートします。</p>
+        </div>
+        <div class="gh-footer__links">
+          <div><strong>サービス</strong><a href="index.html">トップ</a><a href="ranking.html">ランキング</a><a href="news.html">新着情報</a><a href="map.html">マップ検索</a></div>
+          <div><strong>情報</strong><a href="#">ガチャとは</a><a href="#">クチコミを書く</a><a href="#">スポットを登録</a></div>
+          <div><strong>サポート</strong><a href="#">お問い合わせ</a><a href="#">利用規約</a><a href="#">プライバシー</a></div>
+        </div>
+      </div>
+      <div class="gh-footer__bottom">
+        <span>© 2026 ガチャガチャどこ (gacha-hiroba.com)</span>
+        <span>Powered by ガチャひろば</span>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

@@ -133,10 +133,35 @@ if (copyBtn) {
   });
 }
 
+/* ── Region filter tabs (area.html) ── */
+document.querySelectorAll('[data-region]').forEach(btn => {
+  if (!btn.matches('button')) return;
+  btn.addEventListener('click', () => {
+    btn.closest('.gh-tab-group').querySelectorAll('.gh-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    const region = btn.dataset.region;
+    document.querySelectorAll('.gh-area-section').forEach(sec => {
+      sec.hidden = region !== 'all' && sec.dataset.region !== region;
+    });
+  });
+});
+
+/* ── News filter tabs (news.html) ── */
+document.querySelectorAll('[data-news]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    btn.closest('.gh-tab-group').querySelectorAll('.gh-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    const cat = btn.dataset.news;
+    document.querySelectorAll('#newsFeed .gh-news-article').forEach(art => {
+      art.hidden = cat !== 'all' && art.dataset.news !== cat;
+    });
+  });
+});
+
 /* ── Generic tab group (period switcher, etc.) ── */
 document.querySelectorAll('.gh-tab-group:not([data-tab-group-handled])').forEach(group => {
   group.setAttribute('data-tab-group-handled', '1');
-  group.querySelectorAll('.gh-tab:not([data-tab]):not([data-filter])').forEach(btn => {
+  group.querySelectorAll('.gh-tab:not([data-tab]):not([data-filter]):not([data-region]):not([data-news])').forEach(btn => {
     btn.addEventListener('click', () => {
       group.querySelectorAll('.gh-tab').forEach(t => t.classList.remove('active'));
       btn.classList.add('active');
