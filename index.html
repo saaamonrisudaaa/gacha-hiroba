@@ -1,138 +1,396 @@
 <!doctype html>
 <html lang="ja">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="ガチャひろばは、毎日に小さなワクワクを届けるオンラインガチャサービスです。" />
-    <meta name="theme-color" content="#ff5c8a" />
-    <meta property="og:title" content="ガチャひろば｜ワクワクが、ここに集まる。" />
-    <meta property="og:description" content="好きが見つかる、みんなのオンラインガチャ広場。" />
-    <meta property="og:type" content="website" />
-    <title>ガチャひろば｜ワクワクが、ここに集まる。</title>
-    <link rel="stylesheet" href="styles.css" />
-    <script src="script.js" defer></script>
-  </head>
-  <body>
-    <a class="skip-link" href="#main">本文へ移動</a>
-    <header class="header" id="top">
-      <div class="container header__inner">
-        <a class="logo" href="#top" aria-label="ガチャひろば トップへ">
-          <span class="logo__mark" aria-hidden="true">G</span>
-          <span>ガチャ<span>ひろば</span></span>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="ガチャガチャどこ - 全国のガチャガチャ設置場所を検索・比較。近くのガチャスポット、人気マシン情報が一目でわかる。" />
+  <title>ガチャガチャどこ | 全国ガチャ場所情報サービス</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="script.js" defer></script>
+</head>
+<body>
+
+  <header class="gh-header">
+    <div class="gh-header__top">
+      <div class="gh-container gh-header__inner">
+        <a class="gh-logo" href="/" aria-label="ガチャガチャどこ トップへ">
+          <span class="gh-logo__icon">G</span>
+          <span class="gh-logo__text">ガチャガチャ<em>どこ</em></span>
         </a>
-        <button class="menu-button" type="button" aria-label="メニューを開く" aria-expanded="false">
+        <form class="gh-search" role="search">
+          <input class="gh-search__input" type="search" placeholder="エリア・駅名・店名で検索" aria-label="ガチャ場所を検索" />
+          <button class="gh-search__btn" type="submit" aria-label="検索">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          </button>
+        </form>
+        <nav class="gh-header__nav" aria-label="ユーザーメニュー">
+          <a href="#">ログイン</a>
+          <a href="#" class="gh-btn gh-btn--sm gh-btn--outline-white">無料登録</a>
+        </nav>
+        <button class="gh-hamburger" aria-label="メニューを開く" aria-expanded="false">
           <span></span><span></span><span></span>
         </button>
-        <nav class="nav" aria-label="メインナビゲーション">
-          <a href="#features">ガチャひろばとは</a>
-          <a href="#howto">遊び方</a>
-          <a href="#lineup">ラインナップ</a>
-          <a class="button button--small" href="#join">無料ではじめる</a>
+      </div>
+    </div>
+    <div class="gh-subnav">
+      <div class="gh-container">
+        <nav class="gh-nav-tabs" aria-label="メインナビゲーション">
+          <a href="/" class="active">トップ</a>
+          <a href="#">エリア別</a>
+          <a href="#">カテゴリー別</a>
+          <a href="#">ランキング</a>
+          <a href="#">新着情報</a>
+          <a href="#">マップ検索</a>
         </nav>
       </div>
-    </header>
+    </div>
+  </header>
 
-    <main id="main">
-      <section class="hero">
-        <div class="hero__blob hero__blob--one"></div>
-        <div class="hero__blob hero__blob--two"></div>
-        <div class="container hero__grid">
-          <div class="hero__copy reveal">
-            <p class="eyebrow"><span>NEW</span> 好きに出会えるオンラインガチャ</p>
-            <h1>ワクワクが、<br /><em>ここに集まる。</em></h1>
-            <p class="hero__lead">推しも、掘り出しものも、まだ知らない「好き」も。<br />ガチャひろばで、毎日に小さなサプライズを。</p>
-            <div class="hero__actions">
-              <a class="button" href="#join">無料ではじめる <span aria-hidden="true">→</span></a>
-              <a class="text-link" href="#demo">おためしガチャを回す <span aria-hidden="true">↓</span></a>
-            </div>
-            <div class="hero__trust" aria-label="サービスの特長">
-              <span>登録無料</span><span>最短1分</span><span>24時間楽しめる</span>
-            </div>
+  <!-- Scrolling ticker bar (like market summary bar) -->
+  <div class="gh-ticker-bar">
+    <div class="gh-container gh-ticker-bar__inner">
+      <span class="gh-ticker-bar__label">注目スポット</span>
+      <div class="gh-ticker-scroll" aria-label="注目スポット" aria-live="polite">
+        <div class="gh-ticker-track">
+          <a href="location.html" class="gh-ticker-item gh-ticker-item--hot">ヨドバシAkiba <span class="gh-ticker-item__star">★4.9</span> <em>HOT</em></a>
+          <a href="location.html" class="gh-ticker-item gh-ticker-item--new">アキバガチャ横丁 <span class="gh-ticker-item__star">★4.8</span> <em>NEW</em></a>
+          <a href="location.html" class="gh-ticker-item">なんばウォーク <span class="gh-ticker-item__star">★4.7</span></a>
+          <a href="location.html" class="gh-ticker-item">池袋P'PARCO <span class="gh-ticker-item__star">★4.7</span></a>
+          <a href="location.html" class="gh-ticker-item">ラゾーナ川崎 <span class="gh-ticker-item__star">★4.6</span></a>
+          <a href="location.html" class="gh-ticker-item gh-ticker-item--new">梅田LOFT <span class="gh-ticker-item__star">★4.5</span> <em>NEW</em></a>
+          <a href="location.html" class="gh-ticker-item">大須商店街 <span class="gh-ticker-item__star">★4.5</span></a>
+          <a href="location.html" class="gh-ticker-item">サンシャインシティ <span class="gh-ticker-item__star">★4.4</span></a>
+          <!-- duplicate for infinite scroll -->
+          <a href="location.html" class="gh-ticker-item gh-ticker-item--hot">ヨドバシAkiba <span class="gh-ticker-item__star">★4.9</span> <em>HOT</em></a>
+          <a href="location.html" class="gh-ticker-item gh-ticker-item--new">アキバガチャ横丁 <span class="gh-ticker-item__star">★4.8</span> <em>NEW</em></a>
+          <a href="location.html" class="gh-ticker-item">なんばウォーク <span class="gh-ticker-item__star">★4.7</span></a>
+          <a href="location.html" class="gh-ticker-item">池袋P'PARCO <span class="gh-ticker-item__star">★4.7</span></a>
+          <a href="location.html" class="gh-ticker-item">ラゾーナ川崎 <span class="gh-ticker-item__star">★4.6</span></a>
+          <a href="location.html" class="gh-ticker-item gh-ticker-item--new">梅田LOFT <span class="gh-ticker-item__star">★4.5</span> <em>NEW</em></a>
+          <a href="location.html" class="gh-ticker-item">大須商店街 <span class="gh-ticker-item__star">★4.5</span></a>
+          <a href="location.html" class="gh-ticker-item">サンシャインシティ <span class="gh-ticker-item__star">★4.4</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main id="main" class="gh-main">
+    <div class="gh-container gh-main__layout">
+
+      <!-- ========== LEFT/MAIN COLUMN ========== -->
+      <div class="gh-main__content">
+
+        <!-- Summary cards (like Nikkei/TOPIX index bar) -->
+        <section class="gh-summary-bar" aria-label="サービス概況">
+          <div class="gh-summary-card">
+            <span class="gh-summary-card__label">登録スポット数</span>
+            <strong class="gh-summary-card__value">12,847</strong>
+            <span class="gh-summary-card__change gh-up">▲128 今週</span>
           </div>
+          <div class="gh-summary-card">
+            <span class="gh-summary-card__label">登録マシン数</span>
+            <strong class="gh-summary-card__value">48,291</strong>
+            <span class="gh-summary-card__change gh-up">▲512 今月</span>
+          </div>
+          <div class="gh-summary-card">
+            <span class="gh-summary-card__label">クチコミ投稿数</span>
+            <strong class="gh-summary-card__value">203,415</strong>
+            <span class="gh-summary-card__change gh-up">▲1,204 今週</span>
+          </div>
+          <div class="gh-summary-card">
+            <span class="gh-summary-card__label">対応エリア</span>
+            <strong class="gh-summary-card__value">47都道府県</strong>
+            <span class="gh-summary-card__change">全国対応済み</span>
+          </div>
+        </section>
 
-          <div class="hero__visual reveal" aria-label="ガチャひろばのアプリ画面イメージ">
-            <div class="spark spark--1">✦</div>
-            <div class="spark spark--2">●</div>
-            <div class="spark spark--3">✦</div>
-            <div class="phone">
-              <div class="phone__top"><span>9:41</span><span>● ● ●</span></div>
-              <div class="phone__greeting"><small>こんにちは！</small><strong>今日は何を引く？</strong></div>
-              <div class="phone__banner">
-                <span class="phone__tag">期間限定</span>
-                <span class="capsule capsule--mini"><i></i></span>
-                <strong>ときめき<br />コレクション</strong>
-                <button type="button" tabindex="-1">見てみる →</button>
+        <!-- Featured spots (visual cards) -->
+        <section class="gh-section">
+          <div class="gh-section__header">
+            <h2 class="gh-section__title">注目のガチャスポット</h2>
+            <a href="#" class="gh-section__more">すべて見る →</a>
+          </div>
+          <div class="gh-spot-grid">
+            <a href="location.html" class="gh-spot-card gh-spot-card--lg">
+              <div class="gh-spot-card__img gh-spot-card__img--akiba">
+                <span class="gh-spot-card__badge gh-badge--hot">HOT</span>
               </div>
-              <div class="phone__section-title"><strong>人気のガチャ</strong><span>すべて見る</span></div>
-              <div class="phone__cards"><div><b>宇宙ねこ</b><small>全8種</small></div><div><b>レトロ喫茶</b><small>全6種</small></div></div>
-              <div class="phone__nav"><span>⌂<small>ホーム</small></span><span>◇<small>さがす</small></span><span>♡<small>お気に入り</small></span></div>
+              <div class="gh-spot-card__body">
+                <span class="gh-spot-card__area">東京・秋葉原</span>
+                <h3 class="gh-spot-card__name">ヨドバシAkiba ガチャコーナー</h3>
+                <div class="gh-spot-card__meta">
+                  <span class="gh-rating">★ 4.9</span>
+                  <span>🎰 200台設置</span>
+                </div>
+                <p class="gh-spot-card__desc">秋葉原最大級。アニメ・キャラ系が200台以上。IC決済にも対応。全国ランキング1位。</p>
+                <div class="gh-tags"><span>アニメ</span><span>フィギュア</span><span>IC決済</span><span>限定</span></div>
+              </div>
+            </a>
+            <a href="location.html" class="gh-spot-card">
+              <div class="gh-spot-card__img gh-spot-card__img--osaka">
+                <span class="gh-spot-card__badge gh-badge--new">NEW</span>
+              </div>
+              <div class="gh-spot-card__body">
+                <span class="gh-spot-card__area">大阪・なんば</span>
+                <h3 class="gh-spot-card__name">なんばウォーク ガチャコーナー</h3>
+                <div class="gh-spot-card__meta">
+                  <span class="gh-rating">★ 4.7</span>
+                  <span>🎰 85台設置</span>
+                </div>
+                <p class="gh-spot-card__desc">関西最大エリア。毎週マシン入れ替えあり。</p>
+                <div class="gh-tags"><span>雑貨</span><span>食玩</span><span>キャラ</span></div>
+              </div>
+            </a>
+            <a href="location.html" class="gh-spot-card">
+              <div class="gh-spot-card__img gh-spot-card__img--nagoya"></div>
+              <div class="gh-spot-card__body">
+                <span class="gh-spot-card__area">愛知・名古屋</span>
+                <h3 class="gh-spot-card__name">大須ガチャガチャ通り</h3>
+                <div class="gh-spot-card__meta">
+                  <span class="gh-rating">★ 4.5</span>
+                  <span>🎰 64台設置</span>
+                </div>
+                <p class="gh-spot-card__desc">商店街に点在するガチャをエリアまとめ。</p>
+                <div class="gh-tags"><span>雑貨</span><span>限定</span></div>
+              </div>
+            </a>
+          </div>
+        </section>
+
+        <!-- Ranking table (like stocks ranking) -->
+        <section class="gh-section">
+          <div class="gh-section__header">
+            <h2 class="gh-section__title">ガチャスポット ランキング</h2>
+            <div class="gh-tab-group" role="tablist" aria-label="ランキングエリア切り替え">
+              <button class="gh-tab active" role="tab" data-tab="national">全国</button>
+              <button class="gh-tab" role="tab" data-tab="tokyo">東京</button>
+              <button class="gh-tab" role="tab" data-tab="osaka">大阪</button>
+              <button class="gh-tab" role="tab" data-tab="other">その他</button>
             </div>
-            <div class="floating-card floating-card--pink"><span>♥</span><strong>毎週<br />新作追加</strong></div>
-            <div class="floating-card floating-card--yellow"><strong>10,000+</strong><span>アイテム</span></div>
+          </div>
+          <div class="gh-table-wrap">
+            <table class="gh-table" id="rankingTable">
+              <thead>
+                <tr>
+                  <th>順位</th>
+                  <th>スポット名</th>
+                  <th>エリア</th>
+                  <th class="gh-num">設置台数</th>
+                  <th class="gh-num">評価</th>
+                  <th class="gh-num">クチコミ</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="gh-table__row--top">
+                  <td><span class="gh-rank gh-rank--1">1</span></td>
+                  <td><a href="location.html" class="gh-table__link">ヨドバシAkiba ガチャコーナー</a> <span class="gh-badge gh-badge--hot">HOT</span></td>
+                  <td>東京・秋葉原</td>
+                  <td class="gh-num">200</td>
+                  <td class="gh-num"><span class="gh-rating">★ 4.9</span></td>
+                  <td class="gh-num">3,241</td>
+                  <td><a href="location.html" class="gh-btn gh-btn--xs">詳細</a></td>
+                </tr>
+                <tr>
+                  <td><span class="gh-rank gh-rank--2">2</span></td>
+                  <td><a href="location.html" class="gh-table__link">アキバガチャ横丁</a> <span class="gh-badge gh-badge--new">NEW</span></td>
+                  <td>東京・秋葉原</td>
+                  <td class="gh-num">120</td>
+                  <td class="gh-num"><span class="gh-rating">★ 4.8</span></td>
+                  <td class="gh-num">2,108</td>
+                  <td><a href="location.html" class="gh-btn gh-btn--xs">詳細</a></td>
+                </tr>
+                <tr>
+                  <td><span class="gh-rank gh-rank--3">3</span></td>
+                  <td><a href="location.html" class="gh-table__link">なんばウォーク ガチャコーナー</a></td>
+                  <td>大阪・なんば</td>
+                  <td class="gh-num">85</td>
+                  <td class="gh-num"><span class="gh-rating">★ 4.7</span></td>
+                  <td class="gh-num">1,892</td>
+                  <td><a href="location.html" class="gh-btn gh-btn--xs">詳細</a></td>
+                </tr>
+                <tr>
+                  <td><span class="gh-rank">4</span></td>
+                  <td><a href="location.html" class="gh-table__link">池袋P'PARCO ガチャフロア</a></td>
+                  <td>東京・池袋</td>
+                  <td class="gh-num">78</td>
+                  <td class="gh-num"><span class="gh-rating">★ 4.7</span></td>
+                  <td class="gh-num">1,654</td>
+                  <td><a href="location.html" class="gh-btn gh-btn--xs">詳細</a></td>
+                </tr>
+                <tr>
+                  <td><span class="gh-rank">5</span></td>
+                  <td><a href="location.html" class="gh-table__link">ラゾーナ川崎プラザ</a></td>
+                  <td>神奈川・川崎</td>
+                  <td class="gh-num">65</td>
+                  <td class="gh-num"><span class="gh-rating">★ 4.6</span></td>
+                  <td class="gh-num">1,203</td>
+                  <td><a href="location.html" class="gh-btn gh-btn--xs">詳細</a></td>
+                </tr>
+                <tr>
+                  <td><span class="gh-rank">6</span></td>
+                  <td><a href="location.html" class="gh-table__link">サンシャインシティ アルタ</a></td>
+                  <td>東京・池袋</td>
+                  <td class="gh-num">58</td>
+                  <td class="gh-num"><span class="gh-rating">★ 4.4</span></td>
+                  <td class="gh-num">987</td>
+                  <td><a href="location.html" class="gh-btn gh-btn--xs">詳細</a></td>
+                </tr>
+                <tr>
+                  <td><span class="gh-rank">7</span></td>
+                  <td><a href="location.html" class="gh-table__link">梅田LOFT ガチャコーナー</a> <span class="gh-badge gh-badge--new">NEW</span></td>
+                  <td>大阪・梅田</td>
+                  <td class="gh-num">52</td>
+                  <td class="gh-num"><span class="gh-rating">★ 4.5</span></td>
+                  <td class="gh-num">876</td>
+                  <td><a href="location.html" class="gh-btn gh-btn--xs">詳細</a></td>
+                </tr>
+                <tr>
+                  <td><span class="gh-rank">8</span></td>
+                  <td><a href="location.html" class="gh-table__link">大須ガチャガチャ通り</a></td>
+                  <td>愛知・名古屋</td>
+                  <td class="gh-num">64</td>
+                  <td class="gh-num"><span class="gh-rating">★ 4.5</span></td>
+                  <td class="gh-num">743</td>
+                  <td><a href="location.html" class="gh-btn gh-btn--xs">詳細</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <a href="#" class="gh-table__more">ランキングをすべて見る →</a>
+        </section>
+
+        <!-- News feed -->
+        <section class="gh-section">
+          <div class="gh-section__header">
+            <h2 class="gh-section__title">新着・更新情報</h2>
+            <a href="#" class="gh-section__more">すべて見る →</a>
+          </div>
+          <div class="gh-news-list">
+            <a href="#" class="gh-news-item">
+              <time class="gh-news-item__date">2026/06/27</time>
+              <span class="gh-badge gh-badge--new">新規</span>
+              <span>【秋葉原】新スポット「ガチャパーク秋葉原ANNEX」がオープン。限定マシン30台を設置。</span>
+            </a>
+            <a href="#" class="gh-news-item">
+              <time class="gh-news-item__date">2026/06/26</time>
+              <span class="gh-badge gh-badge--hot">HOT</span>
+              <span>【池袋】P'PARCOが夏の特別企画「ガチャフェス2026」を開催。期間限定マシンが登場。</span>
+            </a>
+            <a href="#" class="gh-news-item">
+              <time class="gh-news-item__date">2026/06/25</time>
+              <span class="gh-badge">更新</span>
+              <span>【大阪】なんばウォークが設置台数を85台→100台に拡大予定。7月リニューアルオープン。</span>
+            </a>
+            <a href="#" class="gh-news-item">
+              <time class="gh-news-item__date">2026/06/24</time>
+              <span class="gh-badge">更新</span>
+              <span>全国のガチャスポット新規登録が12,000件を突破しました。ありがとうございます。</span>
+            </a>
+            <a href="#" class="gh-news-item">
+              <time class="gh-news-item__date">2026/06/23</time>
+              <span class="gh-badge gh-badge--new">新規</span>
+              <span>【名古屋】大須商店街エリアの詳細マップを追加。16スポットを一覧で確認できます。</span>
+            </a>
+          </div>
+        </section>
+
+        <!-- Area browse -->
+        <section class="gh-section">
+          <div class="gh-section__header">
+            <h2 class="gh-section__title">エリアから探す</h2>
+          </div>
+          <div class="gh-area-grid">
+            <a href="#" class="gh-area-card"><span class="gh-area-card__icon">🗼</span><strong>東京</strong><small>4,218スポット</small></a>
+            <a href="#" class="gh-area-card"><span class="gh-area-card__icon">🏯</span><strong>大阪</strong><small>2,341スポット</small></a>
+            <a href="#" class="gh-area-card"><span class="gh-area-card__icon">⛩️</span><strong>京都</strong><small>892スポット</small></a>
+            <a href="#" class="gh-area-card"><span class="gh-area-card__icon">🗻</span><strong>愛知</strong><small>1,204スポット</small></a>
+            <a href="#" class="gh-area-card"><span class="gh-area-card__icon">🌊</span><strong>神奈川</strong><small>1,876スポット</small></a>
+            <a href="#" class="gh-area-card"><span class="gh-area-card__icon">🦀</span><strong>兵庫</strong><small>743スポット</small></a>
+            <a href="#" class="gh-area-card"><span class="gh-area-card__icon">🌸</span><strong>福岡</strong><small>891スポット</small></a>
+            <a href="#" class="gh-area-card gh-area-card--more"><span class="gh-area-card__icon">＋</span><strong>その他</strong><small>全47都道府県</small></a>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- ========== SIDEBAR ========== -->
+      <aside class="gh-sidebar">
+
+        <div class="gh-widget">
+          <h3 class="gh-widget__title">エリア・駅名で検索</h3>
+          <form class="gh-widget__form">
+            <select class="gh-select" aria-label="都道府県を選択">
+              <option value="">都道府県を選択</option>
+              <option>東京都</option><option>大阪府</option><option>愛知県</option>
+              <option>神奈川県</option><option>福岡県</option><option>北海道</option>
+            </select>
+            <select class="gh-select" aria-label="市区町村を選択">
+              <option value="">市区町村を選択</option>
+              <option>千代田区</option><option>渋谷区</option><option>新宿区</option><option>池袋</option>
+            </select>
+            <button type="submit" class="gh-btn gh-btn--primary gh-btn--block">この条件で検索</button>
+          </form>
+        </div>
+
+        <div class="gh-widget">
+          <h3 class="gh-widget__title">カテゴリーから探す</h3>
+          <div class="gh-category-list">
+            <a href="#" class="gh-category-item"><span class="gh-category-item__icon">🤖</span><span>アニメ・キャラ</span><span class="gh-category-item__count">18,241</span></a>
+            <a href="#" class="gh-category-item"><span class="gh-category-item__icon">🎨</span><span>雑貨・インテリア</span><span class="gh-category-item__count">12,087</span></a>
+            <a href="#" class="gh-category-item"><span class="gh-category-item__icon">🍡</span><span>食玩・お菓子</span><span class="gh-category-item__count">8,432</span></a>
+            <a href="#" class="gh-category-item"><span class="gh-category-item__icon">💍</span><span>アクセサリー</span><span class="gh-category-item__count">6,109</span></a>
+            <a href="#" class="gh-category-item"><span class="gh-category-item__icon">⚽</span><span>スポーツ</span><span class="gh-category-item__count">2,841</span></a>
+            <a href="#" class="gh-category-item"><span class="gh-category-item__icon">🐾</span><span>動物・ペット</span><span class="gh-category-item__count">1,577</span></a>
           </div>
         </div>
-        <div class="ticker" aria-hidden="true"><div>GACHA HIROBA ✦ FIND YOUR FAVORITE ✦ GACHA HIROBA ✦ FIND YOUR FAVORITE ✦ GACHA HIROBA ✦ FIND YOUR FAVORITE ✦</div></div>
-      </section>
 
-      <section class="section intro" id="features">
-        <div class="container">
-          <div class="section-heading reveal"><p class="kicker">ABOUT US</p><h2>“好き”が広がる、<br />みんなのガチャ広場。</h2><p>眺めるだけでも楽しい。回したらもっと楽しい。<br />たくさんのジャンルと出会いが集まる、新しい遊び場です。</p></div>
-          <div class="feature-grid">
-            <article class="feature-card feature-card--pink reveal"><span class="feature-card__number">01</span><div class="feature-card__icon">✦</div><h3>いつでも、新しい</h3><p>毎週届く新作ラインナップ。来るたびに新しいワクワクが待っています。</p></article>
-            <article class="feature-card feature-card--yellow reveal"><span class="feature-card__number">02</span><div class="feature-card__icon">♡</div><h3>「好き」が見つかる</h3><p>キャラクター、雑貨、フードまで。気分にぴったりのガチャを発見。</p></article>
-            <article class="feature-card feature-card--blue reveal"><span class="feature-card__number">03</span><div class="feature-card__icon">◎</div><h3>安心して楽しめる</h3><p>回す前に価格と内容をしっかり表示。届くまで丁寧にサポートします。</p></article>
-          </div>
-        </div>
-      </section>
-
-      <section class="section demo" id="demo">
-        <div class="container demo__grid">
-          <div class="demo__copy reveal"><p class="kicker">TRY IT!</p><h2>まずは一回、<br />回してみよう。</h2><p>今日のラッキーアイテムが出てくる、無料のおためしガチャです。</p><p class="demo__note">※ デモのため料金はかかりません。</p></div>
-          <div class="machine-wrap reveal">
-            <div class="machine" id="gachaMachine">
-              <div class="machine__top"><span class="capsule capsule--a"><i></i></span><span class="capsule capsule--b"><i></i></span><span class="capsule capsule--c"><i></i></span><div class="machine__glass"><strong>LUCKY<br />GACHA</strong></div></div>
-              <div class="machine__body"><div class="machine__window"><span id="resultEmoji">?</span></div><button class="knob" id="gachaButton" type="button" aria-label="おためしガチャを回す"><span>まわす</span></button><div class="machine__slot"></div></div>
-            </div>
-            <div class="result-card" id="resultCard" aria-live="polite"><small>TODAY'S LUCKY ITEM</small><strong id="resultText">ボタンを押してね！</strong></div>
-          </div>
-        </div>
-      </section>
-
-      <section class="section howto" id="howto">
-        <div class="container">
-          <div class="section-heading section-heading--left reveal"><p class="kicker">HOW TO PLAY</p><h2>たった3ステップで、<br />ワクワクをお届け。</h2></div>
-          <ol class="steps">
-            <li class="reveal"><span class="steps__number">1</span><div class="steps__art">⌕</div><h3>見つける</h3><p>気になるガチャを選ぼう</p></li>
-            <li class="reveal"><span class="steps__number">2</span><div class="steps__art">↻</div><h3>回して楽しむ</h3><p>画面をタップして抽選</p></li>
-            <li class="reveal"><span class="steps__number">3</span><div class="steps__art">▣</div><h3>おうちに届く</h3><p>当たったアイテムをお届け</p></li>
+        <div class="gh-widget">
+          <h3 class="gh-widget__title">いま話題のマシン</h3>
+          <ol class="gh-trending-list">
+            <li><a href="#">ちいかわ 夏の海グッズ</a><span class="gh-badge gh-badge--hot">HOT</span></li>
+            <li><a href="#">呪術廻戦 第3弾フィギュア</a></li>
+            <li><a href="#">ポケモンアクキー 2026ver</a></li>
+            <li><a href="#">すみっコぐらし 夏限定</a><span class="gh-badge gh-badge--new">NEW</span></li>
+            <li><a href="#">ONE PIECE エース特集</a></li>
+            <li><a href="#">スタジオジブリ ミニチュア館</a><span class="gh-badge gh-badge--new">NEW</span></li>
+            <li><a href="#">進撃の巨人 ラストシーズン</a></li>
+            <li><a href="#">猫モチーフ雑貨 2026</a></li>
           </ol>
         </div>
-      </section>
 
-      <section class="section lineup" id="lineup">
-        <div class="container">
-          <div class="lineup__heading reveal"><div><p class="kicker">LINEUP</p><h2>今日はどれにする？</h2></div><p>気になるジャンルから、<br />あなたの“好き”を探してみよう。</p></div>
-          <div class="category-tabs" role="tablist" aria-label="カテゴリー">
-            <button class="active" type="button" data-category="all">すべて</button><button type="button" data-category="character">キャラクター</button><button type="button" data-category="zakka">雑貨</button><button type="button" data-category="food">フード</button>
+        <div class="gh-widget gh-widget--accent">
+          <h3 class="gh-widget__title">アプリで便利に</h3>
+          <p class="gh-widget__text">現在地から近くのガチャスポットを即検索。お気に入り登録でマシン新着を通知。</p>
+          <div class="gh-app-btns">
+            <a href="#" class="gh-app-btn">🍎 App Store</a>
+            <a href="#" class="gh-app-btn">🤖 Google Play</a>
           </div>
-          <div class="lineup-grid">
-            <article class="item-card reveal" data-category="character"><div class="item-card__visual item-card__visual--space"><span>★</span><b>CAT</b></div><small>キャラクター</small><h3>ゆらゆら宇宙ねこ</h3><p><strong>¥500</strong> / 1回　全8種</p></article>
-            <article class="item-card reveal" data-category="zakka"><div class="item-card__visual item-card__visual--cafe"><span>☕</span><b>CAFE</b></div><small>雑貨</small><h3>レトロ喫茶ミニチュア</h3><p><strong>¥400</strong> / 1回　全6種</p></article>
-            <article class="item-card reveal" data-category="food"><div class="item-card__visual item-card__visual--bread"><span>🥐</span><b>BAKERY</b></div><small>フード</small><h3>ふわふわパン屋さん</h3><p><strong>¥300</strong> / 1回　全10種</p></article>
-          </div>
-          <a class="button button--outline" href="#join">もっと見る <span aria-hidden="true">→</span></a>
         </div>
-      </section>
 
-      <section class="section join" id="join">
-        <div class="join__dots"></div>
-        <div class="container join__inner reveal"><div class="join__capsules" aria-hidden="true"><span class="capsule capsule--large capsule--left"><i></i></span><span class="capsule capsule--large capsule--right"><i></i></span></div><p class="kicker">LET'S PLAY!</p><h2>あなたの“好き”に、<br />会いにいこう。</h2><p>登録は無料。メールアドレスだけで、すぐにはじめられます。</p><a class="button button--dark" href="mailto:hello@example.com?subject=ガチャひろば事前登録">無料ではじめる <span aria-hidden="true">→</span></a><small>登録することで、利用規約・プライバシーポリシーに同意したものとみなされます。</small></div>
-      </section>
-    </main>
+      </aside>
+    </div>
+  </main>
 
-    <footer class="footer">
-      <div class="container footer__main"><div><a class="logo logo--footer" href="#top"><span class="logo__mark">G</span><span>ガチャ<span>ひろば</span></span></a><p>ワクワクが、ここに集まる。</p></div><div class="footer__links"><div><strong>サービス</strong><a href="#features">ガチャひろばとは</a><a href="#howto">遊び方</a><a href="#lineup">ラインナップ</a></div><div><strong>サポート</strong><a href="mailto:hello@example.com">お問い合わせ</a><a href="#top">よくある質問</a><a href="#top">お知らせ</a></div><div><strong>ポリシー</strong><a href="#top">利用規約</a><a href="#top">プライバシー</a><a href="#top">特商法表記</a></div></div></div>
-      <div class="container footer__bottom"><span>© 2026 GACHA HIROBA</span><span>MADE WITH ♥ FOR YOUR EXCITEMENT</span></div>
-    </footer>
-  </body>
+  <footer class="gh-footer">
+    <div class="gh-container">
+      <div class="gh-footer__main">
+        <div class="gh-footer__brand">
+          <a class="gh-logo" href="/"><span class="gh-logo__icon">G</span><span class="gh-logo__text">ガチャガチャ<em>どこ</em></span></a>
+          <p>全国のガチャガチャ設置場所情報を網羅。<br />あなたのガチャライフをサポートします。</p>
+        </div>
+        <div class="gh-footer__links">
+          <div><strong>サービス</strong><a href="#">スポット検索</a><a href="#">ランキング</a><a href="#">新着情報</a><a href="#">マップ検索</a></div>
+          <div><strong>情報</strong><a href="#">ガチャとは</a><a href="#">クチコミを書く</a><a href="#">スポットを登録</a></div>
+          <div><strong>サポート</strong><a href="#">お問い合わせ</a><a href="#">利用規約</a><a href="#">プライバシー</a><a href="#">広告掲載</a></div>
+        </div>
+      </div>
+      <div class="gh-footer__bottom">
+        <span>© 2026 ガチャガチャどこ (gacha-hiroba.com)</span>
+        <span>Powered by ガチャひろば</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
 </html>

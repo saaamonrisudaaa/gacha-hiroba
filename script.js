@@ -1,64 +1,134 @@
-const menuButton = document.querySelector('.menu-button');
-const nav = document.querySelector('.nav');
+'use strict';
 
-menuButton.addEventListener('click', () => {
-  const isOpen = nav.classList.toggle('open');
-  menuButton.setAttribute('aria-expanded', String(isOpen));
-  menuButton.setAttribute('aria-label', isOpen ? 'メニューを閉じる' : 'メニューを開く');
-});
+/* ── Hamburger menu ── */
+const hamburger = document.querySelector('.gh-hamburger');
+const navTabs   = document.querySelector('.gh-nav-tabs');
+if (hamburger && navTabs) {
+  hamburger.addEventListener('click', () => {
+    const open = hamburger.getAttribute('aria-expanded') === 'true';
+    hamburger.setAttribute('aria-expanded', String(!open));
+    navTabs.classList.toggle('gh-nav-tabs--open', !open);
+  });
+}
 
-nav.querySelectorAll('a').forEach((link) => {
-  link.addEventListener('click', () => {
-    nav.classList.remove('open');
-    menuButton.setAttribute('aria-expanded', 'false');
+/* ── Ranking tab data ── */
+const rankingData = {
+  national: [
+    { rank:1, name:'ヨドバシAkiba ガチャコーナー',  area:'東京・秋葉原', machines:200, rating:'4.9', reviews:'3,241', badge:'HOT' },
+    { rank:2, name:'アキバガチャ横丁',               area:'東京・秋葉原', machines:120, rating:'4.8', reviews:'2,108', badge:'NEW' },
+    { rank:3, name:'なんばウォーク ガチャコーナー',   area:'大阪・なんば', machines:85,  rating:'4.7', reviews:'1,892', badge:''    },
+    { rank:4, name:"池袋P'PARCO ガチャフロア",       area:'東京・池袋',   machines:78,  rating:'4.7', reviews:'1,654', badge:''    },
+    { rank:5, name:'ラゾーナ川崎プラザ',              area:'神奈川・川崎', machines:65,  rating:'4.6', reviews:'1,203', badge:''    },
+    { rank:6, name:'サンシャインシティ アルタ',        area:'東京・池袋',   machines:58,  rating:'4.4', reviews:'987',   badge:''    },
+    { rank:7, name:'梅田LOFT ガチャコーナー',          area:'大阪・梅田',   machines:52,  rating:'4.5', reviews:'876',   badge:'NEW' },
+    { rank:8, name:'大須ガチャガチャ通り',             area:'愛知・名古屋', machines:64,  rating:'4.5', reviews:'743',   badge:''    },
+  ],
+  tokyo: [
+    { rank:1, name:'ヨドバシAkiba ガチャコーナー',   area:'東京・秋葉原', machines:200, rating:'4.9', reviews:'3,241', badge:'HOT' },
+    { rank:2, name:'アキバガチャ横丁',                area:'東京・秋葉原', machines:120, rating:'4.8', reviews:'2,108', badge:'NEW' },
+    { rank:3, name:"池袋P'PARCO ガチャフロア",        area:'東京・池袋',   machines:78,  rating:'4.7', reviews:'1,654', badge:''    },
+    { rank:4, name:'サンシャインシティ アルタ',         area:'東京・池袋',   machines:58,  rating:'4.4', reviews:'987',   badge:''    },
+    { rank:5, name:'渋谷マルキュー ガチャコーナー',     area:'東京・渋谷',   machines:45,  rating:'4.3', reviews:'623',   badge:''    },
+  ],
+  osaka: [
+    { rank:1, name:'なんばウォーク ガチャコーナー',   area:'大阪・なんば', machines:85,  rating:'4.7', reviews:'1,892', badge:''    },
+    { rank:2, name:'梅田LOFT ガチャコーナー',          area:'大阪・梅田',   machines:52,  rating:'4.5', reviews:'876',   badge:'NEW' },
+    { rank:3, name:'阪急三番街 ガチャ広場',            area:'大阪・梅田',   machines:40,  rating:'4.3', reviews:'541',   badge:''    },
+  ],
+  other: [
+    { rank:1, name:'大須ガチャガチャ通り',            area:'愛知・名古屋', machines:64,  rating:'4.5', reviews:'743',   badge:''    },
+    { rank:2, name:'ラゾーナ川崎プラザ',              area:'神奈川・川崎', machines:65,  rating:'4.6', reviews:'1,203', badge:''    },
+    { rank:3, name:'博多マルイ ガチャフロア',          area:'福岡・博多',   machines:48,  rating:'4.3', reviews:'487',   badge:''    },
+    { rank:4, name:'札幌パルコ ガチャコーナー',        area:'北海道・札幌', machines:35,  rating:'4.2', reviews:'312',   badge:''    },
+  ],
+};
+
+function badgeHTML(b) {
+  if (b === 'HOT') return '<span class="gh-badge gh-badge--hot">HOT</span>';
+  if (b === 'NEW') return '<span class="gh-badge gh-badge--new">NEW</span>';
+  return '';
+}
+
+function renderRanking(key) {
+  const tbody = document.querySelector('#rankingTable tbody');
+  if (!tbody) return;
+  const rows = rankingData[key] || rankingData.national;
+  const rankCls = r => r === 1 ? 'gh-rank--1' : r === 2 ? 'gh-rank--2' : r === 3 ? 'gh-rank--3' : '';
+  tbody.innerHTML = rows.map(r => `
+    <tr class="${r.rank === 1 ? 'gh-table__row--top' : ''}">
+      <td><span class="gh-rank ${rankCls(r.rank)}">${r.rank}</span></td>
+      <td><a href="location.html" class="gh-table__link">${r.name}</a>${badgeHTML(r.badge)}</td>
+      <td>${r.area}</td>
+      <td class="gh-num">${r.machines}</td>
+      <td class="gh-num"><span class="gh-rating">★ ${r.rating}</span></td>
+      <td class="gh-num">${r.reviews}</td>
+      <td><a href="location.html" class="gh-btn gh-btn--xs">詳細</a></td>
+    </tr>
+  `).join('');
+}
+
+/* Ranking tab switch */
+document.querySelectorAll('[data-tab]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    btn.closest('.gh-tab-group').querySelectorAll('.gh-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    renderRanking(btn.dataset.tab);
   });
 });
 
-const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-      revealObserver.unobserve(entry.target);
-    }
+/* ── Machine filter tabs (location.html) ── */
+document.querySelectorAll('[data-filter]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    btn.closest('.gh-tab-group').querySelectorAll('.gh-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    const filter = btn.dataset.filter;
+    document.querySelectorAll('#machineTable tbody tr').forEach(row => {
+      row.hidden = filter !== 'all' && row.dataset.cat !== filter;
+    });
   });
-}, { threshold: 0.12 });
-
-document.querySelectorAll('.reveal').forEach((element) => revealObserver.observe(element));
-
-const prizes = [
-  { emoji: '🌟', text: 'きらめきスター' },
-  { emoji: '🐈', text: '幸運の宇宙ねこ' },
-  { emoji: '🍮', text: 'ごほうびプリン' },
-  { emoji: '🌈', text: '小さなレインボー' },
-  { emoji: '🎈', text: 'ふわふわバルーン' },
-];
-const gachaButton = document.querySelector('#gachaButton');
-const gachaMachine = document.querySelector('#gachaMachine');
-const resultEmoji = document.querySelector('#resultEmoji');
-const resultText = document.querySelector('#resultText');
-
-gachaButton.addEventListener('click', () => {
-  if (gachaMachine.classList.contains('is-spinning')) return;
-  gachaMachine.classList.add('is-spinning');
-  resultEmoji.textContent = '…';
-  resultText.textContent = '抽選中…';
-  gachaButton.disabled = true;
-  window.setTimeout(() => {
-    const prize = prizes[Math.floor(Math.random() * prizes.length)];
-    resultEmoji.textContent = prize.emoji;
-    resultText.textContent = prize.text;
-    gachaMachine.classList.remove('is-spinning');
-    gachaButton.disabled = false;
-  }, 750);
 });
 
-document.querySelectorAll('.category-tabs button').forEach((button) => {
-  button.addEventListener('click', () => {
-    document.querySelector('.category-tabs button.active').classList.remove('active');
-    button.classList.add('active');
-    const category = button.dataset.category;
-    document.querySelectorAll('.item-card').forEach((card) => {
-      card.hidden = category !== 'all' && card.dataset.category !== category;
+/* ── Chart bar tooltips ── */
+document.querySelectorAll('.gh-chart__bar').forEach(bar => {
+  bar.setAttribute('tabindex', '0');
+  const tip = bar.querySelector('.gh-chart__tip');
+  if (!tip) return;
+  bar.addEventListener('mouseenter', () => { tip.style.opacity = '1'; });
+  bar.addEventListener('mouseleave', () => { tip.style.opacity = '0'; });
+  bar.addEventListener('focus',      () => { tip.style.opacity = '1'; });
+  bar.addEventListener('blur',       () => { tip.style.opacity = '0'; });
+});
+
+/* ── Favourite button ── */
+const favBtn = document.getElementById('favoriteBtn');
+if (favBtn) {
+  favBtn.addEventListener('click', () => {
+    const on = favBtn.classList.toggle('gh-btn--primary');
+    favBtn.textContent = on ? '♥ お気に入り済み' : '♡ お気に入り登録';
+  });
+}
+
+/* ── Copy URL ── */
+const copyBtn = document.getElementById('copyUrlBtn');
+if (copyBtn) {
+  copyBtn.addEventListener('click', async e => {
+    e.preventDefault();
+    try {
+      await navigator.clipboard.writeText(location.href);
+      const orig = copyBtn.textContent;
+      copyBtn.textContent = '✓ コピーしました';
+      setTimeout(() => { copyBtn.textContent = orig; }, 2000);
+    } catch { /* not available */ }
+  });
+}
+
+/* ── Generic tab group (period switcher, etc.) ── */
+document.querySelectorAll('.gh-tab-group:not([data-tab-group-handled])').forEach(group => {
+  group.setAttribute('data-tab-group-handled', '1');
+  group.querySelectorAll('.gh-tab:not([data-tab]):not([data-filter])').forEach(btn => {
+    btn.addEventListener('click', () => {
+      group.querySelectorAll('.gh-tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
     });
   });
 });
