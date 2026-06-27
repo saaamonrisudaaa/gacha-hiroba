@@ -9,7 +9,18 @@ if (hamburger && navTabs) {
     hamburger.setAttribute('aria-expanded', String(!open));
     navTabs.classList.toggle('gh-nav-tabs--open', !open);
   });
+  navTabs.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      hamburger.setAttribute('aria-expanded', 'false');
+      navTabs.classList.remove('gh-nav-tabs--open');
+    });
+  });
 }
+
+/* ── Prevent form submissions (no backend yet) ── */
+document.querySelectorAll('form').forEach(form => {
+  form.addEventListener('submit', e => e.preventDefault());
+});
 
 /* ── Ranking tab data ── */
 const rankingData = {
