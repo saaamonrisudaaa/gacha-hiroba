@@ -104,15 +104,70 @@ detailTabs.forEach(btn => {
   });
 });
 
-/* ── Bulletin board good/bad counters (location.html 掲示板) ── */
-document.querySelectorAll('.gh-board__action--good, .gh-board__action--bad').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const span = btn.querySelector('span');
-    if (!span) return;
-    const n = parseInt(span.textContent.replace(/[^0-9]/g, ''), 10) || 0;
-    span.textContent = String(n + 1);
+/* ── 5ch-style bulletin board posting (location.html) ── */
+(function () {
+  const list   = document.getElementById('bbsList');
+  const body   = document.getElementById('bbsBody');
+  const nameIn = document.getElementById('bbsName');
+  const submit = document.getElementById('bbsSubmit');
+  const count  = document.getElementById('bbsCount');
+  if (!list || !body || !submit) return;
+
+  const days = ['日', '月', '火', '水', '木', '金', '土'];
+  const pad  = n => String(n).padStart(2, '0');
+
+  function nowStr() {
+    const d = new Date();
+    return `${d.getFullYear()}/${pad(d.getMonth() + 1)}/${pad(d.getDate())}(${days[d.getDay()]}) ` +
+           `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+  }
+  function randomId() {
+    const c = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let s = '';
+    for (let i = 0; i < 8; i++) s += c[Math.floor(Math.random() * c.length)];
+    return s;
+  }
+  function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  function addPost() {
+    const text = body.value.trim();
+    if (!text) { body.focus(); return; }
+    const name = (nameIn && nameIn.value.trim()) || '名無しのガチャー';
+    const num  = list.querySelectorAll('.gh-bbs__post').length + 1;
+
+    // escape, then turn >>N into anchors and newlines into <br>
+    const safe = escapeHtml(text)
+      .replace(/&gt;&gt;(\d+)/g, '<a href="#res$1" class="gh-bbs__anchor">&gt;&gt;$1</a>')
+      .replace(/\n/g, '<br>');
+
+    const post = document.createElement('article');
+    post.className = 'gh-bbs__post';
+    post.id = 'res' + num;
+    post.innerHTML =
+      '<div class="gh-bbs__resline">' +
+        '<span class="gh-bbs__num">' + num + '</span>' +
+        '<span class="gh-bbs__name">' + escapeHtml(name) + '</span>' +
+        '<span class="gh-bbs__date">' + nowStr() + '</span>' +
+        '<span class="gh-bbs__id">ID:' + randomId() + '</span>' +
+      '</div>' +
+      '<p class="gh-bbs__body">' + safe + '</p>';
+
+    list.appendChild(post);
+    if (count) count.textContent = String(num);
+    body.value = '';
+    post.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  submit.addEventListener('click', addPost);
+  // Ctrl/Cmd + Enter to submit
+  body.addEventListener('keydown', e => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') { e.preventDefault(); addPost(); }
   });
-});
+})();
 
 /* ── Chart bar tooltips ── */
 document.querySelectorAll('.gh-chart__bar').forEach(bar => {
