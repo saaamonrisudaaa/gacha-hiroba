@@ -407,3 +407,49 @@ renderRanking('national');
     });
   });
 })();
+
+/* ── Daily random hashtags (index.html) ──
+   毎日5つをランダム表示。同じ日は固定、日付が変わると入れ替わる。
+   ★ ハッシュタグを増やすときは、下の HASHTAGS 配列に追記するだけ。 */
+(function () {
+  const box = document.getElementById('dailyHashtags');
+  if (!box) return;
+
+  const HASHTAGS = [
+    '#ガチャガチャ', '#ガチャ', '#カプセルトイ', '#ガシャポン', '#ガチャポン',
+    '#ガチャ活', '#ガチャガチャ好き', '#カプセルトイ好き', '#ガチャ好き', '#ガシャポン好き',
+    '#ミニチュア', '#フィギュア', '#ミニフィギュア', '#キャラクターグッズ', '#推し活',
+    '#オタ活', '#コレクション', '#コレクター', '#コンプリート', '#フルコンプ',
+    '#ガチャ結果', '#ガチャ開封', '#開封動画', '#購入品紹介', '#新作ガチャ',
+    '#最新ガチャ', '#再販ガチャ', '#人気ガチャ', '#おすすめガチャ', '#ガチャ巡り',
+    '#ガチャ探し', '#ガチャ設置場所', '#カプセルトイ専門店', '#ガチャガチャ専門店', '#ガチャガチャの森',
+    '#ガシャポンのデパート', '#バンダイガシャポン', '#ガチャガチャ沼', '#カプセルトイ沼', '#ミニチュア雑貨',
+    '#可愛いガチャ', '#かわいいガチャ', '#面白いガチャ', '#変なガチャ', '#癒しグッズ',
+    '#サンリオガチャ', '#ちいかわガチャ', '#ディズニーガチャ', '#ポケモンガチャ', '#アニメグッズ',
+    '#めじるしアクセサリー', '#めじるしアクセサリーガチャ', '#めじるしチャーム', '#傘マーカー', '#アンブレラマーカー',
+    '#ペットボトルマーカー'
+  ];
+
+  // 日付をシードにした擬似乱数（mulberry32）で「その日の並び」を決定
+  const d = new Date();
+  let seed = (d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate()) >>> 0;
+  const rand = () => {
+    seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+    let t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+
+  // 日付シードでシャッフルして先頭5つを採用
+  const arr = HASHTAGS.slice();
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(rand() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  const pick = arr.slice(0, 5);
+
+  box.innerHTML = pick.map(tag =>
+    '<a class="gh-hashtag" href="https://twitter.com/search?q=' + encodeURIComponent(tag) +
+    '&src=hashtag_click" target="_blank" rel="noopener">' + tag + '</a>'
+  ).join('');
+})();

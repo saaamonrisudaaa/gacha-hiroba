@@ -1952,3 +1952,23 @@ img { display: block; max-width: 100%; }
 .gh-cm-feed__time { font-size: 11px; color: var(--gh-muted); }
 .gh-cm-feed__text { font-size: 13px; line-height: 1.6; margin: 0; }
 .gh-cm-feed__item:hover .gh-cm-feed__text { color: var(--gh-link); }
+
+/* ============================================================
+   DAILY HASHTAGS (index.html)
+   ============================================================ */
+.gh-hashtags__list { display: flex; flex-wrap: wrap; gap: 8px; }
+.gh-hashtag {
+  display: inline-flex;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--gh-link);
+  background: var(--gh-new-bg);
+  border: 1px solid #dbe4ff;
+  padding: 7px 14px;
+  border-radius: 100px;
+  text-decoration: none;
+  transition: background .15s, transform .15s;
+}
+.gh-hashtag:hover { background: #dbe4ff; text-decoration: none; transform: translateY(-1px); }
+.gh-hashtags__note { font-size: 12px; color: var(--gh-muted); margin: 12px 0 0; }
