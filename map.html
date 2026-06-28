@@ -6,6 +6,9 @@
   <meta name="description" content="地図からガチャガチャスポットを検索。現在地・駅名・エリアから周辺のスポットを探せます。" />
   <title>マップ検索 | ガチャガチャどこ</title>
   <link rel="stylesheet" href="styles.css" />
+  <!-- OpenStreetMap (Leaflet) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin="" defer></script>
   <script src="script.js" defer></script>
 </head>
 <body>
@@ -105,40 +108,9 @@
       <!-- マップ + リスト -->
       <div class="gh-map-layout">
 
-        <!-- マップエリア -->
+        <!-- マップエリア (OpenStreetMap / Leaflet) -->
         <div class="gh-map-area">
-          <div class="gh-map-placeholder">
-            <div class="gh-map-placeholder__inner">
-              <span style="font-size:64px;display:block;margin-bottom:16px">🗺️</span>
-              <p style="font-size:15px;font-weight:700;color:var(--gh-text);margin:0 0 8px">インタラクティブマップ</p>
-              <p style="font-size:13px;color:var(--gh-muted);margin:0 0 20px">実際のサービスでは Google Maps / Mapbox などと連携し、<br />ピンでスポットを表示します。</p>
-              <button class="gh-btn gh-btn--primary" type="button" id="currentLocBtn2">
-                📍 現在地周辺を表示
-              </button>
-            </div>
-            <!-- サンプルピン -->
-            <div class="gh-map-pin" style="top:30%;left:55%">
-              <div class="gh-map-pin__dot gh-map-pin__dot--hot"></div>
-              <div class="gh-map-pin__label">ヨドバシAkiba</div>
-            </div>
-            <div class="gh-map-pin" style="top:45%;left:40%">
-              <div class="gh-map-pin__dot"></div>
-              <div class="gh-map-pin__label">アキバ横丁</div>
-            </div>
-            <div class="gh-map-pin" style="top:60%;left:65%">
-              <div class="gh-map-pin__dot"></div>
-              <div class="gh-map-pin__label">池袋P'PARCO</div>
-            </div>
-            <div class="gh-map-pin" style="top:25%;left:30%">
-              <div class="gh-map-pin__dot"></div>
-              <div class="gh-map-pin__label">渋谷マルキュー</div>
-            </div>
-          </div>
-          <div class="gh-map-controls">
-            <button class="gh-map-ctrl-btn" aria-label="拡大">＋</button>
-            <button class="gh-map-ctrl-btn" aria-label="縮小">－</button>
-            <button class="gh-map-ctrl-btn" aria-label="現在地">📍</button>
-          </div>
+          <div id="osmMap" class="gh-osm-map" role="application" aria-label="ガチャスポットの地図（OpenStreetMap）"></div>
         </div>
 
         <!-- リストパネル -->
@@ -257,7 +229,7 @@
         <div class="gh-footer__links">
           <div><strong>サービス</strong><a href="index.html">トップ</a><a href="ranking.html">ランキング</a><a href="news.html">新着情報</a><a href="map.html">マップ検索</a></div>
           <div><strong>情報</strong><a href="#">ガチャとは</a><a href="#">クチコミを書く</a><a href="#">スポットを登録</a></div>
-          <div><strong>サポート</strong><a href="#">お問い合わせ</a><a href="#">利用規約</a><a href="#">プライバシー</a></div>
+          <div><strong>サポート</strong><a href="#">お問い合わせ</a><a href="terms.html">利用規約</a><a href="privacy.html">プライバシー</a><a href="advertising.html">広告掲載</a></div>
         </div>
       </div>
       <div class="gh-footer__bottom">

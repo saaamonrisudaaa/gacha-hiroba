@@ -262,3 +262,59 @@ document.querySelectorAll('.gh-tab-group:not([data-tab-group-handled])').forEach
 
 /* ── Initial ranking render (ranking.html has empty tbody) ── */
 renderRanking('national');
+
+/* ── OpenStreetMap via Leaflet (map.html) ── */
+(function () {
+  const el = document.getElementById('osmMap');
+  if (!el || typeof L === 'undefined') return;   // only on map.html, after Leaflet loads
+
+  // Sample spots around Akihabara (approximate coordinates)
+  const spots = [
+    { name: 'ヨドバシAkiba ガチャコーナー',   area: '東京都千代田区外神田1丁目', lat: 35.69857, lon: 139.77448, rating: '4.9', machines: '200台', main: true },
+    { name: 'アキバガチャ横丁',               area: '東京都千代田区外神田4丁目', lat: 35.70180, lon: 139.77205, rating: '4.8', machines: '120台' },
+    { name: '秋葉原UDX ガチャコーナー',        area: '東京都千代田区外神田4丁目', lat: 35.70192, lon: 139.77330, rating: '4.3', machines: '45台'  },
+    { name: '末広町ガチャ専門店',             area: '東京都千代田区外神田3丁目', lat: 35.70320, lon: 139.77165, rating: '4.1', machines: '30台'  },
+    { name: '御茶ノ水マルイ ガチャコーナー',   area: '東京都千代田区神田小川町1丁目', lat: 35.69963, lon: 139.76540, rating: '4.0', machines: '22台'  },
+  ];
+
+  const map = L.map(el, { scrollWheelZoom: false }).setView([35.7005, 139.7715], 15);
+
+  // OpenStreetMap tiles (attribution is required by the ODbL licence)
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
+
+  const latlngs = [];
+  spots.forEach(s => {
+    const marker = L.marker([s.lat, s.lon]).addTo(map);
+    marker.bindPopup(
+      '<strong>' + s.name + '</strong><br>' +
+      '<span style="color:#6b7280">' + s.area + '</span><br>' +
+      '★ ' + s.rating + ' ・ ' + s.machines + '<br>' +
+      '<a href="location.html">詳細を見る →</a>'
+    );
+    if (s.main) marker.openPopup();
+    latlngs.push([s.lat, s.lon]);
+  });
+  if (latlngs.length > 1) map.fitBounds(latlngs, { padding: [40, 40] });
+
+  // Enable wheel-zoom only after the user clicks the map (avoids hijacking page scroll)
+  map.on('click', () => map.scrollWheelZoom.enable());
+
+  // "現在地" button → centre the map on the user's location (if permitted)
+  const locBtn = document.getElementById('currentLocBtn');
+  if (locBtn && navigator.geolocation) {
+    locBtn.addEventListener('click', () => {
+      navigator.geolocation.getCurrentPosition(
+        pos => {
+          const here = [pos.coords.latitude, pos.coords.longitude];
+          map.setView(here, 16);
+          L.circleMarker(here, { radius: 8, color: '#1d4ed8', fillColor: '#1d4ed8', fillOpacity: .6 })
+            .addTo(map).bindPopup('現在地').openPopup();
+        },
+        () => { /* permission denied / unavailable — ignore */ }
+      );
+    });
+  }
+})();
