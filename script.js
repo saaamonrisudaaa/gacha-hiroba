@@ -156,7 +156,7 @@ detailTabs.forEach(btn => {
       '</div>' +
       '<p class="gh-bbs__body">' + safe + '</p>';
 
-    list.appendChild(post);
+    list.insertBefore(post, list.firstElementChild);   // newest on top
     if (count) count.textContent = String(num);
     body.value = '';
     post.scrollIntoView({ behavior: 'smooth', block: 'center' });
