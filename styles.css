@@ -1920,3 +1920,35 @@ img { display: block; max-width: 100%; }
 .gh-ad__body strong { font-size: 13px; font-weight: 700; color: #94a3b8; }
 .gh-ad--banner .gh-ad__body { min-height: 90px; }
 .gh-ad--inline { margin: 20px 0; }
+
+/* ============================================================
+   BULLETIN BOARD HUB (board.html, Yahoo Finance /cm style)
+   ============================================================ */
+.gh-momentum { font-weight: 800; color: var(--gh-accent); font-family: Arial, sans-serif; }
+.gh-cm-latest { display: block; font-size: 12px; color: var(--gh-text); }
+.gh-cm-latest small { color: var(--gh-muted); }
+
+/* recent-posts feed */
+.gh-cm-feed { display: flex; flex-direction: column; }
+.gh-cm-feed__item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--gh-border);
+  text-decoration: none;
+  color: var(--gh-text);
+}
+.gh-cm-feed__item:last-child { border-bottom: none; }
+.gh-cm-feed__head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.gh-cm-feed__board {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--gh-link);
+  background: var(--gh-new-bg);
+  padding: 1px 8px;
+  border-radius: 100px;
+}
+.gh-cm-feed__time { font-size: 11px; color: var(--gh-muted); }
+.gh-cm-feed__text { font-size: 13px; line-height: 1.6; margin: 0; }
+.gh-cm-feed__item:hover .gh-cm-feed__text { color: var(--gh-link); }

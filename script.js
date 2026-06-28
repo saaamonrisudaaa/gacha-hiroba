@@ -103,6 +103,11 @@ detailTabs.forEach(btn => {
     });
   });
 });
+// Open the 掲示板 panel directly when arriving via #board (e.g. from board.html)
+if (location.hash === '#board') {
+  const boardTab = document.querySelector('.gh-detail-tabs [data-panel="board"]');
+  if (boardTab) boardTab.click();
+}
 
 /* ── 5ch-style bulletin board with localStorage persistence (location.html) ── */
 (function () {
@@ -364,5 +369,41 @@ renderRanking('national');
       tmp.src = reader.result;
     };
     reader.readAsDataURL(file);
+  });
+})();
+
+/* ── Bulletin-board hub sorting (board.html) ── */
+(function () {
+  const table = document.getElementById('boardTable');
+  if (!table) return;
+  const tbody = table.querySelector('tbody');
+  const rows  = Array.from(tbody.querySelectorAll('tr'));
+
+  const num = (r, k) => parseFloat(r.dataset[k]) || 0;
+  const sorters = {
+    popular:  (a, b) => (num(b, 'momentum') * num(b, 'posts')) - (num(a, 'momentum') * num(a, 'posts')),
+    posts:    (a, b) => num(b, 'posts')    - num(a, 'posts'),
+    momentum: (a, b) => num(b, 'momentum') - num(a, 'momentum'),
+    new:      (a, b) => num(b, 'time')     - num(a, 'time'),
+  };
+
+  function reRank() {
+    Array.from(tbody.querySelectorAll('tr')).forEach((r, i) => {
+      const rk = r.querySelector('.gh-rank');
+      if (!rk) return;
+      rk.textContent = i + 1;
+      rk.className = 'gh-rank' + (i === 0 ? ' gh-rank--1' : i === 1 ? ' gh-rank--2' : i === 2 ? ' gh-rank--3' : '');
+      r.classList.toggle('gh-table__row--top', i === 0);
+    });
+  }
+
+  document.querySelectorAll('[data-sort]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      btn.closest('.gh-tab-group').querySelectorAll('.gh-tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      rows.sort(sorters[btn.dataset.sort] || sorters.popular);
+      rows.forEach(r => tbody.appendChild(r));
+      reRank();
+    });
   });
 })();
