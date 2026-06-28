@@ -363,6 +363,14 @@ img { display: block; max-width: 100%; }
 .gh-spot-card__img--osaka::after { content: "🏯🎰🍡"; font-size: 28px; position: absolute; bottom: 10px; left: 14px; }
 .gh-spot-card__img--nagoya { background: linear-gradient(135deg, #a7f3d0 0%, #34d399 50%, #059669 100%); }
 .gh-spot-card__img--nagoya::after { content: "🗻🎰🌿"; font-size: 28px; position: absolute; bottom: 10px; left: 14px; }
+.gh-spot-card__img-inner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .gh-spot-card__badge {
   position: relative;
   z-index: 1;

@@ -168,3 +168,6 @@ document.querySelectorAll('.gh-tab-group:not([data-tab-group-handled])').forEach
     });
   });
 });
+
+/* ── Initial ranking render (ranking.html has empty tbody) ── */
+renderRanking('national');
