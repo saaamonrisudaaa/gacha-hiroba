@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" role="img" aria-label="店舗外観の共通イメージ">
+  <defs>
+    <linearGradient id="ghSky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#eef2ff"/>
+      <stop offset="1" stop-color="#d7e0f7"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#ghSky)"/>
+  <rect y="510" width="800" height="90" fill="#c3cad6"/>
+
+  <!-- building body -->
+  <rect x="150" y="150" width="500" height="360" fill="#fbfcfe" stroke="#b9c2d0" stroke-width="3"/>
+
+  <!-- sign band -->
+  <rect x="150" y="150" width="500" height="64" fill="#1a1d3a"/>
+  <circle cx="198" cy="182" r="16" fill="#e94560"/>
+  <text x="226" y="192" font-family="'Hiragino Kaku Gothic ProN','Yu Gothic UI','Meiryo',sans-serif" font-size="30" font-weight="800" fill="#ffffff">ガチャショップ</text>
+
+  <!-- striped awning -->
+  <rect x="150" y="214" width="500" height="34" fill="#e94560"/>
+  <rect x="150" y="214" width="62.5" height="34" fill="#ff7a90"/>
+  <rect x="275" y="214" width="62.5" height="34" fill="#ff7a90"/>
+  <rect x="400" y="214" width="62.5" height="34" fill="#ff7a90"/>
+  <rect x="525" y="214" width="62.5" height="34" fill="#ff7a90"/>
+
+  <!-- windows -->
+  <rect x="185" y="282" width="170" height="150" fill="#d7e7fb" stroke="#9fb2cc" stroke-width="3"/>
+  <rect x="445" y="282" width="170" height="150" fill="#d7e7fb" stroke="#9fb2cc" stroke-width="3"/>
+
+  <!-- door -->
+  <rect x="362" y="332" width="76" height="178" fill="#aebfd6" stroke="#7e8ba0" stroke-width="3"/>
+  <circle cx="424" cy="424" r="5" fill="#5b6577"/>
+
+  <!-- gacha capsules in the left window -->
+  <circle cx="228" cy="350" r="18" fill="#fbbf24"/>
+  <circle cx="273" cy="360" r="18" fill="#34d399"/>
+  <circle cx="318" cy="350" r="18" fill="#60a5fa"/>
+  <circle cx="251" cy="398" r="18" fill="#f472b6"/>
+  <circle cx="298" cy="400" r="18" fill="#a78bfa"/>
+
+  <!-- a capsule machine in the right window -->
+  <rect x="500" y="300" width="60" height="120" rx="8" fill="#ffffff" stroke="#9fb2cc" stroke-width="3"/>
+  <circle cx="530" cy="336" r="22" fill="#dbeafe" stroke="#9fb2cc" stroke-width="2"/>
+  <rect x="512" y="380" width="36" height="20" rx="4" fill="#e94560"/>
+
+  <!-- caption -->
+  <text x="400" y="565" text-anchor="middle" font-family="'Hiragino Kaku Gothic ProN','Yu Gothic UI','Meiryo',sans-serif" font-size="22" fill="#5b6577">店舗の外観写真（共通イメージ）</text>
+</svg>

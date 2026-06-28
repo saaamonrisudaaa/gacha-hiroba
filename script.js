@@ -318,3 +318,51 @@ renderRanking('national');
     });
   }
 })();
+
+/* ── Spot exterior photo: upload + localStorage persistence (location.html) ── */
+(function () {
+  const input = document.getElementById('spotPhotoInput');
+  const img   = document.getElementById('spotPhoto');
+  const note  = document.getElementById('spotPhotoNote');
+  if (!input || !img) return;
+
+  const KEY = 'gh-spot-photo:' + location.pathname;   // per-spot photo
+
+  function showUserPhoto(dataUrl) {
+    img.src = dataUrl;
+    img.classList.add('is-user');
+    img.alt = 'アップロードされた店舗外観写真';
+    if (note) note.hidden = true;
+  }
+
+  // Restore a previously uploaded photo (survives reload, this browser only)
+  try { const saved = localStorage.getItem(KEY); if (saved) showUserPhoto(saved); } catch (e) {}
+
+  input.addEventListener('change', () => {
+    const file = input.files && input.files[0];
+    if (!file || !/^image\//.test(file.type)) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      // Downscale so the data URL fits comfortably in localStorage
+      const tmp = new Image();
+      tmp.onload = () => {
+        const MAX = 1000;
+        let w = tmp.width, h = tmp.height;
+        if (w > MAX) { h = Math.round(h * MAX / w); w = MAX; }
+        let dataUrl;
+        try {
+          const c = document.createElement('canvas');
+          c.width = w; c.height = h;
+          c.getContext('2d').drawImage(tmp, 0, 0, w, h);
+          dataUrl = c.toDataURL('image/jpeg', 0.82);
+        } catch (e) {
+          dataUrl = reader.result;   // fallback: store original
+        }
+        showUserPhoto(dataUrl);
+        try { localStorage.setItem(KEY, dataUrl); } catch (e) { /* quota exceeded */ }
+      };
+      tmp.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
+})();

@@ -68,7 +68,17 @@
       </div>
 
       <!-- Quote-style hero (Yahoo Finance individual stock layout) -->
-      <section class="gh-quote">
+      <section class="gh-quote gh-quote--with-photo">
+        <!-- 店舗外観写真：誰でもアップロード可。未登録時は共通のデフォルト画像を表示 -->
+        <div class="gh-quote__photo">
+          <img id="spotPhoto" class="gh-quote__photo-img" src="assets/store-default.svg" alt="ヨドバシAkiba ガチャコーナーの外観写真" />
+          <span class="gh-quote__photo-note" id="spotPhotoNote">写真は未登録（共通画像）</span>
+          <label class="gh-quote__photo-upload">
+            <input type="file" id="spotPhotoInput" accept="image/*" hidden />
+            📷 写真をアップロード
+          </label>
+        </div>
+        <div class="gh-quote__info">
         <div class="gh-quote__head">
           <div class="gh-quote__title-row">
             <h1 class="gh-quote__name">ヨドバシAkiba ガチャコーナー</h1>
@@ -113,6 +123,7 @@
             <strong class="gh-metric__value">3,241件</strong>
             <span class="gh-metric__sub gh-up">▲128 今月</span>
           </div>
+        </div>
         </div>
       </section>
 
