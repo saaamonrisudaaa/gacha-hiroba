@@ -104,7 +104,7 @@ detailTabs.forEach(btn => {
   });
 });
 
-/* ── 5ch-style bulletin board posting (location.html) ── */
+/* ── 5ch-style bulletin board with localStorage persistence (location.html) ── */
 (function () {
   const list   = document.getElementById('bbsList');
   const body   = document.getElementById('bbsBody');
@@ -113,6 +113,7 @@ detailTabs.forEach(btn => {
   const count  = document.getElementById('bbsCount');
   if (!list || !body || !submit) return;
 
+  const STORE_KEY = 'gh-bbs:' + location.pathname;   // per-page board storage
   const days = ['日', '月', '火', '水', '木', '金', '土'];
   const pad  = n => String(n).padStart(2, '0');
 
@@ -132,34 +133,54 @@ detailTabs.forEach(btn => {
     div.textContent = str;
     return div.innerHTML;
   }
+  function renderBody(raw) {
+    return escapeHtml(raw)
+      .replace(/&gt;&gt;(\d+)/g, '<a href="#res$1" class="gh-bbs__anchor">&gt;&gt;$1</a>')
+      .replace(/\n/g, '<br>');
+  }
+  function makePost(p) {
+    const post = document.createElement('article');
+    post.className = 'gh-bbs__post';
+    post.id = 'res' + p.num;
+    post.innerHTML =
+      '<div class="gh-bbs__resline">' +
+        '<span class="gh-bbs__num">' + p.num + '</span>' +
+        '<span class="gh-bbs__name">' + escapeHtml(p.name) + '</span>' +
+        '<span class="gh-bbs__date">' + escapeHtml(p.date) + '</span>' +
+        '<span class="gh-bbs__id">ID:' + escapeHtml(p.id) + '</span>' +
+      '</div>' +
+      '<p class="gh-bbs__body">' + renderBody(p.body) + '</p>';
+    return post;
+  }
+  function loadSaved() {
+    try { return JSON.parse(localStorage.getItem(STORE_KEY)) || []; }
+    catch (e) { return []; }
+  }
+  function persist(arr) {
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(arr)); } catch (e) { /* disabled/full */ }
+  }
+
+  // Restore previously saved posts so they survive a page reload.
+  // Saved oldest→newest; prepend each so the newest ends up on top.
+  loadSaved().forEach(p => list.insertBefore(makePost(p), list.firstElementChild));
+  if (count) count.textContent = String(list.querySelectorAll('.gh-bbs__post').length);
 
   function addPost() {
     const text = body.value.trim();
     if (!text) { body.focus(); return; }
-    const name = (nameIn && nameIn.value.trim()) || '名無しのガチャー';
-    const num  = list.querySelectorAll('.gh-bbs__post').length + 1;
-
-    // escape, then turn >>N into anchors and newlines into <br>
-    const safe = escapeHtml(text)
-      .replace(/&gt;&gt;(\d+)/g, '<a href="#res$1" class="gh-bbs__anchor">&gt;&gt;$1</a>')
-      .replace(/\n/g, '<br>');
-
-    const post = document.createElement('article');
-    post.className = 'gh-bbs__post';
-    post.id = 'res' + num;
-    post.innerHTML =
-      '<div class="gh-bbs__resline">' +
-        '<span class="gh-bbs__num">' + num + '</span>' +
-        '<span class="gh-bbs__name">' + escapeHtml(name) + '</span>' +
-        '<span class="gh-bbs__date">' + nowStr() + '</span>' +
-        '<span class="gh-bbs__id">ID:' + randomId() + '</span>' +
-      '</div>' +
-      '<p class="gh-bbs__body">' + safe + '</p>';
-
-    list.insertBefore(post, list.firstElementChild);   // newest on top
-    if (count) count.textContent = String(num);
+    const post = {
+      num:  list.querySelectorAll('.gh-bbs__post').length + 1,
+      name: (nameIn && nameIn.value.trim()) || '名無しのガチャー',
+      body: text,
+      date: nowStr(),
+      id:   randomId()
+    };
+    list.insertBefore(makePost(post), list.firstElementChild);   // newest on top
+    const arr = loadSaved(); arr.push(post); persist(arr);
+    if (count) count.textContent = String(post.num);
     body.value = '';
-    post.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    const el = document.getElementById('res' + post.num);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 
   submit.addEventListener('click', addPost);

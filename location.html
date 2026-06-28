@@ -60,6 +60,13 @@
         <span aria-current="page">ヨドバシAkiba ガチャコーナー</span>
       </nav>
 
+      <!-- Tab bar: お気に入り登録 / 詳細 / 掲示板 (moved to top) -->
+      <div class="gh-detail-tabs" role="tablist" aria-label="表示切り替え">
+        <button type="button" id="favoriteBtn" class="gh-detail-tabs__fav">♡ お気に入り登録</button>
+        <button type="button" class="active" data-panel="detail" role="tab" aria-selected="true">詳細</button>
+        <button type="button" data-panel="board" role="tab" aria-selected="false">掲示板</button>
+      </div>
+
       <!-- Quote-style hero (Yahoo Finance individual stock layout) -->
       <section class="gh-quote">
         <div class="gh-quote__head">
@@ -108,13 +115,6 @@
           </div>
         </div>
       </section>
-
-      <!-- Tab bar: お気に入り登録 / 詳細 / 掲示板 -->
-      <div class="gh-detail-tabs" role="tablist" aria-label="表示切り替え">
-        <button type="button" id="favoriteBtn" class="gh-detail-tabs__fav">♡ お気に入り登録</button>
-        <button type="button" class="active" data-panel="detail" role="tab" aria-selected="true">詳細</button>
-        <button type="button" data-panel="board" role="tab" aria-selected="false">掲示板</button>
-      </div>
 
       <div class="gh-detail-layout">
         <div class="gh-detail-content">
