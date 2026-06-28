@@ -87,15 +87,30 @@ document.querySelectorAll('[data-tab]').forEach(btn => {
   });
 });
 
-/* ── Machine filter tabs (location.html) ── */
-document.querySelectorAll('[data-filter]').forEach(btn => {
+/* ── Detail page content tabs (詳細 / 掲示板) ── */
+const detailTabs = document.querySelectorAll('.gh-detail-tabs [data-panel]');
+detailTabs.forEach(btn => {
   btn.addEventListener('click', () => {
-    btn.closest('.gh-tab-group').querySelectorAll('.gh-tab').forEach(t => t.classList.remove('active'));
-    btn.classList.add('active');
-    const filter = btn.dataset.filter;
-    document.querySelectorAll('#machineTable tbody tr').forEach(row => {
-      row.hidden = filter !== 'all' && row.dataset.cat !== filter;
+    detailTabs.forEach(t => {
+      t.classList.remove('active');
+      t.setAttribute('aria-selected', 'false');
     });
+    btn.classList.add('active');
+    btn.setAttribute('aria-selected', 'true');
+    const target = btn.dataset.panel;
+    document.querySelectorAll('.gh-tab-panel').forEach(p => {
+      p.hidden = p.dataset.panel !== target;
+    });
+  });
+});
+
+/* ── Bulletin board good/bad counters (location.html 掲示板) ── */
+document.querySelectorAll('.gh-board__action--good, .gh-board__action--bad').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const span = btn.querySelector('span');
+    if (!span) return;
+    const n = parseInt(span.textContent.replace(/[^0-9]/g, ''), 10) || 0;
+    span.textContent = String(n + 1);
   });
 });
 
@@ -110,11 +125,11 @@ document.querySelectorAll('.gh-chart__bar').forEach(bar => {
   bar.addEventListener('blur',       () => { tip.style.opacity = '0'; });
 });
 
-/* ── Favourite button ── */
+/* ── Favourite button (detail tab) ── */
 const favBtn = document.getElementById('favoriteBtn');
 if (favBtn) {
   favBtn.addEventListener('click', () => {
-    const on = favBtn.classList.toggle('gh-btn--primary');
+    const on = favBtn.classList.toggle('is-faved');
     favBtn.textContent = on ? '♥ お気に入り済み' : '♡ お気に入り登録';
   });
 }

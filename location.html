@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="ヨドバシAkiba ガチャコーナーの詳細情報。設置台数200台、評価★4.9。秋葉原最大級のガチャスポット。" />
+  <meta name="description" content="ヨドバシAkiba ガチャコーナーの詳細情報・掲示板。秋葉原最大級、総合評価★4.9の人気ガチャスポット。訪問トレンドや掲示板でリアルな情報をチェック。" />
   <title>ヨドバシAkiba ガチャコーナー | ガチャガチャどこ</title>
   <link rel="stylesheet" href="styles.css" />
   <script src="script.js" defer></script>
@@ -53,372 +53,306 @@
       <nav class="gh-breadcrumb" aria-label="パンくずリスト">
         <a href="index.html">トップ</a>
         <span aria-hidden="true">›</span>
-        <a href="#">東京都</a>
+        <a href="area.html">東京都</a>
         <span aria-hidden="true">›</span>
-        <a href="#">千代田区・秋葉原</a>
+        <a href="area.html">千代田区・秋葉原</a>
         <span aria-hidden="true">›</span>
         <span aria-current="page">ヨドバシAkiba ガチャコーナー</span>
       </nav>
 
-      <!-- Location Hero (like stock name + price hero) -->
-      <div class="gh-hero">
-        <div class="gh-hero__main">
-          <div class="gh-hero__title-row">
-            <h1 class="gh-hero__name">ヨドバシAkiba ガチャコーナー</h1>
+      <!-- Quote-style hero (Yahoo Finance individual stock layout) -->
+      <section class="gh-quote">
+        <div class="gh-quote__head">
+          <div class="gh-quote__title-row">
+            <h1 class="gh-quote__name">ヨドバシAkiba ガチャコーナー</h1>
             <span class="gh-badge gh-badge--hot gh-badge--lg">全国1位</span>
+            <span class="gh-badge gh-badge--lg">東京・秋葉原</span>
           </div>
-          <div class="gh-hero__address">
+          <div class="gh-quote__address">
             <span>📍 東京都千代田区外神田1丁目11-1 ヨドバシAkiba 1F〜2F</span>
             <span class="gh-hero__divider">｜</span>
             <span>🚉 JR秋葉原駅 徒歩1分</span>
           </div>
-
-          <!-- Key metrics (like stock price + change indicators) -->
-          <div class="gh-metrics">
-            <div class="gh-metric gh-metric--primary">
-              <span class="gh-metric__label">総合評価</span>
-              <strong class="gh-metric__value">4.9</strong>
-              <span class="gh-metric__sub gh-up">★★★★★</span>
-            </div>
-            <div class="gh-metric">
-              <span class="gh-metric__label">設置台数</span>
-              <strong class="gh-metric__value">200台</strong>
-              <span class="gh-metric__sub">秋葉原最大級</span>
-            </div>
-            <div class="gh-metric">
-              <span class="gh-metric__label">価格帯</span>
-              <strong class="gh-metric__value">¥200〜500</strong>
-              <span class="gh-metric__sub">1回あたり</span>
-            </div>
-            <div class="gh-metric">
-              <span class="gh-metric__label">クチコミ数</span>
-              <strong class="gh-metric__value">3,241件</strong>
-              <span class="gh-metric__sub gh-up">▲128 今月</span>
-            </div>
-          </div>
-
-          <div class="gh-hero__actions">
-            <button class="gh-btn gh-btn--primary" id="favoriteBtn">♡ お気に入り登録</button>
-            <button class="gh-btn">✏️ クチコミを書く</button>
-            <button class="gh-btn" id="shareBtn">🔗 スポットを共有</button>
-          </div>
         </div>
 
-        <!-- Info card (like company summary) -->
-        <div class="gh-hero__aside">
-          <div class="gh-info-card">
-            <h2 class="gh-info-card__title">基本情報</h2>
-            <table class="gh-info-table">
-              <tr><th>営業時間</th><td>9:30〜22:00</td></tr>
-              <tr><th>定休日</th><td>年中無休</td></tr>
-              <tr><th>アクセス</th><td>JR秋葉原駅 電気街口 徒歩1分</td></tr>
-              <tr><th>駐車場</th><td>あり（有料）</td></tr>
-              <tr><th>支払い方法</th><td>硬貨・交通系IC・クレジット</td></tr>
-              <tr><th>スポット登録</th><td>2024年3月15日</td></tr>
-            </table>
-            <a href="#" class="gh-map-link" target="_blank" rel="noopener">🗺️ Googleマップで見る →</a>
+        <!-- Headline metric (like stock price + change) -->
+        <div class="gh-quote__price-row">
+          <span class="gh-quote__label">総合評価</span>
+          <strong class="gh-quote__rating-num">4.9</strong>
+          <span class="gh-quote__stars">★★★★★</span>
+          <span class="gh-quote__change gh-up">▲0.1（今月）</span>
+          <span class="gh-quote__updated">2026/06/28 11:50 時点</span>
+        </div>
+
+        <!-- Key metrics (like 前日終値 / 始値 / 高値 / 安値) -->
+        <div class="gh-metrics">
+          <div class="gh-metric gh-metric--primary">
+            <span class="gh-metric__label">全国ランキング</span>
+            <strong class="gh-metric__value">1位</strong>
+            <span class="gh-metric__sub">前月 2位</span>
+          </div>
+          <div class="gh-metric">
+            <span class="gh-metric__label">月間訪問数</span>
+            <strong class="gh-metric__value">24,580</strong>
+            <span class="gh-metric__sub gh-up">▲2,180（+9.7%）</span>
+          </div>
+          <div class="gh-metric">
+            <span class="gh-metric__label">価格帯</span>
+            <strong class="gh-metric__value">¥200〜500</strong>
+            <span class="gh-metric__sub">1回あたり</span>
+          </div>
+          <div class="gh-metric">
+            <span class="gh-metric__label">掲示板投稿数</span>
+            <strong class="gh-metric__value">3,241件</strong>
+            <span class="gh-metric__sub gh-up">▲128 今月</span>
           </div>
         </div>
+      </section>
+
+      <!-- Tab bar: お気に入り登録 / 詳細 / 掲示板 -->
+      <div class="gh-detail-tabs" role="tablist" aria-label="表示切り替え">
+        <button type="button" id="favoriteBtn" class="gh-detail-tabs__fav">♡ お気に入り登録</button>
+        <button type="button" class="active" data-panel="detail" role="tab" aria-selected="true">詳細</button>
+        <button type="button" data-panel="board" role="tab" aria-selected="false">掲示板</button>
       </div>
 
       <div class="gh-detail-layout">
         <div class="gh-detail-content">
 
-          <!-- Popularity chart (like stock price chart) -->
-          <section class="gh-section">
-            <div class="gh-section__header">
-              <h2 class="gh-section__title">人気トレンド（訪問数）</h2>
-              <div class="gh-tab-group" role="tablist" aria-label="期間切り替え">
-                <button class="gh-tab active" role="tab">1週間</button>
-                <button class="gh-tab" role="tab">1ヶ月</button>
-                <button class="gh-tab" role="tab">3ヶ月</button>
-                <button class="gh-tab" role="tab">1年</button>
-              </div>
-            </div>
-            <div class="gh-chart-wrap">
-              <div class="gh-chart" role="img" aria-label="曜日別訪問人気トレンド。週末が最も高い。">
-                <div class="gh-chart__bars">
-                  <div class="gh-chart__col">
-                    <div class="gh-chart__bar" style="--h:65">
-                      <span class="gh-chart__tip">65%</span>
-                    </div>
-                    <span class="gh-chart__label">月</span>
-                  </div>
-                  <div class="gh-chart__col">
-                    <div class="gh-chart__bar" style="--h:72">
-                      <span class="gh-chart__tip">72%</span>
-                    </div>
-                    <span class="gh-chart__label">火</span>
-                  </div>
-                  <div class="gh-chart__col">
-                    <div class="gh-chart__bar" style="--h:80">
-                      <span class="gh-chart__tip">80%</span>
-                    </div>
-                    <span class="gh-chart__label">水</span>
-                  </div>
-                  <div class="gh-chart__col">
-                    <div class="gh-chart__bar" style="--h:78">
-                      <span class="gh-chart__tip">78%</span>
-                    </div>
-                    <span class="gh-chart__label">木</span>
-                  </div>
-                  <div class="gh-chart__col">
-                    <div class="gh-chart__bar gh-chart__bar--today" style="--h:95">
-                      <span class="gh-chart__tip">95%</span>
-                    </div>
-                    <span class="gh-chart__label">金 ◀今日</span>
-                  </div>
-                  <div class="gh-chart__col">
-                    <div class="gh-chart__bar gh-chart__bar--weekend" style="--h:100">
-                      <span class="gh-chart__tip">100%</span>
-                    </div>
-                    <span class="gh-chart__label">土</span>
-                  </div>
-                  <div class="gh-chart__col">
-                    <div class="gh-chart__bar gh-chart__bar--weekend" style="--h:92">
-                      <span class="gh-chart__tip">92%</span>
-                    </div>
-                    <span class="gh-chart__label">日</span>
-                  </div>
+          <!-- ============ 詳細 panel ============ -->
+          <section class="gh-tab-panel" data-panel="detail">
+
+            <!-- Popularity trend chart (KEEP: 人気トレンド（訪問数）) -->
+            <section class="gh-section">
+              <div class="gh-section__header">
+                <h2 class="gh-section__title">人気トレンド（訪問数）</h2>
+                <div class="gh-tab-group" role="tablist" aria-label="期間切り替え">
+                  <button class="gh-tab active" role="tab">1週間</button>
+                  <button class="gh-tab" role="tab">1ヶ月</button>
+                  <button class="gh-tab" role="tab">3ヶ月</button>
+                  <button class="gh-tab" role="tab">1年</button>
                 </div>
               </div>
-              <div class="gh-chart__legend">
-                <span><span class="gh-chart__dot"></span>通常</span>
-                <span><span class="gh-chart__dot gh-chart__dot--today"></span>本日</span>
-                <span><span class="gh-chart__dot gh-chart__dot--weekend"></span>週末</span>
+              <div class="gh-chart-wrap">
+                <div class="gh-chart" role="img" aria-label="曜日別訪問人気トレンド。週末が最も高い。">
+                  <div class="gh-chart__bars">
+                    <div class="gh-chart__col">
+                      <div class="gh-chart__bar" style="--h:65"><span class="gh-chart__tip">65%</span></div>
+                      <span class="gh-chart__label">月</span>
+                    </div>
+                    <div class="gh-chart__col">
+                      <div class="gh-chart__bar" style="--h:72"><span class="gh-chart__tip">72%</span></div>
+                      <span class="gh-chart__label">火</span>
+                    </div>
+                    <div class="gh-chart__col">
+                      <div class="gh-chart__bar" style="--h:80"><span class="gh-chart__tip">80%</span></div>
+                      <span class="gh-chart__label">水</span>
+                    </div>
+                    <div class="gh-chart__col">
+                      <div class="gh-chart__bar" style="--h:78"><span class="gh-chart__tip">78%</span></div>
+                      <span class="gh-chart__label">木</span>
+                    </div>
+                    <div class="gh-chart__col">
+                      <div class="gh-chart__bar gh-chart__bar--today" style="--h:95"><span class="gh-chart__tip">95%</span></div>
+                      <span class="gh-chart__label">金 ◀今日</span>
+                    </div>
+                    <div class="gh-chart__col">
+                      <div class="gh-chart__bar gh-chart__bar--weekend" style="--h:100"><span class="gh-chart__tip">100%</span></div>
+                      <span class="gh-chart__label">土</span>
+                    </div>
+                    <div class="gh-chart__col">
+                      <div class="gh-chart__bar gh-chart__bar--weekend" style="--h:92"><span class="gh-chart__tip">92%</span></div>
+                      <span class="gh-chart__label">日</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="gh-chart__legend">
+                  <span><span class="gh-chart__dot"></span>通常</span>
+                  <span><span class="gh-chart__dot gh-chart__dot--today"></span>本日</span>
+                  <span><span class="gh-chart__dot gh-chart__dot--weekend"></span>週末</span>
+                </div>
               </div>
-            </div>
-          </section>
+            </section>
 
-          <!-- Machine lineup table (like stock financials table) -->
-          <section class="gh-section">
-            <div class="gh-section__header">
-              <h2 class="gh-section__title">設置マシン一覧</h2>
-              <div class="gh-tab-group" role="tablist" aria-label="カテゴリー絞り込み">
-                <button class="gh-tab active" role="tab" data-filter="all">すべて</button>
-                <button class="gh-tab" role="tab" data-filter="anime">アニメ</button>
-                <button class="gh-tab" role="tab" data-filter="zakka">雑貨</button>
-                <button class="gh-tab" role="tab" data-filter="food">食玩</button>
+            <!-- 詳細情報 table (like Yahoo stock 詳細情報) -->
+            <section class="gh-section">
+              <div class="gh-section__header">
+                <h2 class="gh-section__title">詳細情報</h2>
               </div>
-            </div>
-            <div class="gh-table-wrap">
-              <table class="gh-table" id="machineTable">
-                <thead>
-                  <tr>
-                    <th>マシン名</th>
-                    <th>カテゴリー</th>
-                    <th class="gh-num">価格</th>
-                    <th class="gh-num">種類数</th>
-                    <th class="gh-num">人気度</th>
-                    <th>状態</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr data-cat="anime">
-                    <td>ちいかわ 夏の海グッズ</td>
-                    <td>アニメ・キャラ</td>
-                    <td class="gh-num">¥400</td>
-                    <td class="gh-num">8種</td>
-                    <td class="gh-num"><span class="gh-popbar"><span style="width:92%"></span></span><span class="gh-popbar__val">92</span></td>
-                    <td><span class="gh-status gh-status--active">稼働中</span></td>
-                  </tr>
-                  <tr data-cat="anime">
-                    <td>呪術廻戦 第3弾フィギュア</td>
-                    <td>アニメ・キャラ</td>
-                    <td class="gh-num">¥500</td>
-                    <td class="gh-num">6種</td>
-                    <td class="gh-num"><span class="gh-popbar"><span style="width:88%"></span></span><span class="gh-popbar__val">88</span></td>
-                    <td><span class="gh-status gh-status--active">稼働中</span></td>
-                  </tr>
-                  <tr data-cat="anime">
-                    <td>ポケモンアクキー 2026</td>
-                    <td>アニメ・キャラ</td>
-                    <td class="gh-num">¥300</td>
-                    <td class="gh-num">12種</td>
-                    <td class="gh-num"><span class="gh-popbar"><span style="width:85%"></span></span><span class="gh-popbar__val">85</span></td>
-                    <td><span class="gh-status gh-status--active">稼働中</span></td>
-                  </tr>
-                  <tr data-cat="anime">
-                    <td>スタジオジブリ ミニチュア館</td>
-                    <td>アニメ・キャラ</td>
-                    <td class="gh-num">¥500</td>
-                    <td class="gh-num">7種</td>
-                    <td class="gh-num"><span class="gh-popbar"><span style="width:82%"></span></span><span class="gh-popbar__val">82</span></td>
-                    <td><span class="gh-status gh-status--low">残りわずか</span></td>
-                  </tr>
-                  <tr data-cat="anime">
-                    <td>すみっコぐらし 夏限定</td>
-                    <td>アニメ・キャラ</td>
-                    <td class="gh-num">¥300</td>
-                    <td class="gh-num">8種</td>
-                    <td class="gh-num"><span class="gh-popbar"><span style="width:78%"></span></span><span class="gh-popbar__val">78</span></td>
-                    <td><span class="gh-status gh-status--new">NEW</span></td>
-                  </tr>
-                  <tr data-cat="zakka">
-                    <td>ミニチュア食品サンプル</td>
-                    <td>雑貨・インテリア</td>
-                    <td class="gh-num">¥200</td>
-                    <td class="gh-num">10種</td>
-                    <td class="gh-num"><span class="gh-popbar"><span style="width:70%"></span></span><span class="gh-popbar__val">70</span></td>
-                    <td><span class="gh-status gh-status--active">稼働中</span></td>
-                  </tr>
-                  <tr data-cat="zakka">
-                    <td>猫モチーフ雑貨 2026</td>
-                    <td>雑貨・インテリア</td>
-                    <td class="gh-num">¥400</td>
-                    <td class="gh-num">6種</td>
-                    <td class="gh-num"><span class="gh-popbar"><span style="width:65%"></span></span><span class="gh-popbar__val">65</span></td>
-                    <td><span class="gh-status gh-status--active">稼働中</span></td>
-                  </tr>
-                  <tr data-cat="zakka">
-                    <td>レトロ喫茶ミニチュア</td>
-                    <td>雑貨・インテリア</td>
-                    <td class="gh-num">¥400</td>
-                    <td class="gh-num">5種</td>
-                    <td class="gh-num"><span class="gh-popbar"><span style="width:55%"></span></span><span class="gh-popbar__val">55</span></td>
-                    <td><span class="gh-status gh-status--empty">売り切れ</span></td>
-                  </tr>
-                  <tr data-cat="food">
-                    <td>ふわふわパン屋さん</td>
-                    <td>食玩・お菓子</td>
-                    <td class="gh-num">¥300</td>
-                    <td class="gh-num">10種</td>
-                    <td class="gh-num"><span class="gh-popbar"><span style="width:60%"></span></span><span class="gh-popbar__val">60</span></td>
-                    <td><span class="gh-status gh-status--active">稼働中</span></td>
-                  </tr>
-                </tbody>
+              <table class="gh-info-table gh-info-table--full">
+                <tr><th>全国ランキング</th><td>1位（前月 2位）</td></tr>
+                <tr><th>営業時間</th><td>9:30〜22:00</td></tr>
+                <tr><th>定休日</th><td>年中無休</td></tr>
+                <tr><th>アクセス</th><td>JR秋葉原駅 電気街口 徒歩1分</td></tr>
+                <tr><th>駐車場</th><td>あり（有料）</td></tr>
+                <tr><th>支払い方法</th><td>硬貨・交通系IC・クレジット</td></tr>
+                <tr><th>設置フロア</th><td>1F・2F（2フロア）</td></tr>
+                <tr><th>IC決済</th><td>Suica, PASMO, nanaco</td></tr>
+                <tr><th>価格帯</th><td>¥200〜500（1回あたり）</td></tr>
+                <tr><th>混雑状況（本日）</th><td><span class="gh-status gh-status--busy">やや混雑</span></td></tr>
+                <tr><th>おすすめ時間帯</th><td>平日 10:00〜12:00</td></tr>
+                <tr><th>スポット登録日</th><td>2024年3月15日</td></tr>
+                <tr><th>最終更新</th><td>2026/06/27</td></tr>
               </table>
-            </div>
+              <a href="#" class="gh-map-link" target="_blank" rel="noopener">🗺️ Googleマップで見る →</a>
+            </section>
+
           </section>
 
-          <!-- Reviews (like analyst reports / comments) -->
-          <section class="gh-section">
-            <div class="gh-section__header">
-              <h2 class="gh-section__title">クチコミ <span class="gh-section__sub">3,241件</span></h2>
-              <a href="#" class="gh-section__more">すべて見る →</a>
-            </div>
+          <!-- ============ 掲示板 panel ============ -->
+          <section class="gh-tab-panel" data-panel="board" hidden>
+            <section class="gh-section">
+              <div class="gh-section__header">
+                <h2 class="gh-section__title">掲示板 <span class="gh-section__sub">3,241件の投稿</span></h2>
+              </div>
 
-            <!-- Rating summary -->
-            <div class="gh-rating-summary">
-              <div class="gh-rating-summary__big">
-                <span class="gh-rating-summary__score">4.9</span>
-                <span class="gh-rating-summary__stars">★★★★★</span>
-                <small>3,241件のクチコミ</small>
+              <!-- Post form -->
+              <div class="gh-board__form">
+                <span class="gh-board__form-avatar">🙂</span>
+                <div class="gh-board__form-body">
+                  <textarea class="gh-board__textarea" placeholder="このスポットについて投稿する（入荷情報・混雑状況・おすすめなど）"></textarea>
+                  <div class="gh-board__form-foot">
+                    <span class="gh-board__note">投稿は公開され、誰でも閲覧できます。マナーを守ってご利用ください。</span>
+                    <button type="button" class="gh-btn gh-btn--primary gh-btn--sm">投稿する</button>
+                  </div>
+                </div>
               </div>
-              <div class="gh-rating-summary__bars">
-                <div class="gh-rating-bar"><span>5★</span><span class="gh-rating-bar__track"><span style="width:87%"></span></span><span>87%</span></div>
-                <div class="gh-rating-bar"><span>4★</span><span class="gh-rating-bar__track"><span style="width:10%"></span></span><span>10%</span></div>
-                <div class="gh-rating-bar"><span>3★</span><span class="gh-rating-bar__track"><span style="width:2%"></span></span><span>2%</span></div>
-                <div class="gh-rating-bar"><span>2★</span><span class="gh-rating-bar__track"><span style="width:1%"></span></span><span>1%</span></div>
-                <div class="gh-rating-bar"><span>1★</span><span class="gh-rating-bar__track"><span style="width:0%"></span></span><span>0%</span></div>
-              </div>
-            </div>
 
-            <div class="gh-reviews">
-              <div class="gh-review">
-                <div class="gh-review__header">
-                  <span class="gh-review__avatar">🐱</span>
-                  <div class="gh-review__meta">
-                    <strong>ガチャ好きさん</strong>
-                    <time>2026/06/25</time>
-                  </div>
-                  <span class="gh-rating gh-rating--lg">★★★★★ <small>5.0</small></span>
-                </div>
-                <p class="gh-review__text">台数が圧倒的に多く、好きなマシンが必ず見つかります！ちいかわのマシンは特に人気で、夕方には混雑します。平日午前中がおすすめ。</p>
-                <div class="gh-tags gh-tags--sm"><span>平日おすすめ</span><span>混雑あり</span><span>ちいかわ好き必見</span></div>
+              <!-- Sort tabs -->
+              <div class="gh-tab-group" role="tablist" aria-label="並び替え" style="margin:12px 0">
+                <button class="gh-tab active" role="tab">新着順</button>
+                <button class="gh-tab" role="tab">評価順</button>
+                <button class="gh-tab" role="tab">古い順</button>
               </div>
-              <div class="gh-review">
-                <div class="gh-review__header">
-                  <span class="gh-review__avatar">🐰</span>
-                  <div class="gh-review__meta">
-                    <strong>しろうさぎ</strong>
-                    <time>2026/06/22</time>
+
+              <!-- Posts -->
+              <div class="gh-board__list">
+
+                <article class="gh-board__post">
+                  <div class="gh-board__post-head">
+                    <span class="gh-board__no">No.3241</span>
+                    <span class="gh-board__avatar">🐱</span>
+                    <div class="gh-board__meta">
+                      <strong>ガチャ好きさん</strong>
+                      <time>2026/06/25 18:42</time>
+                    </div>
                   </div>
-                  <span class="gh-rating gh-rating--lg">★★★★☆ <small>4.0</small></span>
-                </div>
-                <p class="gh-review__text">品揃え最高です。ただ週末はかなり混雑するので、ゆっくり回したい方は平日推奨。レジ横のコーナーに限定マシンが置いてあることもあります。</p>
-                <div class="gh-tags gh-tags--sm"><span>品揃え豊富</span><span>週末混雑</span></div>
-              </div>
-              <div class="gh-review">
-                <div class="gh-review__header">
-                  <span class="gh-review__avatar">🦊</span>
-                  <div class="gh-review__meta">
-                    <strong>キツネガチャー</strong>
-                    <time>2026/06/18</time>
+                  <p class="gh-board__body">ちいかわの新弾入ってましたね！夕方は混むので午前がおすすめです。1Fのレジ横に限定マシンが増えてた気がします。</p>
+                  <div class="gh-board__actions">
+                    <button type="button" class="gh-board__action gh-board__action--good">👍 <span>142</span></button>
+                    <button type="button" class="gh-board__action gh-board__action--bad">👎 <span>3</span></button>
+                    <button type="button" class="gh-board__action">💬 返信 12</button>
                   </div>
-                  <span class="gh-rating gh-rating--lg">★★★★★ <small>5.0</small></span>
-                </div>
-                <p class="gh-review__text">1〜2Fに広がる大型ガチャコーナー。IC決済対応マシンが多く、小銭不要なのが助かります。スタッフの対応も親切でした。</p>
-                <div class="gh-tags gh-tags--sm"><span>IC決済対応</span><span>スタッフ対応◎</span></div>
+                </article>
+
+                <article class="gh-board__post">
+                  <div class="gh-board__post-head">
+                    <span class="gh-board__no">No.3240</span>
+                    <span class="gh-board__avatar">🐰</span>
+                    <div class="gh-board__meta">
+                      <strong>しろうさぎ</strong>
+                      <time>2026/06/24 12:10</time>
+                    </div>
+                  </div>
+                  <p class="gh-board__body">週末に行ったら2Fの奥に新しいシリーズが入ってました。品揃え最高です。ただ土日はかなり混雑するので時間に余裕を持って行くのがおすすめ。</p>
+                  <div class="gh-board__actions">
+                    <button type="button" class="gh-board__action gh-board__action--good">👍 <span>98</span></button>
+                    <button type="button" class="gh-board__action gh-board__action--bad">👎 <span>1</span></button>
+                    <button type="button" class="gh-board__action">💬 返信 5</button>
+                  </div>
+                </article>
+
+                <article class="gh-board__post">
+                  <div class="gh-board__post-head">
+                    <span class="gh-board__no">No.3239</span>
+                    <span class="gh-board__avatar">🦊</span>
+                    <div class="gh-board__meta">
+                      <strong>キツネガチャー</strong>
+                      <time>2026/06/22 21:05</time>
+                    </div>
+                  </div>
+                  <p class="gh-board__body">IC決済対応マシンが増えてて本当に助かる。小銭いらずで回せるのは大きい。スタッフさんの対応も親切でした。</p>
+                  <div class="gh-board__actions">
+                    <button type="button" class="gh-board__action gh-board__action--good">👍 <span>76</span></button>
+                    <button type="button" class="gh-board__action gh-board__action--bad">👎 <span>0</span></button>
+                    <button type="button" class="gh-board__action">💬 返信 3</button>
+                  </div>
+                </article>
+
+                <article class="gh-board__post">
+                  <div class="gh-board__post-head">
+                    <span class="gh-board__no">No.3238</span>
+                    <span class="gh-board__avatar">🐶</span>
+                    <div class="gh-board__meta">
+                      <strong>あつし</strong>
+                      <time>2026/06/20 09:33</time>
+                    </div>
+                  </div>
+                  <p class="gh-board__body">呪術廻戦の第3弾でシークレット出ました！2Fの奥のほうがねらい目かもしれません。補充は午前中が多い印象です。</p>
+                  <div class="gh-board__actions">
+                    <button type="button" class="gh-board__action gh-board__action--good">👍 <span>64</span></button>
+                    <button type="button" class="gh-board__action gh-board__action--bad">👎 <span>2</span></button>
+                    <button type="button" class="gh-board__action">💬 返信 8</button>
+                  </div>
+                </article>
+
+                <article class="gh-board__post">
+                  <div class="gh-board__post-head">
+                    <span class="gh-board__no">No.3237</span>
+                    <span class="gh-board__avatar">🧸</span>
+                    <div class="gh-board__meta">
+                      <strong>ぬい活民</strong>
+                      <time>2026/06/18 15:58</time>
+                    </div>
+                  </div>
+                  <p class="gh-board__body">土日は本当に混雑するので、ゆっくり選びたい人は平日の午前がおすすめです。両替機が各フロアにあるのが地味に便利。</p>
+                  <div class="gh-board__actions">
+                    <button type="button" class="gh-board__action gh-board__action--good">👍 <span>51</span></button>
+                    <button type="button" class="gh-board__action gh-board__action--bad">👎 <span>1</span></button>
+                    <button type="button" class="gh-board__action">💬 返信 4</button>
+                  </div>
+                </article>
+
               </div>
-            </div>
-            <button class="gh-btn gh-btn--outline gh-btn--block">クチコミをもっと見る</button>
+
+              <button class="gh-btn gh-btn--outline gh-btn--block">掲示板をもっと見る</button>
+            </section>
           </section>
 
         </div>
 
-        <!-- Detail Sidebar -->
+        <!-- Detail Sidebar (constant across tabs) -->
         <aside class="gh-sidebar">
-
-          <div class="gh-widget">
-            <h3 class="gh-widget__title">スポット詳細</h3>
-            <dl class="gh-dl">
-              <div class="gh-dl__row">
-                <dt>ランキング順位</dt>
-                <dd><span class="gh-rank gh-rank--1">全国1位</span></dd>
-              </div>
-              <div class="gh-dl__row">
-                <dt>設置フロア</dt>
-                <dd>1F・2F（2フロア）</dd>
-              </div>
-              <div class="gh-dl__row">
-                <dt>IC決済</dt>
-                <dd>Suica, PASMO, nanaco</dd>
-              </div>
-              <div class="gh-dl__row">
-                <dt>混雑状況（本日）</dt>
-                <dd><span class="gh-status gh-status--busy">やや混雑</span></dd>
-              </div>
-              <div class="gh-dl__row">
-                <dt>おすすめ時間帯</dt>
-                <dd>平日 10:00〜12:00</dd>
-              </div>
-              <div class="gh-dl__row">
-                <dt>最終更新</dt>
-                <dd>2026/06/27</dd>
-              </div>
-            </dl>
-          </div>
 
           <div class="gh-widget">
             <h3 class="gh-widget__title">近くのガチャスポット</h3>
             <div class="gh-nearby">
-              <a href="#" class="gh-nearby__item">
+              <a href="location.html" class="gh-nearby__item">
                 <span class="gh-rank gh-rank--2">2</span>
                 <div>
                   <strong>アキバガチャ横丁</strong>
-                  <small>徒歩5分 ★4.8 120台</small>
+                  <small>徒歩5分 ★4.8</small>
                 </div>
               </a>
-              <a href="#" class="gh-nearby__item">
+              <a href="location.html" class="gh-nearby__item">
                 <span class="gh-rank">-</span>
                 <div>
                   <strong>ゲーマーズ 秋葉原本店</strong>
-                  <small>徒歩3分 ★4.3 30台</small>
+                  <small>徒歩3分 ★4.3</small>
                 </div>
               </a>
-              <a href="#" class="gh-nearby__item">
+              <a href="location.html" class="gh-nearby__item">
                 <span class="gh-rank">-</span>
                 <div>
                   <strong>アニメイト秋葉原</strong>
-                  <small>徒歩7分 ★4.2 25台</small>
+                  <small>徒歩7分 ★4.2</small>
                 </div>
               </a>
-              <a href="#" class="gh-nearby__item">
+              <a href="location.html" class="gh-nearby__item">
                 <span class="gh-rank">-</span>
                 <div>
                   <strong>ドン・キホーテ秋葉原店</strong>
-                  <small>徒歩6分 ★4.0 20台</small>
+                  <small>徒歩6分 ★4.0</small>
                 </div>
               </a>
             </div>
@@ -430,6 +364,14 @@
               <a href="#" class="gh-share__btn gh-share__btn--x">X (Twitter)</a>
               <a href="#" class="gh-share__btn gh-share__btn--line">LINE</a>
               <a href="#" class="gh-share__btn gh-share__btn--copy" id="copyUrlBtn">URLをコピー</a>
+            </div>
+          </div>
+
+          <div class="gh-widget gh-widget--accent">
+            <h3 class="gh-widget__title">スポットを登録</h3>
+            <p class="gh-widget__text">まだ掲載されていないガチャスポットを知っていますか？情報をシェアしよう！</p>
+            <div class="gh-app-btns">
+              <a href="#" class="gh-app-btn">📍 スポットを登録する</a>
             </div>
           </div>
 
@@ -446,8 +388,8 @@
           <p>全国のガチャガチャ設置場所情報を網羅。<br />あなたのガチャライフをサポートします。</p>
         </div>
         <div class="gh-footer__links">
-          <div><strong>サービス</strong><a href="index.html">スポット検索</a><a href="#">ランキング</a><a href="#">新着情報</a></div>
-          <div><strong>情報</strong><a href="#">クチコミを書く</a><a href="#">スポットを登録</a></div>
+          <div><strong>サービス</strong><a href="index.html">スポット検索</a><a href="ranking.html">ランキング</a><a href="news.html">新着情報</a><a href="map.html">マップ検索</a></div>
+          <div><strong>情報</strong><a href="#">掲示板に投稿</a><a href="#">スポットを登録</a></div>
           <div><strong>サポート</strong><a href="#">お問い合わせ</a><a href="#">利用規約</a><a href="#">プライバシー</a></div>
         </div>
       </div>
