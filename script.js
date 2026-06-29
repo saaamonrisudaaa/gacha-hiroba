@@ -1,5 +1,21 @@
 'use strict';
 
+/* ── Google Analytics 4 (gtag.js) ── 測定ID: G-6KSGDTM1VJ
+   ここ1か所で管理。script.js を読み込む全ページに自動適用されます。
+   IDを変えるときは下の GA_ID を書き換えるだけ。 */
+(function () {
+  var GA_ID = 'G-6KSGDTM1VJ';
+  var s = document.createElement('script');
+  s.async = true;
+  s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+  document.head.appendChild(s);
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  window.gtag = gtag;
+  gtag('js', new Date());
+  gtag('config', GA_ID);
+})();
+
 /* ── Hamburger menu ── */
 const hamburger = document.querySelector('.gh-hamburger');
 const navTabs   = document.querySelector('.gh-nav-tabs');
