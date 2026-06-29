@@ -121,10 +121,11 @@ img { display: block; max-width: 100%; }
 }
 .gh-search__btn:hover { background: #c73550; }
 
-/* Header nav */
+/* Header nav (ログイン/無料登録) — 現状は非表示。アカウント機能を作るときに
+   この display:none を外せば復活します（マークアップは各ページに残置）。 */
 .gh-header__nav {
   margin-left: auto;
-  display: flex;
+  display: none;
   align-items: center;
   gap: 16px;
   flex-shrink: 0;
