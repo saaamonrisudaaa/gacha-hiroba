@@ -1,49 +1,35 @@
 /* ===========================================================================
    アフィリエイト広告データ
-   ★ ここに商品を1つ追加するだけで、サイドバーの広告枠に自動で表示されます。
-     （products が空の間は「スポンサーリンク募集中」のプレースホルダーのまま）
+   ★ ここに広告を1つ追加するだけで、全ページのサイドバー広告枠に表示されます。
 
-   使い方：
-     1. Amazonアソシエイト / 楽天アフィリエイト / A8・もしも 等で
-        「商品リンク（テキストリンク）」を発行する。
-     2. 下の products に { title, note, url, ... } を追加する。
-        url に発行したアフィリエイトリンクを貼るだけ。
-     3. 画像は emoji（絵文字）を推奨。商品画像を出す場合は、各サービスの
-        規約に沿った公式リンク経由の画像URLだけを img に指定してください
-        （Amazonは価格・画像の直貼りが規約違反になる場合があります）。
+   2種類の書き方に対応：
+     A) 画像バナー等のHTMLをそのまま貼る： { html: '<a ...><img ...></a>' }
+        （楽天アフィリエイトの「画像リンク」、ASPのバナータグなど）
+     B) シンプルな商品カード： { emoji:'🪙', title:'…', note:'…', url:'https://…', badge:'PR' }
 
-   ※ 掲載時は景品表示法／ステマ規制に対応するため、各カードに「PR」表示と
-     アフィリエイト表記（disclosure）が自動で付きます。
+   ※ <script> を使うウィジェット（楽天スライド等）は innerHTML では動かないため、
+     HTMLに直接埋め込みます（例：index.html のトップ横長バナー）。
+   ※ 掲載時は「広告」ラベル＋下部にアフィリエイト表記が自動で付きます（ステマ規制対応）。
    =========================================================================== */
 window.GH_ADS = {
 
   /* 広告枠に添える表記（ステマ規制対応）。空文字にすると非表示。 */
-  disclosure: '※ 当サイトはアフィリエイトプログラム（Amazonアソシエイト・楽天アフィリエイト等）を利用しており、リンクを経由した購入により収入を得ることがあります。',
+  disclosure: '※ 当サイトは楽天アフィリエイト・Amazonアソシエイト等のアフィリエイトプログラムを利用しており、リンクを経由した購入により収入を得ることがあります。',
 
   /* 1枠に表示する最大件数 */
   maxPerSlot: 4,
 
-  /* おすすめ商品（アフィリエイトリンク）。取得したリンクに置き換えてください。 */
+  /* 広告（上から順に表示） */
   products: [
 
-    /* ↓↓↓ 例：取得したリンクに置き換えて、行頭の // を外すと表示されます ↓↓↓
+    /* 楽天アフィリエイト 画像リンク（そのまま掲載） */
+    { html: '<a href="https://hb.afl.rakuten.co.jp/hsc/5564759c.96df2cee.5547dfc7.ed412751/?link_type=pict&ut=eyJwYWdlIjoic2hvcCIsInR5cGUiOiJwaWN0IiwiY29sIjoxLCJjYXQiOiI0NCIsImJhbiI6Mjc5NDg1OCwiYW1wIjpmYWxzZX0%3D" target="_blank" rel="nofollow sponsored noopener" style="word-wrap:break-word;"><img src="https://hbb.afl.rakuten.co.jp/hsb/5564759c.96df2cee.5547dfc7.ed412751/?me_id=1&me_adv_id=2794858&t=pict" border="0" style="margin:2px" alt="" title=""></a>' },
 
-    {
-      emoji: '🪙',
-      title: 'コインケース（200円・500円硬貨用）',
-      note: 'ガチャ用の小銭をまとめて持ち運び',
-      url:  'https://www.amazon.co.jp/dp/XXXXXXXX/?tag=あなたのアソシエイトID-22',
-      badge: 'PR'
-    },
-    {
-      emoji: '🧸',
-      title: 'カプセルトイ用ディスプレイケース',
-      note: '集めたガチャをきれいに飾る',
-      url:  'https://hb.afl.rakuten.co.jp/hgc/XXXXXXXX/',
-      badge: 'PR'
-    },
+    { html: '<a href="https://hb.afl.rakuten.co.jp/hsc/556475fe.727454bc.5547dfc7.ed412751/?link_type=pict&ut=eyJwYWdlIjoic2hvcCIsInR5cGUiOiJwaWN0IiwiY29sIjoxLCJjYXQiOiI1OCIsImJhbiI6MzIzMDk1MCwiYW1wIjpmYWxzZX0%3D" target="_blank" rel="nofollow sponsored noopener" style="word-wrap:break-word;"><img src="https://hbb.afl.rakuten.co.jp/hsb/556475fe.727454bc.5547dfc7.ed412751/?me_id=1&me_adv_id=3230950&t=pict" border="0" style="margin:2px" alt="" title=""></a>' }
 
-    ↑↑↑ ここまで例 ↑↑↑ */
+    /* ↓ 商品カードを足す例（// を外して url を差し替え）
+    ,{ emoji:'🪙', title:'コインケース（200・500円硬貨用）', note:'ガチャ用の小銭入れ', url:'https://hb.afl.rakuten.co.jp/hgc/xxxxxxxx/', badge:'PR' }
+    */
 
   ]
 };

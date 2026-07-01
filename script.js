@@ -566,13 +566,14 @@ renderRanking('national');
   const slots = document.querySelectorAll('.gh-ad');
   if (!slots.length) return;
 
-  const products = (cfg.products || []).filter(p => p && p.url && p.title);
+  const products = (cfg.products || []).filter(p => p && (p.html || (p.url && p.title)));
   if (!products.length) return;                        // 未設定ならプレースホルダー維持
 
   const max = cfg.maxPerSlot || 4;
   const esc = s => { const d = document.createElement('div'); d.textContent = (s == null ? '' : String(s)); return d.innerHTML; };
 
   const card = p => {
+    if (p.html) return '<div class="gh-affil__banner">' + p.html + '</div>';  // バナーHTMLはそのまま
     const media = p.img
       ? '<img class="gh-affil__img" src="' + esc(p.img) + '" alt="" loading="lazy" />'
       : '<span class="gh-affil__emoji" aria-hidden="true">' + esc(p.emoji || '🛍️') + '</span>';

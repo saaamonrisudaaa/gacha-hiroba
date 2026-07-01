@@ -2005,6 +2005,37 @@ img { display: block; max-width: 100%; }
 .gh-affil__title { font-size: 12.5px; font-weight: 700; line-height: 1.4; }
 .gh-affil__note { font-size: 11px; color: var(--gh-muted); line-height: 1.4; }
 .gh-affil__disc { font-size: 10.5px; color: var(--gh-muted); line-height: 1.6; margin: 10px 0 0; }
+/* 画像バナー型のアフィリエイト（楽天の画像リンク等） */
+.gh-affil__banner { text-align: center; }
+.gh-affil__banner a { display: inline-block; }
+.gh-affil__banner img { max-width: 100%; height: auto; }
+
+/* HTMLに直接埋め込むウィジェット広告（楽天スライド等） */
+.gh-promo {
+  position: relative;
+  border: 1px dashed #cbd5e1;
+  border-radius: var(--gh-radius);
+  background: #fafafa;
+  padding: 26px 12px 14px;
+  margin-bottom: 20px;
+  text-align: center;
+  overflow-x: auto;
+}
+.gh-promo__label {
+  position: absolute;
+  top: 6px;
+  left: 8px;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--gh-muted);
+  background: #fff;
+  border: 1px solid var(--gh-border);
+  padding: 1px 7px;
+  border-radius: 4px;
+  letter-spacing: .04em;
+}
+.gh-promo__widget { display: inline-block; min-height: 160px; }
+.gh-promo .gh-affil__disc { text-align: left; }
 
 /* ============================================================
    BULLETIN BOARD HUB (board.html, Yahoo Finance /cm style)
