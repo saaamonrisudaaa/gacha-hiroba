@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="ガチャガチャの設置店舗一覧。全国のガチャ専門店・設置スポットを地方・エリアから探せます。各店舗の営業時間・設置台数・掲示板をチェック。" />
+  <title>店舗一覧 | ガチャひろば</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="data/spots.js" defer></script>
+  <script src="spots-ui.js" defer></script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header class="gh-header">
+    <div class="gh-header__top">
+      <div class="gh-container gh-header__inner">
+        <a class="gh-logo" href="index.html" aria-label="ガチャひろば トップへ">
+          <span class="gh-logo__icon">G</span>
+          <span class="gh-logo__text">ガチャ<em>ひろば</em></span>
+        </a>
+        <form class="gh-search" role="search">
+          <input class="gh-search__input" type="search" placeholder="エリア・駅名・店名で検索" aria-label="ガチャ場所を検索" />
+          <button class="gh-search__btn" type="submit" aria-label="検索">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          </button>
+        </form>
+        <nav class="gh-header__nav" aria-label="ユーザーメニュー">
+          <a href="#">ログイン</a>
+          <a href="#" class="gh-btn gh-btn--sm gh-btn--outline-white">無料登録</a>
+        </nav>
+        <button class="gh-hamburger" aria-label="メニューを開く" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+    <div class="gh-subnav">
+      <div class="gh-container">
+        <nav class="gh-nav-tabs" aria-label="メインナビゲーション">
+          <a href="index.html">トップ</a>
+          <a href="board.html">掲示板</a>
+          <a href="news.html">新着情報</a>
+          <a href="ranking.html">ランキング</a>
+          <a href="area.html" class="active">エリア別</a>
+          <a href="category.html">カテゴリー別</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="gh-main">
+    <div class="gh-container">
+
+      <div class="gh-page-hero">
+        <h1 class="gh-page-hero__title">店舗一覧</h1>
+        <p class="gh-page-hero__desc">ガチャガチャの設置店舗を地方から探せます。現在 <strong id="storeCount">0</strong> 店舗を掲載中。各店舗ページで営業時間・設置台数・掲示板を確認できます。</p>
+      </div>
+
+      <div class="gh-tab-group gh-tab-group--lg" role="tablist" aria-label="地方で絞り込み" style="margin-bottom:20px">
+        <button class="gh-tab" role="tab" data-store-region="all">すべて</button>
+        <button class="gh-tab" role="tab" data-store-region="kanto">関東</button>
+        <button class="gh-tab" role="tab" data-store-region="kansai">関西</button>
+        <button class="gh-tab" role="tab" data-store-region="tokai">東海</button>
+        <button class="gh-tab" role="tab" data-store-region="kyushu">九州</button>
+        <button class="gh-tab" role="tab" data-store-region="tohoku">東北・北海道</button>
+        <button class="gh-tab" role="tab" data-store-region="chugoku">中国・四国</button>
+      </div>
+
+      <div id="storeList"></div>
+
+      <p class="gh-detail-note" style="margin-top:16px">
+        掲載してほしい店舗のリクエストや情報の修正は、<a href="board.html">掲示板</a>からお知らせください。
+        情報は各店舗・公式サイトをもとに随時更新しています。
+      </p>
+
+    </div>
+  </main>
+
+  <footer class="gh-footer">
+    <div class="gh-container">
+      <div class="gh-footer__main">
+        <div class="gh-footer__brand">
+          <a class="gh-logo" href="index.html"><span class="gh-logo__icon">G</span><span class="gh-logo__text">ガチャ<em>ひろば</em></span></a>
+          <p>全国のガチャガチャ設置場所情報を網羅。<br />あなたのガチャライフをサポートします。</p>
+        </div>
+        <div class="gh-footer__links">
+          <div><strong>サービス</strong><a href="index.html">トップ</a><a href="stores.html">店舗一覧</a><a href="ranking.html">ランキング</a><a href="map.html">マップ検索</a></div>
+          <div><strong>情報</strong><a href="board.html">掲示板</a><a href="news.html">新着情報</a><a href="area.html">エリア別</a></div>
+          <div><strong>サポート</strong><a href="#">お問い合わせ</a><a href="terms.html">利用規約</a><a href="privacy.html">プライバシー</a><a href="advertising.html">広告掲載</a></div>
+        </div>
+      </div>
+      <div class="gh-footer__bottom">
+        <span>© 2026 ガチャひろば (gacha-hiroba.com)</span>
+        <span>Powered by ガチャひろば</span>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

@@ -137,9 +137,9 @@ if (location.hash === '#board') {
   /* Supabase 設定（publishable=公開キーなのでソースに書いてOK。読み書きはRLSで制御） */
   const SUPA_URL = 'https://vyzdekctlynzuaowopso.supabase.co';
   const SUPA_KEY = 'sb_publishable_1GOi0AxMP1emK7hOC_wMeQ_jqmEL47E';
-  const SPOT     = 'yodobashi-akiba';                 // このページの掲示板ID（スポットごとに変更）
+  const SPOT     = (window.GH_SPOT_ID || 'yodobashi-akiba'); // 掲示板ID。データ方式の店舗ページは spots-ui.js が設定
 
-  const STORE_KEY = 'gh-bbs:' + location.pathname;    // オフライン時のフォールバック保存
+  const STORE_KEY = 'gh-bbs:' + SPOT;                 // オフライン時のフォールバック保存（スレッドごとに分離）
   const days = ['日', '月', '火', '水', '木', '金', '土'];
   const pad  = n => String(n).padStart(2, '0');
 
@@ -271,7 +271,9 @@ if (location.hash === '#board') {
     const loadSaved = () => { try { return JSON.parse(localStorage.getItem(STORE_KEY)) || []; } catch (e) { return []; } };
     const persist   = a  => { try { localStorage.setItem(STORE_KEY, JSON.stringify(a)); } catch (e) {} };
 
-    loadSaved().forEach(p => list.insertBefore(makePost(p), list.firstElementChild));
+    const saved = loadSaved();
+    if (saved.length) { const e = document.getElementById('bbsEmpty'); if (e) e.remove(); }
+    saved.forEach(p => list.insertBefore(makePost(p), list.firstElementChild));
     if (count) count.textContent = String(list.querySelectorAll('.gh-bbs__post').length);
 
     currentHandler = function post() {
@@ -284,6 +286,7 @@ if (location.hash === '#board') {
         name: name,
         body: text, date: nowStr(), id: randomId()
       };
+      const empty = document.getElementById('bbsEmpty'); if (empty) empty.remove();
       list.insertBefore(makePost(p), list.firstElementChild);
       const arr = loadSaved(); arr.push(p); persist(arr);
       markPosted();

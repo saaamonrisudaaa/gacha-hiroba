@@ -1851,7 +1851,53 @@ img { display: block; max-width: 100%; }
 }
 .gh-osm-embed iframe { width: 100%; height: 340px; border: 0; display: block; }
 .gh-osm-embed__addr { font-size: 12px; color: var(--gh-muted); margin: 10px 0 0; line-height: 1.6; }
+.gh-osm-embed__note { font-size: 11px; color: var(--gh-muted); margin: 8px 0 0; line-height: 1.6; }
 @media (max-width: 768px) { .gh-osm-embed iframe { height: 260px; } }
+
+/* データ方式の店舗ページ用パーツ（spot.html / stores.html） */
+.gh-detail-note { font-size: 12px; color: var(--gh-muted); margin: 12px 0 0; line-height: 1.7; }
+.gh-stat-pending {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 18px 20px;
+  background: #f9fafb;
+  border: 1px dashed var(--gh-border);
+  border-radius: var(--gh-radius);
+}
+.gh-stat-pending__icon { font-size: 26px; line-height: 1; }
+.gh-stat-pending strong { display: block; font-size: 14px; margin-bottom: 4px; }
+.gh-stat-pending p { font-size: 12.5px; color: var(--gh-muted); line-height: 1.7; margin: 0; }
+.gh-store-section__count {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 1px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--gh-link);
+  background: var(--gh-new-bg);
+  border-radius: 999px;
+  vertical-align: middle;
+}
+.gh-store-brand { display: block; font-size: 11px; color: var(--gh-muted); margin-top: 2px; }
+.gh-store-cta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, var(--gh-header), var(--gh-subnav));
+  border-radius: var(--gh-radius);
+  color: #fff;
+  box-shadow: var(--gh-shadow);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.gh-store-cta:hover { transform: translateY(-1px); box-shadow: var(--gh-shadow-md); text-decoration: none; }
+.gh-store-cta__icon { font-size: 28px; line-height: 1; }
+.gh-store-cta__body { display: flex; flex-direction: column; gap: 3px; flex: 1; }
+.gh-store-cta__body strong { font-size: 15px; font-weight: 800; }
+.gh-store-cta__body small { font-size: 12px; color: rgba(255,255,255,.8); line-height: 1.5; }
+.gh-store-cta__arrow { font-size: 22px; font-weight: 800; }
 
 /* ============================================================
    LEGAL / PROSE PAGES (terms / privacy / advertising)
