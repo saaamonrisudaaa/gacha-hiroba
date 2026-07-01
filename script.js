@@ -183,6 +183,27 @@ if (location.hash === '#board') {
     return post;
   }
 
+  /* ── スパム対策（クライアント側の一次防御。本当の強制は Supabase トリガーで） ── */
+  const SPAM = {
+    cooldownMs: 15000,                  // 連続投稿の最短間隔（15秒）
+    maxBody: 500,                       // 本文の最大文字数
+    maxName: 20,                        // 名前の最大文字数
+    ngWords: ['死ね', '殺す', 'ぶっ殺']  // ★ NGワードはここに追加していけます
+  };
+  const LAST_KEY = 'gh-bbs-last-post';
+  function validate(name, text) {
+    if (!text) return { ok: false };                                              // 空 → フォーカスのみ
+    if ([...text].length > SPAM.maxBody) return { ok: false, msg: `本文は${SPAM.maxBody}文字以内で入力してください。` };
+    if (name && [...name].length > SPAM.maxName) return { ok: false, msg: `名前は${SPAM.maxName}文字以内にしてください。` };
+    const hay = name + '\n' + text;
+    for (const w of SPAM.ngWords) { if (w && hay.includes(w)) return { ok: false, msg: '不適切な語句が含まれているため投稿できません。' }; }
+    let last = 0; try { last = Number(localStorage.getItem(LAST_KEY)) || 0; } catch (e) {}
+    const wait = SPAM.cooldownMs - (Date.now() - last);
+    if (wait > 0) return { ok: false, msg: `連続投稿はできません。あと約${Math.ceil(wait / 1000)}秒お待ちください。` };
+    return { ok: true };
+  }
+  function markPosted() { try { localStorage.setItem(LAST_KEY, String(Date.now())); } catch (e) {} }
+
   /* 送信は一度だけ配線し、実処理は currentHandler の差し替えで切り替える */
   let currentHandler = function () {};
   submit.addEventListener('click', () => currentHandler());
@@ -204,12 +225,14 @@ if (location.hash === '#board') {
 
     currentHandler = async function post() {
       const text = body.value.trim();
-      if (!text) { body.focus(); return; }
       const name = (nameIn && nameIn.value.trim()) || '名無しのガチャー';
+      const v = validate(name, text);
+      if (!v.ok) { if (v.msg) alert(v.msg); else body.focus(); return; }
       submit.disabled = true;
       try {
         const { data, error } = await sb.from('posts').insert({ spot: SPOT, name, body: text }).select();
         if (error) throw error;
+        markPosted();
         const empty = document.getElementById('bbsEmpty'); if (empty) empty.remove();
         total += 1;
         const el = makePost(toView(data[0], total));
@@ -253,14 +276,17 @@ if (location.hash === '#board') {
 
     currentHandler = function post() {
       const text = body.value.trim();
-      if (!text) { body.focus(); return; }
+      const name = (nameIn && nameIn.value.trim()) || '名無しのガチャー';
+      const v = validate(name, text);
+      if (!v.ok) { if (v.msg) alert(v.msg); else body.focus(); return; }
       const p = {
         num:  list.querySelectorAll('.gh-bbs__post').length + 1,
-        name: (nameIn && nameIn.value.trim()) || '名無しのガチャー',
+        name: name,
         body: text, date: nowStr(), id: randomId()
       };
       list.insertBefore(makePost(p), list.firstElementChild);
       const arr = loadSaved(); arr.push(p); persist(arr);
+      markPosted();
       if (count) count.textContent = String(p.num);
       body.value = '';
       const el = document.getElementById('res' + p.num);
