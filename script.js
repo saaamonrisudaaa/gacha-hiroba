@@ -125,7 +125,7 @@ if (location.hash === '#board') {
   if (boardTab) boardTab.click();
 }
 
-/* ── 5ch-style bulletin board with localStorage persistence (location.html) ── */
+/* ── 5ch-style bulletin board: Supabase (shared) with localStorage fallback (location.html) ── */
 (function () {
   const list   = document.getElementById('bbsList');
   const body   = document.getElementById('bbsBody');
@@ -134,25 +134,34 @@ if (location.hash === '#board') {
   const count  = document.getElementById('bbsCount');
   if (!list || !body || !submit) return;
 
-  const STORE_KEY = 'gh-bbs:' + location.pathname;   // per-page board storage
+  /* Supabase 設定（publishable=公開キーなのでソースに書いてOK。読み書きはRLSで制御） */
+  const SUPA_URL = 'https://vyzdekctlynzuaowopso.supabase.co';
+  const SUPA_KEY = 'sb_publishable_1GOi0AxMP1emK7hOC_wMeQ_jqmEL47E';
+  const SPOT     = 'yodobashi-akiba';                 // このページの掲示板ID（スポットごとに変更）
+
+  const STORE_KEY = 'gh-bbs:' + location.pathname;    // オフライン時のフォールバック保存
   const days = ['日', '月', '火', '水', '木', '金', '土'];
   const pad  = n => String(n).padStart(2, '0');
 
-  function nowStr() {
-    const d = new Date();
+  function fmtDate(d) {
     return `${d.getFullYear()}/${pad(d.getMonth() + 1)}/${pad(d.getDate())}(${days[d.getDay()]}) ` +
            `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
   }
+  function nowStr() { return fmtDate(new Date()); }
   function randomId() {
     const c = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let s = ''; for (let i = 0; i < 8; i++) s += c[Math.floor(Math.random() * c.length)]; return s;
+  }
+  function idHash(str) {                               // 投稿ごとに安定した5ch風ID
+    let h = 2166136261 >>> 0;
+    for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619) >>> 0; }
+    const c = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let s = '';
-    for (let i = 0; i < 8; i++) s += c[Math.floor(Math.random() * c.length)];
+    for (let i = 0; i < 8; i++) { h = (Math.imul(h, 1103515245) + 12345) >>> 0; s += c[(h >>> 16) % 62]; }
     return s;
   }
   function escapeHtml(str) {
-    const div = document.createElement('div');
-    div.textContent = str;
-    return div.innerHTML;
+    const div = document.createElement('div'); div.textContent = (str == null ? '' : String(str)); return div.innerHTML;
   }
   function renderBody(raw) {
     return escapeHtml(raw)
@@ -173,42 +182,91 @@ if (location.hash === '#board') {
       '<p class="gh-bbs__body">' + renderBody(p.body) + '</p>';
     return post;
   }
-  function loadSaved() {
-    try { return JSON.parse(localStorage.getItem(STORE_KEY)) || []; }
-    catch (e) { return []; }
-  }
-  function persist(arr) {
-    try { localStorage.setItem(STORE_KEY, JSON.stringify(arr)); } catch (e) { /* disabled/full */ }
-  }
 
-  // Restore previously saved posts so they survive a page reload.
-  // Saved oldest→newest; prepend each so the newest ends up on top.
-  loadSaved().forEach(p => list.insertBefore(makePost(p), list.firstElementChild));
-  if (count) count.textContent = String(list.querySelectorAll('.gh-bbs__post').length);
-
-  function addPost() {
-    const text = body.value.trim();
-    if (!text) { body.focus(); return; }
-    const post = {
-      num:  list.querySelectorAll('.gh-bbs__post').length + 1,
-      name: (nameIn && nameIn.value.trim()) || '名無しのガチャー',
-      body: text,
-      date: nowStr(),
-      id:   randomId()
-    };
-    list.insertBefore(makePost(post), list.firstElementChild);   // newest on top
-    const arr = loadSaved(); arr.push(post); persist(arr);
-    if (count) count.textContent = String(post.num);
-    body.value = '';
-    const el = document.getElementById('res' + post.num);
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }
-
-  submit.addEventListener('click', addPost);
-  // Ctrl/Cmd + Enter to submit
+  /* 送信は一度だけ配線し、実処理は currentHandler の差し替えで切り替える */
+  let currentHandler = function () {};
+  submit.addEventListener('click', () => currentHandler());
   body.addEventListener('keydown', e => {
-    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') { e.preventDefault(); addPost(); }
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') { e.preventDefault(); currentHandler(); }
   });
+
+  const canSupa = !!(window.supabase && typeof window.supabase.createClient === 'function');
+  if (canSupa) startSharedBoard(); else startLocalBoard();
+
+  /* ---------- Supabase 共有モード（全員の投稿を共有） ---------- */
+  function startSharedBoard() {
+    const sb = window.supabase.createClient(SUPA_URL, SUPA_KEY);
+    let total = 0;
+    const toView = (p, num) => ({
+      num, name: p.name || '名無しのガチャー', date: fmtDate(new Date(p.created_at)),
+      id: idHash(String(p.id) + p.created_at), body: p.body
+    });
+
+    currentHandler = async function post() {
+      const text = body.value.trim();
+      if (!text) { body.focus(); return; }
+      const name = (nameIn && nameIn.value.trim()) || '名無しのガチャー';
+      submit.disabled = true;
+      try {
+        const { data, error } = await sb.from('posts').insert({ spot: SPOT, name, body: text }).select();
+        if (error) throw error;
+        const empty = document.getElementById('bbsEmpty'); if (empty) empty.remove();
+        total += 1;
+        const el = makePost(toView(data[0], total));
+        list.insertBefore(el, list.firstElementChild);   // newest on top
+        if (count) count.textContent = String(total);
+        body.value = '';
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } catch (err) {
+        console.error('board insert failed', err);
+        alert('投稿に失敗しました。通信環境を確認して、もう一度お試しください。');
+      } finally {
+        submit.disabled = false;
+      }
+    };
+
+    sb.from('posts').select('*').eq('spot', SPOT).order('created_at', { ascending: true })
+      .then(({ data, error }) => {
+        if (error) throw error;
+        list.innerHTML = '';                              // サンプル投稿を消してDBの投稿を表示
+        data.forEach((p, i) => list.insertBefore(makePost(toView(p, i + 1)), list.firstElementChild));
+        total = data.length;
+        if (count) count.textContent = String(total);
+        if (total === 0) {
+          const empty = document.createElement('p');
+          empty.className = 'gh-bbs__empty';
+          empty.id = 'bbsEmpty';
+          empty.textContent = 'まだ投稿がありません。最初の1件を書き込んでみましょう！';
+          list.appendChild(empty);
+        }
+      })
+      .catch(err => { console.warn('Supabase load failed → local fallback', err); startLocalBoard(); });
+  }
+
+  /* ---------- localStorage フォールバック（Supabase未読込/オフライン時） ---------- */
+  function startLocalBoard() {
+    const loadSaved = () => { try { return JSON.parse(localStorage.getItem(STORE_KEY)) || []; } catch (e) { return []; } };
+    const persist   = a  => { try { localStorage.setItem(STORE_KEY, JSON.stringify(a)); } catch (e) {} };
+
+    loadSaved().forEach(p => list.insertBefore(makePost(p), list.firstElementChild));
+    if (count) count.textContent = String(list.querySelectorAll('.gh-bbs__post').length);
+
+    currentHandler = function post() {
+      const text = body.value.trim();
+      if (!text) { body.focus(); return; }
+      const p = {
+        num:  list.querySelectorAll('.gh-bbs__post').length + 1,
+        name: (nameIn && nameIn.value.trim()) || '名無しのガチャー',
+        body: text, date: nowStr(), id: randomId()
+      };
+      list.insertBefore(makePost(p), list.firstElementChild);
+      const arr = loadSaved(); arr.push(p); persist(arr);
+      if (count) count.textContent = String(p.num);
+      body.value = '';
+      const el = document.getElementById('res' + p.num);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    };
+  }
 })();
 
 /* ── Chart bar tooltips ── */

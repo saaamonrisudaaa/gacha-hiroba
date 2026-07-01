@@ -1812,6 +1812,7 @@ img { display: block; max-width: 100%; }
 .gh-bbs__textarea:focus { border-color: var(--gh-link); }
 .gh-bbs__form-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 8px; flex-wrap: wrap; }
 .gh-bbs__note { font-size: 11px; color: var(--gh-muted); flex: 1; min-width: 160px; }
+.gh-bbs__empty { text-align: center; color: var(--gh-muted); font-size: 13px; padding: 28px 8px; }
 
 /* ── Responsive: detail v2 ── */
 @media (max-width: 768px) {
