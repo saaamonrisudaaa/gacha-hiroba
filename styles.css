@@ -2059,6 +2059,21 @@ img { display: block; max-width: 100%; }
 .gh-affil__cta:hover { filter: brightness(1.06); text-decoration: none; }
 .gh-affil__cta:active { transform: translateY(1px); }
 
+/* 「楽天市場でチェック」セクション（picttext のリッチ商品カード） */
+.gh-featured-sec .gh-section__title { display: flex; align-items: center; gap: 8px; }
+.gh-featured { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; }
+.gh-featured__item {
+  width: 100%;
+  max-width: 504px;
+  overflow: hidden;
+  border-radius: 12px;
+}
+/* 楽天の固定幅(504px/240px/248px)を打ち消してレスポンシブ化 */
+.gh-featured__item table { width: 100% !important; border-collapse: collapse; }
+.gh-featured__item td { width: auto !important; vertical-align: top; }
+.gh-featured__item div[style*="504px"] { width: auto !important; max-width: 100% !important; box-sizing: border-box; }
+.gh-featured__item img { max-width: 100%; height: auto; }
+
 /* HTMLに直接埋め込むウィジェット広告（楽天スライド等） */
 .gh-promo {
   position: relative;

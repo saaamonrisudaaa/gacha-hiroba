@@ -563,6 +563,23 @@ renderRanking('national');
 (function () {
   const cfg = window.GH_ADS;
   if (!cfg) return;                                    // ads.js を読み込んだページのみ
+  const esc = s => { const d = document.createElement('div'); d.textContent = (s == null ? '' : String(s)); return d.innerHTML; };
+  const hrefOf = htmlStr => { const d = document.createElement('div'); d.innerHTML = htmlStr; const a = d.querySelector('a'); return a ? a.getAttribute('href') : ''; };
+  const RK_HEADS = ['🛒 楽天市場', '🎁 楽天市場でチェック', '🔎 楽天市場で探す'];
+  const discHtml = cfg.disclosure ? '<p class="gh-affil__disc">' + esc(cfg.disclosure) + '</p>' : '';
+
+  /* ── 横長「楽天市場でチェック」セクション（featured を [data-gh-featured] に描画） ── */
+  const featBox = document.querySelector('[data-gh-featured]');
+  if (featBox) {
+    const feat = (cfg.featured || []).filter(Boolean);
+    if (feat.length) {
+      featBox.innerHTML = feat.map(h => '<div class="gh-featured__item">' + h + '</div>').join('') + discHtml;
+      const sec = featBox.closest('.gh-featured-sec');
+      if (sec) sec.hidden = false;
+    }
+  }
+
+  /* ── サイドバー広告枠（.gh-ad を products で埋める） ── */
   const slots = document.querySelectorAll('.gh-ad');
   if (!slots.length) return;
 
@@ -570,9 +587,10 @@ renderRanking('national');
   if (!products.length) return;                        // 未設定ならプレースホルダー維持
 
   const max = cfg.maxPerSlot || 4;
-  const esc = s => { const d = document.createElement('div'); d.textContent = (s == null ? '' : String(s)); return d.innerHTML; };
-  const hrefOf = htmlStr => { const d = document.createElement('div'); d.innerHTML = htmlStr; const a = d.querySelector('a'); return a ? a.getAttribute('href') : ''; };
-  const RK_HEADS = ['🛒 楽天市場', '🎁 楽天市場でチェック', '🔎 楽天市場で探す'];
+  // 件数が多いときは日替わりでローテーション（全バナーに露出を回す）
+  const day = Math.floor(Date.now() / 86400000);
+  const start = products.length ? day % products.length : 0;
+  const rotated = products.slice(start).concat(products.slice(0, start));
 
   const card = (p, i) => {
     // バナーHTML（楽天の画像リンク等）→ 見出し＋枠付き画像＋CTAボタンのカードにして目立たせる
@@ -599,8 +617,7 @@ renderRanking('national');
            '</a>';
   };
 
-  const html = '<div class="gh-affil">' + products.slice(0, max).map(card).join('') + '</div>' +
-    (cfg.disclosure ? '<p class="gh-affil__disc">' + esc(cfg.disclosure) + '</p>' : '');
+  const html = '<div class="gh-affil">' + rotated.slice(0, max).map(card).join('') + '</div>' + discHtml;
 
   slots.forEach(slot => {
     const body = slot.querySelector('.gh-ad__body') || slot;
