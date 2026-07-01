@@ -38,60 +38,43 @@ document.querySelectorAll('form').forEach(form => {
   form.addEventListener('submit', e => e.preventDefault());
 });
 
-/* ── Ranking tab data ── */
-const rankingData = {
-  national: [
-    { rank:1, name:'ヨドバシAkiba ガチャコーナー',  area:'東京・秋葉原', machines:200, rating:'4.9', reviews:'3,241', badge:'HOT' },
-    { rank:2, name:'アキバガチャ横丁',               area:'東京・秋葉原', machines:120, rating:'4.8', reviews:'2,108', badge:'NEW' },
-    { rank:3, name:'なんばウォーク ガチャコーナー',   area:'大阪・なんば', machines:85,  rating:'4.7', reviews:'1,892', badge:''    },
-    { rank:4, name:"池袋P'PARCO ガチャフロア",       area:'東京・池袋',   machines:78,  rating:'4.7', reviews:'1,654', badge:''    },
-    { rank:5, name:'ラゾーナ川崎プラザ',              area:'神奈川・川崎', machines:65,  rating:'4.6', reviews:'1,203', badge:''    },
-    { rank:6, name:'サンシャインシティ アルタ',        area:'東京・池袋',   machines:58,  rating:'4.4', reviews:'987',   badge:''    },
-    { rank:7, name:'梅田LOFT ガチャコーナー',          area:'大阪・梅田',   machines:52,  rating:'4.5', reviews:'876',   badge:'NEW' },
-    { rank:8, name:'大須ガチャガチャ通り',             area:'愛知・名古屋', machines:64,  rating:'4.5', reviews:'743',   badge:''    },
-  ],
-  tokyo: [
-    { rank:1, name:'ヨドバシAkiba ガチャコーナー',   area:'東京・秋葉原', machines:200, rating:'4.9', reviews:'3,241', badge:'HOT' },
-    { rank:2, name:'アキバガチャ横丁',                area:'東京・秋葉原', machines:120, rating:'4.8', reviews:'2,108', badge:'NEW' },
-    { rank:3, name:"池袋P'PARCO ガチャフロア",        area:'東京・池袋',   machines:78,  rating:'4.7', reviews:'1,654', badge:''    },
-    { rank:4, name:'サンシャインシティ アルタ',         area:'東京・池袋',   machines:58,  rating:'4.4', reviews:'987',   badge:''    },
-    { rank:5, name:'渋谷マルキュー ガチャコーナー',     area:'東京・渋谷',   machines:45,  rating:'4.3', reviews:'623',   badge:''    },
-  ],
-  osaka: [
-    { rank:1, name:'なんばウォーク ガチャコーナー',   area:'大阪・なんば', machines:85,  rating:'4.7', reviews:'1,892', badge:''    },
-    { rank:2, name:'梅田LOFT ガチャコーナー',          area:'大阪・梅田',   machines:52,  rating:'4.5', reviews:'876',   badge:'NEW' },
-    { rank:3, name:'阪急三番街 ガチャ広場',            area:'大阪・梅田',   machines:40,  rating:'4.3', reviews:'541',   badge:''    },
-  ],
-  other: [
-    { rank:1, name:'大須ガチャガチャ通り',            area:'愛知・名古屋', machines:64,  rating:'4.5', reviews:'743',   badge:''    },
-    { rank:2, name:'ラゾーナ川崎プラザ',              area:'神奈川・川崎', machines:65,  rating:'4.6', reviews:'1,203', badge:''    },
-    { rank:3, name:'博多マルイ ガチャフロア',          area:'福岡・博多',   machines:48,  rating:'4.3', reviews:'487',   badge:''    },
-    { rank:4, name:'札幌パルコ ガチャコーナー',        area:'北海道・札幌', machines:35,  rating:'4.2', reviews:'312',   badge:''    },
-  ],
-};
-
-function badgeHTML(b) {
-  if (b === 'HOT') return '<span class="gh-badge gh-badge--hot">HOT</span>';
-  if (b === 'NEW') return '<span class="gh-badge gh-badge--new">NEW</span>';
-  return '';
-}
-
+/* ── Ranking: 実店舗（data/spots.js）を設置台数順に描画。各行は個別ページへ ── */
 function renderRanking(key) {
   const tbody = document.querySelector('#rankingTable tbody');
   if (!tbody) return;
-  const rows = rankingData[key] || rankingData.national;
+  const spots = window.GH_SPOTS || [];
+  const esc = s => { const d = document.createElement('div'); d.textContent = (s == null ? '' : String(s)); return d.innerHTML; };
+  const machinesText = n => (n == null || n === '') ? '—' : '約' + Number(n).toLocaleString('ja-JP') + '台';
   const rankCls = r => r === 1 ? 'gh-rank--1' : r === 2 ? 'gh-rank--2' : r === 3 ? 'gh-rank--3' : '';
-  tbody.innerHTML = rows.map(r => `
-    <tr class="${r.rank === 1 ? 'gh-table__row--top' : ''}">
-      <td><span class="gh-rank ${rankCls(r.rank)}">${r.rank}</span></td>
-      <td><a href="location.html" class="gh-table__link">${r.name}</a>${badgeHTML(r.badge)}</td>
-      <td>${r.area}</td>
-      <td class="gh-num">${r.machines}</td>
-      <td class="gh-num"><span class="gh-rating">★ ${r.rating}</span></td>
-      <td class="gh-num">${r.reviews}</td>
-      <td><a href="location.html" class="gh-btn gh-btn--xs">詳細</a></td>
-    </tr>
-  `).join('');
+  const inTab = s => {
+    if (key === 'tokyo') return s.pref === '東京都';
+    if (key === 'osaka') return s.pref === '大阪府';
+    if (key === 'other') return s.pref !== '東京都' && s.pref !== '大阪府';
+    return true;                                   // national
+  };
+
+  const rows = spots.filter(inTab).sort((a, b) => (b.machines || 0) - (a.machines || 0));
+  if (!rows.length) {
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--gh-muted);padding:22px">この地域の店舗は現在準備中です。</td></tr>';
+    return;
+  }
+
+  const table = tbody.closest('table');
+  const limit = table ? parseInt(table.dataset.limit || '0', 10) : 0;
+  const shown = limit > 0 ? rows.slice(0, limit) : rows;
+
+  tbody.innerHTML = shown.map((s, i) => {
+    const rank = i + 1;
+    const url = 'spot.html?id=' + encodeURIComponent(s.id);
+    return `
+    <tr class="${rank === 1 ? 'gh-table__row--top' : ''}">
+      <td><span class="gh-rank ${rankCls(rank)}">${rank}</span></td>
+      <td><a href="${url}" class="gh-table__link">${esc(s.name)}</a></td>
+      <td>${esc(s.area)}</td>
+      <td class="gh-num">${machinesText(s.machines)}</td>
+      <td><a href="${url}" class="gh-btn gh-btn--xs">詳細</a></td>
+    </tr>`;
+  }).join('');
 }
 
 /* Ranking tab switch */

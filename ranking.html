@@ -6,6 +6,7 @@
   <meta name="description" content="全国ガチャガチャスポットランキング。台数・評価・口コミ数でランク付けした人気スポット一覧。" />
   <title>ランキング | ガチャひろば</title>
   <link rel="stylesheet" href="styles.css" />
+  <script src="data/spots.js" defer></script>
   <script src="script.js" defer></script>
 </head>
 <body>
@@ -69,8 +70,8 @@
 
             <div class="gh-tab-group" id="rankingTabs" style="margin-bottom:16px">
               <button class="gh-tab active" data-tab="national">全国</button>
-              <button class="gh-tab" data-tab="tokyo">関東</button>
-              <button class="gh-tab" data-tab="osaka">関西</button>
+              <button class="gh-tab" data-tab="tokyo">東京</button>
+              <button class="gh-tab" data-tab="osaka">大阪</button>
               <button class="gh-tab" data-tab="other">その他</button>
             </div>
 
@@ -79,11 +80,9 @@
                 <thead>
                   <tr>
                     <th style="width:44px">順位</th>
-                    <th>スポット名</th>
+                    <th>店舗名</th>
                     <th>エリア</th>
-                    <th class="gh-num">台数</th>
-                    <th class="gh-num">評価</th>
-                    <th class="gh-num">口コミ数</th>
+                    <th class="gh-num">設置台数</th>
                     <th></th>
                   </tr>
                 </thead>

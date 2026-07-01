@@ -6,6 +6,7 @@
   <meta name="description" content="ガチャひろば - 全国のガチャガチャ設置場所を検索・比較。近くのガチャスポット、人気マシン情報が一目でわかる。" />
   <title>ガチャひろば | 全国ガチャ場所情報サービス</title>
   <link rel="stylesheet" href="styles.css" />
+  <script src="data/spots.js" defer></script>
   <script src="data/ads.js" defer></script>
   <script src="script.js" defer></script>
 </head>
@@ -170,95 +171,22 @@
             </div>
           </div>
           <div class="gh-table-wrap">
-            <table class="gh-table" id="rankingTable">
+            <table class="gh-table" id="rankingTable" data-limit="10">
               <thead>
                 <tr>
                   <th>順位</th>
-                  <th>スポット名</th>
+                  <th>店舗名</th>
                   <th>エリア</th>
                   <th class="gh-num">設置台数</th>
-                  <th class="gh-num">評価</th>
-                  <th class="gh-num">クチコミ</th>
                   <th></th>
                 </tr>
               </thead>
               <tbody>
-                <tr class="gh-table__row--top">
-                  <td><span class="gh-rank gh-rank--1">1</span></td>
-                  <td><a href="location.html" class="gh-table__link">ヨドバシAkiba ガチャコーナー</a> <span class="gh-badge gh-badge--hot">HOT</span></td>
-                  <td>東京・秋葉原</td>
-                  <td class="gh-num">200</td>
-                  <td class="gh-num"><span class="gh-rating">★ 4.9</span></td>
-                  <td class="gh-num">3,241</td>
-                  <td><a href="location.html" class="gh-btn gh-btn--xs">詳細</a></td>
-                </tr>
-                <tr>
-                  <td><span class="gh-rank gh-rank--2">2</span></td>
-                  <td><a href="location.html" class="gh-table__link">アキバガチャ横丁</a> <span class="gh-badge gh-badge--new">NEW</span></td>
-                  <td>東京・秋葉原</td>
-                  <td class="gh-num">120</td>
-                  <td class="gh-num"><span class="gh-rating">★ 4.8</span></td>
-                  <td class="gh-num">2,108</td>
-                  <td><a href="location.html" class="gh-btn gh-btn--xs">詳細</a></td>
-                </tr>
-                <tr>
-                  <td><span class="gh-rank gh-rank--3">3</span></td>
-                  <td><a href="location.html" class="gh-table__link">なんばウォーク ガチャコーナー</a></td>
-                  <td>大阪・なんば</td>
-                  <td class="gh-num">85</td>
-                  <td class="gh-num"><span class="gh-rating">★ 4.7</span></td>
-                  <td class="gh-num">1,892</td>
-                  <td><a href="location.html" class="gh-btn gh-btn--xs">詳細</a></td>
-                </tr>
-                <tr>
-                  <td><span class="gh-rank">4</span></td>
-                  <td><a href="location.html" class="gh-table__link">池袋P'PARCO ガチャフロア</a></td>
-                  <td>東京・池袋</td>
-                  <td class="gh-num">78</td>
-                  <td class="gh-num"><span class="gh-rating">★ 4.7</span></td>
-                  <td class="gh-num">1,654</td>
-                  <td><a href="location.html" class="gh-btn gh-btn--xs">詳細</a></td>
-                </tr>
-                <tr>
-                  <td><span class="gh-rank">5</span></td>
-                  <td><a href="location.html" class="gh-table__link">ラゾーナ川崎プラザ</a></td>
-                  <td>神奈川・川崎</td>
-                  <td class="gh-num">65</td>
-                  <td class="gh-num"><span class="gh-rating">★ 4.6</span></td>
-                  <td class="gh-num">1,203</td>
-                  <td><a href="location.html" class="gh-btn gh-btn--xs">詳細</a></td>
-                </tr>
-                <tr>
-                  <td><span class="gh-rank">6</span></td>
-                  <td><a href="location.html" class="gh-table__link">サンシャインシティ アルタ</a></td>
-                  <td>東京・池袋</td>
-                  <td class="gh-num">58</td>
-                  <td class="gh-num"><span class="gh-rating">★ 4.4</span></td>
-                  <td class="gh-num">987</td>
-                  <td><a href="location.html" class="gh-btn gh-btn--xs">詳細</a></td>
-                </tr>
-                <tr>
-                  <td><span class="gh-rank">7</span></td>
-                  <td><a href="location.html" class="gh-table__link">梅田LOFT ガチャコーナー</a> <span class="gh-badge gh-badge--new">NEW</span></td>
-                  <td>大阪・梅田</td>
-                  <td class="gh-num">52</td>
-                  <td class="gh-num"><span class="gh-rating">★ 4.5</span></td>
-                  <td class="gh-num">876</td>
-                  <td><a href="location.html" class="gh-btn gh-btn--xs">詳細</a></td>
-                </tr>
-                <tr>
-                  <td><span class="gh-rank">8</span></td>
-                  <td><a href="location.html" class="gh-table__link">大須ガチャガチャ通り</a></td>
-                  <td>愛知・名古屋</td>
-                  <td class="gh-num">64</td>
-                  <td class="gh-num"><span class="gh-rating">★ 4.5</span></td>
-                  <td class="gh-num">743</td>
-                  <td><a href="location.html" class="gh-btn gh-btn--xs">詳細</a></td>
-                </tr>
+                <tr><td colspan="5" style="text-align:center;color:var(--gh-muted);padding:22px">読み込み中…</td></tr>
               </tbody>
             </table>
           </div>
-          <a href="#" class="gh-table__more">ランキングをすべて見る →</a>
+          <a href="ranking.html" class="gh-table__more">ランキングをすべて見る →</a>
         </section>
 
         <!-- News feed -->
