@@ -571,9 +571,22 @@ renderRanking('national');
 
   const max = cfg.maxPerSlot || 4;
   const esc = s => { const d = document.createElement('div'); d.textContent = (s == null ? '' : String(s)); return d.innerHTML; };
+  const hrefOf = htmlStr => { const d = document.createElement('div'); d.innerHTML = htmlStr; const a = d.querySelector('a'); return a ? a.getAttribute('href') : ''; };
+  const RK_HEADS = ['🛒 楽天市場', '🎁 楽天市場でチェック', '🔎 楽天市場で探す'];
 
-  const card = p => {
-    if (p.html) return '<div class="gh-affil__banner">' + p.html + '</div>';  // バナーHTMLはそのまま
+  const card = (p, i) => {
+    // バナーHTML（楽天の画像リンク等）→ 見出し＋枠付き画像＋CTAボタンのカードにして目立たせる
+    if (p.html) {
+      const href = hrefOf(p.html);
+      return '<div class="gh-affil__rk">' +
+               '<div class="gh-affil__rk-head">' +
+                 '<span class="gh-affil__rk-shop">' + esc(RK_HEADS[i % RK_HEADS.length]) + '</span>' +
+                 '<span class="gh-affil__pr">PR</span>' +
+               '</div>' +
+               '<div class="gh-affil__banner">' + p.html + '</div>' +
+               (href ? '<a class="gh-affil__cta" href="' + esc(href) + '" target="_blank" rel="nofollow sponsored noopener">楽天市場で見る&nbsp;▶</a>' : '') +
+             '</div>';
+    }
     const media = p.img
       ? '<img class="gh-affil__img" src="' + esc(p.img) + '" alt="" loading="lazy" />'
       : '<span class="gh-affil__emoji" aria-hidden="true">' + esc(p.emoji || '🛍️') + '</span>';
