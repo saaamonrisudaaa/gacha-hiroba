@@ -7,6 +7,7 @@
   <title>ガチャひろば | 全国ガチャ場所情報サービス</title>
   <link rel="stylesheet" href="styles.css" />
   <script src="data/spots.js" defer></script>
+  <script src="spots-ui.js" defer></script>
   <script src="data/ads.js" defer></script>
   <script src="script.js" defer></script>
 </head>
@@ -53,25 +54,7 @@
     <div class="gh-container gh-ticker-bar__inner">
       <span class="gh-ticker-bar__label">注目スポット</span>
       <div class="gh-ticker-scroll" aria-label="注目スポット" aria-live="polite">
-        <div class="gh-ticker-track">
-          <a href="location.html" class="gh-ticker-item gh-ticker-item--hot">ヨドバシAkiba <span class="gh-ticker-item__star">★4.9</span> <em>HOT</em></a>
-          <a href="location.html" class="gh-ticker-item gh-ticker-item--new">アキバガチャ横丁 <span class="gh-ticker-item__star">★4.8</span> <em>NEW</em></a>
-          <a href="location.html" class="gh-ticker-item">なんばウォーク <span class="gh-ticker-item__star">★4.7</span></a>
-          <a href="location.html" class="gh-ticker-item">池袋P'PARCO <span class="gh-ticker-item__star">★4.7</span></a>
-          <a href="location.html" class="gh-ticker-item">ラゾーナ川崎 <span class="gh-ticker-item__star">★4.6</span></a>
-          <a href="location.html" class="gh-ticker-item gh-ticker-item--new">梅田LOFT <span class="gh-ticker-item__star">★4.5</span> <em>NEW</em></a>
-          <a href="location.html" class="gh-ticker-item">大須商店街 <span class="gh-ticker-item__star">★4.5</span></a>
-          <a href="location.html" class="gh-ticker-item">サンシャインシティ <span class="gh-ticker-item__star">★4.4</span></a>
-          <!-- duplicate for infinite scroll -->
-          <a href="location.html" class="gh-ticker-item gh-ticker-item--hot">ヨドバシAkiba <span class="gh-ticker-item__star">★4.9</span> <em>HOT</em></a>
-          <a href="location.html" class="gh-ticker-item gh-ticker-item--new">アキバガチャ横丁 <span class="gh-ticker-item__star">★4.8</span> <em>NEW</em></a>
-          <a href="location.html" class="gh-ticker-item">なんばウォーク <span class="gh-ticker-item__star">★4.7</span></a>
-          <a href="location.html" class="gh-ticker-item">池袋P'PARCO <span class="gh-ticker-item__star">★4.7</span></a>
-          <a href="location.html" class="gh-ticker-item">ラゾーナ川崎 <span class="gh-ticker-item__star">★4.6</span></a>
-          <a href="location.html" class="gh-ticker-item gh-ticker-item--new">梅田LOFT <span class="gh-ticker-item__star">★4.5</span> <em>NEW</em></a>
-          <a href="location.html" class="gh-ticker-item">大須商店街 <span class="gh-ticker-item__star">★4.5</span></a>
-          <a href="location.html" class="gh-ticker-item">サンシャインシティ <span class="gh-ticker-item__star">★4.4</span></a>
-        </div>
+        <div class="gh-ticker-track" data-gh-ticker></div>
       </div>
     </div>
   </div>
@@ -110,53 +93,9 @@
         <section class="gh-section">
           <div class="gh-section__header">
             <h2 class="gh-section__title">注目のガチャスポット</h2>
-            <a href="#" class="gh-section__more">すべて見る →</a>
+            <a href="stores.html" class="gh-section__more">すべて見る →</a>
           </div>
-          <div class="gh-spot-grid">
-            <a href="location.html" class="gh-spot-card gh-spot-card--lg">
-              <div class="gh-spot-card__img gh-spot-card__img--akiba">
-                <span class="gh-spot-card__badge gh-badge--hot">HOT</span>
-              </div>
-              <div class="gh-spot-card__body">
-                <span class="gh-spot-card__area">東京・秋葉原</span>
-                <h3 class="gh-spot-card__name">ヨドバシAkiba ガチャコーナー</h3>
-                <div class="gh-spot-card__meta">
-                  <span class="gh-rating">★ 4.9</span>
-                  <span>🎰 200台設置</span>
-                </div>
-                <p class="gh-spot-card__desc">秋葉原最大級。アニメ・キャラ系が200台以上。IC決済にも対応。全国ランキング1位。</p>
-                <div class="gh-tags"><span>アニメ</span><span>フィギュア</span><span>IC決済</span><span>限定</span></div>
-              </div>
-            </a>
-            <a href="location.html" class="gh-spot-card">
-              <div class="gh-spot-card__img gh-spot-card__img--osaka">
-                <span class="gh-spot-card__badge gh-badge--new">NEW</span>
-              </div>
-              <div class="gh-spot-card__body">
-                <span class="gh-spot-card__area">大阪・なんば</span>
-                <h3 class="gh-spot-card__name">なんばウォーク ガチャコーナー</h3>
-                <div class="gh-spot-card__meta">
-                  <span class="gh-rating">★ 4.7</span>
-                  <span>🎰 85台設置</span>
-                </div>
-                <p class="gh-spot-card__desc">関西最大エリア。毎週マシン入れ替えあり。</p>
-                <div class="gh-tags"><span>雑貨</span><span>食玩</span><span>キャラ</span></div>
-              </div>
-            </a>
-            <a href="location.html" class="gh-spot-card">
-              <div class="gh-spot-card__img gh-spot-card__img--nagoya"></div>
-              <div class="gh-spot-card__body">
-                <span class="gh-spot-card__area">愛知・名古屋</span>
-                <h3 class="gh-spot-card__name">大須ガチャガチャ通り</h3>
-                <div class="gh-spot-card__meta">
-                  <span class="gh-rating">★ 4.5</span>
-                  <span>🎰 64台設置</span>
-                </div>
-                <p class="gh-spot-card__desc">商店街に点在するガチャをエリアまとめ。</p>
-                <div class="gh-tags"><span>雑貨</span><span>限定</span></div>
-              </div>
-            </a>
-          </div>
+          <div class="gh-spot-grid" data-gh-spot-cards></div>
         </section>
 
         <!-- Ranking table (like stocks ranking) -->
@@ -238,16 +177,7 @@
           <div class="gh-section__header">
             <h2 class="gh-section__title">エリアから探す</h2>
           </div>
-          <div class="gh-area-grid">
-            <a href="#" class="gh-area-card"><span class="gh-area-card__icon">🗼</span><strong>東京</strong><small>4,218スポット</small></a>
-            <a href="#" class="gh-area-card"><span class="gh-area-card__icon">🏯</span><strong>大阪</strong><small>2,341スポット</small></a>
-            <a href="#" class="gh-area-card"><span class="gh-area-card__icon">⛩️</span><strong>京都</strong><small>892スポット</small></a>
-            <a href="#" class="gh-area-card"><span class="gh-area-card__icon">🗻</span><strong>愛知</strong><small>1,204スポット</small></a>
-            <a href="#" class="gh-area-card"><span class="gh-area-card__icon">🌊</span><strong>神奈川</strong><small>1,876スポット</small></a>
-            <a href="#" class="gh-area-card"><span class="gh-area-card__icon">🦀</span><strong>兵庫</strong><small>743スポット</small></a>
-            <a href="#" class="gh-area-card"><span class="gh-area-card__icon">🌸</span><strong>福岡</strong><small>891スポット</small></a>
-            <a href="#" class="gh-area-card gh-area-card--more"><span class="gh-area-card__icon">＋</span><strong>その他</strong><small>全47都道府県</small></a>
-          </div>
+          <div class="gh-area-grid" data-gh-area-cards="cards"></div>
         </section>
 
         <!-- 楽天市場でチェック（アフィリエイト / data/ads.js の featured を描画） -->

@@ -383,7 +383,7 @@ renderRanking('national');
       '<strong>' + s.name + '</strong><br>' +
       '<span style="color:#6b7280">' + s.area + '</span><br>' +
       '★ ' + s.rating + ' ・ ' + s.machines + '<br>' +
-      '<a href="location.html">詳細を見る →</a>'
+      '<a href="stores.html">店舗一覧を見る →</a>'
     );
     if (s.main) marker.openPopup();
     latlngs.push([s.lat, s.lon]);

@@ -41,9 +41,30 @@
     return 'https://www.openstreetmap.org/search?query=' + encodeURIComponent(q);
   }
 
+  var PREF_ICON = {
+    '東京都': '🗼', '神奈川県': '⚓', '埼玉県': '🌸', '千葉県': '🌊',
+    '群馬県': '♨️', '栃木県': '🍓', '茨城県': '🌰', '大阪府': '🏯', '愛知県': '🏭'
+  };
+
+  /* 都道府県ごとに集計（店舗数の多い順） */
+  function prefGroups() {
+    var g = {}, order = [];
+    SPOTS.forEach(function (s) {
+      if (!g[s.pref]) { g[s.pref] = []; order.push(s.pref); }
+      g[s.pref].push(s);
+    });
+    return order.map(function (pref) {
+      var list = g[pref].slice().sort(function (a, b) { return (b.machines || 0) - (a.machines || 0); });
+      return { pref: pref, list: list, top: list[0], count: list.length };
+    }).sort(function (a, b) { return b.count - a.count; });
+  }
+
   /* ページ判定 */
   if (qs('spotDetail')) renderDetail();
   if (qs('storeList'))  renderList();
+  if (document.querySelector('[data-gh-spot-cards]')) renderSpotCards();
+  if (document.querySelector('[data-gh-area-cards]')) renderAreaCards();
+  if (document.querySelector('[data-gh-ticker]')) renderTicker();
 
   /* ------------------------------------------------------------------ */
   /* 店舗詳細（spot.html）                                               */
@@ -198,8 +219,26 @@
   /* ------------------------------------------------------------------ */
   function renderList() {
     var box = qs('storeList');
+    var pref = getParam('pref');
+    var source = pref ? SPOTS.filter(function (s) { return s.pref === pref; }) : SPOTS;
+
+    // ?pref= 指定時は都道府県で絞り込み表示（地方タブは隠す）
+    if (pref) {
+      var tabGroup = document.querySelector('.gh-tab-group');
+      if (tabGroup) tabGroup.style.display = 'none';
+      var title = document.querySelector('.gh-page-hero__title');
+      if (title) title.textContent = pref + 'の店舗';
+      document.title = pref + 'の店舗一覧 | ガチャひろば';
+      if (!source.length) {
+        box.innerHTML = '<p class="gh-widget__text">' + esc(pref) + 'の登録店舗は現在準備中です。' +
+          '<a href="stores.html">すべての店舗を見る →</a></p>';
+        setText('storeCount', '0');
+        return;
+      }
+    }
+
     var groups = {};
-    SPOTS.forEach(function (s) { (groups[s.region] = groups[s.region] || []).push(s); });
+    source.forEach(function (s) { (groups[s.region] = groups[s.region] || []).push(s); });
 
     var html = '';
     REGION_ORDER.forEach(function (region) {
@@ -227,7 +266,79 @@
     });
 
     box.innerHTML = html || '<p class="gh-widget__text">店舗はまだ登録されていません。</p>';
-    wireStoreTabs();
+    if (pref) { setText('storeCount', String(source.length)); }
+    else { wireStoreTabs(); }
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* 注目のガチャスポット（index.html の [data-gh-spot-cards]）          */
+  /* ------------------------------------------------------------------ */
+  function renderSpotCards() {
+    var box = document.querySelector('[data-gh-spot-cards]');
+    if (!box) return;
+    var top = SPOTS.slice().sort(function (a, b) { return (b.machines || 0) - (a.machines || 0); }).slice(0, 3);
+    if (!top.length) return;
+    var grads = ['gh-spot-card__img--akiba', 'gh-spot-card__img--osaka', 'gh-spot-card__img--nagoya'];
+    box.innerHTML = top.map(function (s, i) {
+      var badge = i === 0 ? '<span class="gh-spot-card__badge gh-badge--hot">台数1位</span>' : '';
+      return '<a href="spot.html?id=' + encodeURIComponent(s.id) + '" class="gh-spot-card' + (i === 0 ? ' gh-spot-card--lg' : '') + '">' +
+               '<div class="gh-spot-card__img ' + grads[i % grads.length] + '">' + badge + '</div>' +
+               '<div class="gh-spot-card__body">' +
+                 '<span class="gh-spot-card__area">' + esc(s.area) + '</span>' +
+                 '<h3 class="gh-spot-card__name">' + esc(s.name) + '</h3>' +
+                 '<div class="gh-spot-card__meta"><span>🎰 ' + machinesText(s.machines) + '設置</span>' +
+                   (s.hours ? '<span>🕒 ' + esc(s.hours) + '</span>' : '') + '</div>' +
+                 (s.access ? '<p class="gh-spot-card__desc">' + esc(s.access) + '</p>' : '') +
+                 '<div class="gh-tags"><span>' + esc(s.brand) + '</span></div>' +
+               '</div>' +
+             '</a>';
+    }).join('');
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* 注目スポットのティッカー（index.html の [data-gh-ticker]）          */
+  /* ------------------------------------------------------------------ */
+  function renderTicker() {
+    var box = document.querySelector('[data-gh-ticker]');
+    if (!box) return;
+    var top = SPOTS.slice().sort(function (a, b) { return (b.machines || 0) - (a.machines || 0); }).slice(0, 8);
+    if (!top.length) return;
+    var item = function (s, i) {
+      var cls = 'gh-ticker-item' + (i === 0 ? ' gh-ticker-item--hot' : '');
+      var tag = i === 0 ? ' <em>台数1位</em>' : '';
+      return '<a href="spot.html?id=' + encodeURIComponent(s.id) + '" class="' + cls + '">' +
+               esc(s.name.replace('ガチャガチャの森 ', '')) +
+               ' <span class="gh-ticker-item__star">' + machinesText(s.machines) + '</span>' + tag + '</a>';
+    };
+    // 無限スクロール用に2周分
+    box.innerHTML = top.map(item).join('') + top.map(item).join('');
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* 都道府県カード（index.html / area.html の [data-gh-area-cards]）    */
+  /*   variant="pref"=area.html風カード / それ以外=index風アイコンカード  */
+  /* ------------------------------------------------------------------ */
+  function renderAreaCards() {
+    document.querySelectorAll('[data-gh-area-cards]').forEach(function (box) {
+      var groups = prefGroups();
+      if (!groups.length) return;
+      var variant = box.getAttribute('data-gh-area-cards');
+      box.innerHTML = groups.map(function (g, i) {
+        var url = 'stores.html?pref=' + encodeURIComponent(g.pref);
+        if (variant === 'pref') {
+          return '<a href="' + url + '" class="gh-pref-card' + (i === 0 ? ' gh-pref-card--top' : '') + '">' +
+                   '<span class="gh-pref-card__name">' + esc(g.pref) + '</span>' +
+                   '<span class="gh-pref-card__count">' + g.count + '店舗</span>' +
+                   '<div class="gh-pref-card__top"><small>設置台数トップ</small>' +
+                     '<strong>' + esc(g.top.name) + '（' + machinesText(g.top.machines) + '）</strong></div>' +
+                 '</a>';
+        }
+        return '<a href="' + url + '" class="gh-area-card">' +
+                 '<span class="gh-area-card__icon">' + (PREF_ICON[g.pref] || '📍') + '</span>' +
+                 '<strong>' + esc(g.pref) + '</strong><small>' + g.count + '店舗</small>' +
+               '</a>';
+      }).join('');
+    });
   }
 
   function wireStoreTabs() {

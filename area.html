@@ -3,9 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="都道府県・エリアからガチャガチャスポットを探す。全国47都道府県の設置場所情報を掲載。" />
+  <meta name="description" content="都道府県・エリアからガチャガチャ設置店を探す。登録店舗を都道府県ごとに一覧できます。" />
   <title>エリア別スポット | ガチャひろば</title>
   <link rel="stylesheet" href="styles.css" />
+  <script src="data/spots.js" defer></script>
+  <script src="spots-ui.js" defer></script>
   <script src="script.js" defer></script>
 </head>
 <body>
@@ -50,7 +52,7 @@
 
       <div class="gh-page-hero">
         <h1 class="gh-page-hero__title">エリアから探す</h1>
-        <p class="gh-page-hero__desc">全国47都道府県のガチャガチャスポットを地域から検索できます。</p>
+        <p class="gh-page-hero__desc">登録されているガチャガチャ設置店を、都道府県から探せます。エリアを選ぶと店舗一覧が開きます。</p>
       </div>
 
       <a href="stores.html" class="gh-store-cta">
@@ -62,306 +64,12 @@
         <span class="gh-store-cta__arrow">→</span>
       </a>
 
-      <div class="gh-tab-group gh-tab-group--lg" role="tablist" aria-label="地方で絞り込み" style="margin-bottom:20px">
-        <button class="gh-tab active" role="tab" data-region="all">すべて</button>
-        <button class="gh-tab" role="tab" data-region="kanto">関東</button>
-        <button class="gh-tab" role="tab" data-region="kansai">関西</button>
-        <button class="gh-tab" role="tab" data-region="tokai">東海</button>
-        <button class="gh-tab" role="tab" data-region="kyushu">九州</button>
-        <button class="gh-tab" role="tab" data-region="tohoku">東北・北海道</button>
-        <button class="gh-tab" role="tab" data-region="chugoku">中国・四国</button>
-      </div>
-
-      <!-- 関東 -->
-      <section class="gh-section gh-area-section" data-region="kanto">
+      <section class="gh-section">
         <div class="gh-section__header">
-          <h2 class="gh-section__title">🗼 関東</h2>
-          <a href="#" class="gh-section__more">すべて見る →</a>
+          <h2 class="gh-section__title">都道府県から探す</h2>
         </div>
-        <div class="gh-pref-grid">
-          <a href="location.html" class="gh-pref-card gh-pref-card--top">
-            <span class="gh-pref-card__name">東京都</span>
-            <span class="gh-pref-card__count">4,218スポット</span>
-            <div class="gh-pref-card__top">
-              <small>人気No.1</small>
-              <strong>ヨドバシAkiba ガチャコーナー ★4.9</strong>
-            </div>
-          </a>
-          <a href="location.html" class="gh-pref-card">
-            <span class="gh-pref-card__name">神奈川県</span>
-            <span class="gh-pref-card__count">1,876スポット</span>
-            <div class="gh-pref-card__top">
-              <small>人気No.1</small>
-              <strong>ラゾーナ川崎プラザ ★4.6</strong>
-            </div>
-          </a>
-          <a href="location.html" class="gh-pref-card">
-            <span class="gh-pref-card__name">埼玉県</span>
-            <span class="gh-pref-card__count">987スポット</span>
-            <div class="gh-pref-card__top">
-              <small>人気No.1</small>
-              <strong>イオンレイクタウン ★4.3</strong>
-            </div>
-          </a>
-          <a href="location.html" class="gh-pref-card">
-            <span class="gh-pref-card__name">千葉県</span>
-            <span class="gh-pref-card__count">832スポット</span>
-            <div class="gh-pref-card__top">
-              <small>人気No.1</small>
-              <strong>イオンモール幕張新都心 ★4.2</strong>
-            </div>
-          </a>
-          <a href="location.html" class="gh-pref-card">
-            <span class="gh-pref-card__name">茨城県</span>
-            <span class="gh-pref-card__count">412スポット</span>
-            <div class="gh-pref-card__top">
-              <small>人気No.1</small>
-              <strong>イオンモール水戸内原 ★4.1</strong>
-            </div>
-          </a>
-          <a href="location.html" class="gh-pref-card">
-            <span class="gh-pref-card__name">栃木県</span>
-            <span class="gh-pref-card__count">287スポット</span>
-            <div class="gh-pref-card__top">
-              <small>人気No.1</small>
-              <strong>宇都宮パルコ ★4.0</strong>
-            </div>
-          </a>
-          <a href="location.html" class="gh-pref-card">
-            <span class="gh-pref-card__name">群馬県</span>
-            <span class="gh-pref-card__count">241スポット</span>
-            <div class="gh-pref-card__top">
-              <small>人気No.1</small>
-              <strong>高崎オーパ ★4.0</strong>
-            </div>
-          </a>
-        </div>
-      </section>
-
-      <!-- 関西 -->
-      <section class="gh-section gh-area-section" data-region="kansai">
-        <div class="gh-section__header">
-          <h2 class="gh-section__title">🏯 関西</h2>
-          <a href="#" class="gh-section__more">すべて見る →</a>
-        </div>
-        <div class="gh-pref-grid">
-          <a href="location.html" class="gh-pref-card gh-pref-card--top">
-            <span class="gh-pref-card__name">大阪府</span>
-            <span class="gh-pref-card__count">2,341スポット</span>
-            <div class="gh-pref-card__top">
-              <small>人気No.1</small>
-              <strong>なんばウォーク ガチャコーナー ★4.7</strong>
-            </div>
-          </a>
-          <a href="location.html" class="gh-pref-card">
-            <span class="gh-pref-card__name">兵庫県</span>
-            <span class="gh-pref-card__count">743スポット</span>
-            <div class="gh-pref-card__top">
-              <small>人気No.1</small>
-              <strong>三宮センタープラザ ★4.4</strong>
-            </div>
-          </a>
-          <a href="location.html" class="gh-pref-card">
-            <span class="gh-pref-card__name">京都府</span>
-            <span class="gh-pref-card__count">892スポット</span>
-            <div class="gh-pref-card__top">
-              <small>人気No.1</small>
-              <strong>京都マルイ ★4.3</strong>
-            </div>
-          </a>
-          <a href="location.html" class="gh-pref-card">
-            <span class="gh-pref-card__name">奈良県</span>
-            <span class="gh-pref-card__count">318スポット</span>
-            <div class="gh-pref-card__top">
-              <small>人気No.1</small>
-              <strong>イオンモール大和郡山 ★4.1</strong>
-            </div>
-          </a>
-          <a href="location.html" class="gh-pref-card">
-            <span class="gh-pref-card__name">滋賀県</span>
-            <span class="gh-pref-card__count">246スポット</span>
-            <div class="gh-pref-card__top">
-              <small>人気No.1</small>
-              <strong>びわこ文化公園 ★3.9</strong>
-            </div>
-          </a>
-          <a href="location.html" class="gh-pref-card">
-            <span class="gh-pref-card__name">和歌山県</span>
-            <span class="gh-pref-card__count">178スポット</span>
-            <div class="gh-pref-card__top">
-              <small>人気No.1</small>
-              <strong>フォルテワジマ ★3.9</strong>
-            </div>
-          </a>
-        </div>
-      </section>
-
-      <!-- 東海 -->
-      <section class="gh-section gh-area-section" data-region="tokai">
-        <div class="gh-section__header">
-          <h2 class="gh-section__title">🗻 東海</h2>
-          <a href="#" class="gh-section__more">すべて見る →</a>
-        </div>
-        <div class="gh-pref-grid">
-          <a href="location.html" class="gh-pref-card gh-pref-card--top">
-            <span class="gh-pref-card__name">愛知県</span>
-            <span class="gh-pref-card__count">1,204スポット</span>
-            <div class="gh-pref-card__top">
-              <small>人気No.1</small>
-              <strong>大須ガチャガチャ通り ★4.5</strong>
-            </div>
-          </a>
-          <a href="location.html" class="gh-pref-card">
-            <span class="gh-pref-card__name">静岡県</span>
-            <span class="gh-pref-card__count">612スポット</span>
-            <div class="gh-pref-card__top">
-              <small>人気No.1</small>
-              <strong>ららぽーと磐田 ★4.2</strong>
-            </div>
-          </a>
-          <a href="location.html" class="gh-pref-card">
-            <span class="gh-pref-card__name">岐阜県</span>
-            <span class="gh-pref-card__count">387スポット</span>
-            <div class="gh-pref-card__top">
-              <small>人気No.1</small>
-              <strong>マーサ21 ★4.0</strong>
-            </div>
-          </a>
-          <a href="location.html" class="gh-pref-card">
-            <span class="gh-pref-card__name">三重県</span>
-            <span class="gh-pref-card__count">298スポット</span>
-            <div class="gh-pref-card__top">
-              <small>人気No.1</small>
-              <strong>イオンモール津南 ★4.0</strong>
-            </div>
-          </a>
-        </div>
-      </section>
-
-      <!-- 九州 -->
-      <section class="gh-section gh-area-section" data-region="kyushu">
-        <div class="gh-section__header">
-          <h2 class="gh-section__title">🌸 九州・沖縄</h2>
-          <a href="#" class="gh-section__more">すべて見る →</a>
-        </div>
-        <div class="gh-pref-grid">
-          <a href="location.html" class="gh-pref-card gh-pref-card--top">
-            <span class="gh-pref-card__name">福岡県</span>
-            <span class="gh-pref-card__count">891スポット</span>
-            <div class="gh-pref-card__top">
-              <small>人気No.1</small>
-              <strong>博多マルイ ガチャフロア ★4.3</strong>
-            </div>
-          </a>
-          <a href="location.html" class="gh-pref-card">
-            <span class="gh-pref-card__name">熊本県</span>
-            <span class="gh-pref-card__count">387スポット</span>
-            <div class="gh-pref-card__top">
-              <small>人気No.1</small>
-              <strong>サクラマチクマモト ★4.2</strong>
-            </div>
-          </a>
-          <a href="location.html" class="gh-pref-card">
-            <span class="gh-pref-card__name">鹿児島県</span>
-            <span class="gh-pref-card__count">241スポット</span>
-            <div class="gh-pref-card__top">
-              <small>人気No.1</small>
-              <strong>アミュプラザ鹿児島 ★4.1</strong>
-            </div>
-          </a>
-          <a href="location.html" class="gh-pref-card">
-            <span class="gh-pref-card__name">沖縄県</span>
-            <span class="gh-pref-card__count">312スポット</span>
-            <div class="gh-pref-card__top">
-              <small>人気No.1</small>
-              <strong>イオンモール沖縄ライカム ★4.4</strong>
-            </div>
-          </a>
-        </div>
-      </section>
-
-      <!-- 東北・北海道 -->
-      <section class="gh-section gh-area-section" data-region="tohoku">
-        <div class="gh-section__header">
-          <h2 class="gh-section__title">🦞 東北・北海道</h2>
-          <a href="#" class="gh-section__more">すべて見る →</a>
-        </div>
-        <div class="gh-pref-grid">
-          <a href="location.html" class="gh-pref-card gh-pref-card--top">
-            <span class="gh-pref-card__name">北海道</span>
-            <span class="gh-pref-card__count">612スポット</span>
-            <div class="gh-pref-card__top">
-              <small>人気No.1</small>
-              <strong>札幌パルコ ガチャコーナー ★4.2</strong>
-            </div>
-          </a>
-          <a href="location.html" class="gh-pref-card">
-            <span class="gh-pref-card__name">宮城県</span>
-            <span class="gh-pref-card__count">418スポット</span>
-            <div class="gh-pref-card__top">
-              <small>人気No.1</small>
-              <strong>仙台パルコ ★4.1</strong>
-            </div>
-          </a>
-          <a href="location.html" class="gh-pref-card">
-            <span class="gh-pref-card__name">青森県</span>
-            <span class="gh-pref-card__count">187スポット</span>
-            <div class="gh-pref-card__top">
-              <small>人気No.1</small>
-              <strong>アウガ ★3.9</strong>
-            </div>
-          </a>
-          <a href="location.html" class="gh-pref-card">
-            <span class="gh-pref-card__name">岩手県</span>
-            <span class="gh-pref-card__count">198スポット</span>
-            <div class="gh-pref-card__top">
-              <small>人気No.1</small>
-              <strong>フェザン ★4.0</strong>
-            </div>
-          </a>
-        </div>
-      </section>
-
-      <!-- 中国・四国 -->
-      <section class="gh-section gh-area-section" data-region="chugoku">
-        <div class="gh-section__header">
-          <h2 class="gh-section__title">🌊 中国・四国</h2>
-          <a href="#" class="gh-section__more">すべて見る →</a>
-        </div>
-        <div class="gh-pref-grid">
-          <a href="location.html" class="gh-pref-card gh-pref-card--top">
-            <span class="gh-pref-card__name">広島県</span>
-            <span class="gh-pref-card__count">521スポット</span>
-            <div class="gh-pref-card__top">
-              <small>人気No.1</small>
-              <strong>広島パルコ ★4.2</strong>
-            </div>
-          </a>
-          <a href="location.html" class="gh-pref-card">
-            <span class="gh-pref-card__name">岡山県</span>
-            <span class="gh-pref-card__count">342スポット</span>
-            <div class="gh-pref-card__top">
-              <small>人気No.1</small>
-              <strong>イオンモール岡山 ★4.1</strong>
-            </div>
-          </a>
-          <a href="location.html" class="gh-pref-card">
-            <span class="gh-pref-card__name">香川県</span>
-            <span class="gh-pref-card__count">214スポット</span>
-            <div class="gh-pref-card__top">
-              <small>人気No.1</small>
-              <strong>高松丸亀町商店街 ★4.0</strong>
-            </div>
-          </a>
-          <a href="location.html" class="gh-pref-card">
-            <span class="gh-pref-card__name">愛媛県</span>
-            <span class="gh-pref-card__count">198スポット</span>
-            <div class="gh-pref-card__top">
-              <small>人気No.1</small>
-              <strong>フジグラン松山 ★3.9</strong>
-            </div>
-          </a>
-        </div>
+        <div class="gh-pref-grid" data-gh-area-cards="pref"></div>
+        <p class="gh-detail-note" style="margin-top:14px">※ 現在は関東エリアを中心に掲載しています。順次拡大予定です。掲載してほしい店舗のリクエストは<a href="board.html">掲示板</a>へどうぞ。</p>
       </section>
 
     </div>
@@ -375,8 +83,8 @@
           <p>全国のガチャガチャ設置場所情報を網羅。<br />あなたのガチャライフをサポートします。</p>
         </div>
         <div class="gh-footer__links">
-          <div><strong>サービス</strong><a href="index.html">トップ</a><a href="ranking.html">ランキング</a><a href="news.html">新着情報</a><a href="map.html">マップ検索</a></div>
-          <div><strong>情報</strong><a href="#">ガチャとは</a><a href="#">クチコミを書く</a><a href="#">スポットを登録</a></div>
+          <div><strong>サービス</strong><a href="index.html">トップ</a><a href="stores.html">店舗一覧</a><a href="ranking.html">ランキング</a><a href="map.html">マップ検索</a></div>
+          <div><strong>情報</strong><a href="board.html">掲示板</a><a href="news.html">新着情報</a><a href="area.html">エリア別</a></div>
           <div><strong>サポート</strong><a href="#">お問い合わせ</a><a href="terms.html">利用規約</a><a href="privacy.html">プライバシー</a><a href="advertising.html">広告掲載</a></div>
         </div>
       </div>
