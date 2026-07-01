@@ -354,21 +354,34 @@ document.querySelectorAll('.gh-tab-group:not([data-tab-group-handled])').forEach
 /* ── Initial ranking render (ranking.html has empty tbody) ── */
 renderRanking('national');
 
-/* ── OpenStreetMap via Leaflet (map.html) ── */
+/* ── OpenStreetMap via Leaflet (map.html): 実店舗（data/spots.js）を表示 ── */
 (function () {
+  const esc = s => { const d = document.createElement('div'); d.textContent = (s == null ? '' : String(s)); return d.innerHTML; };
+  const machinesText = n => (n == null || n === '') ? '—' : '約' + Number(n).toLocaleString('ja-JP') + '台';
+  const spots = (window.GH_SPOTS || []).filter(s => s.lat != null && s.lon != null);
+
+  // 周辺スポットのリスト（Leaflet 未読込でも描画）
+  const listBox = document.querySelector('[data-gh-map-list]');
+  if (listBox && spots.length) {
+    const top = spots.slice().sort((a, b) => (b.machines || 0) - (a.machines || 0));
+    listBox.innerHTML = top.map((s, i) =>
+      '<a href="spot.html?id=' + encodeURIComponent(s.id) + '" class="gh-map-spot' + (i === 0 ? ' gh-map-spot--selected' : '') + '">' +
+        '<div class="gh-map-spot__num' + (i === 0 ? ' gh-map-spot__num--1' : '') + '">' + (i + 1) + '</div>' +
+        '<div class="gh-map-spot__info">' +
+          '<strong class="gh-map-spot__name">' + esc(s.name) + '</strong>' +
+          '<span class="gh-map-spot__area">' + esc(s.area) + '</span>' +
+          '<div class="gh-map-spot__meta"><span>🎰 ' + machinesText(s.machines) + '</span><span>🕒 ' + esc(s.hours || '—') + '</span></div>' +
+        '</div>' +
+      '</a>'
+    ).join('');
+    const cnt = document.querySelector('.gh-map-list__count');
+    if (cnt) cnt.textContent = top.length + '件表示中';
+  }
+
   const el = document.getElementById('osmMap');
   if (!el || typeof L === 'undefined') return;   // only on map.html, after Leaflet loads
 
-  // Sample spots around Akihabara (approximate coordinates)
-  const spots = [
-    { name: 'ヨドバシAkiba ガチャコーナー',   area: '東京都千代田区外神田1丁目', lat: 35.69857, lon: 139.77448, rating: '4.9', machines: '200台', main: true },
-    { name: 'アキバガチャ横丁',               area: '東京都千代田区外神田4丁目', lat: 35.70180, lon: 139.77205, rating: '4.8', machines: '120台' },
-    { name: '秋葉原UDX ガチャコーナー',        area: '東京都千代田区外神田4丁目', lat: 35.70192, lon: 139.77330, rating: '4.3', machines: '45台'  },
-    { name: '末広町ガチャ専門店',             area: '東京都千代田区外神田3丁目', lat: 35.70320, lon: 139.77165, rating: '4.1', machines: '30台'  },
-    { name: '御茶ノ水マルイ ガチャコーナー',   area: '東京都千代田区神田小川町1丁目', lat: 35.69963, lon: 139.76540, rating: '4.0', machines: '22台'  },
-  ];
-
-  const map = L.map(el, { scrollWheelZoom: false }).setView([35.7005, 139.7715], 15);
+  const map = L.map(el, { scrollWheelZoom: false });
 
   // OpenStreetMap tiles (attribution is required by the ODbL licence)
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -380,15 +393,16 @@ renderRanking('national');
   spots.forEach(s => {
     const marker = L.marker([s.lat, s.lon]).addTo(map);
     marker.bindPopup(
-      '<strong>' + s.name + '</strong><br>' +
-      '<span style="color:#6b7280">' + s.area + '</span><br>' +
-      '★ ' + s.rating + ' ・ ' + s.machines + '<br>' +
-      '<a href="stores.html">店舗一覧を見る →</a>'
+      '<strong>' + esc(s.name) + '</strong><br>' +
+      '<span style="color:#6b7280">' + esc(s.area) + '</span><br>' +
+      '🎰 ' + machinesText(s.machines) + ' ・ 🕒 ' + esc(s.hours || '—') + '<br>' +
+      '<a href="spot.html?id=' + encodeURIComponent(s.id) + '">詳細を見る →</a>'
     );
-    if (s.main) marker.openPopup();
     latlngs.push([s.lat, s.lon]);
   });
   if (latlngs.length > 1) map.fitBounds(latlngs, { padding: [40, 40] });
+  else if (latlngs.length === 1) map.setView(latlngs[0], 15);
+  else map.setView([35.68, 139.76], 9);
 
   // Enable wheel-zoom only after the user clicks the map (avoids hijacking page scroll)
   map.on('click', () => map.scrollWheelZoom.enable());

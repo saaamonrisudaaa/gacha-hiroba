@@ -9,6 +9,7 @@
   <!-- OpenStreetMap (Leaflet) -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin="" defer></script>
+  <script src="data/spots.js" defer></script>
   <script src="script.js" defer></script>
 </head>
 <body>
@@ -124,90 +125,8 @@
             </div>
           </div>
 
-          <a href="stores.html" class="gh-map-spot gh-map-spot--selected">
-            <div class="gh-map-spot__num gh-map-spot__num--1">1</div>
-            <div class="gh-map-spot__info">
-              <strong class="gh-map-spot__name">ヨドバシAkiba ガチャコーナー</strong>
-              <span class="gh-map-spot__area">東京都千代田区外神田1丁目</span>
-              <div class="gh-map-spot__meta">
-                <span class="gh-rating">★ 4.9</span>
-                <span>200台</span>
-                <span class="gh-status gh-status--active">営業中</span>
-              </div>
-              <div class="gh-tags" style="margin-top:4px">
-                <span>アニメ</span><span>フィギュア</span><span>ぬいぐるみ</span>
-              </div>
-            </div>
-            <span class="gh-map-spot__dist">0.3km</span>
-          </a>
-
-          <a href="stores.html" class="gh-map-spot">
-            <div class="gh-map-spot__num">2</div>
-            <div class="gh-map-spot__info">
-              <strong class="gh-map-spot__name">アキバガチャ横丁</strong>
-              <span class="gh-map-spot__area">東京都千代田区外神田4丁目</span>
-              <div class="gh-map-spot__meta">
-                <span class="gh-rating">★ 4.8</span>
-                <span>120台</span>
-                <span class="gh-status gh-status--active">営業中</span>
-              </div>
-              <div class="gh-tags" style="margin-top:4px">
-                <span>アニメ</span><span>限定</span>
-              </div>
-            </div>
-            <span class="gh-map-spot__dist">0.5km</span>
-          </a>
-
-          <a href="stores.html" class="gh-map-spot">
-            <div class="gh-map-spot__num">3</div>
-            <div class="gh-map-spot__info">
-              <strong class="gh-map-spot__name">秋葉原UDX ガチャコーナー</strong>
-              <span class="gh-map-spot__area">東京都千代田区外神田6丁目</span>
-              <div class="gh-map-spot__meta">
-                <span class="gh-rating">★ 4.3</span>
-                <span>45台</span>
-                <span class="gh-status gh-status--busy">混雑中</span>
-              </div>
-              <div class="gh-tags" style="margin-top:4px">
-                <span>フィギュア</span>
-              </div>
-            </div>
-            <span class="gh-map-spot__dist">0.7km</span>
-          </a>
-
-          <a href="stores.html" class="gh-map-spot">
-            <div class="gh-map-spot__num">4</div>
-            <div class="gh-map-spot__info">
-              <strong class="gh-map-spot__name">末広町ガチャ専門店</strong>
-              <span class="gh-map-spot__area">東京都千代田区外神田3丁目</span>
-              <div class="gh-map-spot__meta">
-                <span class="gh-rating">★ 4.1</span>
-                <span>30台</span>
-                <span class="gh-status gh-status--active">営業中</span>
-              </div>
-              <div class="gh-tags" style="margin-top:4px">
-                <span>ぬいぐるみ</span><span>食玩</span>
-              </div>
-            </div>
-            <span class="gh-map-spot__dist">1.1km</span>
-          </a>
-
-          <a href="stores.html" class="gh-map-spot">
-            <div class="gh-map-spot__num">5</div>
-            <div class="gh-map-spot__info">
-              <strong class="gh-map-spot__name">御茶ノ水マルイ ガチャコーナー</strong>
-              <span class="gh-map-spot__area">東京都千代田区神田小川町1丁目</span>
-              <div class="gh-map-spot__meta">
-                <span class="gh-rating">★ 4.0</span>
-                <span>22台</span>
-                <span class="gh-status gh-status--low">残りわずか</span>
-              </div>
-              <div class="gh-tags" style="margin-top:4px">
-                <span>アクセサリー</span>
-              </div>
-            </div>
-            <span class="gh-map-spot__dist">1.4km</span>
-          </a>
+          <!-- 店舗リストは script.js が data/spots.js から実データで描画 -->
+          <div data-gh-map-list></div>
 
           <div class="gh-map-list__footer">
             <a href="area.html" class="gh-btn gh-btn--block">もっと見る</a>

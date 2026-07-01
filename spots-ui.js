@@ -65,6 +65,24 @@
   if (document.querySelector('[data-gh-spot-cards]')) renderSpotCards();
   if (document.querySelector('[data-gh-area-cards]')) renderAreaCards();
   if (document.querySelector('[data-gh-ticker]')) renderTicker();
+  if (qs('statStores')) renderSummary();
+
+  /* ------------------------------------------------------------------ */
+  /* トップの実データ集計（index.html のサマリーカード）                 */
+  /* ------------------------------------------------------------------ */
+  function renderSummary() {
+    if (!SPOTS.length) return;
+    var totalMachines = SPOTS.reduce(function (n, s) { return n + (Number(s.machines) || 0); }, 0);
+    var prefs = {}; SPOTS.forEach(function (s) { prefs[s.pref] = 1; });
+    var topStore = SPOTS.slice().sort(function (a, b) { return (b.machines || 0) - (a.machines || 0); })[0];
+    setText('statStores', SPOTS.length.toLocaleString('ja-JP') + '店舗');
+    setText('statMachines', '約' + totalMachines.toLocaleString('ja-JP') + '台');
+    setText('statPrefs', Object.keys(prefs).length + '都県');
+    if (topStore) {
+      setText('statTop', machinesText(topStore.machines));
+      setText('statTopName', topStore.name.replace('ガチャガチャの森 ', '').replace('Pon!（ガチャガチャの森）', ''));
+    }
+  }
 
   /* ------------------------------------------------------------------ */
   /* 店舗詳細（spot.html）                                               */
@@ -182,7 +200,9 @@
           'src="https://www.openstreetmap.org/export/embed.html?bbox=' + bbox +
           '&amp;layer=mapnik&amp;marker=' + lat + '%2C' + lon + '" ' +
           'loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>' +
-        '<p class="gh-osm-embed__addr">📍 ' + esc(store.address) + '</p>';
+        '<p class="gh-osm-embed__addr">📍 ' + esc((store.zip ? '〒' + store.zip + ' ' : '') + store.address) + '</p>' +
+        '<a href="' + osmSearchUrl(store) + '" class="gh-map-link" target="_blank" rel="noopener">🗺️ 住所で検索して開く →</a>' +
+        '<p class="gh-osm-embed__note">※地図のピンはおおよその位置です。正確な場所・階数は上記の住所や公式サイトでご確認ください。</p>';
     } else {
       html +=
         '</div>' +

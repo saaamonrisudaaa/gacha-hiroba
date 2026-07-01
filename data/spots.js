@@ -3,6 +3,7 @@
    ★ 店舗を増やすときは、この配列にオブジェクトを1つ追加するだけ。
       id は URL に使う識別子（半角英数・ハイフン）。重複しないように。
       region: kanto / kansai / tokai / kyushu / tohoku / chugoku
+      lat / lon: 地図表示用のおおよその緯度・経度（施設のおよその位置）
    =========================================================================== */
 window.GH_SPOTS = [
 
@@ -19,6 +20,7 @@ window.GH_SPOTS = [
     tel: '080-3398-8708',
     hours: '10:30〜21:00',
     machines: 1050,
+    lat: 35.6942, lon: 139.7040,
     access: '新宿サブナード地下街内（西武新宿駅・新宿駅・新宿三丁目駅 至近）'
   },
   {
@@ -33,6 +35,7 @@ window.GH_SPOTS = [
     tel: '080-3965-1320',
     hours: '10:30〜21:00',
     machines: 450,
+    lat: 35.6945, lon: 139.7048,
     access: '新宿サブナード地下街内（西武新宿駅・新宿駅・新宿三丁目駅 至近）'
   },
   {
@@ -47,6 +50,7 @@ window.GH_SPOTS = [
     tel: '080-4114-3729',
     hours: '10:00〜21:00',
     machines: 660,
+    lat: 35.6976, lon: 139.8147,
     access: 'オリナス錦糸町 3F（錦糸町駅より徒歩圏）'
   },
   {
@@ -61,6 +65,7 @@ window.GH_SPOTS = [
     tel: '090-1502-2852',
     hours: '11:00〜20:00',
     machines: 570,
+    lat: 35.6072, lon: 139.6686,
     access: 'XAREA自由が丘 1F'
   },
   {
@@ -75,6 +80,7 @@ window.GH_SPOTS = [
     tel: '080-4002-1652',
     hours: '10:00〜21:00',
     machines: 470,
+    lat: 35.7049, lon: 139.6206,
     access: 'タウンセブン（西友荻窪店）7F'
   },
   {
@@ -89,6 +95,7 @@ window.GH_SPOTS = [
     tel: '080-4435-4582',
     hours: '11:00〜20:00',
     machines: 1240,
+    lat: 35.7296, lon: 139.7195,
     access: '池袋サンシャインシティ アルタ 1F'
   },
   {
@@ -103,6 +110,7 @@ window.GH_SPOTS = [
     tel: '080-4439-7208',
     hours: '10:00〜21:00',
     machines: 830,
+    lat: 35.6560, lon: 139.3390,
     access: '八王子オーパ 4F'
   },
   {
@@ -117,6 +125,7 @@ window.GH_SPOTS = [
     tel: '090-1996-0449',
     hours: '10:00〜21:00',
     machines: 770,
+    lat: 35.6987, lon: 139.4138,
     access: 'ビックカメラ立川店 7F'
   },
   {
@@ -131,6 +140,7 @@ window.GH_SPOTS = [
     tel: '080-3497-0599',
     hours: '10:00〜20:00',
     machines: 880,
+    lat: 35.5417, lon: 139.4467,
     access: '小田急百貨店 町田店 8F'
   },
   {
@@ -145,6 +155,7 @@ window.GH_SPOTS = [
     tel: '080-7416-6555',
     hours: '10:00〜21:00',
     machines: 650,
+    lat: 35.7549, lon: 139.3878,
     access: 'イオンモールむさし村山 3F'
   },
 
@@ -161,6 +172,7 @@ window.GH_SPOTS = [
     tel: '090-2950-6352',
     hours: '11:00〜20:00',
     machines: 1180,
+    lat: 35.4510, lon: 139.6316,
     access: 'コレットマーレ 5F（桜木町駅 至近）'
   },
   {
@@ -175,6 +187,7 @@ window.GH_SPOTS = [
     tel: '080-4406-3386',
     hours: '10:00〜21:00',
     machines: 750,
+    lat: 35.5545, lon: 139.5748,
     access: 'ノースポート・モール 4F（センター北駅 至近）'
   },
   {
@@ -189,6 +202,7 @@ window.GH_SPOTS = [
     tel: '080-4423-5630',
     hours: '10:00〜21:00',
     machines: 700,
+    lat: 35.2897, lon: 139.6710,
     access: 'コースカベイサイドストアーズ 4F'
   },
 
@@ -205,6 +219,7 @@ window.GH_SPOTS = [
     tel: '080-3259-9624',
     hours: '10:00〜21:00',
     machines: 870,
+    lat: 35.7910, lon: 139.7188,
     access: 'イオンモール川口前川 2F'
   },
   {
@@ -219,6 +234,7 @@ window.GH_SPOTS = [
     tel: '070-1356-9145',
     hours: '10:00〜21:00',
     machines: 440,
+    lat: 35.9690, lon: 139.7410,
     access: 'イオンモール春日部 2F'
   },
   {
@@ -233,6 +249,7 @@ window.GH_SPOTS = [
     tel: '080-3965-1408',
     hours: '10:00〜20:00',
     machines: 700,
+    lat: 35.9760, lon: 139.5935,
     access: 'PAPA上尾ショッピングアヴェニュー プリンセス棟 2F（上尾駅 至近）'
   },
   {
@@ -247,6 +264,7 @@ window.GH_SPOTS = [
     tel: '080-3358-9373',
     hours: '10:00〜21:00',
     machines: 560,
+    lat: 35.8788, lon: 139.8230,
     access: 'イオンレイクタウン kaze 3F（越谷レイクタウン駅 至近）'
   },
 
@@ -263,6 +281,7 @@ window.GH_SPOTS = [
     tel: '070-3187-7738',
     hours: '10:00〜21:00',
     machines: 650,
+    lat: 35.6126, lon: 140.1132,
     access: 'ビックカメラ千葉駅前店 7F（千葉駅前）'
   },
   {
@@ -277,6 +296,7 @@ window.GH_SPOTS = [
     tel: '080-4741-7079',
     hours: '10:00〜21:00',
     machines: 780,
+    lat: 35.6478, lon: 140.0403,
     access: 'イオンモール幕張新都心 グランドモール 3F'
   },
   {
@@ -291,6 +311,7 @@ window.GH_SPOTS = [
     tel: '070-1451-9413',
     hours: '10:00〜21:00',
     machines: 610,
+    lat: 35.7135, lon: 139.9770,
     access: 'イオンモール船橋 2F'
   },
   {
@@ -305,6 +326,7 @@ window.GH_SPOTS = [
     tel: '080-9443-4496',
     hours: '10:00〜20:00',
     machines: 400,
+    lat: 35.8100, lon: 139.9010,
     access: 'テラスモール松戸 3F'
   },
   {
@@ -319,6 +341,7 @@ window.GH_SPOTS = [
     tel: '090-2086-0972',
     hours: '10:00〜20:00',
     machines: 790,
+    lat: 35.7648, lon: 140.3060,
     access: 'ユアエルム成田 2F'
   },
   {
@@ -333,6 +356,7 @@ window.GH_SPOTS = [
     tel: '080-9167-3610',
     hours: '10:00〜20:00',
     machines: 570,
+    lat: 35.7278, lon: 140.1585,
     access: 'イオンタウンユーカリが丘 西街区 3F'
   },
   {
@@ -347,6 +371,7 @@ window.GH_SPOTS = [
     tel: '070-3166-7666',
     hours: '10:00〜21:00',
     machines: 470,
+    lat: 35.5218, lon: 140.1290,
     access: 'unimoちはら台 2F'
   },
   {
@@ -361,6 +386,7 @@ window.GH_SPOTS = [
     tel: '047-316-2808',
     hours: '10:00〜21:00',
     machines: 610,
+    lat: 35.6440, lon: 139.9165,
     access: 'ニューコースト新浦安 3F'
   },
   {
@@ -375,6 +401,7 @@ window.GH_SPOTS = [
     tel: '090-2763-5997',
     hours: '10:00〜20:00',
     machines: 710,
+    lat: 35.8135, lon: 140.1470,
     access: 'BIG HOPガーデンモール印西 1F'
   },
 
@@ -391,6 +418,7 @@ window.GH_SPOTS = [
     tel: '080-4789-0570',
     hours: '10:00〜20:00',
     machines: 570,
+    lat: 36.3225, lon: 139.0130,
     access: '高崎オーパ 4F（高崎駅 至近）'
   },
   {
@@ -405,6 +433,7 @@ window.GH_SPOTS = [
     tel: '080-4789-0539',
     hours: '10:00〜21:00',
     machines: 420,
+    lat: 36.3733, lon: 139.0293,
     access: 'イオンモール高崎 3F'
   },
   {
@@ -419,6 +448,7 @@ window.GH_SPOTS = [
     tel: '080-4423-5933',
     hours: '10:00〜21:00',
     machines: 510,
+    lat: 36.3733, lon: 139.0290,
     access: 'イオンモール高崎 3F'
   },
 
@@ -435,6 +465,7 @@ window.GH_SPOTS = [
     tel: '080-8959-4160',
     hours: '10:00〜21:00',
     machines: 1220,
+    lat: 36.5595, lon: 139.8990,
     access: 'MEGAドン・キホーテ宇都宮店 4F'
   },
 
@@ -451,6 +482,7 @@ window.GH_SPOTS = [
     tel: '080-3513-8847',
     hours: '10:30〜20:00',
     machines: 990,
+    lat: 36.3712, lon: 140.4760,
     access: '水戸サウスタワー 6F（水戸オーパ内）'
   }
 

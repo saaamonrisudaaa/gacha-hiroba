@@ -1826,6 +1826,36 @@ img { display: block; max-width: 100%; }
   .gh-bbs__body { padding-left: 1em; }
 }
 
+/* ── モバイル最適化：店舗詳細・掲示板を見やすく ── */
+@media (max-width: 768px) {
+  /* 詳細情報テーブルを縦積みにして折り返しの読みにくさを解消 */
+  .gh-info-table--full tr { display: block; padding: 11px 14px; border-bottom: 1px solid var(--gh-border); }
+  .gh-info-table--full tr:last-child { border-bottom: none; }
+  .gh-info-table--full th,
+  .gh-info-table--full td { display: block; width: auto; padding: 0; border: none; background: none; white-space: normal; }
+  .gh-info-table--full th { font-size: 11px; color: var(--gh-muted); margin-bottom: 3px; }
+  .gh-info-table--full td { font-size: 14px; line-height: 1.6; }
+
+  /* ヒーローを少しコンパクトに */
+  .gh-quote__address { font-size: 12px; line-height: 1.7; }
+  .gh-metric { min-width: calc(50% - 6px); }
+
+  /* 掲示板：本文を大きく・行間ゆったり、ラベルを省いてスッキリ */
+  .gh-bbs { padding: 14px; }
+  .gh-bbs__post { padding: 14px 2px; }
+  .gh-bbs__body { font-size: 15px; line-height: 1.85; padding-left: 0; margin-top: 6px; }
+  .gh-bbs__resline { font-size: 12px; gap: 2px 8px; }
+  .gh-bbs__name::before,
+  .gh-bbs__date::before { content: ""; }
+  .gh-bbs__title { font-size: 15px; line-height: 1.5; }
+  /* 入力欄は16px（iOSでフォーカス時に自動ズームされるのを防ぐ） */
+  .gh-bbs__form-row input,
+  .gh-bbs__textarea { font-size: 16px; }
+
+  /* モバイルでは楽天の商品カードは2枚までに抑えて縦長を軽減 */
+  .gh-featured__item:nth-of-type(n+3) { display: none; }
+}
+
 /* ============================================================
    OPENSTREETMAP (map.html, Leaflet)
    ============================================================ */
