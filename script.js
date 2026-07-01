@@ -556,3 +556,41 @@ renderRanking('national');
     '&src=hashtag_click" target="_blank" rel="noopener">' + tag + '</a>'
   ).join('');
 })();
+
+/* ── Affiliate ad slots (data/ads.js → サイドバー広告枠) ──
+   data/ads.js の products にアフィリエイトリンクを入れると、各ページの
+   .gh-ad 枠に自動でカード表示。未設定なら既存のプレースホルダーのまま。 */
+(function () {
+  const cfg = window.GH_ADS;
+  if (!cfg) return;                                    // ads.js を読み込んだページのみ
+  const slots = document.querySelectorAll('.gh-ad');
+  if (!slots.length) return;
+
+  const products = (cfg.products || []).filter(p => p && p.url && p.title);
+  if (!products.length) return;                        // 未設定ならプレースホルダー維持
+
+  const max = cfg.maxPerSlot || 4;
+  const esc = s => { const d = document.createElement('div'); d.textContent = (s == null ? '' : String(s)); return d.innerHTML; };
+
+  const card = p => {
+    const media = p.img
+      ? '<img class="gh-affil__img" src="' + esc(p.img) + '" alt="" loading="lazy" />'
+      : '<span class="gh-affil__emoji" aria-hidden="true">' + esc(p.emoji || '🛍️') + '</span>';
+    return '<a class="gh-affil__card" href="' + esc(p.url) + '" target="_blank" rel="sponsored nofollow noopener">' +
+             '<span class="gh-affil__badge">' + esc(p.badge || 'PR') + '</span>' + media +
+             '<span class="gh-affil__text">' +
+               '<strong class="gh-affil__title">' + esc(p.title) + '</strong>' +
+               (p.note ? '<small class="gh-affil__note">' + esc(p.note) + '</small>' : '') +
+             '</span>' +
+           '</a>';
+  };
+
+  const html = '<div class="gh-affil">' + products.slice(0, max).map(card).join('') + '</div>' +
+    (cfg.disclosure ? '<p class="gh-affil__disc">' + esc(cfg.disclosure) + '</p>' : '');
+
+  slots.forEach(slot => {
+    const body = slot.querySelector('.gh-ad__body') || slot;
+    body.innerHTML = html;
+    slot.classList.add('gh-ad--filled');
+  });
+})();

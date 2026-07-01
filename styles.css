@@ -1969,6 +1969,43 @@ img { display: block; max-width: 100%; }
 .gh-ad--banner .gh-ad__body { min-height: 90px; }
 .gh-ad--inline { margin: 20px 0; }
 
+/* アフィリエイト広告（data/ads.js で設定されたときに表示） */
+.gh-ad--filled { text-align: left; padding-top: 26px; background: #fff; border-style: solid; }
+.gh-ad--filled .gh-ad__body { display: block; min-height: 0; color: inherit; }
+.gh-affil { display: flex; flex-direction: column; gap: 10px; }
+.gh-affil__card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 12px;
+  border: 1px solid var(--gh-border);
+  border-radius: var(--gh-radius);
+  background: #fff;
+  color: var(--gh-text);
+  transition: background .15s ease, border-color .15s ease;
+}
+.gh-affil__card:hover { background: var(--gh-new-bg); border-color: #c7d2fe; text-decoration: none; }
+.gh-affil__badge {
+  position: absolute;
+  top: -8px;
+  left: 8px;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .04em;
+  color: #b45309;
+  background: #fef3c7;
+  border: 1px solid #fde68a;
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+.gh-affil__emoji { font-size: 26px; line-height: 1; width: 40px; text-align: center; flex-shrink: 0; }
+.gh-affil__img { width: 46px; height: 46px; object-fit: cover; border-radius: 6px; flex-shrink: 0; }
+.gh-affil__text { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.gh-affil__title { font-size: 12.5px; font-weight: 700; line-height: 1.4; }
+.gh-affil__note { font-size: 11px; color: var(--gh-muted); line-height: 1.4; }
+.gh-affil__disc { font-size: 10.5px; color: var(--gh-muted); line-height: 1.6; margin: 10px 0 0; }
+
 /* ============================================================
    BULLETIN BOARD HUB (board.html, Yahoo Finance /cm style)
    ============================================================ */
