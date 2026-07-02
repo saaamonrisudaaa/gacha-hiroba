@@ -1944,6 +1944,15 @@ img { display: block; max-width: 100%; }
 .gh-store-cta__body small { font-size: 12px; color: rgba(255,255,255,.8); line-height: 1.5; }
 .gh-store-cta__arrow { font-size: 22px; font-weight: 800; }
 
+/* トップページのSEO見出し（h1） */
+.gh-seo-h1 {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--gh-muted);
+  margin: 0 0 14px;
+  line-height: 1.6;
+}
+
 /* ============================================================
    LEGAL / PROSE PAGES (terms / privacy / advertising)
    ============================================================ */

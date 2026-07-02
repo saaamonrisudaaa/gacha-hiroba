@@ -162,13 +162,56 @@
     window.GH_SPOT_ID = 'spot-' + store.id;
 
     /* <head> */
-    document.title = store.name + ' | ガチャひろば';
+    var pageTitle = store.name + '｜設置台数・営業時間・掲示板 | ガチャひろば';
+    var pageDesc = store.name + '（' + store.area + '）のガチャガチャ設置情報。' +
+      (store.machines ? '設置台数' + machinesText(store.machines) + '、' : '') +
+      (store.hours ? '営業時間 ' + store.hours + '。' : '') +
+      '住所・アクセス・地図・店舗ごとの掲示板で入荷情報や混雑状況をチェック。';
+    document.title = pageTitle;
     var metaDesc = document.querySelector('meta[name="description"]');
-    if (metaDesc) {
-      metaDesc.setAttribute('content',
-        store.name + 'の店舗情報・掲示板。' + store.area + '／' + machinesText(store.machines) +
-        '、営業時間 ' + (store.hours || '—') + '。設置ガチャの入荷・在庫情報を共有しよう。');
+    if (metaDesc) metaDesc.setAttribute('content', pageDesc);
+
+    /* SEO: canonical・OGPをこの店舗のURLに更新し、構造化データを追加 */
+    var pageUrl = 'https://gacha-hiroba.com/spot.html?id=' + encodeURIComponent(store.id);
+    var setAttr = function (sel, attr, val) { var el = document.querySelector(sel); if (el) el.setAttribute(attr, val); };
+    setAttr('link[rel="canonical"]', 'href', pageUrl);
+    setAttr('meta[property="og:title"]', 'content', pageTitle);
+    setAttr('meta[property="og:description"]', 'content', pageDesc);
+    setAttr('meta[property="og:url"]', 'content', pageUrl);
+
+    var ld = {
+      '@context': 'https://schema.org',
+      '@type': 'Store',
+      'name': store.name,
+      'url': pageUrl,
+      'address': {
+        '@type': 'PostalAddress',
+        'streetAddress': store.address,
+        'addressRegion': store.pref,
+        'addressCountry': 'JP'
+      },
+      'description': pageDesc
+    };
+    if (store.zip) ld.address.postalCode = store.zip;
+    if (store.tel) ld.telephone = store.tel;
+    if (store.lat != null && store.lon != null) {
+      ld.geo = { '@type': 'GeoCoordinates', 'latitude': store.lat, 'longitude': store.lon };
     }
+    var crumbs = {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      'itemListElement': [
+        { '@type': 'ListItem', 'position': 1, 'name': 'トップ', 'item': 'https://gacha-hiroba.com/' },
+        { '@type': 'ListItem', 'position': 2, 'name': '店舗一覧', 'item': 'https://gacha-hiroba.com/stores.html' },
+        { '@type': 'ListItem', 'position': 3, 'name': store.name, 'item': pageUrl }
+      ]
+    };
+    [ld, crumbs].forEach(function (obj) {
+      var sc = document.createElement('script');
+      sc.type = 'application/ld+json';
+      sc.textContent = JSON.stringify(obj);
+      document.head.appendChild(sc);
+    });
 
     /* パンくず */
     var crumbArea = qs('spotCrumbArea');
