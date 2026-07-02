@@ -318,9 +318,44 @@ window.GH_SPOTS = [
     region: 'kanto',
     pref: '東京都',
     area: '東京都・錦糸町',
-    address: '東京都墨田区江東橋3-9-10 丸井錦糸町店内',
+    address: '東京都墨田区江東橋3-9-10 丸井錦糸町店 4F',
     lat: 35.6963, lon: 139.8125,
-    access: '丸井錦糸町店内（錦糸町駅 南口 徒歩1分）'
+    access: '丸井錦糸町店 4F（錦糸町駅 南口 徒歩1分）'
+  },
+  {
+    id: 'cpla-kinshicho-parco',
+    brand: '#C-pla（シープラ）',
+    name: '#C-pla 錦糸町PARCO店',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・錦糸町',
+    address: '東京都墨田区江東橋4-27-14 錦糸町PARCO 5F',
+    tel: '090-2438-3817',
+    hours: '10:30〜21:00',
+    machines: 1000,
+    lat: 35.6959, lon: 139.8138,
+    access: '錦糸町PARCO 5F（錦糸町駅 徒歩1分・リニューアルで約1,000種以上に拡大）'
+  },
+  {
+    id: 'yodobashi-kinshicho-gacha',
+    brand: 'ヨドバシカメラ',
+    name: 'ヨドバシカメラ マルチメディア錦糸町（ガチャガチャコーナー）',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・錦糸町',
+    address: '東京都墨田区江東橋3-14-5 ヨドバシカメラ マルチメディア錦糸町 2F',
+    lat: 35.6957, lon: 139.8146,
+    access: '2F 玩具コーナー内にガシャポン設置（錦糸町駅 北口すぐ）'
+  },
+  {
+    id: 'gashacoco-kinshicho-ekimae',
+    brand: 'gashacoco（ガシャココ）',
+    name: 'gashacoco 錦糸町駅前',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・錦糸町',
+    address: '東京都墨田区 錦糸町駅前（詳細住所は確認中）',
+    access: '錦糸町駅前（2026年6月4日オープン・詳細は公式サイトで確認中）'
   },
   {
     id: 'cpla-shibuya-center-gai',
