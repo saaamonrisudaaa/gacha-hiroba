@@ -7,7 +7,9 @@ const ORIGIN = 'https://gacha-hiroba.com';
 
 const win = {};
 new Function('window', readFileSync(new URL('../data/spots.js', import.meta.url), 'utf8'))(win);
+new Function('window', readFileSync(new URL('../data/articles.js', import.meta.url), 'utf8'))(win);
 const spots = win.GH_SPOTS || [];
+const articles = win.GH_ARTICLES || [];
 
 const today = new Date().toISOString().slice(0, 10);
 const urls = [];
@@ -31,6 +33,9 @@ add('/advertising.html', '0.2', 'monthly');
 const prefs = [...new Set(spots.map(s => s.pref))];
 prefs.forEach(p => add('/stores.html?pref=' + encodeURIComponent(p), '0.7'));
 
+/* エリアまとめ記事 */
+articles.forEach(a => add('/article.html?area=' + encodeURIComponent(a.slug), '0.8'));
+
 /* 店舗ページ（全件） */
 spots.forEach(s => add('/spot.html?id=' + encodeURIComponent(s.id), '0.8'));
 
@@ -45,4 +50,4 @@ const xml =
   '\n</urlset>\n';
 
 writeFileSync(new URL('../sitemap.xml', import.meta.url), xml);
-console.log('sitemap.xml written:', urls.length, 'URLs (' + spots.length + ' stores)');
+console.log('sitemap.xml written:', urls.length, 'URLs (' + spots.length + ' stores, ' + articles.length + ' articles)');

@@ -67,6 +67,151 @@
   if (document.querySelector('[data-gh-ticker]')) renderTicker();
   if (qs('statStores')) renderSummary();
   if (document.querySelector('[data-gh-board-table]')) renderBoardHub();
+  if (qs('articlePage')) renderArticle();
+  if (document.querySelector('[data-gh-article-list]')) renderArticleList();
+
+  /* ------------------------------------------------------------------ */
+  /* エリアまとめ記事（article.html?area=slug）                          */
+  /* ------------------------------------------------------------------ */
+  function articleUrl(a) { return 'article.html?area=' + encodeURIComponent(a.slug); }
+  function articleStores(a) {
+    return SPOTS.filter(function (s) { return a.areas.indexOf(s.area) !== -1; })
+                .sort(function (x, y) { return (y.machines || 0) - (x.machines || 0); });
+  }
+
+  function renderArticle() {
+    var arts = window.GH_ARTICLES || [];
+    var slug = getParam('area');
+    var art = null;
+    arts.forEach(function (a) { if (a.slug === slug) art = a; });
+
+    if (!art) {
+      var box = qs('articleContent');
+      if (box) {
+        box.innerHTML =
+          '<div class="gh-page-hero"><h1 class="gh-page-hero__title">記事が見つかりませんでした</h1>' +
+          '<p class="gh-page-hero__desc"><a href="news.html">特集記事の一覧へ戻る →</a></p></div>';
+      }
+      return;
+    }
+
+    var stores = articleStores(art);
+    var pageUrl = 'https://gacha-hiroba.com/article.html?area=' + encodeURIComponent(art.slug);
+    var desc = art.intro[0];
+
+    /* head（SEO） */
+    document.title = art.title + ' | ガチャひろば';
+    var setAttr = function (sel, attr, val) { var el = document.querySelector(sel); if (el) el.setAttribute(attr, val); };
+    setAttr('meta[name="description"]', 'content', desc);
+    setAttr('link[rel="canonical"]', 'href', pageUrl);
+    setAttr('meta[property="og:title"]', 'content', art.title);
+    setAttr('meta[property="og:description"]', 'content', desc);
+    setAttr('meta[property="og:url"]', 'content', pageUrl);
+
+    /* JSON-LD: Article + 店舗のItemList */
+    var ld = {
+      '@context': 'https://schema.org', '@type': 'Article',
+      'headline': art.title, 'dateModified': art.updated, 'inLanguage': 'ja',
+      'mainEntityOfPage': pageUrl,
+      'author': { '@type': 'Organization', 'name': 'ガチャひろば', 'url': 'https://gacha-hiroba.com/' }
+    };
+    var list = {
+      '@context': 'https://schema.org', '@type': 'ItemList',
+      'itemListElement': stores.map(function (s, i) {
+        return { '@type': 'ListItem', 'position': i + 1, 'name': s.name,
+                 'url': 'https://gacha-hiroba.com/spot.html?id=' + encodeURIComponent(s.id) };
+      })
+    };
+    [ld, list].forEach(function (obj) {
+      var sc = document.createElement('script');
+      sc.type = 'application/ld+json';
+      sc.textContent = JSON.stringify(obj);
+      document.head.appendChild(sc);
+    });
+
+    /* 本文 */
+    setText('articleCrumb', art.label + 'のガチャガチャまとめ');
+    setText('articleTitle', art.emoji + ' ' + art.title);
+    var meta = qs('articleMeta');
+    if (meta) meta.innerHTML = '最終更新：' + esc(art.updated) + '　・　掲載 <strong>' + stores.length + '店舗</strong>（実データ）';
+    var intro = qs('articleIntro');
+    if (intro) intro.innerHTML = art.intro.map(function (p) { return '<p>' + esc(p) + '</p>'; }).join('');
+
+    /* 比較表 */
+    if (stores.length) {
+      var lh = qs('articleListHeading'); if (lh) lh.hidden = false;
+      var wrap = qs('articleTableWrap');
+      if (wrap) {
+        wrap.innerHTML =
+          '<table class="gh-table"><thead><tr><th>店舗名</th><th class="gh-num">設置台数</th><th>営業時間</th><th></th></tr></thead><tbody>' +
+          stores.map(function (s) {
+            var url = 'spot.html?id=' + encodeURIComponent(s.id);
+            return '<tr><td><a class="gh-table__link" href="' + url + '">' + esc(s.name) + '</a></td>' +
+                   '<td class="gh-num">' + machinesText(s.machines) + '</td>' +
+                   '<td>' + esc(s.hours || '—') + '</td>' +
+                   '<td><a href="' + url + '" class="gh-btn gh-btn--xs">詳細</a></td></tr>';
+          }).join('') + '</tbody></table>';
+      }
+    }
+
+    /* 各店舗の詳細ブロック */
+    if (stores.length) {
+      var sh = qs('articleStoresHeading'); if (sh) sh.hidden = false;
+      var box2 = qs('articleStores');
+      if (box2) {
+        box2.innerHTML = stores.map(function (s, i) {
+          var url = 'spot.html?id=' + encodeURIComponent(s.id);
+          return '<section class="gh-article-store">' +
+            '<h3 class="gh-article-store__name">' + (i + 1) + '. <a href="' + url + '">' + esc(s.name) + '</a></h3>' +
+            '<table class="gh-info-table gh-info-table--full"><tbody>' +
+              '<tr><th>住所</th><td>' + esc((s.zip ? '〒' + s.zip + '　' : '') + s.address) + '</td></tr>' +
+              (s.machines ? '<tr><th>設置台数</th><td>' + machinesText(s.machines) + '</td></tr>' : '') +
+              (s.hours ? '<tr><th>営業時間</th><td>' + esc(s.hours) + '</td></tr>' : '') +
+              (s.access ? '<tr><th>アクセス</th><td>' + esc(s.access) + '</td></tr>' : '') +
+            '</tbody></table>' +
+            '<div class="gh-article-store__actions">' +
+              '<a href="' + url + '" class="gh-btn gh-btn--primary gh-btn--sm">店舗ページ・地図を見る</a>' +
+              '<a href="' + url + '#board" class="gh-btn gh-btn--sm">💬 掲示板を見る</a>' +
+            '</div>' +
+          '</section>';
+        }).join('');
+      }
+    }
+
+    /* コツ */
+    if (art.tips && art.tips.length) {
+      var tb = qs('articleTipsBox'); if (tb) tb.hidden = false;
+      var tips = qs('articleTips');
+      if (tips) tips.innerHTML = art.tips.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('');
+    }
+
+    /* 関連記事 */
+    var rel = qs('articleRelated');
+    if (rel) {
+      rel.innerHTML = arts.filter(function (a) { return a.slug !== art.slug; }).map(function (a) {
+        return '<li><a href="' + articleUrl(a) + '" class="gh-category-item">' +
+               '<span class="gh-category-item__icon">' + esc(a.emoji) + '</span>' +
+               '<span>' + esc(a.label) + 'のガチャガチャまとめ</span></a></li>';
+      }).join('');
+    }
+  }
+
+  /* 記事一覧（news.html / index.html の [data-gh-article-list]） */
+  function renderArticleList() {
+    var arts = window.GH_ARTICLES || [];
+    document.querySelectorAll('[data-gh-article-list]').forEach(function (box) {
+      var limit = parseInt(box.getAttribute('data-gh-article-list') || '0', 10);
+      var items = limit > 0 ? arts.slice(0, limit) : arts;
+      box.innerHTML = items.map(function (a) {
+        var count = articleStores(a).length;
+        return '<a href="' + articleUrl(a) + '" class="gh-news-item">' +
+                 '<time class="gh-news-item__date">' + esc(a.updated) + '</time>' +
+                 '<span class="gh-badge gh-badge--new">まとめ</span>' +
+                 '<span>' + esc(a.emoji + ' ' + a.title) + '（' + count + '店舗掲載）</span>' +
+               '</a>';
+      }).join('');
+    });
+  }
 
   /* ------------------------------------------------------------------ */
   /* 掲示板ハブ（board.html）: 実店舗の掲示板一覧＋実データ集計＋検索     */

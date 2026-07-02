@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="ガチャひろばの新着情報。新規スポット・イベント・限定品情報をお届けします。" />
-  <title>新着情報 | ガチャひろば</title>
-  <link rel="canonical" href="https://gacha-hiroba.com/news.html" />
+  <meta name="description" content="エリア別のガチャガチャ設置場所まとめ。専門店の場所・設置台数・営業時間を実データでガイドします。" />
+  <title>エリア別ガチャガチャまとめ | ガチャひろば</title>
+  <link rel="canonical" href="https://gacha-hiroba.com/article.html" />
   <meta property="og:site_name" content="ガチャひろば" />
-  <meta property="og:type" content="website" />
+  <meta property="og:type" content="article" />
   <meta property="og:locale" content="ja_JP" />
-  <meta property="og:title" content="新着情報 | ガチャひろば" />
-  <meta property="og:description" content="ガチャひろばの新着情報。新規スポット・イベント・限定品情報をお届けします。" />
-  <meta property="og:url" content="https://gacha-hiroba.com/news.html" />
+  <meta property="og:title" content="エリア別ガチャガチャまとめ | ガチャひろば" />
+  <meta property="og:description" content="エリア別のガチャガチャ設置場所まとめ。専門店の場所・設置台数・営業時間を実データでガイドします。" />
+  <meta property="og:url" content="https://gacha-hiroba.com/article.html" />
   <meta property="og:image" content="https://gacha-hiroba.com/assets/ogp.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="stylesheet" href="styles.css" />
@@ -58,53 +58,49 @@
     </div>
   </header>
 
-  <main id="main" class="gh-main">
-    <div class="gh-container">
+  <main id="articlePage" class="gh-main">
+    <div class="gh-container" id="articleContent">
 
-      <div class="gh-page-hero">
-        <h1 class="gh-page-hero__title">新着情報・特集記事</h1>
-        <p class="gh-page-hero__desc">エリア別のガチャガチャまとめ記事と、サイトの更新情報をお届けします。店舗データが増えると各記事も自動で最新になります。</p>
-      </div>
+      <nav class="gh-breadcrumb" aria-label="パンくずリスト">
+        <a href="index.html">トップ</a>
+        <span aria-hidden="true">›</span>
+        <a href="news.html">特集記事</a>
+        <span aria-hidden="true">›</span>
+        <span aria-current="page" id="articleCrumb">記事</span>
+      </nav>
 
       <div class="gh-main__layout">
         <div class="gh-main__content">
 
-          <!-- エリア別まとめ記事（実データ） -->
-          <section class="gh-section">
-            <div class="gh-section__header">
-              <h2 class="gh-section__title">エリア別ガチャガチャまとめ</h2>
-              <span style="font-size:12px;color:var(--gh-muted);font-weight:600">実店舗データから自動更新</span>
-            </div>
-            <div class="gh-news-list" data-gh-article-list></div>
-          </section>
+          <article class="gh-section gh-article">
+            <h1 class="gh-article__title" id="articleTitle">記事を読み込み中…</h1>
+            <div class="gh-article__meta" id="articleMeta"></div>
+            <div class="gh-article__intro" id="articleIntro"></div>
 
-          <!-- サイトからのお知らせ -->
-          <section class="gh-section">
+            <h2 class="gh-article__h2" id="articleListHeading" hidden>掲載店舗の一覧・比較</h2>
+            <div class="gh-table-wrap" id="articleTableWrap"></div>
+
+            <h2 class="gh-article__h2" id="articleStoresHeading" hidden>各店舗の詳細</h2>
+            <div id="articleStores"></div>
+
+            <div class="gh-article__tips" id="articleTipsBox" hidden>
+              <h2 class="gh-article__h2">編集部メモ（回り方のコツ）</h2>
+              <ul id="articleTips"></ul>
+            </div>
+
+            <p class="gh-detail-note">※掲載情報は各店舗・公式サイトをもとにした参考情報です。最新の営業時間・在庫は店舗または公式サイトでご確認ください。店舗データが更新されると本記事の一覧も自動で最新になります。</p>
+          </article>
+
+          <!-- 楽天市場でチェック（アフィリエイト） -->
+          <section class="gh-section gh-featured-sec" hidden>
             <div class="gh-section__header">
-              <h2 class="gh-section__title">サイトからのお知らせ</h2>
+              <h2 class="gh-section__title">🛒 楽天市場でチェック <span class="gh-affil__pr">PR</span></h2>
             </div>
-            <div class="gh-news-list">
-              <a href="stores.html" class="gh-news-item">
-                <time class="gh-news-item__date">2026/07/02</time>
-                <span class="gh-badge">更新</span>
-                <span>掲載店舗が50店舗になりました（横浜・大宮・千葉エリアを追加）。</span>
-              </a>
-              <a href="board.html" class="gh-news-item">
-                <time class="gh-news-item__date">2026/07/01</time>
-                <span class="gh-badge gh-badge--new">機能</span>
-                <span>店舗ごとの掲示板を公開しました。入荷・混雑情報をみんなで共有できます。</span>
-              </a>
-              <a href="ranking.html" class="gh-news-item">
-                <time class="gh-news-item__date">2026/07/02</time>
-                <span class="gh-badge gh-badge--new">機能</span>
-                <span>ランキングがアクセス数に応じて自動で変動するようになりました。</span>
-              </a>
-            </div>
+            <div class="gh-featured" data-gh-featured></div>
           </section>
 
         </div>
 
-        <!-- Sidebar -->
         <aside class="gh-sidebar">
           <div class="gh-ad" aria-label="広告">
             <span class="gh-ad__label">広告</span>
@@ -115,17 +111,20 @@
           </div>
 
           <div class="gh-widget">
+            <h3 class="gh-widget__title">他のエリアのまとめ記事</h3>
+            <ul class="gh-category-list" id="articleRelated"></ul>
+          </div>
+
+          <div class="gh-widget gh-widget--accent">
             <h3 class="gh-widget__title">店舗を探す</h3>
-            <ul class="gh-category-list">
-              <li><a href="stores.html" class="gh-category-item"><span class="gh-category-item__icon">🏬</span><span>店舗一覧から探す</span></a></li>
-              <li><a href="ranking.html" class="gh-category-item"><span class="gh-category-item__icon">📊</span><span>ランキングから探す</span></a></li>
-              <li><a href="map.html" class="gh-category-item"><span class="gh-category-item__icon">🗺️</span><span>マップから探す</span></a></li>
-              <li><a href="board.html" class="gh-category-item"><span class="gh-category-item__icon">💬</span><span>掲示板を見る</span></a></li>
-            </ul>
+            <p class="gh-widget__text">全国のガチャガチャ設置店を一覧・マップ・ランキングから探せます。</p>
+            <div class="gh-app-btns">
+              <a href="stores.html" class="gh-app-btn">🏬 店舗一覧を見る</a>
+              <a href="ranking.html" class="gh-app-btn">📊 ランキングを見る</a>
+            </div>
           </div>
         </aside>
       </div>
-
     </div>
   </main>
 
@@ -137,8 +136,8 @@
           <p>全国のガチャガチャ設置場所情報を網羅。<br />あなたのガチャライフをサポートします。</p>
         </div>
         <div class="gh-footer__links">
-          <div><strong>サービス</strong><a href="index.html">トップ</a><a href="ranking.html">ランキング</a><a href="news.html">新着情報</a><a href="map.html">マップ検索</a></div>
-          <div><strong>情報</strong><a href="#">ガチャとは</a><a href="#">クチコミを書く</a><a href="#">スポットを登録</a></div>
+          <div><strong>サービス</strong><a href="index.html">トップ</a><a href="stores.html">店舗一覧</a><a href="ranking.html">ランキング</a><a href="map.html">マップ検索</a></div>
+          <div><strong>情報</strong><a href="board.html">掲示板</a><a href="news.html">新着情報</a><a href="area.html">エリア別</a></div>
           <div><strong>サポート</strong><a href="#">お問い合わせ</a><a href="terms.html">利用規約</a><a href="privacy.html">プライバシー</a><a href="advertising.html">広告掲載</a></div>
         </div>
       </div>

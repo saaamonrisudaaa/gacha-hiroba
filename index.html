@@ -18,6 +18,7 @@
   <!-- Supabase (アクセス数ランキング用・裏側データ) -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
   <script src="data/spots.js" defer></script>
+  <script src="data/articles.js" defer></script>
   <script src="spots-ui.js" defer></script>
   <script src="data/ads.js" defer></script>
   <script src="script.js" defer></script>
@@ -155,36 +156,10 @@
         <!-- News feed -->
         <section class="gh-section">
           <div class="gh-section__header">
-            <h2 class="gh-section__title">新着・更新情報</h2>
-            <a href="#" class="gh-section__more">すべて見る →</a>
+            <h2 class="gh-section__title">エリア別まとめ記事</h2>
+            <a href="news.html" class="gh-section__more">すべて見る →</a>
           </div>
-          <div class="gh-news-list">
-            <a href="#" class="gh-news-item">
-              <time class="gh-news-item__date">2026/06/27</time>
-              <span class="gh-badge gh-badge--new">新規</span>
-              <span>【秋葉原】新スポット「ガチャパーク秋葉原ANNEX」がオープン。限定マシン30台を設置。</span>
-            </a>
-            <a href="#" class="gh-news-item">
-              <time class="gh-news-item__date">2026/06/26</time>
-              <span class="gh-badge gh-badge--hot">HOT</span>
-              <span>【池袋】P'PARCOが夏の特別企画「ガチャフェス2026」を開催。期間限定マシンが登場。</span>
-            </a>
-            <a href="#" class="gh-news-item">
-              <time class="gh-news-item__date">2026/06/25</time>
-              <span class="gh-badge">更新</span>
-              <span>【大阪】なんばウォークが設置台数を85台→100台に拡大予定。7月リニューアルオープン。</span>
-            </a>
-            <a href="#" class="gh-news-item">
-              <time class="gh-news-item__date">2026/06/24</time>
-              <span class="gh-badge">更新</span>
-              <span>全国のガチャスポット新規登録が12,000件を突破しました。ありがとうございます。</span>
-            </a>
-            <a href="#" class="gh-news-item">
-              <time class="gh-news-item__date">2026/06/23</time>
-              <span class="gh-badge gh-badge--new">新規</span>
-              <span>【名古屋】大須商店街エリアの詳細マップを追加。16スポットを一覧で確認できます。</span>
-            </a>
-          </div>
+          <div class="gh-news-list" data-gh-article-list="5"></div>
         </section>
 
         <!-- 広告（楽天アフィリエイト・スライドウィジェット） -->
