@@ -377,6 +377,45 @@ window.GH_SPOTS = [
     lat: 35.2897, lon: 139.6710,
     access: 'コースカベイサイドストアーズ 4F'
   },
+  {
+    id: 'gashadepa-yokohama-wp',
+    brand: 'ガシャポンのデパート',
+    name: 'ガシャポンのデパート 横浜ワールドポーターズ店',
+    region: 'kanto',
+    pref: '神奈川県',
+    area: '神奈川県・みなとみらい',
+    address: '神奈川県横浜市中区新港2-2-1 横浜ワールドポーターズ 2F',
+    hours: '10:30〜21:00',
+    machines: 2200,
+    lat: 35.4535, lon: 139.6395,
+    access: '横浜ワールドポーターズ 2F（VS PARK内・みなとみらい線 馬車道駅/みなとみらい駅 徒歩圏）'
+  },
+  {
+    id: 'gashadepa-edion-yokohama',
+    brand: 'ガシャポンのデパート',
+    name: 'ガシャポンのデパート エディオン横浜西口本店',
+    region: 'kanto',
+    pref: '神奈川県',
+    area: '神奈川県・横浜',
+    address: '神奈川県横浜市西区南幸2-16 エディオン横浜西口本店 7F（ネバーランドフロア内）',
+    hours: '10:00〜21:00',
+    machines: 560,
+    lat: 35.4643, lon: 139.6177,
+    access: 'エディオン横浜西口本店 7F（JR横浜駅 西口 徒歩5分）'
+  },
+  {
+    id: 'gashadepa-yokohama-vivre',
+    brand: 'ガシャポンのデパート',
+    name: 'ガシャポンのデパート 横浜ビブレ店',
+    region: 'kanto',
+    pref: '神奈川県',
+    area: '神奈川県・横浜',
+    address: '神奈川県横浜市西区南幸2-15-13 横浜ビブレ 7F',
+    hours: '11:00〜21:00（土日祝 10:00〜21:00）',
+    machines: 500,
+    lat: 35.4645, lon: 139.6180,
+    access: '横浜ビブレ 7F（横浜駅 徒歩2分・同フロアにバンダイオフィシャルショップ併設）'
+  },
 
   /* ───────────── 埼玉県 ───────────── */
   {
@@ -439,8 +478,47 @@ window.GH_SPOTS = [
     lat: 35.8788, lon: 139.8230,
     access: 'イオンレイクタウン kaze 3F（越谷レイクタウン駅 至近）'
   },
+  {
+    id: 'gachadokoro-omiya',
+    brand: 'がちゃ処',
+    name: '大宮がちゃ処（大宮アルシェ店）',
+    region: 'kanto',
+    pref: '埼玉県',
+    area: '埼玉県・大宮',
+    address: '埼玉県さいたま市大宮区桜木町2-1-1 大宮アルシェ 5F',
+    tel: '080-9365-5974',
+    hours: '10:00〜21:00（日祝は〜20:30）',
+    lat: 35.9063, lon: 139.6222,
+    access: '大宮アルシェ 5F（大宮駅 西口 徒歩1分）'
+  },
+  {
+    id: 'dreamcapsule-omiya-marui',
+    brand: 'ドリームカプセル',
+    name: 'ドリームカプセル 大宮マルイ店',
+    region: 'kanto',
+    pref: '埼玉県',
+    area: '埼玉県・大宮',
+    zip: '330-9501',
+    address: '埼玉県さいたま市大宮区桜木町2-3 大宮マルイ 6F',
+    lat: 35.9057, lon: 139.6230,
+    access: '大宮マルイ 6F（大宮駅 西口 徒歩圏）'
+  },
 
   /* ───────────── 千葉県 ───────────── */
+  {
+    id: 'cpla-perie-chiba',
+    brand: '#C-pla（シープラ）',
+    name: '#C-pla ペリエ千葉店',
+    region: 'kanto',
+    pref: '千葉県',
+    area: '千葉県・千葉',
+    address: '千葉県千葉市中央区新千葉1-1-1 ペリエ千葉 ストリート2',
+    tel: '090-7638-2808',
+    hours: '10:00〜21:00（日祝は〜20:30）',
+    machines: 700,
+    lat: 35.6133, lon: 140.1128,
+    access: 'ペリエ千葉 ストリート2（千葉駅 千葉公園口 徒歩1分）'
+  },
   {
     id: 'ggmori-bic-chiba',
     brand: 'ガチャガチャの森',
