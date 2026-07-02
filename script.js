@@ -100,6 +100,10 @@ detailTabs.forEach(btn => {
     document.querySelectorAll('.gh-tab-panel').forEach(p => {
       p.hidden = p.dataset.panel !== target;
     });
+    // 掲示板タブでは店舗情報ヒーローを隠して、スレッドに集中できるようにする
+    const hero = document.querySelector('.gh-quote');
+    if (hero) hero.hidden = (target === 'board');
+    document.body.classList.toggle('gh-board-mode', target === 'board');
   });
 });
 // Open the 掲示板 panel directly when arriving via #board (e.g. from board.html)
@@ -472,40 +476,26 @@ renderRanking('national');
   });
 })();
 
-/* ── Bulletin-board hub sorting (board.html) ── */
+/* ── 未実装リンク（href="#"）でページ先頭に飛ばないようにするガード ── */
+document.addEventListener('click', e => {
+  const dead = e.target.closest('a[href="#"]');
+  if (dead) e.preventDefault();
+});
+
+/* ── シェアボタン：本物の共有リンクにする ── */
 (function () {
-  const table = document.getElementById('boardTable');
-  if (!table) return;
-  const tbody = table.querySelector('tbody');
-  const rows  = Array.from(tbody.querySelectorAll('tr'));
-
-  const num = (r, k) => parseFloat(r.dataset[k]) || 0;
-  const sorters = {
-    popular:  (a, b) => (num(b, 'momentum') * num(b, 'posts')) - (num(a, 'momentum') * num(a, 'posts')),
-    posts:    (a, b) => num(b, 'posts')    - num(a, 'posts'),
-    momentum: (a, b) => num(b, 'momentum') - num(a, 'momentum'),
-    new:      (a, b) => num(b, 'time')     - num(a, 'time'),
-  };
-
-  function reRank() {
-    Array.from(tbody.querySelectorAll('tr')).forEach((r, i) => {
-      const rk = r.querySelector('.gh-rank');
-      if (!rk) return;
-      rk.textContent = i + 1;
-      rk.className = 'gh-rank' + (i === 0 ? ' gh-rank--1' : i === 1 ? ' gh-rank--2' : i === 2 ? ' gh-rank--3' : '');
-      r.classList.toggle('gh-table__row--top', i === 0);
-    });
+  const x = document.querySelector('.gh-share__btn--x');
+  const line = document.querySelector('.gh-share__btn--line');
+  const url = encodeURIComponent(location.href);
+  const text = encodeURIComponent(document.title);
+  if (x) {
+    x.href = 'https://twitter.com/intent/tweet?text=' + text + '&url=' + url;
+    x.target = '_blank'; x.rel = 'noopener';
   }
-
-  document.querySelectorAll('[data-sort]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      btn.closest('.gh-tab-group').querySelectorAll('.gh-tab').forEach(t => t.classList.remove('active'));
-      btn.classList.add('active');
-      rows.sort(sorters[btn.dataset.sort] || sorters.popular);
-      rows.forEach(r => tbody.appendChild(r));
-      reRank();
-    });
-  });
+  if (line) {
+    line.href = 'https://social-plugins.line.me/lineit/share?url=' + url;
+    line.target = '_blank'; line.rel = 'noopener';
+  }
 })();
 
 /* ── Daily random hashtags (index.html) ──
@@ -574,6 +564,30 @@ renderRanking('national');
       const sec = featBox.closest('.gh-featured-sec');
       if (sec) sec.hidden = false;
     }
+  }
+
+  /* ── 下からスライドインするPRバナー（自前描画＝広告ブロッカーでも表示。閉じる可） ── */
+  const bar = cfg.bottomBar;
+  let barClosed = false;
+  try { barClosed = sessionStorage.getItem('gh-bottombar-closed') === '1'; } catch (e) {}
+  if (bar && bar.url && !barClosed) {
+    const el = document.createElement('div');
+    el.className = 'gh-bottombar';
+    el.setAttribute('role', 'complementary');
+    el.setAttribute('aria-label', '広告');
+    el.innerHTML =
+      '<span class="gh-affil__pr">PR</span>' +
+      '<span class="gh-bottombar__emoji" aria-hidden="true">' + esc(bar.emoji || '🛒') + '</span>' +
+      '<span class="gh-bottombar__text">' + esc(bar.text || '') + '</span>' +
+      '<a class="gh-bottombar__cta" href="' + esc(bar.url) + '" target="_blank" rel="nofollow sponsored noopener">' + esc(bar.cta || '見てみる ▶') + '</a>' +
+      '<button type="button" class="gh-bottombar__close" aria-label="広告を閉じる">×</button>';
+    document.body.appendChild(el);
+    setTimeout(() => el.classList.add('is-open'), 900);   // 少し遅れてスッと出す
+    el.querySelector('.gh-bottombar__close').addEventListener('click', () => {
+      el.classList.remove('is-open');
+      try { sessionStorage.setItem('gh-bottombar-closed', '1'); } catch (e) {}
+      setTimeout(() => el.remove(), 400);
+    });
   }
 
   /* ── サイドバー広告枠（.gh-ad を products で埋める） ── */

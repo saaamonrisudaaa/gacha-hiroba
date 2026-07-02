@@ -21,6 +21,15 @@ window.GH_ADS = {
   /* 広告枠に添える表記（ステマ規制対応）。空文字にすると非表示。 */
   disclosure: '※ 当サイトは楽天アフィリエイト・Amazonアソシエイト等のアフィリエイトプログラムを利用しており、リンクを経由した購入により収入を得ることがあります。',
 
+  /* 下からスライド表示するPRバナー（サイト自前の描画なので確実に表示される。
+     ×で閉じると、そのタブを閉じるまで再表示しません） */
+  bottomBar: {
+    emoji: '🎰',
+    text: 'ガチャ活のお供に！楽天市場で人気アイテムをチェック',
+    cta: '楽天市場で見る ▶',
+    url: 'https://hb.afl.rakuten.co.jp/hsc/5547dfc6.546f7c0d.5547dfc7.ed412751/?link_type=pict&ut=eyJwYWdlIjoic2hvcCIsInR5cGUiOiJwaWN0IiwiY29sIjoxLCJjYXQiOiIxIiwiYmFuIjoyNzYyNDgyLCJhbXAiOmZhbHNlfQ%3D%3D'
+  },
+
   /* サイドバー1枠に表示する最大件数（超過分は日替わりローテーション） */
   maxPerSlot: 3,
 

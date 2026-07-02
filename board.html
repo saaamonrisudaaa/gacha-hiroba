@@ -6,6 +6,8 @@
   <meta name="description" content="ガチャひろばの掲示板。全国のガチャスポットごとの掲示板で、入荷情報・混雑状況・狙い目をリアルタイムに共有できます。投稿数・勢いランキングや新着投稿をチェック。" />
   <title>掲示板 | ガチャひろば</title>
   <link rel="stylesheet" href="styles.css" />
+  <script src="data/spots.js" defer></script>
+  <script src="spots-ui.js" defer></script>
   <script src="data/ads.js" defer></script>
   <script src="script.js" defer></script>
 </head>
@@ -60,27 +62,27 @@
         <p class="gh-page-hero__desc">全国のガチャスポットごとの掲示板。入荷情報・混雑状況・狙い目をリアルタイムに共有・チェックできます。</p>
       </div>
 
-      <!-- Summary bar -->
+      <!-- Summary bar（実データから自動集計） -->
       <div class="gh-summary-bar">
         <div class="gh-summary-card">
           <span class="gh-summary-card__label">掲示板数</span>
-          <span class="gh-summary-card__value">1,240</span>
-          <span class="gh-summary-card__change gh-up">▲18 今週</span>
+          <span class="gh-summary-card__value" id="boardStatBoards">—</span>
+          <span class="gh-summary-card__change">店舗ごとに1つ</span>
         </div>
         <div class="gh-summary-card">
-          <span class="gh-summary-card__label">本日の投稿</span>
-          <span class="gh-summary-card__value">8,932</span>
-          <span class="gh-summary-card__change gh-up">▲1,204</span>
+          <span class="gh-summary-card__label">対象エリア</span>
+          <span class="gh-summary-card__value" id="boardStatPrefs">—</span>
+          <span class="gh-summary-card__change">順次拡大中</span>
         </div>
         <div class="gh-summary-card">
-          <span class="gh-summary-card__label">アクティブ投稿者</span>
-          <span class="gh-summary-card__value">3,418</span>
-          <span class="gh-summary-card__change">直近24時間</span>
+          <span class="gh-summary-card__label">合計設置台数</span>
+          <span class="gh-summary-card__value" id="boardStatMachines">—</span>
+          <span class="gh-summary-card__change">全店舗の合計（目安）</span>
         </div>
         <div class="gh-summary-card">
-          <span class="gh-summary-card__label">急上昇スポット</span>
-          <span class="gh-summary-card__value">ヨドバシAkiba</span>
-          <span class="gh-summary-card__change gh-up">勢い 980</span>
+          <span class="gh-summary-card__label">最大スポット</span>
+          <span class="gh-summary-card__value" id="boardStatTop">—</span>
+          <span class="gh-summary-card__change" id="boardStatTopSub">設置台数1位</span>
         </div>
       </div>
 
@@ -92,165 +94,35 @@
             <form class="gh-map-search-form" style="margin:0">
               <div class="gh-map-search-input-wrap">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--gh-muted);pointer-events:none"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-                <input class="gh-map-search-input" type="search" placeholder="掲示板を検索（スポット名・エリアなど）" aria-label="掲示板を検索" />
+                <input class="gh-map-search-input" id="boardSearch" type="search" placeholder="掲示板を検索（店名・エリアなど）" aria-label="掲示板を検索" />
               </div>
               <button type="submit" class="gh-btn gh-btn--primary">検索</button>
             </form>
           </section>
 
-          <!-- 掲示板ランキング -->
+          <!-- 店舗の掲示板一覧（実データ・設置台数順） -->
           <section class="gh-section">
             <div class="gh-section__header">
               <h2 class="gh-section__title">注目の掲示板</h2>
-              <div class="gh-tab-group" role="tablist" aria-label="並び替え">
-                <button class="gh-tab active" role="tab" data-sort="popular">人気</button>
-                <button class="gh-tab" role="tab" data-sort="posts">投稿数</button>
-                <button class="gh-tab" role="tab" data-sort="momentum">勢い</button>
-                <button class="gh-tab" role="tab" data-sort="new">新着</button>
-              </div>
+              <span style="font-size:12px;color:var(--gh-muted);font-weight:600">設置台数順</span>
             </div>
             <div class="gh-table-wrap">
-              <table class="gh-table" id="boardTable">
+              <table class="gh-table">
                 <thead>
                   <tr>
                     <th style="width:44px">順位</th>
-                    <th>掲示板（スポット）</th>
+                    <th>掲示板（店舗）</th>
                     <th>エリア</th>
-                    <th class="gh-num">勢い</th>
-                    <th class="gh-num">投稿数</th>
-                    <th>最新の投稿</th>
+                    <th class="gh-num">設置台数</th>
                     <th></th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr class="gh-table__row--top" data-posts="3241" data-momentum="980" data-time="100">
-                    <td><span class="gh-rank gh-rank--1">1</span></td>
-                    <td><a href="location.html#board" class="gh-table__link">ヨドバシAkiba ガチャコーナー</a><span class="gh-badge gh-badge--hot">HOT</span></td>
-                    <td>東京・秋葉原</td>
-                    <td class="gh-num"><span class="gh-momentum">980</span></td>
-                    <td class="gh-num">3,241</td>
-                    <td><span class="gh-cm-latest">ちいかわの新弾もう入ってた<br><small>2分前</small></span></td>
-                    <td><a href="location.html#board" class="gh-btn gh-btn--xs">見る</a></td>
-                  </tr>
-                  <tr data-posts="2108" data-momentum="720" data-time="98">
-                    <td><span class="gh-rank gh-rank--2">2</span></td>
-                    <td><a href="location.html#board" class="gh-table__link">アキバガチャ横丁</a></td>
-                    <td>東京・秋葉原</td>
-                    <td class="gh-num"><span class="gh-momentum">720</span></td>
-                    <td class="gh-num">2,108</td>
-                    <td><span class="gh-cm-latest">レジ横の限定マシン回した<br><small>10分前</small></span></td>
-                    <td><a href="location.html#board" class="gh-btn gh-btn--xs">見る</a></td>
-                  </tr>
-                  <tr data-posts="1892" data-momentum="540" data-time="95">
-                    <td><span class="gh-rank gh-rank--3">3</span></td>
-                    <td><a href="location.html#board" class="gh-table__link">なんばウォーク ガチャコーナー</a></td>
-                    <td>大阪・なんば</td>
-                    <td class="gh-num"><span class="gh-momentum">540</span></td>
-                    <td class="gh-num">1,892</td>
-                    <td><span class="gh-cm-latest">関西限定のフィギュア出た！<br><small>18分前</small></span></td>
-                    <td><a href="location.html#board" class="gh-btn gh-btn--xs">見る</a></td>
-                  </tr>
-                  <tr data-posts="1654" data-momentum="410" data-time="92">
-                    <td><span class="gh-rank">4</span></td>
-                    <td><a href="location.html#board" class="gh-table__link">池袋P'PARCO ガチャフロア</a></td>
-                    <td>東京・池袋</td>
-                    <td class="gh-num"><span class="gh-momentum">410</span></td>
-                    <td class="gh-num">1,654</td>
-                    <td><span class="gh-cm-latest">2Fの奥に新シリーズ入ってた<br><small>25分前</small></span></td>
-                    <td><a href="location.html#board" class="gh-btn gh-btn--xs">見る</a></td>
-                  </tr>
-                  <tr data-posts="876" data-momentum="280" data-time="80">
-                    <td><span class="gh-rank">5</span></td>
-                    <td><a href="location.html#board" class="gh-table__link">梅田LOFT ガチャコーナー</a><span class="gh-badge gh-badge--new">NEW</span></td>
-                    <td>大阪・梅田</td>
-                    <td class="gh-num"><span class="gh-momentum">280</span></td>
-                    <td class="gh-num">876</td>
-                    <td><span class="gh-cm-latest">両替機が各フロアにあって助かる<br><small>1時間前</small></span></td>
-                    <td><a href="location.html#board" class="gh-btn gh-btn--xs">見る</a></td>
-                  </tr>
-                  <tr data-posts="743" data-momentum="350" data-time="88">
-                    <td><span class="gh-rank">6</span></td>
-                    <td><a href="location.html#board" class="gh-table__link">大須ガチャガチャ通り</a></td>
-                    <td>愛知・名古屋</td>
-                    <td class="gh-num"><span class="gh-momentum">350</span></td>
-                    <td class="gh-num">743</td>
-                    <td><span class="gh-cm-latest">補充は午前が多い印象<br><small>40分前</small></span></td>
-                    <td><a href="location.html#board" class="gh-btn gh-btn--xs">見る</a></td>
-                  </tr>
-                  <tr data-posts="487" data-momentum="190" data-time="70">
-                    <td><span class="gh-rank">7</span></td>
-                    <td><a href="location.html#board" class="gh-table__link">博多マルイ ガチャフロア</a></td>
-                    <td>福岡・博多</td>
-                    <td class="gh-num"><span class="gh-momentum">190</span></td>
-                    <td class="gh-num">487</td>
-                    <td><span class="gh-cm-latest">九州限定のラインナップあり<br><small>2時間前</small></span></td>
-                    <td><a href="location.html#board" class="gh-btn gh-btn--xs">見る</a></td>
-                  </tr>
-                  <tr data-posts="312" data-momentum="120" data-time="60">
-                    <td><span class="gh-rank">8</span></td>
-                    <td><a href="location.html#board" class="gh-table__link">札幌パルコ ガチャコーナー</a></td>
-                    <td>北海道・札幌</td>
-                    <td class="gh-num"><span class="gh-momentum">120</span></td>
-                    <td class="gh-num">312</td>
-                    <td><span class="gh-cm-latest">冬の新作そろそろかな<br><small>3時間前</small></span></td>
-                    <td><a href="location.html#board" class="gh-btn gh-btn--xs">見る</a></td>
-                  </tr>
+                <tbody data-gh-board-table>
+                  <tr><td colspan="5" style="text-align:center;color:var(--gh-muted);padding:22px">読み込み中…</td></tr>
                 </tbody>
               </table>
             </div>
-          </section>
-
-          <!-- 新着の投稿 -->
-          <section class="gh-section">
-            <div class="gh-section__header">
-              <h2 class="gh-section__title">新着の投稿</h2>
-              <a href="#" class="gh-section__more">すべて見る →</a>
-            </div>
-            <div class="gh-cm-feed">
-              <a href="location.html#board" class="gh-cm-feed__item">
-                <div class="gh-cm-feed__head">
-                  <span class="gh-cm-feed__board">ヨドバシAkiba</span>
-                  <span class="gh-cm-feed__time">2分前 ・ 名無しのガチャー</span>
-                </div>
-                <p class="gh-cm-feed__text">ちいかわの新弾もう入ってた。夕方は混むから午前推奨やね。</p>
-              </a>
-              <a href="location.html#board" class="gh-cm-feed__item">
-                <div class="gh-cm-feed__head">
-                  <span class="gh-cm-feed__board">アキバガチャ横丁</span>
-                  <span class="gh-cm-feed__time">10分前 ・ 名無しのガチャー</span>
-                </div>
-                <p class="gh-cm-feed__text">レジ横の限定マシン回したらシークレット出た！</p>
-              </a>
-              <a href="location.html#board" class="gh-cm-feed__item">
-                <div class="gh-cm-feed__head">
-                  <span class="gh-cm-feed__board">なんばウォーク</span>
-                  <span class="gh-cm-feed__time">18分前 ・ 名無しのガチャー</span>
-                </div>
-                <p class="gh-cm-feed__text">関西限定のフィギュア出てたよ。数は多くなさそうなので早めに。</p>
-              </a>
-              <a href="location.html#board" class="gh-cm-feed__item">
-                <div class="gh-cm-feed__head">
-                  <span class="gh-cm-feed__board">池袋P'PARCO</span>
-                  <span class="gh-cm-feed__time">25分前 ・ 名無しのガチャー</span>
-                </div>
-                <p class="gh-cm-feed__text">2Fの奥に新シリーズ入ってた。品揃え相変わらず最高。</p>
-              </a>
-              <a href="location.html#board" class="gh-cm-feed__item">
-                <div class="gh-cm-feed__head">
-                  <span class="gh-cm-feed__board">大須ガチャガチャ通り</span>
-                  <span class="gh-cm-feed__time">40分前 ・ 名無しのガチャー</span>
-                </div>
-                <p class="gh-cm-feed__text">補充は午前が多い印象。狙うなら開店直後がよさそう。</p>
-              </a>
-              <a href="location.html#board" class="gh-cm-feed__item">
-                <div class="gh-cm-feed__head">
-                  <span class="gh-cm-feed__board">梅田LOFT</span>
-                  <span class="gh-cm-feed__time">1時間前 ・ 名無しのガチャー</span>
-                </div>
-                <p class="gh-cm-feed__text">両替機が各フロアにあって助かる。土日は混むので注意。</p>
-              </a>
-            </div>
-            <button class="gh-btn gh-btn--outline gh-btn--block" style="margin-top:14px">もっと見る</button>
+            <p class="gh-detail-note" style="margin-top:12px">「見る」を押すと、その店舗の掲示板に移動できます。入荷情報・混雑状況・狙い目をみんなで共有しましょう。</p>
           </section>
 
           <!-- 楽天市場でチェック（アフィリエイト / data/ads.js の featured を描画） -->
@@ -276,24 +148,16 @@
           </div>
 
           <div class="gh-widget">
-            <h3 class="gh-widget__title">投稿数ランキング</h3>
-            <ol class="gh-trending-list">
-              <li><a href="location.html#board">ヨドバシAkiba ガチャコーナー</a><span class="gh-category-item__count">3,241</span></li>
-              <li><a href="location.html#board">アキバガチャ横丁</a><span class="gh-category-item__count">2,108</span></li>
-              <li><a href="location.html#board">なんばウォーク ガチャコーナー</a><span class="gh-category-item__count">1,892</span></li>
-              <li><a href="location.html#board">池袋P'PARCO ガチャフロア</a><span class="gh-category-item__count">1,654</span></li>
-              <li><a href="location.html#board">梅田LOFT ガチャコーナー</a><span class="gh-category-item__count">876</span></li>
-            </ol>
+            <h3 class="gh-widget__title">大型スポットの掲示板</h3>
+            <ol class="gh-trending-list" data-gh-board-side></ol>
           </div>
 
           <div class="gh-widget">
-            <h3 class="gh-widget__title">カテゴリから探す</h3>
+            <h3 class="gh-widget__title">店舗を探す</h3>
             <ul class="gh-category-list">
-              <li><a href="category.html" class="gh-category-item"><span class="gh-category-item__icon">🎌</span><span>アニメ・キャラ掲示板</span><span class="gh-category-item__count">412</span></a></li>
-              <li><a href="category.html" class="gh-category-item"><span class="gh-category-item__icon">🗿</span><span>フィギュア掲示板</span><span class="gh-category-item__count">287</span></a></li>
-              <li><a href="category.html" class="gh-category-item"><span class="gh-category-item__icon">🧸</span><span>ぬいぐるみ掲示板</span><span class="gh-category-item__count">198</span></a></li>
-              <li><a href="category.html" class="gh-category-item"><span class="gh-category-item__icon">🍬</span><span>食玩・お菓子掲示板</span><span class="gh-category-item__count">143</span></a></li>
-              <li><a href="board.html" class="gh-category-item"><span class="gh-category-item__icon">💬</span><span>雑談・情報交換</span><span class="gh-category-item__count">521</span></a></li>
+              <li><a href="stores.html" class="gh-category-item"><span class="gh-category-item__icon">🏬</span><span>店舗一覧から探す</span></a></li>
+              <li><a href="area.html" class="gh-category-item"><span class="gh-category-item__icon">🗾</span><span>エリアから探す</span></a></li>
+              <li><a href="map.html" class="gh-category-item"><span class="gh-category-item__icon">🗺️</span><span>マップから探す</span></a></li>
             </ul>
           </div>
 

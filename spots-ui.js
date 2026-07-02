@@ -66,6 +66,60 @@
   if (document.querySelector('[data-gh-area-cards]')) renderAreaCards();
   if (document.querySelector('[data-gh-ticker]')) renderTicker();
   if (qs('statStores')) renderSummary();
+  if (document.querySelector('[data-gh-board-table]')) renderBoardHub();
+
+  /* ------------------------------------------------------------------ */
+  /* 掲示板ハブ（board.html）: 実店舗の掲示板一覧＋実データ集計＋検索     */
+  /* ------------------------------------------------------------------ */
+  function renderBoardHub() {
+    var sorted = SPOTS.slice().sort(function (a, b) { return (b.machines || 0) - (a.machines || 0); });
+
+    /* サマリー */
+    var totalMachines = SPOTS.reduce(function (n, s) { return n + (Number(s.machines) || 0); }, 0);
+    var prefs = {}; SPOTS.forEach(function (s) { prefs[s.pref] = 1; });
+    setText('boardStatBoards', SPOTS.length + '板');
+    setText('boardStatPrefs', Object.keys(prefs).length + '都県');
+    setText('boardStatMachines', '約' + totalMachines.toLocaleString('ja-JP') + '台');
+    if (sorted[0]) {
+      setText('boardStatTop', sorted[0].name.replace('ガチャガチャの森 ', ''));
+      setText('boardStatTopSub', machinesText(sorted[0].machines) + '（台数1位）');
+    }
+
+    /* 一覧テーブル */
+    var tbody = document.querySelector('[data-gh-board-table]');
+    var rankCls = function (r) { return r === 1 ? ' gh-rank--1' : r === 2 ? ' gh-rank--2' : r === 3 ? ' gh-rank--3' : ''; };
+    tbody.innerHTML = sorted.map(function (s, i) {
+      var rank = i + 1;
+      var url = 'spot.html?id=' + encodeURIComponent(s.id) + '#board';
+      return '<tr' + (rank === 1 ? ' class="gh-table__row--top"' : '') + '>' +
+               '<td><span class="gh-rank' + rankCls(rank) + '">' + rank + '</span></td>' +
+               '<td><a href="' + url + '" class="gh-table__link">' + esc(s.name) + '</a></td>' +
+               '<td>' + esc(s.area) + '</td>' +
+               '<td class="gh-num">' + machinesText(s.machines) + '</td>' +
+               '<td><a href="' + url + '" class="gh-btn gh-btn--xs">見る</a></td>' +
+             '</tr>';
+    }).join('');
+
+    /* サイドバー：大型スポットの掲示板 */
+    var side = document.querySelector('[data-gh-board-side]');
+    if (side) {
+      side.innerHTML = sorted.slice(0, 5).map(function (s) {
+        return '<li><a href="spot.html?id=' + encodeURIComponent(s.id) + '#board">' + esc(s.name) + '</a>' +
+               '<span class="gh-category-item__count">' + machinesText(s.machines) + '</span></li>';
+      }).join('');
+    }
+
+    /* 検索：入力でその場絞り込み */
+    var input = qs('boardSearch');
+    if (input) {
+      input.addEventListener('input', function () {
+        var q = input.value.trim().toLowerCase();
+        tbody.querySelectorAll('tr').forEach(function (tr) {
+          tr.hidden = q !== '' && tr.textContent.toLowerCase().indexOf(q) === -1;
+        });
+      });
+    }
+  }
 
   /* ------------------------------------------------------------------ */
   /* トップの実データ集計（index.html のサマリーカード）                 */
