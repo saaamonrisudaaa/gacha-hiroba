@@ -276,6 +276,60 @@ window.GH_SPOTS = [
     lat: 35.6710, lon: 139.7030,
     access: '原宿駅 竹下口 徒歩1分（ル・ポンテビル B1F）'
   },
+  {
+    id: 'cpla-adhoc-shinjuku',
+    brand: '#C-pla（シープラ）',
+    name: '#C-pla アドホック新宿店',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・新宿',
+    zip: '160-0022',
+    address: '東京都新宿区新宿3-15-11 アドホック新宿 1F・M2F',
+    tel: '080-7612-2603',
+    hours: '10:00〜23:00',
+    machines: 2200,
+    lat: 35.6918, lon: 139.7043,
+    access: '新宿三丁目駅 徒歩3分・新宿駅 徒歩5分（#C-pla 200店舗目の大型店）'
+  },
+  {
+    id: 'gachapon-kaikan-akihabara',
+    brand: 'ガチャポン会館',
+    name: '秋葉原ガチャポン会館',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・秋葉原',
+    address: '東京都千代田区外神田3-15-5 MNビル',
+    hours: '11:00〜20:00（金・土は〜22:00、日祝は〜19:00）',
+    machines: 500,
+    lat: 35.7030, lon: 139.7717,
+    access: '末広町駅 徒歩2分・JR秋葉原駅 電気街口 徒歩7分（カプセルトイの聖地）'
+  },
+  {
+    id: 'tokyo-gashapon-street',
+    brand: 'ガシャポン（バンダイ）',
+    name: 'TOKYO GASHAPON STREET 東京駅一番街店',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・東京駅',
+    address: '東京都千代田区丸の内1-9-1 東京駅一番街 B1F 東京キャラクターストリート内',
+    tel: '070-6989-7883',
+    hours: '10:00〜20:30（無休）',
+    machines: 100,
+    lat: 35.6799, lon: 139.7692,
+    access: '東京駅 八重洲口 東京駅一番街 B1F（東京キャラクターストリート内）'
+  },
+  {
+    id: 'gbo-tokyo-station',
+    brand: 'ガシャポン（バンダイ）',
+    name: 'ガシャポンバンダイオフィシャルショップ＠TOKYO STATION',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・東京駅',
+    address: '東京都千代田区丸の内1-9-1 東京駅一番街 B1F 東京キャラクターストリート内',
+    hours: '10:00〜20:30（無休）',
+    lat: 35.6801, lon: 139.7689,
+    access: '東京駅 八重洲口 東京駅一番街 B1F（東京キャラクターストリート内）'
+  },
 
   /* ───────────── 神奈川県 ───────────── */
   {
