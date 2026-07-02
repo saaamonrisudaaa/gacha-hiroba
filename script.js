@@ -38,7 +38,18 @@ document.querySelectorAll('form').forEach(form => {
   form.addEventListener('submit', e => e.preventDefault());
 });
 
-/* ── Ranking: 実店舗（data/spots.js）を設置台数順に描画。各行は個別ページへ ── */
+/* ── Supabase 接続情報（publishable=公開キー。書き込みはRLS・関数で制御） ── */
+const GH_SUPA_URL = 'https://vyzdekctlynzuaowopso.supabase.co';
+const GH_SUPA_KEY = 'sb_publishable_1GOi0AxMP1emK7hOC_wMeQ_jqmEL47E';
+
+/* ── アクセス数（裏側データ）──
+   ランキングの並び順にだけ使い、数値はどこにも表示しない。
+   Supabase の spot_views（閲覧カウント）を読み、多い順に順位を変動させる。
+   未設定・オフライン時は従来どおり設置台数順にフォールバック。 */
+let GH_VIEWS = null;                                    // { 店舗id: 閲覧数 }
+const ghViewsOf = s => (GH_VIEWS && GH_VIEWS[s.id]) || 0;
+
+/* ── Ranking: 実店舗（data/spots.js）をアクセス数→設置台数順に描画 ── */
 function renderRanking(key) {
   const tbody = document.querySelector('#rankingTable tbody');
   if (!tbody) return;
@@ -53,7 +64,8 @@ function renderRanking(key) {
     return true;                                   // national
   };
 
-  const rows = spots.filter(inTab).sort((a, b) => (b.machines || 0) - (a.machines || 0));
+  const rows = spots.filter(inTab).sort((a, b) =>
+    (ghViewsOf(b) - ghViewsOf(a)) || ((b.machines || 0) - (a.machines || 0)));
   if (!rows.length) {
     tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--gh-muted);padding:22px">この地域の店舗は現在準備中です。</td></tr>';
     return;
@@ -121,10 +133,8 @@ if (location.hash === '#board') {
   const count  = document.getElementById('bbsCount');
   if (!list || !body || !submit) return;
 
-  /* Supabase 設定（publishable=公開キーなのでソースに書いてOK。読み書きはRLSで制御） */
-  const SUPA_URL = 'https://vyzdekctlynzuaowopso.supabase.co';
-  const SUPA_KEY = 'sb_publishable_1GOi0AxMP1emK7hOC_wMeQ_jqmEL47E';
-  const SPOT     = (window.GH_SPOT_ID || 'yodobashi-akiba'); // 掲示板ID。データ方式の店舗ページは spots-ui.js が設定
+  /* Supabase 設定は共通定数（GH_SUPA_URL / GH_SUPA_KEY）を使用 */
+  const SPOT = (window.GH_SPOT_ID || 'yodobashi-akiba'); // 掲示板ID。データ方式の店舗ページは spots-ui.js が設定
 
   const STORE_KEY = 'gh-bbs:' + SPOT;                 // オフライン時のフォールバック保存（スレッドごとに分離）
   const days = ['日', '月', '火', '水', '木', '金', '土'];
@@ -203,7 +213,7 @@ if (location.hash === '#board') {
 
   /* ---------- Supabase 共有モード（全員の投稿を共有） ---------- */
   function startSharedBoard() {
-    const sb = window.supabase.createClient(SUPA_URL, SUPA_KEY);
+    const sb = window.supabase.createClient(GH_SUPA_URL, GH_SUPA_KEY);
     let total = 0;
     const toView = (p, num) => ({
       num, name: p.name || '名無しのガチャー', date: fmtDate(new Date(p.created_at)),
@@ -357,6 +367,41 @@ document.querySelectorAll('.gh-tab-group:not([data-tab-group-handled])').forEach
 
 /* ── Initial ranking render (ranking.html has empty tbody) ── */
 renderRanking('national');
+
+/* ── アクセス数を取得してランキングを並べ替え（index.html / ranking.html） ── */
+(function () {
+  if (!document.querySelector('#rankingTable tbody')) return;
+  if (!(window.supabase && typeof window.supabase.createClient === 'function')) return;
+  try {
+    const sb = window.supabase.createClient(GH_SUPA_URL, GH_SUPA_KEY);
+    sb.from('spot_views').select('spot,views')
+      .then(({ data, error }) => {
+        if (error || !data || !data.length) return;      // テーブル未作成なら台数順のまま
+        GH_VIEWS = {};
+        data.forEach(r => { GH_VIEWS[r.spot] = Number(r.views) || 0; });
+        const active = document.querySelector('[data-tab].active');
+        renderRanking(active ? active.dataset.tab : 'national');
+      })
+      .catch(() => { /* fallback: 台数順のまま */ });
+  } catch (e) { /* fallback */ }
+})();
+
+/* ── 閲覧カウント（spot.html）: 裏側データとして記録。画面には出さない ──
+   同じタブでの再読み込み連打はカウントしない（sessionStorage ガード）。 */
+(function () {
+  if (!document.getElementById('spotDetail')) return;
+  const sid = (window.GH_SPOT_ID || '').replace(/^spot-/, '');
+  if (!sid) return;
+  if (!(window.supabase && typeof window.supabase.createClient === 'function')) return;
+  const SEEN = 'gh-viewed:' + sid;
+  try { if (sessionStorage.getItem(SEEN)) return; } catch (e) {}
+  try {
+    const sb = window.supabase.createClient(GH_SUPA_URL, GH_SUPA_KEY);
+    sb.rpc('increment_spot_view', { p_spot: sid }).then(({ error }) => {
+      if (!error) { try { sessionStorage.setItem(SEEN, '1'); } catch (e) {} }
+    }).catch(() => {});
+  } catch (e) {}
+})();
 
 /* ── OpenStreetMap via Leaflet (map.html): 実店舗（data/spots.js）を表示 ── */
 (function () {

@@ -6,6 +6,8 @@
   <meta name="description" content="全国ガチャガチャスポットランキング。台数・評価・口コミ数でランク付けした人気スポット一覧。" />
   <title>ランキング | ガチャひろば</title>
   <link rel="stylesheet" href="styles.css" />
+  <!-- Supabase (アクセス数ランキング用・裏側データ) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
   <script src="data/spots.js" defer></script>
   <script src="data/ads.js" defer></script>
   <script src="script.js" defer></script>
@@ -52,7 +54,7 @@
 
       <div class="gh-page-hero">
         <h1 class="gh-page-hero__title">スポットランキング</h1>
-        <p class="gh-page-hero__desc">台数・評価・口コミ数をもとに算出した、いま最も人気のガチャガチャスポットをご紹介します。</p>
+        <p class="gh-page-hero__desc">ページの閲覧数（アクセス数）をもとに、いま注目されているガチャガチャスポットを順位付けしています。</p>
       </div>
 
       <div class="gh-main__layout">
@@ -60,15 +62,6 @@
 
           <!-- 期間 + エリア タブ -->
           <section class="gh-section">
-            <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:14px">
-              <div class="gh-tab-group">
-                <button class="gh-tab active">週間</button>
-                <button class="gh-tab">月間</button>
-                <button class="gh-tab">年間</button>
-              </div>
-              <span style="font-size:12px;color:var(--gh-muted)">集計期間: 2026年6月20日〜6月27日</span>
-            </div>
-
             <div class="gh-tab-group" id="rankingTabs" style="margin-bottom:16px">
               <button class="gh-tab active" data-tab="national">全国</button>
               <button class="gh-tab" data-tab="tokyo">東京</button>
@@ -101,10 +94,9 @@
             </div>
             <div class="gh-info-card" style="padding:16px">
               <ul style="margin:0;padding-left:18px;font-size:13px;line-height:2;color:var(--gh-muted)">
-                <li>ランキングは口コミ評価・設置台数・アクセス数を総合的に集計して算出しています。</li>
-                <li>週間・月間・年間で集計期間が異なります。</li>
-                <li>新規登録スポットは「NEW」バッジ、急上昇スポットは「HOT」バッジが表示されます。</li>
-                <li>データは毎朝6:00に更新されます。</li>
+                <li>ランキングは各店舗ページの閲覧数（アクセス数）をもとに自動で変動します。</li>
+                <li>閲覧データが少ない店舗は、設置台数を参考に並べています。</li>
+                <li>新しい店舗が登録されると、ランキングにも自動で反映されます。</li>
               </ul>
             </div>
           </section>
