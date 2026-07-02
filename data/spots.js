@@ -158,6 +158,40 @@ window.GH_SPOTS = [
     lat: 35.7549, lon: 139.3878,
     access: 'イオンモールむさし村山 3F'
   },
+  {
+    id: 'gashadepa-ikebukuro-honten',
+    brand: 'ガシャポンのデパート',
+    name: 'ガシャポンのデパート 池袋総本店',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・池袋',
+    address: '東京都豊島区東池袋3-1-3 サンシャインシティ ワールドインポートマートビル 3F',
+    machines: 3000,
+    lat: 35.7290, lon: 139.7200,
+    access: 'サンシャインシティ ワールドインポートマートビル 3F（バンダイオフィシャルショップ・世界最大級）'
+  },
+  {
+    id: 'yodobashi-ikebukuro-gacha-jungle',
+    brand: 'ガチャガチャジャングル',
+    name: 'ヨドバシカメラ マルチメディア池袋 ガチャガチャジャングル',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・池袋',
+    address: '東京都豊島区南池袋1-28-2 ヨドバシカメラ マルチメディア池袋 5F',
+    machines: 3000,
+    lat: 35.7273, lon: 139.7145,
+    access: 'ヨドバシカメラ マルチメディア池袋 5F（ホビー売り場内）'
+  },
+  {
+    id: 'gashacoco-ikebukuro',
+    brand: 'gashacoco（ガシャココ）',
+    name: 'gashacoco（ガシャココ）池袋',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・池袋',
+    address: '東京都豊島区 池袋エリア（詳細住所は確認中）',
+    access: '池袋エリア（店舗詳細は確認中）'
+  },
 
   /* ───────────── 神奈川県 ───────────── */
   {
