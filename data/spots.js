@@ -358,6 +358,44 @@ window.GH_SPOTS = [
     access: '錦糸町駅前（2026年6月4日オープン・詳細は公式サイトで確認中）'
   },
   {
+    id: 'gashacoco-shapo-koiwa',
+    brand: 'gashacoco（ガシャココ）',
+    name: 'gashacoco シャポー小岩店',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・小岩',
+    zip: '133-0056',
+    address: '東京都江戸川区南小岩7-24-15 シャポー小岩 1F',
+    tel: '070-5558-2826',
+    hours: '10:00〜21:00（日祝は20:30まで）',
+    lat: 35.7331, lon: 139.8819,
+    access: 'シャポー小岩 1F（JR総武線 小岩駅 直結）'
+  },
+  {
+    id: 'capsule-marche-koiwa',
+    brand: 'カプセルマルシェ',
+    name: 'カプセルマルシェ JR小岩駅',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・小岩',
+    address: '東京都江戸川区南小岩7-24-1 JR小岩駅構内',
+    lat: 35.7333, lon: 139.8815,
+    access: 'JR小岩駅構内・南口側エレベーター付近（2026年春オープン）'
+  },
+  {
+    id: 'itoyokado-koiwa-gacha',
+    brand: 'イトーヨーカドー',
+    name: 'イトーヨーカドー 小岩店（ガチャガチャコーナー）',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・小岩',
+    zip: '133-0057',
+    address: '東京都江戸川区西小岩1-24-1',
+    hours: '10:00〜22:00（売場により異なる）',
+    lat: 35.7346, lon: 139.8810,
+    access: '小岩駅 北口側 駅前 ※2026年9月6日閉店予定（駅前再開発により2027年春の新施設へ移転予定）'
+  },
+  {
     id: 'cpla-shibuya-center-gai',
     brand: '#C-pla（シープラ）',
     name: '#C-pla 渋谷センター街店',
