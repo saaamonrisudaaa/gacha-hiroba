@@ -38,6 +38,33 @@ document.querySelectorAll('form').forEach(form => {
   form.addEventListener('submit', e => e.preventDefault());
 });
 
+/* ── ヘッダー検索：入力語で店舗を検索（stores.html?q=…）── */
+document.querySelectorAll('.gh-search').forEach(form => {
+  const input = form.querySelector('.gh-search__input');
+  if (!input) return;
+  // 検索結果ページでは入力欄に検索語を残す
+  try {
+    const q = new URLSearchParams(location.search).get('q');
+    if (q && /stores\.html$/.test(location.pathname)) input.value = q;
+  } catch (e) {}
+  form.addEventListener('submit', () => {
+    const q = input.value.trim();
+    if (q) location.href = 'stores.html?q=' + encodeURIComponent(q);
+    else input.focus();
+  });
+});
+
+/* ── サイドバーの「エリア・駅名で検索」ウィジェット：都道府県で店舗一覧へ ── */
+document.querySelectorAll('.gh-widget__form').forEach(form => {
+  const sel = form.querySelector('.gh-select');
+  if (!sel) return;
+  form.addEventListener('submit', () => {
+    const pref = sel.value.trim();
+    if (pref) location.href = 'stores.html?pref=' + encodeURIComponent(pref);
+    else sel.focus();
+  });
+});
+
 /* ── Supabase 接続情報（publishable=公開キー。書き込みはRLS・関数で制御） ── */
 const GH_SUPA_URL = 'https://vyzdekctlynzuaowopso.supabase.co';
 const GH_SUPA_KEY = 'sb_publishable_1GOi0AxMP1emK7hOC_wMeQ_jqmEL47E';

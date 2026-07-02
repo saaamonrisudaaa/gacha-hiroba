@@ -482,6 +482,64 @@
   function renderList() {
     var box = qs('storeList');
     var pref = getParam('pref');
+    var query = getParam('q');
+
+    /* ── キーワード検索（?q=）: 店名・エリア・住所・ブランドを横断で部分一致 ── */
+    if (query) {
+      var nq = query.toLowerCase();
+      var hits = SPOTS.filter(function (s) {
+        return [s.name, s.brand, s.area, s.pref, s.address, s.access].some(function (f) {
+          return (f || '').toString().toLowerCase().indexOf(nq) !== -1;
+        });
+      }).sort(function (a, b) { return (b.machines || 0) - (a.machines || 0); });
+
+      var tabGroup2 = document.querySelector('.gh-tab-group');
+      if (tabGroup2) tabGroup2.style.display = 'none';
+      var title2 = document.querySelector('.gh-page-hero__title');
+      if (title2) title2.textContent = '「' + query + '」の検索結果';
+      var desc2 = document.querySelector('.gh-page-hero__desc');
+      if (desc2) desc2.innerHTML = '店名・エリア・住所から <strong id="storeCount">' + hits.length + '</strong> 店舗が見つかりました。';
+      document.title = '「' + query + '」の検索結果 | ガチャひろば';
+
+      /* 関連するまとめ記事があれば先頭に提案 */
+      var artHtml = '';
+      var arts = (window.GH_ARTICLES || []).filter(function (a) {
+        return a.label.toLowerCase().indexOf(nq) !== -1 || nq.indexOf(a.label.toLowerCase()) !== -1 ||
+               a.title.toLowerCase().indexOf(nq) !== -1;
+      });
+      if (arts.length) {
+        artHtml = '<div class="gh-news-list" style="margin-bottom:16px">' + arts.map(function (a) {
+          return '<a href="article.html?area=' + encodeURIComponent(a.slug) + '" class="gh-news-item">' +
+                   '<span class="gh-badge gh-badge--new">まとめ記事</span>' +
+                   '<span>' + esc(a.emoji + ' ' + a.title) + '</span></a>';
+        }).join('') + '</div>';
+      }
+
+      if (!hits.length) {
+        box.innerHTML = artHtml +
+          '<div class="gh-section" style="text-align:center;padding:34px 16px">' +
+            '<p style="margin:0 0 6px;font-weight:700">「' + esc(query) + '」に一致する店舗は見つかりませんでした。</p>' +
+            '<p style="margin:0;font-size:13px;color:var(--gh-muted)">店名・駅名・エリア名（例：渋谷、池袋、横浜）でお試しください。' +
+            '<a href="stores.html">すべての店舗を見る →</a></p>' +
+          '</div>';
+        return;
+      }
+
+      box.innerHTML = artHtml +
+        '<section class="gh-section"><div class="gh-table-wrap"><table class="gh-table">' +
+        '<thead><tr><th>店舗名</th><th>エリア</th><th>設置台数</th><th>営業時間</th></tr></thead><tbody>' +
+        hits.map(function (s) {
+          return '<tr>' +
+            '<td><a class="gh-table__link" href="spot.html?id=' + encodeURIComponent(s.id) + '">' + esc(s.name) + '</a>' +
+              '<small class="gh-store-brand">' + esc(s.brand) + '</small></td>' +
+            '<td>' + esc(s.area) + '</td>' +
+            '<td>' + machinesText(s.machines) + '</td>' +
+            '<td>' + esc(s.hours || '—') + '</td>' +
+          '</tr>';
+        }).join('') + '</tbody></table></div></section>';
+      return;
+    }
+
     var source = pref ? SPOTS.filter(function (s) { return s.pref === pref; }) : SPOTS;
 
     // ?pref= 指定時は都道府県で絞り込み表示（地方タブは隠す）
