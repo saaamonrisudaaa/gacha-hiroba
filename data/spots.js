@@ -4,6 +4,8 @@
       id は URL に使う識別子（半角英数・ハイフン）。重複しないように。
       region: kanto / kansai / tokai / kyushu / tohoku / chugoku
       lat / lon: 地図表示用のおおよその緯度・経度（施設のおよその位置）
+      closedAfter: 'YYYY-MM-DD'（最終営業日）。この日を過ぎると一覧・検索・
+        地図・記事・sitemap のすべてから自動的に除外される（削除扱い）。
    =========================================================================== */
 window.GH_SPOTS = [
 
@@ -391,6 +393,7 @@ window.GH_SPOTS = [
     area: '東京都・小岩',
     zip: '133-0057',
     address: '東京都江戸川区西小岩1-24-1',
+    closedAfter: '2026-09-06',
     hours: '10:00〜22:00（売場により異なる）',
     lat: 35.7346, lon: 139.8810,
     access: '小岩駅 北口側 駅前 ※2026年9月6日閉店予定（駅前再開発により2027年春の新施設へ移転予定）'
@@ -940,3 +943,10 @@ window.GH_SPOTS = [
   }
 
 ];
+
+/* 閉店店舗の自動非表示：closedAfter（最終営業日）を過ぎた店舗は、
+   ここで配列から除外されるため、サイト全体＋sitemap 生成から消える。 */
+window.GH_SPOTS = window.GH_SPOTS.filter(function (s) {
+  if (!s.closedAfter) return true;
+  return Date.now() <= new Date(s.closedAfter + 'T23:59:59+09:00').getTime();
+});
