@@ -57,3 +57,28 @@ const xml =
 
 writeFileSync(new URL('../sitemap.xml', import.meta.url), xml);
 console.log('sitemap.xml written:', urls.length, 'URLs (' + spots.length + ' stores, ' + articles.length + ' articles)');
+
+/* ── RSS フィード（feed.xml）: 記事を更新日の新しい順に配信 ── */
+const escXml = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const items = articles.slice()
+  .sort((a, b) => (b.updated || '').localeCompare(a.updated || ''))
+  .map(a => {
+    const link = ORIGIN + '/article.html?area=' + encodeURIComponent(a.slug);
+    return '  <item>\n' +
+      '    <title>' + escXml(a.title) + '</title>\n' +
+      '    <link>' + escXml(link) + '</link>\n' +
+      '    <guid isPermaLink="true">' + escXml(link) + '</guid>\n' +
+      '    <pubDate>' + new Date((a.updated || today) + 'T09:00:00+09:00').toUTCString() + '</pubDate>\n' +
+      '    <description>' + escXml((a.intro && a.intro[0]) || a.title) + '</description>\n' +
+      '  </item>';
+  }).join('\n');
+const rss = '<?xml version="1.0" encoding="UTF-8"?>\n' +
+  '<rss version="2.0">\n<channel>\n' +
+  '  <title>ガチャひろば｜新着・特集記事</title>\n' +
+  '  <link>' + ORIGIN + '/</link>\n' +
+  '  <description>全国のガチャガチャ設置場所・専門店情報。エリア別まとめ・ランキング・ガイド記事の更新情報を配信します。</description>\n' +
+  '  <language>ja</language>\n' +
+  '  <lastBuildDate>' + new Date().toUTCString() + '</lastBuildDate>\n' +
+  items + '\n</channel>\n</rss>\n';
+writeFileSync(new URL('../feed.xml', import.meta.url), rss);
+console.log('feed.xml written:', articles.length, 'items');

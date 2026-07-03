@@ -80,6 +80,19 @@
     return SPOTS.filter(function (s) { return a.areas.indexOf(s.area) !== -1; })
                 .sort(function (x, y) { return (y.machines || 0) - (x.machines || 0); });
   }
+  /* ランキング記事（art.ranking）は、エリアではなく公表設置台数の実データから
+     自動集計する。pref / region で絞り込み、machines 公表店のみを対象。 */
+  function resolveArticleStores(a) {
+    if (a.ranking) {
+      return SPOTS.filter(function (s) {
+        if (a.ranking.pref && s.pref !== a.ranking.pref) return false;
+        if (a.ranking.region && s.region !== a.ranking.region) return false;
+        return s.machines != null;
+      }).sort(function (x, y) { return (y.machines || 0) - (x.machines || 0); })
+        .slice(0, a.ranking.limit || 10);
+    }
+    return articleStores(a);
+  }
 
   function renderArticle() {
     var arts = window.GH_ARTICLES || [];
@@ -97,7 +110,7 @@
       return;
     }
 
-    var stores = articleStores(art);
+    var stores = resolveArticleStores(art);
     var pageUrl = 'https://gacha-hiroba.com/article.html?area=' + encodeURIComponent(art.slug);
     var desc = art.intro[0];
 
@@ -200,11 +213,36 @@
       if (tips) tips.innerHTML = art.tips.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('');
     }
 
+    /* FAQ（よくある質問）＋ FAQPage 構造化データ（リッチリザルト対応） */
+    if (art.faq && art.faq.length) {
+      var fb = qs('articleFaqBox'); if (fb) fb.hidden = false;
+      var faqBox = qs('articleFaq');
+      if (faqBox) {
+        faqBox.innerHTML = art.faq.map(function (f) {
+          return '<details class="gh-faq">' +
+            '<summary class="gh-faq__q">' + esc(f.q) + '</summary>' +
+            '<p class="gh-faq__a">' + esc(f.a) + '</p>' +
+          '</details>';
+        }).join('');
+      }
+      var faqLd = {
+        '@context': 'https://schema.org', '@type': 'FAQPage',
+        'mainEntity': art.faq.map(function (f) {
+          return { '@type': 'Question', 'name': f.q,
+                   'acceptedAnswer': { '@type': 'Answer', 'text': f.a } };
+        })
+      };
+      var fsc = document.createElement('script');
+      fsc.type = 'application/ld+json';
+      fsc.textContent = JSON.stringify(faqLd);
+      document.head.appendChild(fsc);
+    }
+
     /* 関連記事 */
     var rel = qs('articleRelated');
     if (rel) {
       rel.innerHTML = arts.filter(function (a) { return a.slug !== art.slug; }).map(function (a) {
-        var label = a.type === 'guide' ? a.label : a.label + 'のガチャガチャまとめ';
+        var label = (a.type === 'guide' || a.ranking) ? a.label : a.label + 'のガチャガチャまとめ';
         return '<li><a href="' + articleUrl(a) + '" class="gh-category-item">' +
                '<span class="gh-category-item__icon">' + esc(a.emoji) + '</span>' +
                '<span>' + esc(label) + '</span></a></li>';
@@ -219,11 +257,11 @@
       var limit = parseInt(box.getAttribute('data-gh-article-list') || '0', 10);
       var items = limit > 0 ? arts.slice(0, limit) : arts;
       box.innerHTML = items.map(function (a) {
-        var count = articleStores(a).length;
-        var isGuide = a.type === 'guide';
+        var count = resolveArticleStores(a).length;
+        var badge = a.ranking ? 'ランキング' : a.type === 'guide' ? 'ガイド' : 'まとめ';
         return '<a href="' + articleUrl(a) + '" class="gh-news-item">' +
                  '<time class="gh-news-item__date">' + esc(a.updated) + '</time>' +
-                 '<span class="gh-badge gh-badge--new">' + (isGuide ? 'ガイド' : 'まとめ') + '</span>' +
+                 '<span class="gh-badge gh-badge--new">' + badge + '</span>' +
                  '<span>' + esc(a.emoji + ' ' + a.title) + (count ? '（' + count + '店舗掲載）' : '') + '</span>' +
                '</a>';
       }).join('');

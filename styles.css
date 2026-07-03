@@ -2313,3 +2313,9 @@ img { display: block; max-width: 100%; }
 
 /* ── ガイド記事の見出し（article.html） ── */
 .gh-article-h2 { font-size: 17px; margin: 26px 0 10px; padding: 8px 12px; border-left: 4px solid #d93025; background: rgba(0,0,0,.03); border-radius: 4px; }
+
+/* ── FAQ（article.html の details/summary） ── */
+.gh-faq { border: 1px solid var(--gh-border, #e5e7eb); border-radius: 8px; margin: 8px 0; background: #fff; }
+.gh-faq__q { cursor: pointer; font-weight: 700; font-size: 14px; padding: 12px 14px; list-style-position: inside; }
+.gh-faq__q:hover { background: rgba(0,0,0,.02); }
+.gh-faq__a { margin: 0; padding: 0 14px 12px; font-size: 13px; line-height: 1.8; color: #374151; }
