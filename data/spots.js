@@ -432,7 +432,7 @@ window.GH_SPOTS = [
     tel: '03-6260-7400',
     hours: '10:00〜23:00',
     lat: 35.7000, lon: 139.7706,
-    access: '秋葉原電気街エリア・外神田1丁目のビル4F（深夜23時まで営業）'
+    access: '秋葉原駅 徒歩1分（ガシャポンバンダイオフィシャルショップと同フロア・深夜23時まで営業）'
   },
   {
     id: 'kenele-stand-beans-akabane',
@@ -509,6 +509,59 @@ window.GH_SPOTS = [
     machines: 1610,
     lat: 35.7003, lon: 139.4143,
     access: '立川高島屋S.C. 3F namco内（ガシャポンバンダイオフィシャルショップ併設・2023年12月オープン）'
+  },
+  {
+    id: 'gashadepa-ario-kitasuna',
+    brand: 'ガシャポンのデパート',
+    name: 'ガシャポンのデパート イトーヨーカドーアリオ北砂店',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・北砂',
+    address: '東京都江東区北砂2-17-1 アリオ北砂 3F',
+    machines: 640,
+    lat: 35.6873, lon: 139.8266,
+    access: 'アリオ北砂 3F（640面・2022年11月オープン）'
+  },
+  {
+    id: 'caprak-hamadayama',
+    brand: 'カプセル楽局',
+    name: 'カプセル楽局 浜田山店',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・浜田山',
+    zip: '168-0065',
+    address: '東京都杉並区浜田山3-30-5 越路ビル',
+    tel: '03-6379-8756',
+    hours: '10:00〜22:00',
+    lat: 35.6791, lon: 139.6280,
+    access: '京王井の頭線 浜田山駅そば（ゲオ運営のカプセルトイ専門店）'
+  },
+  {
+    id: 'caprak-koenji',
+    brand: 'カプセル楽局',
+    name: 'カプセル楽局 高円寺店',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・高円寺',
+    zip: '166-0002',
+    address: '東京都杉並区高円寺北3-20-20 アイル高円寺ビル',
+    tel: '03-6265-5823',
+    hours: '10:00〜22:00',
+    lat: 35.7066, lon: 139.6495,
+    access: '高円寺駅 北口 徒歩約3分・庚申通り商店街内（2024年3月オープン）'
+  },
+  {
+    id: 'gbo-akihabara',
+    brand: 'ガシャポン（バンダイ）',
+    name: 'ガシャポンバンダイオフィシャルショップ 秋葉原店',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・秋葉原',
+    address: '東京都千代田区外神田1-15-9 4F',
+    hours: '10:00〜23:00',
+    machines: 800,
+    lat: 35.7000, lon: 139.7706,
+    access: '秋葉原駅 徒歩1分（約800面・ガシャポンのデパート秋葉原店と同フロア・2023年3月オープン）'
   },
   {
     id: 'cpla-shibuya-center-gai',
