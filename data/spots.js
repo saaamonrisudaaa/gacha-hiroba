@@ -485,6 +485,32 @@ window.GH_SPOTS = [
     access: 'サンシャイン通り沿い（2026年2月5日オープン・詳細は公式サイトで確認中）'
   },
   {
+    id: 'caprak-machida',
+    brand: 'カプセル楽局',
+    name: 'カプセル楽局 町田店',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・町田',
+    address: '東京都町田市原町田4-5-10 1F',
+    tel: '042-707-6242',
+    hours: '10:00〜22:00',
+    lat: 35.5420, lon: 139.4460,
+    access: '町田駅 ターミナル口 徒歩約2分（ゲオ運営のカプセルトイ専門店）'
+  },
+  {
+    id: 'gashadepa-tachikawa-takashimaya',
+    brand: 'ガシャポンのデパート',
+    name: 'ガシャポンのデパート 立川高島屋S.C.店',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・立川',
+    address: '東京都立川市曙町2-39-3 立川高島屋S.C. 3F',
+    hours: '10:00〜21:00',
+    machines: 1610,
+    lat: 35.7003, lon: 139.4143,
+    access: '立川高島屋S.C. 3F namco内（ガシャポンバンダイオフィシャルショップ併設・2023年12月オープン）'
+  },
+  {
     id: 'cpla-shibuya-center-gai',
     brand: '#C-pla（シープラ）',
     name: '#C-pla 渋谷センター街店',
@@ -708,6 +734,33 @@ window.GH_SPOTS = [
     lat: 35.4645, lon: 139.6180,
     access: '横浜ビブレ 7F（横浜駅 徒歩2分・同フロアにバンダイオフィシャルショップ併設）'
   },
+  {
+    id: 'gashadepa-lazona-kawasaki',
+    brand: 'ガシャポンのデパート',
+    name: 'ガシャポンのデパート ラゾーナ川崎店',
+    region: 'kanto',
+    pref: '神奈川県',
+    area: '神奈川県・川崎',
+    address: '神奈川県川崎市幸区堀川町72-1 ラゾーナ川崎プラザ内',
+    hours: '10:00〜21:00',
+    machines: 700,
+    lat: 35.5309, lon: 139.6957,
+    access: '川崎駅 直結のラゾーナ川崎プラザ内（ガシャポン約700台）'
+  },
+  {
+    id: 'cpla-kawasaki-lefront',
+    brand: '#C-pla（シープラ）',
+    name: '#C-pla 川崎ルフロン店',
+    region: 'kanto',
+    pref: '神奈川県',
+    area: '神奈川県・川崎',
+    zip: '210-0024',
+    address: '神奈川県川崎市川崎区日進町1-11 川崎ルフロン 5F',
+    tel: '090-2376-7062',
+    hours: '10:00〜21:00',
+    lat: 35.5290, lon: 139.6990,
+    access: '川崎ルフロン 5F（川崎駅 東口 徒歩約3分）'
+  },
 
   /* ───────────── 埼玉県 ───────────── */
   {
@@ -794,6 +847,33 @@ window.GH_SPOTS = [
     address: '埼玉県さいたま市大宮区桜木町2-3 大宮マルイ 6F',
     lat: 35.9057, lon: 139.6230,
     access: '大宮マルイ 6F（大宮駅 西口 徒歩圏）'
+  },
+  {
+    id: 'cpla-atre-kawagoe',
+    brand: '#C-pla（シープラ）',
+    name: '#C-pla アトレ川越店',
+    region: 'kanto',
+    pref: '埼玉県',
+    area: '埼玉県・川越',
+    address: '埼玉県川越市脇田町105 アトレ川越内',
+    tel: '080-7835-1229',
+    hours: '10:00〜21:00',
+    machines: 900,
+    lat: 35.9080, lon: 139.4823,
+    access: '川越駅 東口すぐのアトレ川越内（約900種類）'
+  },
+  {
+    id: 'cpla-emiterrace-tokorozawa',
+    brand: '#C-pla（シープラ）',
+    name: '#C-pla+ エミテラス所沢店',
+    region: 'kanto',
+    pref: '埼玉県',
+    area: '埼玉県・所沢',
+    zip: '359-1124',
+    address: '埼玉県所沢市東住吉10-1 エミテラス所沢 3F',
+    machines: 700,
+    lat: 35.7857, lon: 139.4700,
+    access: 'エミテラス所沢 3F（所沢駅 西口 徒歩4分・約700種類以上）'
   },
 
   /* ───────────── 千葉県 ───────────── */
