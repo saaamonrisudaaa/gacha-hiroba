@@ -218,6 +218,13 @@
           </form>
         </div>
 
+        <!-- 掲示板の新着投稿（script.js が Supabase から取得。取得失敗時は非表示のまま） -->
+        <div class="gh-widget" data-gh-recent-posts hidden>
+          <h3 class="gh-widget__title">💬 掲示板の新着投稿</h3>
+          <div class="gh-recent-posts"></div>
+          <a href="board.html" class="gh-btn gh-btn--block" style="margin-top:10px">掲示板トップへ →</a>
+        </div>
+
         <div class="gh-widget">
           <h3 class="gh-widget__title">カテゴリーから探す</h3>
           <div class="gh-category-list">

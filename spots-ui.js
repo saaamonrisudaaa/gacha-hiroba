@@ -70,6 +70,7 @@
   if (document.querySelector('[data-gh-board-table]')) renderBoardHub();
   if (qs('articlePage')) renderArticle();
   if (document.querySelector('[data-gh-article-list]')) renderArticleList();
+  if (document.querySelector('[data-gh-upcoming]')) renderUpcoming();
 
   /* ------------------------------------------------------------------ */
   /* エリアまとめ記事（article.html?area=slug）                          */
@@ -123,7 +124,7 @@
                  'url': 'https://gacha-hiroba.com/spot.html?id=' + encodeURIComponent(s.id) };
       })
     };
-    [ld, list].forEach(function (obj) {
+    (stores.length ? [ld, list] : [ld]).forEach(function (obj) {
       var sc = document.createElement('script');
       sc.type = 'application/ld+json';
       sc.textContent = JSON.stringify(obj);
@@ -134,9 +135,22 @@
     setText('articleCrumb', art.label + 'のガチャガチャまとめ');
     setText('articleTitle', art.emoji + ' ' + art.title);
     var meta = qs('articleMeta');
-    if (meta) meta.innerHTML = '最終更新：' + esc(art.updated) + '　・　掲載 <strong>' + stores.length + '店舗</strong>（実データ）';
+    if (meta) {
+      meta.innerHTML = '最終更新：' + esc(art.updated) +
+        (stores.length ? '　・　掲載 <strong>' + stores.length + '店舗</strong>（実データ）' : '　・　保存版ガイド');
+    }
     var intro = qs('articleIntro');
-    if (intro) intro.innerHTML = art.intro.map(function (p) { return '<p>' + esc(p) + '</p>'; }).join('');
+    if (intro) {
+      var body = art.intro.map(function (p) { return '<p>' + esc(p) + '</p>'; }).join('');
+      /* ガイド記事: sections（見出し＋段落）を本文として描画 */
+      if (art.sections && art.sections.length) {
+        body += art.sections.map(function (sec) {
+          return '<h2 class="gh-article-h2">' + esc(sec.h) + '</h2>' +
+                 sec.body.map(function (p) { return '<p>' + esc(p) + '</p>'; }).join('');
+        }).join('');
+      }
+      intro.innerHTML = body;
+    }
 
     /* 比較表 */
     if (stores.length) {
@@ -190,9 +204,10 @@
     var rel = qs('articleRelated');
     if (rel) {
       rel.innerHTML = arts.filter(function (a) { return a.slug !== art.slug; }).map(function (a) {
+        var label = a.type === 'guide' ? a.label : a.label + 'のガチャガチャまとめ';
         return '<li><a href="' + articleUrl(a) + '" class="gh-category-item">' +
                '<span class="gh-category-item__icon">' + esc(a.emoji) + '</span>' +
-               '<span>' + esc(a.label) + 'のガチャガチャまとめ</span></a></li>';
+               '<span>' + esc(label) + '</span></a></li>';
       }).join('');
     }
   }
@@ -205,13 +220,33 @@
       var items = limit > 0 ? arts.slice(0, limit) : arts;
       box.innerHTML = items.map(function (a) {
         var count = articleStores(a).length;
+        var isGuide = a.type === 'guide';
         return '<a href="' + articleUrl(a) + '" class="gh-news-item">' +
                  '<time class="gh-news-item__date">' + esc(a.updated) + '</time>' +
-                 '<span class="gh-badge gh-badge--new">まとめ</span>' +
-                 '<span>' + esc(a.emoji + ' ' + a.title) + '（' + count + '店舗掲載）</span>' +
+                 '<span class="gh-badge gh-badge--new">' + (isGuide ? 'ガイド' : 'まとめ') + '</span>' +
+                 '<span>' + esc(a.emoji + ' ' + a.title) + (count ? '（' + count + '店舗掲載）' : '') + '</span>' +
                '</a>';
       }).join('');
     });
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* オープン予定トラッカー（news.html の [data-gh-upcoming]）           */
+  /* ------------------------------------------------------------------ */
+  function renderUpcoming() {
+    var tbody = document.querySelector('[data-gh-upcoming]');
+    var items = window.GH_UPCOMING || [];
+    if (!tbody || !items.length) return;
+    tbody.innerHTML = items.map(function (u) {
+      return '<tr>' +
+        '<td><strong>' + esc(u.name) + '</strong></td>' +
+        '<td>' + esc(u.area || '—') + '</td>' +
+        '<td>' + esc(u.expected || '時期未定') + '</td>' +
+        '<td style="font-size:12px;color:var(--gh-muted)">' + esc(u.note || '') + '</td>' +
+      '</tr>';
+    }).join('');
+    var sec = document.querySelector('[data-gh-upcoming-sec]');
+    if (sec) sec.hidden = false;
   }
 
   /* ------------------------------------------------------------------ */

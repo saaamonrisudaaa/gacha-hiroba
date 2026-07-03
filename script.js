@@ -552,6 +552,46 @@ renderRanking('national');
   }
 })();
 
+/* ── 掲示板の新着投稿（index.html サイドバー）: Supabase REST を素の fetch で読む ── */
+(function () {
+  const box = document.querySelector('[data-gh-recent-posts]');
+  if (!box || !window.fetch) return;
+  const listEl = box.querySelector('.gh-recent-posts');
+  const esc = s => { const d = document.createElement('div'); d.textContent = (s == null ? '' : String(s)); return d.innerHTML; };
+  const ago = iso => {
+    const m = Math.floor((Date.now() - new Date(iso).getTime()) / 60000);
+    if (!(m >= 0)) return '';
+    if (m < 1) return 'たった今';
+    if (m < 60) return m + '分前';
+    const h = Math.floor(m / 60);
+    if (h < 24) return h + '時間前';
+    const d = Math.floor(h / 24);
+    return d < 30 ? d + '日前' : new Date(iso).toLocaleDateString('ja-JP');
+  };
+  fetch(GH_SUPA_URL + '/rest/v1/posts?select=spot,name,body,created_at&order=created_at.desc&limit=5', {
+    headers: { apikey: GH_SUPA_KEY, Authorization: 'Bearer ' + GH_SUPA_KEY }
+  })
+    .then(r => (r.ok ? r.json() : Promise.reject(new Error('http ' + r.status))))
+    .then(rows => {
+      if (!Array.isArray(rows) || !rows.length || !listEl) return;
+      const spots = window.GH_SPOTS || [];
+      listEl.innerHTML = rows.map(p => {
+        const sid = String(p.spot || '').replace(/^spot-/, '');
+        const store = spots.find(s => s.id === sid);
+        const href = store ? 'spot.html?id=' + encodeURIComponent(store.id) + '#board' : 'board.html';
+        const where = store ? store.name : '総合掲示板';
+        const raw = String(p.body || '');
+        const excerpt = raw.length > 42 ? raw.slice(0, 42) + '…' : raw;
+        return '<a class="gh-recent-post" href="' + href + '">' +
+          '<span class="gh-recent-post__body">' + esc(excerpt) + '</span>' +
+          '<span class="gh-recent-post__meta">' + esc(p.name || '名無しのガチャー') + '・' + esc(where) + '・' + esc(ago(p.created_at)) + '</span>' +
+        '</a>';
+      }).join('');
+      box.hidden = false;
+    })
+    .catch(() => { /* オフライン・RLS変更などで取れない場合はウィジェットごと非表示 */ });
+})();
+
 /* ── Spot exterior photo: upload + localStorage persistence (location.html) ── */
 (function () {
   const input = document.getElementById('spotPhotoInput');

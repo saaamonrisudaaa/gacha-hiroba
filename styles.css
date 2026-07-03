@@ -2302,3 +2302,14 @@ img { display: block; max-width: 100%; }
 
 /* ── 現在地からの距離バッジ（map.html） ── */
 .gh-map-spot__dist { color: #d93025; font-weight: 700; }
+
+/* ── 掲示板の新着投稿ウィジェット（index.html） ── */
+.gh-recent-posts { display: flex; flex-direction: column; }
+.gh-recent-post { display: block; padding: 9px 2px; border-bottom: 1px solid var(--gh-border, #e5e7eb); text-decoration: none; color: inherit; }
+.gh-recent-post:last-child { border-bottom: none; }
+.gh-recent-post:hover .gh-recent-post__body { text-decoration: underline; }
+.gh-recent-post__body { display: block; font-size: 13px; line-height: 1.5; }
+.gh-recent-post__meta { display: block; margin-top: 3px; font-size: 11px; color: var(--gh-muted); }
+
+/* ── ガイド記事の見出し（article.html） ── */
+.gh-article-h2 { font-size: 17px; margin: 26px 0 10px; padding: 8px 12px; border-left: 4px solid #d93025; background: rgba(0,0,0,.03); border-radius: 4px; }
