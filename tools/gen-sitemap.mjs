@@ -33,6 +33,12 @@ add('/advertising.html', '0.2', 'monthly');
 const prefs = [...new Set(spots.map(s => s.pref))];
 prefs.forEach(p => add('/stores.html?pref=' + encodeURIComponent(p), '0.7'));
 
+/* ブランド別一覧（2店舗以上のブランドのみ） */
+const brandCount = {};
+spots.forEach(s => { brandCount[s.brand] = (brandCount[s.brand] || 0) + 1; });
+Object.keys(brandCount).filter(b => brandCount[b] >= 2)
+  .forEach(b => add('/stores.html?brand=' + encodeURIComponent(b), '0.7'));
+
 /* エリアまとめ記事 */
 articles.forEach(a => add('/article.html?area=' + encodeURIComponent(a.slug), '0.8'));
 

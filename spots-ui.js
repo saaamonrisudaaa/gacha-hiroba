@@ -36,6 +36,7 @@
     return '約' + Number(n).toLocaleString('ja-JP') + '台';
   }
   function setText(id, value) { var el = qs(id); if (el) el.textContent = value; }
+  function setAttr(sel, attr, val) { var el = document.querySelector(sel); if (el) el.setAttribute(attr, val); }
   function osmSearchUrl(store) {
     var q = [store.name, store.address].filter(Boolean).join(' ');
     return 'https://www.openstreetmap.org/search?query=' + encodeURIComponent(q);
@@ -368,7 +369,9 @@
     var badges = qs('spotBadges');
     if (badges) {
       badges.innerHTML =
-        '<span class="gh-badge gh-badge--lg">' + esc(store.brand) + '</span>' +
+        '<a class="gh-badge gh-badge--lg" style="text-decoration:none" ' +
+          'href="stores.html?brand=' + encodeURIComponent(store.brand) + '" ' +
+          'title="' + esc(store.brand) + 'の店舗一覧を見る">' + esc(store.brand) + '</a>' +
         '<span class="gh-badge gh-badge--lg">' + esc(store.area) + '</span>';
     }
     var addr = qs('spotAddress');
@@ -540,6 +543,45 @@
       return;
     }
 
+    /* ── ブランド別一覧（?brand=）: sitemap にも載る SEO 入口 ── */
+    var brand = getParam('brand');
+    if (brand) {
+      var bHits = SPOTS.filter(function (s) { return s.brand === brand; })
+        .sort(function (a, b) { return (b.machines || 0) - (a.machines || 0); });
+      var tabGroup3 = document.querySelector('.gh-tab-group');
+      if (tabGroup3) tabGroup3.style.display = 'none';
+      var title3 = document.querySelector('.gh-page-hero__title');
+      if (title3) title3.textContent = brand + ' の店舗一覧';
+      var desc3 = document.querySelector('.gh-page-hero__desc');
+      if (desc3) desc3.innerHTML = '「' + esc(brand) + '」の登録店舗 <strong id="storeCount">' + bHits.length + '</strong> 店舗を設置台数順に掲載しています。';
+      document.title = brand + 'の店舗一覧（' + bHits.length + '店舗） | ガチャひろば';
+      var bUrl = 'https://gacha-hiroba.com/stores.html?brand=' + encodeURIComponent(brand);
+      setAttr('link[rel="canonical"]', 'href', bUrl);
+      setAttr('meta[property="og:url"]', 'content', bUrl);
+      renderBrandChips(brand);
+      if (!bHits.length) {
+        box.innerHTML =
+          '<div class="gh-section" style="text-align:center;padding:34px 16px">' +
+            '<p style="margin:0 0 6px;font-weight:700">「' + esc(brand) + '」の店舗は見つかりませんでした。</p>' +
+            '<p style="margin:0;font-size:13px;color:var(--gh-muted)"><a href="stores.html">すべての店舗を見る →</a></p>' +
+          '</div>';
+        return;
+      }
+      box.innerHTML =
+        '<section class="gh-section"><div class="gh-table-wrap"><table class="gh-table">' +
+        '<thead><tr><th>店舗名</th><th>エリア</th><th>設置台数</th><th>営業時間</th></tr></thead><tbody>' +
+        bHits.map(function (s) {
+          return '<tr>' +
+            '<td><a class="gh-table__link" href="spot.html?id=' + encodeURIComponent(s.id) + '">' + esc(s.name) + '</a>' +
+              '<small class="gh-store-brand">' + esc(s.brand) + '</small></td>' +
+            '<td>' + esc(s.area) + '</td>' +
+            '<td>' + machinesText(s.machines) + '</td>' +
+            '<td>' + esc(s.hours || '—') + '</td>' +
+          '</tr>';
+        }).join('') + '</tbody></table></div></section>';
+      return;
+    }
+
     var source = pref ? SPOTS.filter(function (s) { return s.pref === pref; }) : SPOTS;
 
     // ?pref= 指定時は都道府県で絞り込み表示（地方タブは隠す）
@@ -549,6 +591,9 @@
       var title = document.querySelector('.gh-page-hero__title');
       if (title) title.textContent = pref + 'の店舗';
       document.title = pref + 'の店舗一覧 | ガチャひろば';
+      var pUrl = 'https://gacha-hiroba.com/stores.html?pref=' + encodeURIComponent(pref);
+      setAttr('link[rel="canonical"]', 'href', pUrl);
+      setAttr('meta[property="og:url"]', 'content', pUrl);
       if (!source.length) {
         box.innerHTML = '<p class="gh-widget__text">' + esc(pref) + 'の登録店舗は現在準備中です。' +
           '<a href="stores.html">すべての店舗を見る →</a></p>';
@@ -587,7 +632,29 @@
 
     box.innerHTML = html || '<p class="gh-widget__text">店舗はまだ登録されていません。</p>';
     if (pref) { setText('storeCount', String(source.length)); }
-    else { wireStoreTabs(); }
+    else { wireStoreTabs(); renderBrandChips(null); }
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* ブランド絞り込みチップ（stores.html の [data-gh-brand-chips]）      */
+  /*   2店舗以上あるブランドを店舗数順に表示。?brand= ページへのリンク。 */
+  /* ------------------------------------------------------------------ */
+  function renderBrandChips(active) {
+    var box = document.querySelector('[data-gh-brand-chips]');
+    if (!box) return;
+    var counts = {};
+    SPOTS.forEach(function (s) { counts[s.brand] = (counts[s.brand] || 0) + 1; });
+    var brands = Object.keys(counts).filter(function (b) { return counts[b] >= 2; })
+      .sort(function (a, b) { return counts[b] - counts[a]; });
+    if (!brands.length) { box.style.display = 'none'; return; }
+    box.innerHTML =
+      '<p class="gh-brand-chips__label">ブランドから探す</p>' +
+      '<div class="gh-brand-chips">' +
+      (active ? '<a class="gh-tab" href="stores.html">すべて</a>' : '') +
+      brands.map(function (b) {
+        return '<a class="gh-tab' + (b === active ? ' active' : '') + '" href="stores.html?brand=' + encodeURIComponent(b) + '">' +
+          esc(b) + '<span class="gh-brand-chips__count">' + counts[b] + '</span></a>';
+      }).join('') + '</div>';
   }
 
   /* ------------------------------------------------------------------ */
