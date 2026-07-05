@@ -911,6 +911,79 @@ window.GH_SPOTS = [
     access: '雷門 徒歩1分・浅草駅 徒歩2分（gashacoco浅草と同ビル1F・548台）'
   },
   {
+    id: 'gbo-namco-ikebukuro',
+    brand: 'ガシャポン（バンダイ）',
+    name: 'ガシャポンバンダイオフィシャルショップ namco池袋店',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・池袋',
+    address: '東京都豊島区東池袋1-22-10 ヒューマックスパビリオン池袋サンシャイン60通り 1F',
+    lat: 35.7300, lon: 139.7140,
+    access: 'サンシャイン60通り沿い 1F（2024年9月13日オープン・バンダイ公式）'
+  },
+  {
+    id: 'gbo-ikebukuro',
+    brand: 'ガシャポン（バンダイ）',
+    name: 'ガシャポンバンダイオフィシャルショップ 池袋店',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・池袋',
+    address: '東京都豊島区東池袋3-1-3 サンシャインシティ ワールドインポートマートビル 3F',
+    lat: 35.7292, lon: 139.7187,
+    access: 'サンシャインシティ 3F（ガシャポンのデパート池袋総本店と同フロア）'
+  },
+  {
+    id: 'gbo-namco-tokyo-kabukicho',
+    brand: 'ガシャポン（バンダイ）',
+    name: 'ガシャポンバンダイオフィシャルショップ namcoTOKYO東急歌舞伎町タワー店',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・新宿',
+    address: '東京都新宿区歌舞伎町1-29-1 東急歌舞伎町タワー内 namcoTOKYO',
+    lat: 35.6952, lon: 139.7019,
+    access: '東急歌舞伎町タワー namcoTOKYO内（西武新宿駅すぐ・新宿駅 徒歩圏）'
+  },
+  {
+    id: 'gbo-tachikawa-takashimaya',
+    brand: 'ガシャポン（バンダイ）',
+    name: 'ガシャポンバンダイオフィシャルショップ 立川高島屋S.C.店',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・立川',
+    address: '東京都立川市曙町2-39-3 立川高島屋S.C. 3F',
+    hours: '10:00〜21:00',
+    lat: 35.7004, lon: 139.4144,
+    access: '立川高島屋S.C. 3F namco内（ガシャポンのデパートと同時オープン・2023年12月）'
+  },
+  {
+    id: 'cpla-granduo-tachikawa',
+    brand: '#C-pla（シープラ）',
+    name: '#C-pla グランデュオ立川店',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・立川',
+    zip: '190-8554',
+    address: '東京都立川市柴崎町3-2-1 グランデュオ立川 6F',
+    hours: '10:00〜20:30（日祝は20:00まで）',
+    machines: 699,
+    lat: 35.6975, lon: 139.4152,
+    access: 'グランデュオ立川 6F（立川駅 直結・約699種類）'
+  },
+  {
+    id: 'caprak-sengawa',
+    brand: 'カプセル楽局',
+    name: 'カプセル楽局 仙川店',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・仙川',
+    zip: '182-0002',
+    address: '東京都調布市仙川町2-21-12 VICビル7 1F',
+    tel: '03-6382-9718',
+    hours: '10:00〜22:00',
+    lat: 35.6625, lon: 139.5850,
+    access: '京王線 仙川駅 近くの商店街内（2024年8月30日オープン・近隣に2号店もあり）'
+  },
+  {
     id: 'cpla-shibuya-center-gai',
     brand: '#C-pla（シープラ）',
     name: '#C-pla 渋谷センター街店',
@@ -1275,6 +1348,20 @@ window.GH_SPOTS = [
     lat: 35.7857, lon: 139.4700,
     access: 'エミテラス所沢 3F（所沢駅 西口 徒歩4分・約700種類以上）'
   },
+  {
+    id: 'caprak-tokorozawa-prope',
+    brand: 'カプセル楽局',
+    name: 'カプセル楽局 所沢プロペ通り店',
+    region: 'kanto',
+    pref: '埼玉県',
+    area: '埼玉県・所沢',
+    zip: '359-1123',
+    address: '埼玉県所沢市日吉町8-6',
+    tel: '042-997-9874',
+    hours: '10:00〜22:00',
+    lat: 35.7862, lon: 139.4720,
+    access: '所沢プロペ通り商店街内（所沢駅 西口側・2025年2月28日オープン）'
+  },
 
   /* ───────────── 千葉県 ───────────── */
   {
@@ -1425,6 +1512,19 @@ window.GH_SPOTS = [
     machines: 710,
     lat: 35.8135, lon: 140.1470,
     access: 'BIG HOPガーデンモール印西 1F'
+  },
+  {
+    id: 'caprak-ichikawa-kitaguchi',
+    brand: 'カプセル楽局',
+    name: 'カプセル楽局 市川駅北口店',
+    region: 'kanto',
+    pref: '千葉県',
+    area: '千葉県・市川',
+    address: '千葉県市川市市川1-6-7 IKビル',
+    tel: '047-711-2902',
+    hours: '10:00〜22:00',
+    lat: 35.7295, lon: 139.9080,
+    access: 'JR市川駅 北口 徒歩約2分（2025年11月オープン・ゲオ運営）'
   },
 
   /* ───────────── 群馬県 ───────────── */

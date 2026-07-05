@@ -446,6 +446,12 @@ renderRanking('national');
   };
   const distText = km => km < 1 ? Math.round(km * 1000) + 'm' : (Math.round(km * 10) / 10) + 'km';
   const renderMapList = (arr, origin) => {
+    if (!arr.length) {
+      listBox.innerHTML = '<p style="padding:16px;font-size:13px;color:var(--gh-muted)">該当する店舗が見つかりませんでした。キーワードを変えてお試しください。</p>';
+      const cnt0 = document.querySelector('.gh-map-list__count');
+      if (cnt0) cnt0.textContent = '0件';
+      return;
+    }
     listBox.innerHTML = arr.map((s, i) =>
       '<a href="spot.html?id=' + encodeURIComponent(s.id) + '" class="gh-map-spot' + (i === 0 ? ' gh-map-spot--selected' : '') + '">' +
         '<div class="gh-map-spot__num' + (i === 0 ? ' gh-map-spot__num--1' : '') + '">' + (i + 1) + '</div>' +
@@ -463,6 +469,33 @@ renderRanking('national');
   };
   if (listBox && spots.length) {
     renderMapList(spots.slice().sort((a, b) => (b.machines || 0) - (a.machines || 0)), null);
+  }
+
+  // マップ内キーワード検索：リストと地図をその場で絞り込み（スペース区切りAND検索）
+  let fitToSpots = null;     // Leaflet 初期化後に差し込まれる
+  const mapSearchForm = document.querySelector('.gh-map-search-form');
+  const mapSearchInput = document.querySelector('.gh-map-search-input');
+  if (mapSearchForm && mapSearchInput && listBox && spots.length) {
+    mapSearchForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const q = mapSearchInput.value.trim();
+      const byMachines = arr => arr.slice().sort((a, b) => (b.machines || 0) - (a.machines || 0));
+      if (!q) { renderMapList(byMachines(spots), null); return; }
+      const terms = q.toLowerCase().split(/[\s　]+/).filter(Boolean);
+      // 「ガチャ」「カプセルトイ」等の一般語は全店舗が該当するため常にマッチ扱い
+      const GENERIC = 'ガチャ ガチャガチャ ガチャポン ガシャポン カプセルトイ カプセル 専門店 店舗';
+      const hits = spots.filter(s => {
+        const hay = ([s.name, s.brand, s.area, s.pref, s.address, s.access]
+          .map(f => (f == null ? '' : String(f))).join(' ') + ' ' + GENERIC).toLowerCase();
+        return terms.every(t => hay.includes(t));
+      });
+      renderMapList(byMachines(hits), null);
+      if (hits.length) {
+        const cnt = document.querySelector('.gh-map-list__count');
+        if (cnt) cnt.textContent = '「' + q + '」' + hits.length + '件';
+        if (fitToSpots) fitToSpots(hits);
+      }
+    });
   }
 
   // 「近い順」ボタン：現在地からの距離でリストを並べ替え（位置情報は端末内でのみ利用・送信しない）
@@ -530,6 +563,13 @@ renderRanking('national');
     map.setView(here, 13);
     L.circleMarker(here, { radius: 8, color: '#1d4ed8', fillColor: '#1d4ed8', fillOpacity: .6 })
       .addTo(map).bindPopup('現在地').openPopup();
+  };
+
+  // キーワード検索のヒット店舗に地図をフィット
+  fitToSpots = arr => {
+    const pts = arr.filter(s => s.lat != null).map(s => [s.lat, s.lon]);
+    if (pts.length > 1) map.fitBounds(pts, { padding: [40, 40] });
+    else if (pts.length === 1) map.setView(pts[0], 15);
   };
 
   // Enable wheel-zoom only after the user clicks the map (avoids hijacking page scroll)
