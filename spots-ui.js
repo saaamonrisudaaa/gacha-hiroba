@@ -37,6 +37,13 @@
   }
   function setText(id, value) { var el = qs(id); if (el) el.textContent = value; }
   function setAttr(sel, attr, val) { var el = document.querySelector(sel); if (el) el.setAttribute(attr, val); }
+  /* 検索用の正規化：全角→半角（NFKC）・小文字化・ハイフン/#を除去。
+     「Cpla」「C-pla」「#C-pla」「ｃｐｌａ」を同一視するため。 */
+  function normSearch(s) {
+    s = String(s == null ? '' : s);
+    try { s = s.normalize('NFKC'); } catch (e) {}
+    return s.toLowerCase().replace(/[#\-‐‑–—−]/g, '');
+  }
   function osmSearchUrl(store) {
     var q = [store.name, store.address].filter(Boolean).join(' ');
     return 'https://www.openstreetmap.org/search?query=' + encodeURIComponent(q);
@@ -563,13 +570,13 @@
     /* ── キーワード検索（?q=）: 店名・エリア・住所・ブランドを横断で部分一致。
           スペース区切りの複数キーワードは AND 検索（例:「浅草 ガチャ」）── */
     if (query) {
-      var nq = query.toLowerCase();
-      var terms = nq.split(/[\s　]+/).filter(function (t) { return t.length > 0; });
+      var nq = normSearch(query);
+      var terms = nq.split(/\s+/).filter(function (t) { return t.length > 0; });
       /* 「ガチャ」「カプセルトイ」等の一般語は全店舗が該当するため常にマッチ扱い */
       var GENERIC = 'ガチャ ガチャガチャ ガチャポン ガシャポン カプセルトイ カプセル 専門店 店舗';
       var hits = SPOTS.filter(function (s) {
-        var hay = ([s.name, s.brand, s.area, s.pref, s.address, s.access]
-          .map(function (f) { return (f == null ? '' : String(f)); }).join(' ') + ' ' + GENERIC).toLowerCase();
+        var hay = normSearch([s.name, s.brand, s.area, s.pref, s.address, s.access]
+          .map(function (f) { return (f == null ? '' : String(f)); }).join(' ') + ' ' + GENERIC);
         return terms.every(function (t) { return hay.indexOf(t) !== -1; });
       }).sort(function (a, b) { return (b.machines || 0) - (a.machines || 0); });
 
@@ -584,8 +591,9 @@
       /* 関連するまとめ記事があれば先頭に提案 */
       var artHtml = '';
       var arts = (window.GH_ARTICLES || []).filter(function (a) {
-        var at = (a.label + ' ' + a.title).toLowerCase();
-        return terms.some(function (t) { return at.indexOf(t) !== -1 || t.indexOf(a.label.toLowerCase()) !== -1; });
+        var at = normSearch(a.label + ' ' + a.title);
+        var al = normSearch(a.label);
+        return terms.some(function (t) { return at.indexOf(t) !== -1 || (al && t.indexOf(al) !== -1); });
       });
       if (arts.length) {
         artHtml = '<div class="gh-news-list" style="margin-bottom:16px">' + arts.map(function (a) {

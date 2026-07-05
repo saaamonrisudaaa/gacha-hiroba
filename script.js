@@ -481,12 +481,18 @@ renderRanking('national');
       const q = mapSearchInput.value.trim();
       const byMachines = arr => arr.slice().sort((a, b) => (b.machines || 0) - (a.machines || 0));
       if (!q) { renderMapList(byMachines(spots), null); return; }
-      const terms = q.toLowerCase().split(/[\s　]+/).filter(Boolean);
+      // 正規化（全角→半角・小文字化・ハイフン/#除去）で「Cpla」「#C-pla」等の表記ゆれを吸収
+      const norm = s => {
+        s = String(s == null ? '' : s);
+        try { s = s.normalize('NFKC'); } catch (e) {}
+        return s.toLowerCase().replace(/[#\-‐‑–—−]/g, '');
+      };
+      const terms = norm(q).split(/\s+/).filter(Boolean);
       // 「ガチャ」「カプセルトイ」等の一般語は全店舗が該当するため常にマッチ扱い
       const GENERIC = 'ガチャ ガチャガチャ ガチャポン ガシャポン カプセルトイ カプセル 専門店 店舗';
       const hits = spots.filter(s => {
-        const hay = ([s.name, s.brand, s.area, s.pref, s.address, s.access]
-          .map(f => (f == null ? '' : String(f))).join(' ') + ' ' + GENERIC).toLowerCase();
+        const hay = norm([s.name, s.brand, s.area, s.pref, s.address, s.access]
+          .map(f => (f == null ? '' : String(f))).join(' ') + ' ' + GENERIC);
         return terms.every(t => hay.includes(t));
       });
       renderMapList(byMachines(hits), null);
