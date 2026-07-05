@@ -144,7 +144,15 @@
                  'url': 'https://gacha-hiroba.com/spot.html?id=' + encodeURIComponent(s.id) };
       })
     };
-    (stores.length ? [ld, list] : [ld]).forEach(function (obj) {
+    var crumbs = {
+      '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+      'itemListElement': [
+        { '@type': 'ListItem', 'position': 1, 'name': 'ホーム', 'item': 'https://gacha-hiroba.com/' },
+        { '@type': 'ListItem', 'position': 2, 'name': '新着情報・特集記事', 'item': 'https://gacha-hiroba.com/news.html' },
+        { '@type': 'ListItem', 'position': 3, 'name': art.title, 'item': pageUrl }
+      ]
+    };
+    (stores.length ? [ld, list, crumbs] : [ld, crumbs]).forEach(function (obj) {
       var sc = document.createElement('script');
       sc.type = 'application/ld+json';
       sc.textContent = JSON.stringify(obj);

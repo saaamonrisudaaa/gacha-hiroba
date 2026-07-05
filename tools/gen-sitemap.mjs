@@ -28,6 +28,7 @@ add('/category.html', '0.5');
 add('/terms.html', '0.2', 'monthly');
 add('/privacy.html', '0.2', 'monthly');
 add('/advertising.html', '0.2', 'monthly');
+add('/sitemap.html', '0.4');
 
 /* 都道府県別一覧 */
 const prefs = [...new Set(spots.map(s => s.pref))];
@@ -82,3 +83,77 @@ const rss = '<?xml version="1.0" encoding="UTF-8"?>\n' +
   items + '\n</channel>\n</rss>\n';
 writeFileSync(new URL('../feed.xml', import.meta.url), rss);
 console.log('feed.xml written:', articles.length, 'items');
+
+/* ── HTML サイトマップ（sitemap.html）: JS なしでも辿れる全ページへの静的リンク集。
+      クローラーのクロール経路確保＋内部リンク強化のために生成する。 ── */
+const escH = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+const prefOrder = [...new Set(spots.map(s => s.pref))];
+const byPref = p => spots.filter(s => s.pref === p);
+const spotLink = s =>
+  '        <li><a href="spot.html?id=' + encodeURIComponent(s.id) + '">' + escH(s.name) + '</a>' +
+  '<small>（' + escH(s.area) + '）</small></li>';
+const html = `<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="ガチャひろばの全ページ一覧。掲載中の全ガチャガチャ店舗（${spots.length}店舗）とエリア別まとめ・ランキング・ガイド記事（${articles.length}本）へのリンク集です。" />
+  <title>サイトマップ｜全${spots.length}店舗・全記事一覧 | ガチャひろば</title>
+  <link rel="canonical" href="${ORIGIN}/sitemap.html" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="gh-header">
+    <div class="gh-header__top">
+      <div class="gh-container gh-header__inner">
+        <a class="gh-logo" href="index.html" aria-label="ガチャひろば トップへ">
+          <span class="gh-logo__icon">G</span>
+          <span class="gh-logo__text">ガチャ<em>ひろば</em></span>
+        </a>
+      </div>
+    </div>
+  </header>
+  <main class="gh-main">
+    <div class="gh-container">
+      <div class="gh-page-hero">
+        <h1 class="gh-page-hero__title">サイトマップ</h1>
+        <p class="gh-page-hero__desc">掲載中の全${spots.length}店舗と全${articles.length}記事へのリンク一覧です。</p>
+      </div>
+      <section class="gh-section">
+        <h2 class="gh-section__title">主要ページ</h2>
+        <ul>
+          <li><a href="index.html">トップ</a></li>
+          <li><a href="stores.html">店舗一覧</a></li>
+          <li><a href="map.html">マップ検索</a></li>
+          <li><a href="ranking.html">ランキング</a></li>
+          <li><a href="board.html">掲示板</a></li>
+          <li><a href="news.html">新着情報・特集記事</a></li>
+        </ul>
+      </section>
+      <section class="gh-section">
+        <h2 class="gh-section__title">特集記事・ランキング・ガイド</h2>
+        <ul>
+${articles.map(a => '          <li><a href="article.html?area=' + encodeURIComponent(a.slug) + '">' + escH(a.title) + '</a></li>').join('\n')}
+        </ul>
+      </section>
+${prefOrder.map(p => `      <section class="gh-section">
+        <h2 class="gh-section__title">${escH(p)}の店舗（${byPref(p).length}件）</h2>
+        <ul>
+${byPref(p).map(spotLink).join('\n')}
+        </ul>
+      </section>`).join('\n')}
+    </div>
+  </main>
+  <footer class="gh-footer">
+    <div class="gh-container">
+      <div class="gh-footer__bottom">
+        <span>© 2026 ガチャひろば (gacha-hiroba.com)</span>
+        <span><a href="index.html">トップへ戻る</a></span>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
+`;
+writeFileSync(new URL('../sitemap.html', import.meta.url), html);
+console.log('sitemap.html written:', spots.length, 'stores,', articles.length, 'articles');
