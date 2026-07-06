@@ -31,6 +31,10 @@ const now = new Date(Date.now() + 9 * 3600 * 1000); // UTC→JST
 const jstHour = now.getUTCHours();
 const dayKey = Math.floor((Date.now() + 9 * 3600 * 1000) / 86400000); // JST日単位の通し番号
 const DRY = process.env.X_DRY_RUN === '1';
+const KEY = process.env.X_API_KEY, KSEC = process.env.X_API_SECRET;
+const TOK = process.env.X_ACCESS_TOKEN, TSEC = process.env.X_ACCESS_SECRET;
+/* 実際に投稿できるときだけキューを消費する（ドライラン・キー未設定時は温存） */
+const CAN_POST = !DRY && KEY && KSEC && TOK && TSEC;
 const slot = process.env.X_SLOT || (
   jstHour >= 5 && jstHour < 10 ? 'morning' :
   jstHour >= 10 && jstHour < 14 ? 'noon' :
@@ -99,7 +103,7 @@ if (existsSync(queuePath)) {
   if (idx === -1) idx = q.findIndex(p => !p.slot);
   if (idx !== -1) {
     text = q[idx].text;
-    if (!DRY) {   // ドライランではキューを消費しない
+    if (CAN_POST) {
       q.splice(idx, 1);
       writeFileSync(queuePath, JSON.stringify(data, null, 2) + '\n');
       queueChanged = true;
@@ -112,9 +116,6 @@ console.log('slot:', slot, '| queue使用:', queueChanged);
 console.log('---- 投稿文 ----\n' + text + '\n----------------');
 
 /* ---------- 投稿（OAuth 1.0a User Context / X API v2） ---------- */
-const KEY = process.env.X_API_KEY, KSEC = process.env.X_API_SECRET;
-const TOK = process.env.X_ACCESS_TOKEN, TSEC = process.env.X_ACCESS_SECRET;
-
 if (DRY) {
   console.log('[DRY RUN] 投稿はスキップしました');
   process.exit(0);
