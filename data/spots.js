@@ -911,6 +911,66 @@ window.GH_SPOTS = [
     access: '雷門 徒歩1分・浅草駅 徒歩2分（gashacoco浅草と同ビル1F・548台）'
   },
   {
+    id: 'gachadokoro-asakusa',
+    brand: 'がちゃ処',
+    name: 'がちゃ処 浅草店',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・浅草',
+    address: '東京都台東区浅草1-27-10',
+    hours: '11:00〜19:45（年中無休）',
+    lat: 35.7122, lon: 139.7950,
+    access: '浅草 新仲見世通り内（雷門・仲見世観光とあわせて回りやすい立地）'
+  },
+  {
+    id: 'caprak-sunamachi-ginza-east',
+    brand: 'カプセル楽局',
+    name: 'カプセル楽局 砂町銀座商店街東店',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・北砂',
+    address: '東京都江東区北砂4-26-6 1F',
+    hours: '10:00〜22:00',
+    lat: 35.6790, lon: 139.8260,
+    access: '砂町銀座商店街内（2023年12月9日オープン・ゲオ運営）'
+  },
+  {
+    id: 'caprak-kyodo',
+    brand: 'カプセル楽局',
+    name: 'カプセル楽局 経堂農大通り店',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・経堂',
+    zip: '156-0052',
+    address: '東京都世田谷区経堂1-11-8 シンフォニー経堂 1F',
+    hours: '10:00〜22:00',
+    lat: 35.6500, lon: 139.6365,
+    access: '経堂農大通り商店街内（小田急線 経堂駅 近く・2024年9月30日オープン）'
+  },
+  {
+    id: 'caprak-soshigaya-okura',
+    brand: 'カプセル楽局',
+    name: 'カプセル楽局 祖師ヶ谷大蔵店',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・祖師ヶ谷大蔵',
+    address: '東京都世田谷区祖師谷1-9-9 松本ビル 1F',
+    lat: 35.6415, lon: 139.6090,
+    access: '小田急線 祖師ヶ谷大蔵駅 徒歩1分・ウルトラマン商店街内（2025年6月27日オープン・近隣に2号店もあり）'
+  },
+  {
+    id: 'caprak-kichijoji',
+    brand: 'カプセル楽局',
+    name: 'カプセル楽局 吉祥寺店',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・吉祥寺',
+    zip: '180-0004',
+    address: '東京都武蔵野市吉祥寺本町1-7-7',
+    lat: 35.7045, lon: 139.5795,
+    access: '吉祥寺駅 徒歩3分・ダイヤ街内（2024年12月オープン・ゲオ運営）'
+  },
+  {
     id: 'gbo-namco-ikebukuro',
     brand: 'ガシャポン（バンダイ）',
     name: 'ガシャポンバンダイオフィシャルショップ namco池袋店',
