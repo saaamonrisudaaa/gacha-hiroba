@@ -1210,6 +1210,34 @@ window.GH_SPOTS = [
     access: 'JR神田駅 近く（ゲオ運営のカプセルトイ専門店）'
   },
   {
+    id: 'dreamcapsule-ueno-marui',
+    brand: 'ドリームカプセル',
+    name: 'ドリームカプセル 上野マルイ店',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・上野',
+    address: '東京都台東区上野6-15-1 上野マルイ 2F',
+    tel: '080-5792-4645',
+    hours: '11:00〜20:00',
+    lat: 35.7085, lon: 139.7760,
+    access: '上野マルイ 2F（JR上野駅・御徒町駅 徒歩圏）'
+  },
+  {
+    id: 'cpla-premium-omokado',
+    brand: '#C-pla（シープラ）',
+    name: '#C-pla premium 東急プラザ表参道オモカド店',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・表参道',
+    zip: '150-0001',
+    address: '東京都渋谷区神宮前4-30-3 東急プラザ表参道「オモカド」4F',
+    tel: '070-3180-6839',
+    hours: '11:00〜20:00',
+    machines: 1164,
+    lat: 35.6675, lon: 139.7060,
+    access: '東急プラザ表参道オモカド 4F（表参道駅 A4出口すぐ・約1,164種）'
+  },
+  {
     id: 'caprak-jimbocho',
     brand: 'カプセル楽局',
     name: 'カプセル楽局 神保町店',
@@ -1531,6 +1559,19 @@ window.GH_SPOTS = [
     machines: 700,
     lat: 35.6133, lon: 140.1128,
     access: 'ペリエ千葉 ストリート2（千葉駅 千葉公園口 徒歩1分）'
+  },
+  {
+    id: 'cpla-chiba-ekimae',
+    brand: '#C-pla（シープラ）',
+    name: '#C-pla 千葉駅前店',
+    region: 'kanto',
+    pref: '千葉県',
+    area: '千葉県・千葉',
+    zip: '260-0015',
+    address: '千葉県千葉市中央区富士見2-4-15 第一東和ビル 1F',
+    hours: '10:00〜22:00',
+    lat: 35.6122, lon: 140.1235,
+    access: '千葉駅 徒歩圏・富士見エリア（ペリエ千葉店とは別の路面店・22時まで営業）'
   },
   {
     id: 'ggmori-bic-chiba',
