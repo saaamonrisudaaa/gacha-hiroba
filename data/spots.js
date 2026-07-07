@@ -1197,6 +1197,32 @@ window.GH_SPOTS = [
     access: '末広町駅 徒歩2分・JR秋葉原駅 電気街口 徒歩7分（カプセルトイの聖地）'
   },
   {
+    id: 'caprak-kanda',
+    brand: 'カプセル楽局',
+    name: 'カプセル楽局 神田店',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・神田',
+    address: '東京都千代田区内神田2-9-11 神田森田リズム共同ビル',
+    tel: '03-5207-2965',
+    hours: '10:00〜22:00',
+    lat: 35.6920, lon: 139.7690,
+    access: 'JR神田駅 近く（ゲオ運営のカプセルトイ専門店）'
+  },
+  {
+    id: 'caprak-jimbocho',
+    brand: 'カプセル楽局',
+    name: 'カプセル楽局 神保町店',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・神保町',
+    address: '東京都千代田区神田神保町1-5-10 堀内神保町ビル 1F',
+    tel: '03-6260-5121',
+    hours: '10:00〜22:00',
+    lat: 35.6958, lon: 139.7575,
+    access: '神保町駅 A7出口 徒歩1分'
+  },
+  {
     id: 'tokyo-gashapon-street',
     brand: 'ガシャポン（バンダイ）',
     name: 'TOKYO GASHAPON STREET 東京駅一番街店',
