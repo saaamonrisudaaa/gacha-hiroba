@@ -706,17 +706,6 @@ window.GH_SPOTS = [
     access: 'ハッピーロード大山商店街内（2024年3月15日オープン）'
   },
   {
-    id: 'caprak-oyama-higashimachi',
-    brand: 'カプセル楽局',
-    name: 'カプセル楽局 大山東町店',
-    region: 'kanto',
-    pref: '東京都',
-    area: '東京都・大山',
-    address: '東京都板橋区大山東町28-8',
-    lat: 35.7480, lon: 139.7030,
-    access: '遊座大山商店街エリア（東武東上線 大山駅 近く）'
-  },
-  {
     id: 'caprak-chitosekarasuyama',
     brand: 'カプセル楽局',
     name: 'カプセル楽局 千歳烏山店',
@@ -984,18 +973,31 @@ window.GH_SPOTS = [
     access: '小田急線 千歳船橋駅 近く（2024年9月27日オープン）'
   },
   {
-    id: 'caprak-shimoakatsuka',
+    id: 'caprak-ex-nakano-sunmall',
     brand: 'カプセル楽局',
-    name: 'カプセル楽局 下赤塚店',
+    name: 'カプセル楽局EX 中野サンモール店',
     region: 'kanto',
     pref: '東京都',
-    area: '東京都・下赤塚',
-    zip: '175-0092',
-    address: '東京都板橋区赤塚2-1-13',
-    tel: '03-6904-3180',
+    area: '東京都・中野',
+    address: '東京都中野区中野5-65-12',
     hours: '10:00〜22:00',
-    lat: 35.7830, lon: 139.6420,
-    access: '東武東上線 下赤塚駅 北口 徒歩1分'
+    machines: 600,
+    lat: 35.7080, lon: 139.6655,
+    access: '中野サンモール商店街内・B1〜2Fの大型店（約600種類・2024年12月6日オープン）'
+  },
+  {
+    id: 'caprak-takenotsuka',
+    brand: 'カプセル楽局',
+    name: 'カプセル楽局 竹の塚店',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・竹の塚',
+    zip: '121-0813',
+    address: '東京都足立区竹の塚6-9-2',
+    tel: '03-5851-9872',
+    hours: '10:00〜22:00',
+    lat: 35.8020, lon: 139.7935,
+    access: '東武スカイツリーライン 竹ノ塚駅 徒歩3分（2024年3月30日オープン）'
   },
   {
     id: 'caprak-kichijoji',
@@ -1651,6 +1653,33 @@ window.GH_SPOTS = [
     hours: '10:00〜22:00',
     lat: 35.7295, lon: 139.9080,
     access: 'JR市川駅 北口 徒歩約2分（2025年11月オープン・ゲオ運営）'
+  },
+  {
+    id: 'caprak-plus-minami-nagareyama',
+    brand: 'カプセル楽局',
+    name: 'カプセル楽局PLUS 南流山店',
+    region: 'kanto',
+    pref: '千葉県',
+    area: '千葉県・南流山',
+    address: '千葉県流山市南流山4-16-6',
+    tel: '047-159-2351',
+    hours: '10:00〜22:00',
+    machines: 700,
+    lat: 35.8420, lon: 139.9020,
+    access: 'JR・つくばEX 南流山駅 近く（カプセルトイ約700台＋クレーンゲーム約80台の大型店・2026年3月20日オープン）'
+  },
+  {
+    id: 'caprak-tsudanuma',
+    brand: 'カプセル楽局',
+    name: 'カプセル楽局 津田沼店',
+    region: 'kanto',
+    pref: '千葉県',
+    area: '千葉県・津田沼',
+    address: '千葉県習志野市津田沼1-10-47',
+    tel: '047-411-6318',
+    hours: '10:00〜22:00',
+    lat: 35.6910, lon: 140.0195,
+    access: '津田沼駅 近く（2026年4月24日オープン）'
   },
   {
     id: 'gashadepa-matsudo',
