@@ -29,6 +29,7 @@ add('/terms.html', '0.2', 'monthly');
 add('/privacy.html', '0.2', 'monthly');
 add('/advertising.html', '0.2', 'monthly');
 add('/sitemap.html', '0.4');
+add('/english.html', '0.7');
 
 /* 都道府県別一覧 */
 const prefs = [...new Set(spots.map(s => s.pref))];

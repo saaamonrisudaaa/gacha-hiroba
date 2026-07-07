@@ -78,6 +78,7 @@
   if (qs('articlePage')) renderArticle();
   if (document.querySelector('[data-gh-article-list]')) renderArticleList();
   if (document.querySelector('[data-gh-upcoming]')) renderUpcoming();
+  if (qs('enTopStores')) renderEnglishTop();
 
   /* ------------------------------------------------------------------ */
   /* エリアまとめ記事（article.html?area=slug）                          */
@@ -281,6 +282,37 @@
                '</a>';
       }).join('');
     });
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* 英語ガイド（english.html）: 設置台数TOP10を英語ラベルで描画          */
+  /* ------------------------------------------------------------------ */
+  function renderEnglishTop() {
+    var PREF_EN = {
+      '東京都': 'Tokyo', '神奈川県': 'Kanagawa', '埼玉県': 'Saitama', '千葉県': 'Chiba',
+      '群馬県': 'Gunma', '栃木県': 'Tochigi', '茨城県': 'Ibaraki',
+      '大阪府': 'Osaka', '愛知県': 'Aichi', '福岡県': 'Fukuoka'
+    };
+    var box = qs('enTopStores');
+    var top = SPOTS.filter(function (s) { return s.machines; })
+      .sort(function (a, b) { return b.machines - a.machines; }).slice(0, 10);
+    if (!top.length) return;
+    setText('enStatStores', String(SPOTS.length));
+    box.innerHTML =
+      '<table class="gh-table"><thead><tr><th>#</th><th>Store</th><th>Area</th><th class="gh-num">Machines</th><th>Hours</th><th></th></tr></thead><tbody>' +
+      top.map(function (s, i) {
+        var mapsQ = encodeURIComponent(s.name + ' ' + s.address);
+        var mapsUrl = 'https://www.google.com/maps/search/?api=1&query=' + mapsQ;
+        var areaJp = (s.area || '').split('・')[1] || '';
+        return '<tr>' +
+          '<td>' + (i + 1) + '</td>' +
+          '<td><a class="gh-table__link" href="spot.html?id=' + encodeURIComponent(s.id) + '">' + esc(s.name) + '</a></td>' +
+          '<td>' + esc(PREF_EN[s.pref] || s.pref) + (areaJp ? '<small class="gh-store-brand">' + esc(areaJp) + '</small>' : '') + '</td>' +
+          '<td class="gh-num">' + Number(s.machines).toLocaleString('en-US') + '</td>' +
+          '<td>' + esc(s.hours || '—') + '</td>' +
+          '<td><a class="gh-btn gh-btn--xs" href="' + mapsUrl + '" target="_blank" rel="noopener">Map</a></td>' +
+        '</tr>';
+      }).join('') + '</tbody></table>';
   }
 
   /* ------------------------------------------------------------------ */

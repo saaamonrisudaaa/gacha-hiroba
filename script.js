@@ -598,6 +598,26 @@ renderRanking('national');
   }
 })();
 
+/* ── 言語ヒントバナー：非日本語ブラウザに英語ガイドを案内（英語ページ以外） ── */
+(function () {
+  try {
+    if (/english\.html/.test(location.pathname)) return;
+    if (/^ja/i.test(navigator.language || 'ja')) return;
+    if (localStorage.getItem('gh-lang-hint-closed')) return;
+    const bar = document.createElement('div');
+    bar.className = 'gh-langbar';
+    bar.innerHTML =
+      '<span>🌐 Visiting from abroad?</span>' +
+      '<a href="english.html">Read our English guide to gachapon stores →</a>' +
+      '<button type="button" class="gh-langbar__close" aria-label="Close">×</button>';
+    bar.querySelector('.gh-langbar__close').addEventListener('click', () => {
+      bar.remove();
+      try { localStorage.setItem('gh-lang-hint-closed', '1'); } catch (e) {}
+    });
+    document.body.prepend(bar);
+  } catch (e) { /* no-op */ }
+})();
+
 /* ── 掲示板の新着投稿（index.html サイドバー）: Supabase REST を素の fetch で読む ── */
 (function () {
   const box = document.querySelector('[data-gh-recent-posts]');
