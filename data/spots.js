@@ -1946,6 +1946,36 @@ window.GH_SPOTS = [
     machines: 2200,
     lat: 33.5899, lon: 130.4113,
     access: 'キャナルシティ博多 サウスビルB1F（櫛田神社前駅から徒歩約5分）'
+  },
+
+  {
+    id: 'gashadepa-sapporo-factory',
+    brand: 'ガシャポンのデパート',
+    name: 'ガシャポンのデパート サッポロファクトリー店',
+    region: 'tohoku',
+    pref: '北海道',
+    area: '北海道・札幌',
+    zip: '060-0031',
+    address: '北海道札幌市中央区北1条東4-1-1 サッポロファクトリー1条館 2F',
+    tel: '011-207-4410',
+    hours: '10:00〜20:00',
+    machines: 600,
+    lat: 43.0673, lon: 141.361,
+    access: 'サッポロファクトリー1条館 2F'
+  },
+
+  {
+    id: 'gashadepa-lalaport-nagoya-minato',
+    brand: 'ガシャポンのデパート',
+    name: 'ガシャポンのデパート ららぽーと名古屋みなとアクルス店',
+    region: 'tokai',
+    pref: '愛知県',
+    area: '愛知県・名古屋港',
+    address: '愛知県名古屋市港区港明2-3-2 ららぽーと名古屋みなとアクルス',
+    hours: '10:00〜21:00',
+    machines: 380,
+    lat: 35.1082, lon: 136.8788,
+    access: 'ららぽーと名古屋みなとアクルス内'
   }
 
 ];
