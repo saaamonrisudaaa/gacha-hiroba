@@ -873,7 +873,7 @@
         apply(btn.dataset.storeRegion);
       });
     });
-    var def = document.querySelector('[data-store-region="kanto"]') || tabs[0];
+    var def = document.querySelector('[data-store-region="all"]') || tabs[0];
     def.click();
   }
 })();

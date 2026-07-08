@@ -1,0 +1,57 @@
+# 店舗の自動追加：毎日 data/spots-queue.json から数件を data/spots.js へ反映
+# - dripPerDay 件ずつ（既定2件）。キューが空なら何もしない（no-op）
+# - 反映後に sitemap.xml / sitemap.html / feed.xml を再生成してコミット
+# - キューの補充（新しい店舗の調査・追記）は、セッション稼働中にまとめて行う
+# - GitHub Actions の cron は数分〜十数分遅れることがあります（自然なゆらぎとして許容）
+name: daily-stores
+
+on:
+  schedule:
+    - cron: '17 0 * * *'   # 09:17 JST（毎日）
+  workflow_dispatch:
+    inputs:
+      count:
+        description: '追加件数（空なら spots-queue.json の dripPerDay）'
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+
+concurrency:
+  group: daily-stores
+  cancel-in-progress: false
+
+jobs:
+  add:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Drip stores from queue
+        env:
+          DRIP_COUNT: ${{ github.event.inputs.count }}
+        run: node tools/drip-stores.mjs
+
+      - name: Regenerate sitemap / feed
+        run: node tools/gen-sitemap.mjs
+
+      - name: Commit changes
+        run: |
+          if git diff --quiet data/spots.js data/spots-queue.json sitemap.xml sitemap.html feed.xml; then
+            echo "変更なし（キューが空か新規なし）。コミットしません。"
+            exit 0
+          fi
+          git config user.name "gacha-hiroba-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/spots.js data/spots-queue.json sitemap.xml sitemap.html feed.xml
+          git commit -m "stores: auto-add from queue [skip ci]"
+          for i in 1 2 3 4; do
+            git pull --rebase origin main && git push origin HEAD:main && exit 0
+            echo "push retry $i..."; sleep $((2**i))
+          done
+          echo "push に失敗しました" >&2; exit 1

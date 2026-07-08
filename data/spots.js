@@ -1918,6 +1918,34 @@ window.GH_SPOTS = [
     machines: 990,
     lat: 36.3712, lon: 140.4760,
     access: '水戸サウスタワー 6F（水戸オーパ内）'
+  },
+
+  {
+    id: 'gashadepa-hepfive',
+    brand: 'ガシャポンのデパート',
+    name: 'ガシャポンのデパート HEP FIVE店',
+    region: 'kansai',
+    pref: '大阪府',
+    area: '大阪府・梅田',
+    address: '大阪府大阪市北区角田町5-15 HEP FIVE 8F',
+    hours: '11:00〜22:00',
+    lat: 34.7047, lon: 135.4996,
+    access: 'HEP FIVE 8F（阪急大阪梅田駅から徒歩約2分）'
+  },
+
+  {
+    id: 'gashadepa-canalcity-hakata',
+    brand: 'ガシャポンのデパート',
+    name: 'ガシャポンのデパート キャナルシティ博多店',
+    region: 'kyushu',
+    pref: '福岡県',
+    area: '福岡県・博多',
+    address: '福岡県福岡市博多区住吉1-2-74 キャナルシティ博多 サウスビル B1F',
+    tel: '0570-076-562',
+    hours: '10:00〜21:00',
+    machines: 2200,
+    lat: 33.5899, lon: 130.4113,
+    access: 'キャナルシティ博多 サウスビルB1F（櫛田神社前駅から徒歩約5分）'
   }
 
 ];
