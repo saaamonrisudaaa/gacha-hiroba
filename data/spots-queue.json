@@ -3,34 +3,6 @@
   "dripPerDay": 2,
   "queue": [
     {
-      "id": "gashadepa-apina-hiroshima-hatchobori",
-      "brand": "ガシャポンのデパート",
-      "name": "ガシャポンのデパート アピナ広島八丁堀西店",
-      "region": "chugoku",
-      "pref": "広島県",
-      "area": "広島県・八丁堀",
-      "address": "広島県広島市中区八丁堀16-10 ドン・キホーテ広島八丁堀西店 7F",
-      "hours": "10:00〜23:00",
-      "machines": 605,
-      "lat": 34.3958,
-      "lon": 132.4638,
-      "access": "ドン・キホーテ広島八丁堀西店 7F"
-    },
-    {
-      "id": "gashadepa-namba-parks",
-      "brand": "ガシャポンのデパート",
-      "name": "ガシャポンのデパート なんばパークス店",
-      "region": "kansai",
-      "pref": "大阪府",
-      "area": "大阪府・なんば",
-      "zip": "556-0011",
-      "address": "大阪府大阪市浪速区難波中2-10-70 なんばパークス 6F",
-      "hours": "11:00〜22:00",
-      "lat": 34.6585,
-      "lon": 135.5016,
-      "access": "なんばパークス 6F（南海なんば駅から徒歩約3分）"
-    },
-    {
       "id": "gashadepa-hakata-bt",
       "brand": "ガシャポンのデパート",
       "name": "ガシャポンのデパート 博多バスターミナル店",
