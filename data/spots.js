@@ -2085,6 +2085,85 @@ window.GH_SPOTS = [
     hours: '10:00〜22:00',
     lat: 34.6903, lon: 135.1940,
     access: '三宮センター街近く（阪急神戸三宮駅から徒歩約3分）'
+  },
+
+  /* ───────────── 大阪府・大阪駅（梅田）周辺 ───────────── */
+  {
+    id: 'ggmori-umeda-chayamachi',
+    brand: 'ガチャガチャの森',
+    name: 'ガチャガチャの森 梅田茶屋町店',
+    region: 'kansai',
+    pref: '大阪府',
+    area: '大阪府・梅田',
+    zip: '530-0013',
+    address: '大阪府大阪市北区茶屋町15-34',
+    tel: '070-7893-7140',
+    hours: '11:00〜21:00（金土は〜22:00）',
+    machines: 2400,
+    lat: 34.7060, lon: 135.4988,
+    access: '2階建ての専用店舗・西日本最大級（阪急大阪梅田駅から徒歩約5分・NU茶屋町近く）'
+  },
+  {
+    id: 'cpla-lucua-osaka',
+    brand: '#C-pla（シープラ）',
+    name: '#C-pla ルクア大阪店',
+    region: 'kansai',
+    pref: '大阪府',
+    area: '大阪府・梅田',
+    address: '大阪府大阪市北区梅田3-1-3 ルクア大阪 5F',
+    hours: '10:30〜20:30',
+    lat: 34.7024, lon: 135.4959,
+    access: 'ルクア大阪 5F（JR大阪駅直結）'
+  },
+  {
+    id: 'cpla-hankyu-sanbangai',
+    brand: '#C-pla（シープラ）',
+    name: '#C-pla 阪急三番街店',
+    region: 'kansai',
+    pref: '大阪府',
+    area: '大阪府・梅田',
+    address: '大阪府大阪市北区芝田1-1-3 阪急三番街 北館1F',
+    hours: '10:00〜21:00',
+    lat: 34.7047, lon: 135.4980,
+    access: '阪急三番街 北館1F（阪急大阪梅田駅直結）'
+  },
+  {
+    id: 'gashapon-bandai-umeda',
+    brand: 'ガシャポンバンダイオフィシャルショップ',
+    name: 'ガシャポンバンダイオフィシャルショップ 梅田店',
+    region: 'kansai',
+    pref: '大阪府',
+    area: '大阪府・梅田',
+    address: '大阪府大阪市北区小松原町3-3 OSビル namco梅田店 1F',
+    lat: 34.7036, lon: 135.5010,
+    access: 'namco梅田店 1F（阪急大阪梅田駅・Osaka Metro梅田駅から徒歩約3分）'
+  },
+  {
+    id: 'yodobashi-umeda-gacha',
+    brand: 'ヨドバシカメラ',
+    name: 'ヨドバシカメラ マルチメディア梅田（ガチャガチャコーナー）',
+    region: 'kansai',
+    pref: '大阪府',
+    area: '大阪府・梅田',
+    address: '大阪府大阪市北区大深町1-1 ヨドバシ梅田タワー・LINKS UMEDA',
+    hours: '9:30〜22:00',
+    machines: 1800,
+    lat: 34.7043, lon: 135.4961,
+    access: 'ヨドバシ梅田タワー内・複数フロアに設置（JR大阪駅から徒歩約1分）'
+  },
+  {
+    id: 'gashadepa-osaka-nihonbashi',
+    brand: 'ガシャポンのデパート',
+    name: 'ガシャポンのデパート 大阪日本橋店',
+    region: 'kansai',
+    pref: '大阪府',
+    area: '大阪府・日本橋',
+    zip: '556-0011',
+    address: '大阪府大阪市浪速区難波中2-1-17 コスモビル 1F',
+    tel: '06-7656-3885',
+    hours: '24時間営業',
+    lat: 34.6612, lon: 135.5028,
+    access: 'コスモビル1F（南海なんば駅から徒歩約1分）'
   }
 
 ];

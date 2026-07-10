@@ -3,19 +3,31 @@
   "dripPerDay": 2,
   "queue": [
     {
-      "id": "gashadepa-osaka-nihonbashi",
+      "id": "gashadepa-iy-abeno",
       "brand": "ガシャポンのデパート",
-      "name": "ガシャポンのデパート 大阪日本橋店",
+      "name": "ガシャポンのデパート イトーヨーカドー あべの店",
       "region": "kansai",
       "pref": "大阪府",
-      "area": "大阪府・日本橋",
-      "zip": "556-0011",
-      "address": "大阪府大阪市浪速区難波中2-1-17 コスモビル 1F",
-      "tel": "06-7656-3885",
-      "hours": "24時間営業",
-      "lat": 34.6612,
-      "lon": 135.5028,
-      "access": "コスモビル1F（南海なんば駅から徒歩約1分）"
+      "area": "大阪府・天王寺",
+      "address": "大阪府大阪市阿倍野区阿倍野筋1-6-1 イトーヨーカドー あべの店 2F",
+      "machines": 640,
+      "lat": 34.6448,
+      "lon": 135.5136,
+      "access": "イトーヨーカドー あべの店 2F（天王寺駅から徒歩約2分）"
+    },
+    {
+      "id": "gashacoco-lalaport-expocity",
+      "brand": "gashacoco（ガシャココ）",
+      "name": "gashacoco ららぽーとEXPOCITY店",
+      "region": "kansai",
+      "pref": "大阪府",
+      "area": "大阪府・万博記念公園",
+      "address": "大阪府吹田市千里万博公園2-1 ららぽーとEXPOCITY 3F",
+      "tel": "080-4477-4243",
+      "hours": "10:00〜21:00",
+      "lat": 34.8058,
+      "lon": 135.5341,
+      "access": "ららぽーとEXPOCITY 3F（大阪モノレール万博記念公園駅から徒歩約2分）"
     }
   ]
 }
