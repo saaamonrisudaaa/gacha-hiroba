@@ -1,33 +1,31 @@
 {
-  "note": "店舗追加キュー。GitHub Actions（.github/workflows/daily-stores.yml）が毎日 dripPerDay 件ずつ先頭から data/spots.js へ反映し、使った分をここから消し込みます。空になったら自動で何もしません（no-op）。店舗を足すときは queue 配列へ data/spots.js と同じ形のオブジェクトを追記してください。id は重複不可（重複は自動スキップ）。lat/lon は施設のおおよその位置。出典：ガシャポン公式（gashapon.jp）／バンダイナムコアミューズメント公式（bandainamco-am.co.jp）。",
-  "dripPerDay": 2,
+  "note": "店舗追加キュー。GitHub Actions（.github/workflows/daily-stores.yml）が毎日 dailyMix の各都道府県から1件ずつ（計 dripPerDay 件）data/spots.js へ反映し、使った分をここから消し込みます。該当県の在庫が無い分はキュー先頭から補充、それも無ければ何もしません（no-op）。店舗を足すときは queue 配列へ data/spots.js と同じ形のオブジェクトを追記してください。id は重複不可（重複は自動スキップ）。lat/lon は施設のおおよその位置。出典：ガシャポン公式（gashapon.jp）／バンダイナムコアミューズメント公式（bandainamco-am.co.jp）／各チェーン公式。",
+  "dripPerDay": 4,
+  "dailyMix": ["北海道", "東京都", "大阪府", "愛知県"],
   "queue": [
     {
-      "id": "gashadepa-iy-abeno",
-      "brand": "ガシャポンのデパート",
-      "name": "ガシャポンのデパート イトーヨーカドー あべの店",
-      "region": "kansai",
-      "pref": "大阪府",
-      "area": "大阪府・天王寺",
-      "address": "大阪府大阪市阿倍野区阿倍野筋1-6-1 イトーヨーカドー あべの店 2F",
-      "machines": 640,
-      "lat": 34.6448,
-      "lon": 135.5136,
-      "access": "イトーヨーカドー あべの店 2F（天王寺駅から徒歩約2分）"
+      "id": "cpla-tanukikoji-4chome",
+      "brand": "#C-pla（シープラ）",
+      "name": "#C-pla 狸小路4丁目店",
+      "region": "tohoku",
+      "pref": "北海道",
+      "area": "北海道・狸小路",
+      "zip": "060-0062",
+      "address": "北海道札幌市中央区南2条西4-10-2 清水ビル 1F",
+      "hours": "11:00〜23:00",
+      "lat": 43.0577, "lon": 141.3516,
+      "access": "狸小路商店街4丁目（地下鉄大通駅から徒歩約3分・年中無休）"
     },
     {
-      "id": "gashacoco-lalaport-expocity",
-      "brand": "gashacoco（ガシャココ）",
-      "name": "gashacoco ららぽーとEXPOCITY店",
-      "region": "kansai",
-      "pref": "大阪府",
-      "area": "大阪府・万博記念公園",
-      "address": "大阪府吹田市千里万博公園2-1 ららぽーとEXPOCITY 3F",
-      "tel": "080-4477-4243",
-      "hours": "10:00〜21:00",
-      "lat": 34.8058,
-      "lon": 135.5341,
-      "access": "ららぽーとEXPOCITY 3F（大阪モノレール万博記念公園駅から徒歩約2分）"
+      "id": "gashapon-jr-shinagawa",
+      "brand": "ガシャポン",
+      "name": "ガシャポン JR品川駅構内（エキュート品川近く）",
+      "region": "kanto",
+      "pref": "東京都",
+      "area": "東京都・品川",
+      "address": "東京都港区高輪3-26-27 JR品川駅 駅構内（エキュート品川近く）",
+      "lat": 35.6290, "lon": 139.7387,
+      "access": "JR品川駅 改札内・エキュート品川近くのガシャポンコーナー（乗り換えついでに）"
     }
   ]
 }

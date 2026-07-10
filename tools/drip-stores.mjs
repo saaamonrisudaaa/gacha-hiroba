@@ -27,19 +27,30 @@ const drip =
   parseInt(queueData.dripPerDay, 10) ||
   2;
 
-/* 追加対象を先頭から選ぶ（id 重複はスキップして消し込む） */
+/* 追加対象の選び方：
+   dailyMix（例: ["北海道","東京都","大阪府","愛知県"]）が設定されていれば、
+   各都道府県からキュー先頭の1件ずつを優先して選ぶ。該当が無い県はスキップし、
+   枠が余れば残りのキュー先頭から補充する。id 重複は常にスキップして消し込む。 */
+const candidates = queue.filter((it) => it && it.id && !existingIds.has(it.id));
+const stale = queue.filter((it) => it && it.id && existingIds.has(it.id)); // 既掲載→捨てる
 const toAdd = [];
-const remaining = [];
-for (const item of queue) {
-  if (toAdd.length < drip && item && item.id && !existingIds.has(item.id)) {
-    toAdd.push(item);
-    existingIds.add(item.id);
-  } else if (item && item.id && existingIds.has(item.id)) {
-    /* すでにサイトにある → キューから捨てる（remaining に入れない） */
-  } else {
-    remaining.push(item);
+const picked = new Set();
+
+const mix = Array.isArray(queueData.dailyMix) ? queueData.dailyMix : null;
+if (mix) {
+  for (const pref of mix) {
+    if (toAdd.length >= drip) break;
+    const hit = candidates.find((it) => it.pref === pref && !picked.has(it.id));
+    if (hit) { toAdd.push(hit); picked.add(hit.id); }
   }
 }
+for (const it of candidates) {
+  if (toAdd.length >= drip) break;
+  if (!picked.has(it.id)) { toAdd.push(it); picked.add(it.id); }
+}
+toAdd.forEach((it) => existingIds.add(it.id));
+const remaining = candidates.filter((it) => !picked.has(it.id));
+if (stale.length) console.log('drip-stores: 既掲載のためキューから削除: ' + stale.map((s) => s.id).join(', '));
 
 if (toAdd.length === 0) {
   console.log('drip-stores: 追加できる新規店舗がありません（キュー残 ' + queue.length + ' 件）。何もしません。');

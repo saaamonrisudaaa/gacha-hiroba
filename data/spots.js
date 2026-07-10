@@ -2201,6 +2201,139 @@ window.GH_SPOTS = [
     hours: '24時間営業',
     lat: 34.6612, lon: 135.5028,
     access: 'コスモビル1F（南海なんば駅から徒歩約1分）'
+  },
+
+  /* ───────────── 北海道・札幌 ───────────── */
+  {
+    id: 'ggmori-moyuk-sapporo',
+    brand: 'ガチャガチャの森',
+    name: 'ガチャガチャの森 moyuk SAPPORO店',
+    region: 'tohoku',
+    pref: '北海道',
+    area: '北海道・札幌大通',
+    address: '北海道札幌市中央区南2条西3-20 moyuk SAPPORO B1F',
+    hours: '10:00〜22:00',
+    machines: 930,
+    lat: 43.0576, lon: 141.3532,
+    access: 'moyuk SAPPORO B1F（地下鉄大通駅直結・狸小路すぐ）道内最大級'
+  },
+  {
+    id: 'gashadepa-ario-sapporo',
+    brand: 'ガシャポンのデパート',
+    name: 'ガシャポンのデパート アリオ札幌店',
+    region: 'tohoku',
+    pref: '北海道',
+    area: '北海道・札幌',
+    address: '北海道札幌市東区北7条東9-2-20 アリオ札幌 本館2F',
+    hours: '10:00〜20:00',
+    lat: 43.0721, lon: 141.3676,
+    access: 'アリオ札幌 本館2F（JR苗穂駅から徒歩約3分）'
+  },
+  {
+    id: 'gashadepa-sapporo-tokyu',
+    brand: 'ガシャポンのデパート',
+    name: 'ガシャポンのデパート さっぽろ東急百貨店',
+    region: 'tohoku',
+    pref: '北海道',
+    area: '北海道・札幌駅',
+    address: '北海道札幌市中央区北4条西2-1 さっぽろ東急百貨店',
+    hours: '10:00〜20:00',
+    lat: 43.0668, lon: 141.3537,
+    access: 'さっぽろ東急百貨店内（さっぽろ駅直結・ガシャポンバンダイオフィシャルショップ併設）'
+  },
+
+  /* ───────────── 東京・追加 ───────────── */
+  {
+    id: 'gashacoco-lalaport-toyosu',
+    brand: 'gashacoco（ガシャココ）',
+    name: 'gashacoco アーバンドックららぽーと豊洲',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・豊洲',
+    address: '東京都江東区豊洲2-4-9 アーバンドックららぽーと豊洲1 2F ノースポート',
+    hours: '10:00〜21:00',
+    lat: 35.6553, lon: 139.7926,
+    access: 'ららぽーと豊洲1 2F（ゆりかもめ豊洲駅直結・2026年3月オープン）'
+  },
+  {
+    id: 'gachaste-bigbox-takadanobaba',
+    brand: 'ガチャステ',
+    name: 'ガチャステ BIGBOX高田馬場店',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・高田馬場',
+    zip: '169-0075',
+    address: '東京都新宿区高田馬場1-35-3 BIGBOX高田馬場 6F',
+    hours: '10:00〜24:00',
+    lat: 35.7125, lon: 139.7040,
+    access: 'BIGBOX高田馬場 6F（高田馬場駅すぐ・タイトー運営・深夜24時まで）'
+  },
+
+  /* ───────────── 大阪・追加 ───────────── */
+  {
+    id: 'gashadepa-iy-abeno',
+    brand: 'ガシャポンのデパート',
+    name: 'ガシャポンのデパート イトーヨーカドー あべの店',
+    region: 'kansai',
+    pref: '大阪府',
+    area: '大阪府・天王寺',
+    address: '大阪府大阪市阿倍野区阿倍野筋1-6-1 イトーヨーカドー あべの店 2F',
+    machines: 640,
+    lat: 34.6448, lon: 135.5136,
+    access: 'イトーヨーカドー あべの店 2F（天王寺駅から徒歩約2分）'
+  },
+  {
+    id: 'gashacoco-lalaport-expocity',
+    brand: 'gashacoco（ガシャココ）',
+    name: 'gashacoco ららぽーとEXPOCITY店',
+    region: 'kansai',
+    pref: '大阪府',
+    area: '大阪府・万博記念公園',
+    address: '大阪府吹田市千里万博公園2-1 ららぽーとEXPOCITY 3F',
+    tel: '080-4477-4243',
+    hours: '10:00〜21:00',
+    lat: 34.8058, lon: 135.5341,
+    access: 'ららぽーとEXPOCITY 3F（大阪モノレール万博記念公園駅から徒歩約2分）'
+  },
+
+  /* ───────────── 愛知・名古屋 ───────────── */
+  {
+    id: 'gashadepa-noritake-shinmachi',
+    brand: 'ガシャポンのデパート',
+    name: 'ガシャポンのデパート 則武新町店',
+    region: 'tokai',
+    pref: '愛知県',
+    area: '愛知県・名古屋駅',
+    zip: '451-0051',
+    address: '愛知県名古屋市西区則武新町3-1-17 イオンモール Nagoya Noritake Garden 3F',
+    hours: '10:00〜21:00',
+    lat: 35.1794, lon: 136.8721,
+    access: 'イオンモール Nagoya Noritake Garden 3F（名古屋駅から徒歩約8分）'
+  },
+  {
+    id: 'gashadepa-apina-nagoya-sakae',
+    brand: 'ガシャポンのデパート',
+    name: 'ガシャポンのデパート アピナ名古屋栄店',
+    region: 'tokai',
+    pref: '愛知県',
+    area: '愛知県・栄',
+    address: '愛知県名古屋市中区錦3-17-15 栄ナナイロビル B1F',
+    hours: '10:00〜23:00',
+    machines: 450,
+    lat: 35.1701, lon: 136.9040,
+    access: '栄ナナイロビル B1F（地下鉄栄駅から徒歩約2分・2025年11月オープン）'
+  },
+  {
+    id: 'gashadepa-yoshizuya-taihei',
+    brand: 'ガシャポンのデパート',
+    name: 'ガシャポンのデパート ヨシヅヤ太平通り店',
+    region: 'tokai',
+    pref: '愛知県',
+    area: '愛知県・中川区',
+    address: '愛知県名古屋市中川区宮脇町2-11 ヨシヅヤ太平通り店 1F',
+    hours: '10:00〜20:30',
+    lat: 35.1268, lon: 136.8656,
+    access: 'ヨシヅヤ太平通り店 1F（名古屋市中川区・太平通沿い）'
   }
 
 ];
