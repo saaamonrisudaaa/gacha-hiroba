@@ -3,33 +3,6 @@
   "dripPerDay": 2,
   "queue": [
     {
-      "id": "gashadepa-hakata-bt",
-      "brand": "ガシャポンのデパート",
-      "name": "ガシャポンのデパート 博多バスターミナル店",
-      "region": "kyushu",
-      "pref": "福岡県",
-      "area": "福岡県・博多駅",
-      "address": "福岡県福岡市博多区博多駅中央街2-1 博多バスターミナル 7F",
-      "hours": "10:00〜23:00",
-      "machines": 800,
-      "lat": 33.5903,
-      "lon": 130.4205,
-      "access": "博多バスターミナル 7F（namco内・博多駅直結）"
-    },
-    {
-      "id": "gashadepa-aeonmall-kyoto",
-      "brand": "ガシャポンのデパート",
-      "name": "ガシャポンのデパート イオンモールKYOTO店",
-      "region": "kansai",
-      "pref": "京都府",
-      "area": "京都府・京都駅",
-      "address": "京都府京都市南区西九条鳥居口町1 イオンモールKYOTO Sakura館 4F",
-      "hours": "10:00〜21:00",
-      "lat": 34.9843,
-      "lon": 135.7566,
-      "access": "イオンモールKYOTO Sakura館 4F（JR京都駅八条口から徒歩約5分）"
-    },
-    {
       "id": "gashadepa-osaka-nihonbashi",
       "brand": "ガシャポンのデパート",
       "name": "ガシャポンのデパート 大阪日本橋店",
