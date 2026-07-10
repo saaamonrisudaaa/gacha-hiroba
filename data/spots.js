@@ -2152,6 +2152,43 @@ window.GH_SPOTS = [
     access: 'ヨドバシ梅田タワー内・複数フロアに設置（JR大阪駅から徒歩約1分）'
   },
   {
+    id: 'gashapon-bandai-umeda-skybuilding',
+    brand: 'ガシャポンバンダイオフィシャルショップ',
+    name: 'ガシャポンバンダイオフィシャルショップ 梅田スカイビルタワーイースト3F店',
+    region: 'kansai',
+    pref: '大阪府',
+    area: '大阪府・梅田',
+    address: '大阪府大阪市北区大淀中1-1-88 梅田スカイビル タワーイースト 3F',
+    hours: '10:30〜21:30',
+    lat: 34.7052, lon: 135.4907,
+    access: '梅田スカイビル タワーイースト3F（JR大阪駅から徒歩約7分・2026年2月オープン）'
+  },
+  {
+    id: 'gashapon-bandai-surugaya-chayamachi',
+    brand: 'ガシャポンバンダイオフィシャルショップ',
+    name: 'ガシャポンバンダイオフィシャルショップ 駿河屋梅田茶屋町店',
+    region: 'kansai',
+    pref: '大阪府',
+    area: '大阪府・梅田',
+    zip: '530-0013',
+    address: '大阪府大阪市北区茶屋町7-20 チャスカ茶屋町 5・6F（駿河屋 梅田茶屋町店内）',
+    hours: '10:00〜22:00',
+    lat: 34.7066, lon: 135.4996,
+    access: 'チャスカ茶屋町（MARUZEN＆ジュンク堂書店の入るビル）駿河屋売り場内（阪急大阪梅田駅から徒歩約4分）'
+  },
+  {
+    id: 'kiddyland-osaka-umeda',
+    brand: 'キデイランド',
+    name: 'キデイランド大阪梅田店（カプセルトイコーナー）',
+    region: 'kansai',
+    pref: '大阪府',
+    area: '大阪府・梅田',
+    address: '大阪府大阪市北区芝田1-1-3 阪急三番街 北館 B1F・1F',
+    hours: '10:00〜21:00',
+    lat: 34.7049, lon: 135.4982,
+    access: '阪急三番街 北館（阪急大阪梅田駅直結）・キャラクターグッズと合わせて楽しめるガチャコーナー'
+  },
+  {
     id: 'gashadepa-osaka-nihonbashi',
     brand: 'ガシャポンのデパート',
     name: 'ガシャポンのデパート 大阪日本橋店',
