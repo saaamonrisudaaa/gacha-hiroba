@@ -2031,6 +2031,60 @@ window.GH_SPOTS = [
     hours: '10:00〜21:00',
     lat: 34.9843, lon: 135.7566,
     access: 'イオンモールKYOTO Sakura館 4F（JR京都駅八条口から徒歩約5分）'
+  },
+
+  {
+    id: 'gashadepa-surugaya-higashisendai',
+    brand: 'ガシャポンのデパート',
+    name: 'ガシャポンのデパート 駿河屋フォレオ東仙台店',
+    region: 'tohoku',
+    pref: '宮城県',
+    area: '宮城県・仙台',
+    address: '宮城県仙台市宮城野区東仙台4-14-1 フォレオせんだい宮の杜 2F',
+    tel: '022-290-5038',
+    hours: '9:00〜22:00',
+    machines: 530,
+    lat: 38.2776, lon: 140.9260,
+    access: 'フォレオせんだい宮の杜 2F（JR東仙台駅から徒歩約7分）'
+  },
+
+  {
+    id: 'gashadepa-surugaya-naha-okiei',
+    brand: 'ガシャポンのデパート',
+    name: 'ガシャポンのデパート 駿河屋 那覇沖映通り店',
+    region: 'kyushu',
+    pref: '沖縄県',
+    area: '沖縄県・那覇',
+    address: '沖縄県那覇市牧志1-19-29 D-naha B1F（ジュンク堂書店 那覇店内）',
+    hours: '10:00〜21:00',
+    lat: 26.2157, lon: 127.6867,
+    access: 'D-naha B1F（ゆいレール美栄橋駅から徒歩約3分・沖映通り沿い）'
+  },
+
+  {
+    id: 'gashadepa-surugaya-shizuoka-honten',
+    brand: 'ガシャポンのデパート',
+    name: 'ガシャポンのデパート 駿河屋本店 駿河屋ビル店',
+    region: 'tokai',
+    pref: '静岡県',
+    area: '静岡県・静岡',
+    address: '静岡県静岡市葵区伝馬町5-4 駿河屋ビル 3F',
+    tel: '0570-003-115',
+    lat: 34.9749, lon: 138.3866,
+    access: '駿河屋ビル 3F（新静岡駅から徒歩約3分）'
+  },
+
+  {
+    id: 'cpla-sannomiya-ekimae',
+    brand: '#C-pla（シープラ）',
+    name: '#C-pla 三宮駅前店',
+    region: 'kansai',
+    pref: '兵庫県',
+    area: '兵庫県・三宮',
+    address: '兵庫県神戸市中央区三宮町1-7-18',
+    hours: '10:00〜22:00',
+    lat: 34.6903, lon: 135.1940,
+    access: '三宮センター街近く（阪急神戸三宮駅から徒歩約3分）'
   }
 
 ];

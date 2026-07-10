@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="gashacoco 北千住マルイ（東京都・北千住）のガチャガチャ設置情報。住所・アクセス・地図・店舗ごとの掲示板で入荷情報や混雑状況をチェック。" />
+  <title>gashacoco 北千住マルイ｜設置台数・営業時間・掲示板 | ガチャひろば</title>
+  <link rel="canonical" href="https://gacha-hiroba.com/spot/gashacoco-kitasenju-marui.html" />
+  <meta property="og:site_name" content="ガチャひろば" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="ja_JP" />
+  <meta property="og:title" content="gashacoco 北千住マルイ｜設置台数・営業時間・掲示板 | ガチャひろば" />
+  <meta property="og:description" content="gashacoco 北千住マルイ（東京都・北千住）のガチャガチャ設置情報。住所・アクセス・地図・店舗ごとの掲示板で入荷情報や混雑状況をチェック。" />
+  <meta property="og:url" content="https://gacha-hiroba.com/spot/gashacoco-kitasenju-marui.html" />
+  <meta property="og:image" content="https://gacha-hiroba.com/assets/ogp.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="stylesheet" href="/styles.css" />
+  <!-- 店舗データ → 描画 → 共有掲示板 → 共通JS（この順で読み込む） -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+  <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"Store","name":"gashacoco 北千住マルイ","url":"https://gacha-hiroba.com/spot/gashacoco-kitasenju-marui.html","address":{"@type":"PostalAddress","streetAddress":"東京都足立区千住3-92 北千住マルイ 5F","addressRegion":"東京都","addressCountry":"JP"},"description":"gashacoco 北千住マルイ（東京都・北千住）のガチャガチャ設置情報。住所・アクセス・地図・店舗ごとの掲示板で入荷情報や混雑状況をチェック。","geo":{"@type":"GeoCoordinates","latitude":35.7488,"longitude":139.8046}}</script>
+  <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"トップ","item":"https://gacha-hiroba.com/"},{"@type":"ListItem","position":2,"name":"店舗一覧","item":"https://gacha-hiroba.com/stores.html"},{"@type":"ListItem","position":3,"name":"gashacoco 北千住マルイ","item":"https://gacha-hiroba.com/spot/gashacoco-kitasenju-marui.html"}]}</script>
+  <script>window.GH_SPOT_STATIC_ID="gashacoco-kitasenju-marui";</script>
+  <script src="/data/spots.js" defer></script>
+  <script src="/spots-ui.js" defer></script>
+  <script src="/data/ads.js" defer></script>
+  <script src="/script.js" defer></script>
+</head>
+<body>
+
+  <header class="gh-header">
+    <div class="gh-header__top">
+      <div class="gh-container gh-header__inner">
+        <a class="gh-logo" href="/index.html" aria-label="ガチャひろば トップへ">
+          <span class="gh-logo__icon">G</span>
+          <span class="gh-logo__text">ガチャ<em>ひろば</em></span>
+        </a>
+        <form class="gh-search" role="search">
+          <input class="gh-search__input" type="search" placeholder="エリア・駅名・店名で検索" aria-label="ガチャ場所を検索" />
+          <button class="gh-search__btn" type="submit" aria-label="検索">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          </button>
+        </form>
+        <nav class="gh-header__nav" aria-label="ユーザーメニュー">
+          <a href="#">ログイン</a>
+          <a href="#" class="gh-btn gh-btn--sm gh-btn--outline-white">無料登録</a>
+        </nav>
+        <button class="gh-hamburger" aria-label="メニューを開く" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+    <div class="gh-subnav">
+      <div class="gh-container">
+        <nav class="gh-nav-tabs" aria-label="メインナビゲーション">
+          <a href="/index.html">トップ</a>
+          <a href="/board.html">掲示板</a>
+          <a href="/news.html">新着情報</a>
+          <a href="/ranking.html">ランキング</a>
+          <a href="/area.html">エリア別</a>
+          <a href="/category.html">カテゴリー別</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main id="spotDetail" class="gh-main gh-main--detail">
+    <div class="gh-container" id="spotContent">
+
+      <!-- パンくず -->
+      <nav class="gh-breadcrumb" aria-label="パンくずリスト">
+        <a href="/index.html">トップ</a>
+        <span aria-hidden="true">›</span>
+        <a href="/stores.html">店舗一覧</a>
+        <span aria-hidden="true">›</span>
+        <a href="/area.html" id="spotCrumbArea">東京都</a>
+        <span aria-hidden="true">›</span>
+        <span aria-current="page" id="spotCrumbName">gashacoco 北千住マルイ</span>
+      </nav>
+
+      <!-- タブ：お気に入り登録 / 詳細 / 掲示板 -->
+      <div class="gh-detail-tabs" role="tablist" aria-label="表示切り替え">
+        <button type="button" id="favoriteBtn" class="gh-detail-tabs__fav">♡ お気に入り登録</button>
+        <button type="button" class="active" data-panel="detail" role="tab" aria-selected="true">詳細</button>
+        <button type="button" data-panel="board" role="tab" aria-selected="false">掲示板</button>
+      </div>
+
+      <!-- ヒーロー（Yahooファイナンス個別銘柄イメージ。数値は設置台数） -->
+      <section class="gh-quote">
+        <div class="gh-quote__info">
+          <div class="gh-quote__head">
+            <div class="gh-quote__title-row">
+              <h1 class="gh-quote__name" id="spotName">gashacoco 北千住マルイ</h1>
+              <span id="spotBadges"><a class="gh-badge gh-badge--lg" style="text-decoration:none" href="/stores.html?brand=gashacoco%EF%BC%88%E3%82%AC%E3%82%B7%E3%83%A3%E3%82%B3%E3%82%B3%EF%BC%89" title="gashacoco（ガシャココ）の店舗一覧を見る">gashacoco（ガシャココ）</a><span class="gh-badge gh-badge--lg">東京都・北千住</span></span>
+            </div>
+            <div class="gh-quote__address" id="spotAddress"><span>📍 東京都足立区千住3-92 北千住マルイ 5F</span><span class="gh-hero__divider">｜</span><span>🚉 北千住マルイ 5F（北千住駅 直結）</span></div>
+          </div>
+
+          <div class="gh-quote__price-row">
+            <span class="gh-quote__label">設置台数</span>
+            <strong class="gh-quote__rating-num" id="spotMachines">—</strong>
+            <span class="gh-quote__updated" id="spotHours">営業時間はお問い合わせ</span>
+          </div>
+
+          <div class="gh-metrics" id="spotMetrics"><div class="gh-metric gh-metric--primary"><span class="gh-metric__label">設置台数</span><strong class="gh-metric__value">—</strong><span class="gh-metric__sub">ガチャマシン</span></div><div class="gh-metric"><span class="gh-metric__label">営業時間</span><strong class="gh-metric__value">—</strong><span class="gh-metric__sub">定休日は店舗にご確認ください</span></div><div class="gh-metric"><span class="gh-metric__label">エリア</span><strong class="gh-metric__value">東京都・北千住</strong><span class="gh-metric__sub">東京都</span></div><div class="gh-metric"><span class="gh-metric__label">ブランド</span><strong class="gh-metric__value">gashacoco（ガシャココ）</strong><span class="gh-metric__sub">公式店舗</span></div></div>
+        </div>
+      </section>
+
+      <p class="gh-detail-note" style="margin:14px 0 0">gashacoco 北千住マルイは、東京都（東京都・北千住）にあるガチャガチャ・カプセルトイの設置スポットです。アクセスは北千住マルイ 5F（北千住駅 直結）。最新の入荷状況や混雑情報は、このページの掲示板タブでチェック・共有できます。</p>
+      <div class="gh-detail-layout">
+        <div class="gh-detail-content">
+
+          <!-- ============ 詳細 panel ============ -->
+          <section class="gh-tab-panel" data-panel="detail">
+
+            <!-- アクセス統計（実データ蓄積中） -->
+            <section class="gh-section">
+              <div class="gh-section__header">
+                <h2 class="gh-section__title">人気トレンド（訪問数）</h2>
+              </div>
+              <div class="gh-stat-pending">
+                <span class="gh-stat-pending__icon">📊</span>
+                <div>
+                  <strong>アクセス統計を集計中です</strong>
+                  <p>訪問データが貯まり次第、曜日別・時間帯別の人気トレンドを公開します。掲示板で最新の入荷・混雑情報をチェックしてください。</p>
+                </div>
+              </div>
+            </section>
+
+            <!-- 詳細情報 -->
+            <section class="gh-section">
+              <div class="gh-section__header">
+                <h2 class="gh-section__title">詳細情報</h2>
+              </div>
+              <table class="gh-info-table gh-info-table--full">
+                <tbody id="spotInfoBody"><tr><th>ブランド</th><td>gashacoco（ガシャココ）</td></tr><tr><th>住所</th><td>東京都足立区千住3-92 北千住マルイ 5F</td></tr><tr><th>設置台数</th><td>—</td></tr><tr><th>アクセス</th><td>北千住マルイ 5F（北千住駅 直結）</td></tr><tr><th>エリア</th><td>東京都・北千住</td></tr></tbody>
+              </table>
+              <p class="gh-detail-note">※掲載情報は参考です。最新の営業時間・在庫・設置状況は店舗または公式サイトでご確認ください。</p>
+            </section>
+
+            <!-- アクセスマップ（OpenStreetMap） -->
+            <section class="gh-section" id="spotMapSection"><div class="gh-section__header"><h2 class="gh-section__title">アクセスマップ</h2><a href="https://www.openstreetmap.org/?mlat=35.7488&mlon=139.8046#map=17/35.7488/139.8046" class="gh-section__more" target="_blank" rel="noopener">大きな地図で見る →</a></div><div class="gh-osm-embed"><iframe title="gashacoco 北千住マルイの地図（OpenStreetMap）" src="https://www.openstreetmap.org/export/embed.html?bbox=139.7986%2C35.7428%2C139.8106%2C35.7548&amp;layer=mapnik&amp;marker=35.7488%2C139.8046" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div><p class="gh-osm-embed__addr">📍 東京都足立区千住3-92 北千住マルイ 5F</p><a href="https://www.openstreetmap.org/search?query=gashacoco%20%E5%8C%97%E5%8D%83%E4%BD%8F%E3%83%9E%E3%83%AB%E3%82%A4%20%E6%9D%B1%E4%BA%AC%E9%83%BD%E8%B6%B3%E7%AB%8B%E5%8C%BA%E5%8D%83%E4%BD%8F3-92%20%E5%8C%97%E5%8D%83%E4%BD%8F%E3%83%9E%E3%83%AB%E3%82%A4%205F" class="gh-map-link" target="_blank" rel="noopener">🗺️ 住所で検索して開く →</a><p class="gh-osm-embed__note">※地図のピンはおおよその位置です。正確な場所・階数は上記の住所や公式サイトでご確認ください。</p></section>
+
+          </section>
+
+          <!-- ============ 掲示板 panel (5ch style) ============ -->
+          <section class="gh-tab-panel" data-panel="board" hidden>
+            <section class="gh-section gh-bbs">
+              <div class="gh-bbs__head">
+                <h2 class="gh-bbs__title" id="bbsTitle">【東京都・北千住】gashacoco 北千住マルイ 🎰</h2>
+                <div class="gh-bbs__meta">レス <span id="bbsCount">0</span> / 1000 ・ 新着順（最新が上）</div>
+                <div class="gh-bbs__nav">
+                  <a href="#bbsForm">書き込む ↓</a>
+                </div>
+              </div>
+
+              <div class="gh-bbs__list" id="bbsList">
+                <p class="gh-bbs__empty" id="bbsEmpty">まだ投稿がありません。最初の1件を書き込んでみましょう！</p>
+              </div>
+
+              <!-- 書き込みフォーム -->
+              <div class="gh-bbs__form" id="bbsForm">
+                <h3 class="gh-bbs__form-title">書き込む</h3>
+                <div class="gh-bbs__form-row">
+                  <label for="bbsName">名前</label>
+                  <input type="text" id="bbsName" placeholder="名無しのガチャー（省略可）" />
+                </div>
+                <textarea id="bbsBody" class="gh-bbs__textarea" placeholder="本文を入力（「&gt;&gt;番号」でアンカー。入荷情報・混雑・狙い目など）"></textarea>
+                <div class="gh-bbs__form-foot">
+                  <span class="gh-bbs__note">投稿は公開されます。マナーを守ってご利用ください。（Ctrl+Enterで書き込み）</span>
+                  <button type="button" class="gh-btn gh-btn--primary" id="bbsSubmit">書き込む</button>
+                </div>
+              </div>
+            </section>
+          </section>
+
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="gh-sidebar">
+
+          <div class="gh-ad" aria-label="広告">
+            <span class="gh-ad__label">広告</span>
+            <div class="gh-ad__body">
+              <strong>スポンサーリンク</strong>
+              <small>広告枠（レスポンシブ / 300×250）</small>
+            </div>
+          </div>
+
+          <div class="gh-widget">
+            <h3 class="gh-widget__title">同じエリアの店舗</h3>
+            <div class="gh-nearby" id="spotNearby"><a href="/spot/ggmori-shinjuku-subnade.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 新宿サブナード店</strong><small>東京都・新宿 ・ 約1,050台</small></div></a><a href="/spot/ggmori-shinjuku-subnade-east.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 新宿サブナードEAST店</strong><small>東京都・新宿 ・ 約450台</small></div></a><a href="/spot/ggmori-olinas-kinshicho.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 オリナス錦糸町店</strong><small>東京都・錦糸町 ・ 約660台</small></div></a><a href="/spot/ggmori-jiyugaoka.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 自由が丘店</strong><small>東京都・自由が丘 ・ 約570台</small></div></a><a href="/spot/ggmori-seiyu-ogikubo.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 西友荻窪店</strong><small>東京都・荻窪 ・ 約470台</small></div></a><a href="/spot/ggmori-ikebukuro-sunshine-alta.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 池袋サンシャインシティアルタ店</strong><small>東京都・池袋 ・ 約1,240台</small></div></a></div>
+          </div>
+
+          <div class="gh-widget">
+            <h3 class="gh-widget__title">シェアする</h3>
+            <div class="gh-share">
+              <a href="#" class="gh-share__btn gh-share__btn--x">X (Twitter)</a>
+              <a href="#" class="gh-share__btn gh-share__btn--line">LINE</a>
+              <a href="#" class="gh-share__btn gh-share__btn--copy" id="copyUrlBtn">URLをコピー</a>
+            </div>
+          </div>
+
+          <div class="gh-widget gh-widget--accent">
+            <h3 class="gh-widget__title">店舗を登録</h3>
+            <p class="gh-widget__text">まだ掲載されていないガチャ設置店を知っていますか？情報をシェアしよう！</p>
+            <div class="gh-app-btns">
+              <a href="/stores.html" class="gh-app-btn">🏬 店舗一覧を見る</a>
+            </div>
+          </div>
+
+        </aside>
+      </div>
+
+      <!-- 楽天市場でチェック（アフィリエイト / data/ads.js の featured を描画） -->
+      <section class="gh-section gh-featured-sec" hidden>
+        <div class="gh-section__header">
+          <h2 class="gh-section__title">🛒 楽天市場でチェック <span class="gh-affil__pr">PR</span></h2>
+        </div>
+        <div class="gh-featured" data-gh-featured></div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="gh-footer">
+    <div class="gh-container">
+      <div class="gh-footer__main">
+        <div class="gh-footer__brand">
+          <a class="gh-logo" href="/index.html"><span class="gh-logo__icon">G</span><span class="gh-logo__text">ガチャ<em>ひろば</em></span></a>
+          <p>全国のガチャガチャ設置場所情報を網羅。<br />あなたのガチャライフをサポートします。</p>
+        </div>
+        <div class="gh-footer__links">
+          <div><strong>サービス</strong><a href="/index.html">トップ</a><a href="/stores.html">店舗一覧</a><a href="/ranking.html">ランキング</a><a href="/map.html">マップ検索</a></div>
+          <div><strong>情報</strong><a href="/board.html">掲示板</a><a href="/news.html">新着情報</a><a href="/area.html">エリア別</a></div>
+          <div><strong>サポート</strong><a href="#">お問い合わせ</a><a href="/terms.html">利用規約</a><a href="/privacy.html">プライバシー</a><a href="/sitemap.html">サイトマップ</a><a href="/english.html">English</a><a href="/advertising.html">広告掲載</a></div>
+        </div>
+      </div>
+      <div class="gh-footer__bottom">
+        <span>© 2026 ガチャひろば (gacha-hiroba.com)</span>
+        <span>Powered by ガチャひろば</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

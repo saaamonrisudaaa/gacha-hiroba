@@ -44,8 +44,8 @@ Object.keys(brandCount).filter(b => brandCount[b] >= 2)
 /* エリアまとめ記事 */
 articles.forEach(a => add('/article.html?area=' + encodeURIComponent(a.slug), '0.8'));
 
-/* 店舗ページ（全件） */
-spots.forEach(s => add('/spot.html?id=' + encodeURIComponent(s.id), '0.8'));
+/* 店舗ページ（全件・静的生成された /spot/<id>.html を正とする） */
+spots.forEach(s => add('/spot/' + encodeURIComponent(s.id) + '.html', '0.8'));
 
 const esc = s => s.replace(/&/g, '&amp;');
 const xml =
@@ -91,7 +91,7 @@ const escH = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace
 const prefOrder = [...new Set(spots.map(s => s.pref))];
 const byPref = p => spots.filter(s => s.pref === p);
 const spotLink = s =>
-  '        <li><a href="spot.html?id=' + encodeURIComponent(s.id) + '">' + escH(s.name) + '</a>' +
+  '        <li><a href="/spot/' + encodeURIComponent(s.id) + '.html">' + escH(s.name) + '</a>' +
   '<small>（' + escH(s.area) + '）</small></li>';
 const html = `<!doctype html>
 <html lang="ja">

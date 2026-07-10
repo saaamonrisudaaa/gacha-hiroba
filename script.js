@@ -104,7 +104,7 @@ function renderRanking(key) {
 
   tbody.innerHTML = shown.map((s, i) => {
     const rank = i + 1;
-    const url = 'spot.html?id=' + encodeURIComponent(s.id);
+    const url = '/spot/' + encodeURIComponent(s.id) + '.html';
     return `
     <tr class="${rank === 1 ? 'gh-table__row--top' : ''}">
       <td><span class="gh-rank ${rankCls(rank)}">${rank}</span></td>
@@ -453,7 +453,7 @@ renderRanking('national');
       return;
     }
     listBox.innerHTML = arr.map((s, i) =>
-      '<a href="spot.html?id=' + encodeURIComponent(s.id) + '" class="gh-map-spot' + (i === 0 ? ' gh-map-spot--selected' : '') + '">' +
+      '<a href="/spot/' + encodeURIComponent(s.id) + '.html' + '" class="gh-map-spot' + (i === 0 ? ' gh-map-spot--selected' : '') + '">' +
         '<div class="gh-map-spot__num' + (i === 0 ? ' gh-map-spot__num--1' : '') + '">' + (i + 1) + '</div>' +
         '<div class="gh-map-spot__info">' +
           '<strong class="gh-map-spot__name">' + esc(s.name) + '</strong>' +
@@ -556,7 +556,7 @@ renderRanking('national');
       '<strong>' + esc(s.name) + '</strong><br>' +
       '<span style="color:#6b7280">' + esc(s.area) + '</span><br>' +
       '🎰 ' + machinesText(s.machines) + ' ・ 🕒 ' + esc(s.hours || '—') + '<br>' +
-      '<a href="spot.html?id=' + encodeURIComponent(s.id) + '">詳細を見る →</a>'
+      '<a href="/spot/' + encodeURIComponent(s.id) + '.html' + '">詳細を見る →</a>'
     );
     latlngs.push([s.lat, s.lon]);
   });
@@ -644,7 +644,7 @@ renderRanking('national');
       listEl.innerHTML = rows.map(p => {
         const sid = String(p.spot || '').replace(/^spot-/, '');
         const store = spots.find(s => s.id === sid);
-        const href = store ? 'spot.html?id=' + encodeURIComponent(store.id) + '#board' : 'board.html';
+        const href = store ? '/spot/' + encodeURIComponent(store.id) + '.html' + '#board' : 'board.html';
         const where = store ? store.name : '総合掲示板';
         const raw = String(p.body || '');
         const excerpt = raw.length > 42 ? raw.slice(0, 42) + '…' : raw;

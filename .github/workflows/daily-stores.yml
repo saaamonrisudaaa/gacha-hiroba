@@ -37,18 +37,20 @@ jobs:
           DRIP_COUNT: ${{ github.event.inputs.count }}
         run: node tools/drip-stores.mjs
 
-      - name: Regenerate sitemap / feed
-        run: node tools/gen-sitemap.mjs
+      - name: Regenerate store pages / sitemap / feed
+        run: |
+          node tools/gen-pages.mjs
+          node tools/gen-sitemap.mjs
 
       - name: Commit changes
         run: |
-          if git diff --quiet data/spots.js data/spots-queue.json sitemap.xml sitemap.html feed.xml; then
+          git add -A data/spots.js data/spots-queue.json sitemap.xml sitemap.html feed.xml spot/
+          if git diff --cached --quiet; then
             echo "変更なし（キューが空か新規なし）。コミットしません。"
             exit 0
           fi
           git config user.name "gacha-hiroba-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data/spots.js data/spots-queue.json sitemap.xml sitemap.html feed.xml
           git commit -m "stores: auto-add from queue [skip ci]"
           for i in 1 2 3 4; do
             git pull --rebase origin main && git push origin HEAD:main && exit 0

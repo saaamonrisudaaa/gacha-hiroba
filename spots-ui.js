@@ -142,7 +142,7 @@
       '@context': 'https://schema.org', '@type': 'ItemList',
       'itemListElement': stores.map(function (s, i) {
         return { '@type': 'ListItem', 'position': i + 1, 'name': s.name,
-                 'url': 'https://gacha-hiroba.com/spot.html?id=' + encodeURIComponent(s.id) };
+                 'url': 'https://gacha-hiroba.com/spot/' + encodeURIComponent(s.id) + '.html' };
       })
     };
     var crumbs = {
@@ -189,7 +189,7 @@
         wrap.innerHTML =
           '<table class="gh-table"><thead><tr><th>店舗名</th><th class="gh-num">設置台数</th><th>営業時間</th><th></th></tr></thead><tbody>' +
           stores.map(function (s) {
-            var url = 'spot.html?id=' + encodeURIComponent(s.id);
+            var url = '/spot/' + encodeURIComponent(s.id) + '.html';
             return '<tr><td><a class="gh-table__link" href="' + url + '">' + esc(s.name) + '</a></td>' +
                    '<td class="gh-num">' + machinesText(s.machines) + '</td>' +
                    '<td>' + esc(s.hours || '—') + '</td>' +
@@ -204,7 +204,7 @@
       var box2 = qs('articleStores');
       if (box2) {
         box2.innerHTML = stores.map(function (s, i) {
-          var url = 'spot.html?id=' + encodeURIComponent(s.id);
+          var url = '/spot/' + encodeURIComponent(s.id) + '.html';
           return '<section class="gh-article-store">' +
             '<h3 class="gh-article-store__name">' + (i + 1) + '. <a href="' + url + '">' + esc(s.name) + '</a></h3>' +
             '<table class="gh-info-table gh-info-table--full"><tbody>' +
@@ -306,7 +306,7 @@
         var areaJp = (s.area || '').split('・')[1] || '';
         return '<tr>' +
           '<td>' + (i + 1) + '</td>' +
-          '<td><a class="gh-table__link" href="spot.html?id=' + encodeURIComponent(s.id) + '">' + esc(s.name) + '</a></td>' +
+          '<td><a class="gh-table__link" href="/spot/' + encodeURIComponent(s.id) + '.html' + '">' + esc(s.name) + '</a></td>' +
           '<td>' + esc(PREF_EN[s.pref] || s.pref) + (areaJp ? '<small class="gh-store-brand">' + esc(areaJp) + '</small>' : '') + '</td>' +
           '<td class="gh-num">' + Number(s.machines).toLocaleString('en-US') + '</td>' +
           '<td>' + esc(s.hours || '—') + '</td>' +
@@ -356,7 +356,7 @@
     var rankCls = function (r) { return r === 1 ? ' gh-rank--1' : r === 2 ? ' gh-rank--2' : r === 3 ? ' gh-rank--3' : ''; };
     tbody.innerHTML = sorted.map(function (s, i) {
       var rank = i + 1;
-      var url = 'spot.html?id=' + encodeURIComponent(s.id) + '#board';
+      var url = '/spot/' + encodeURIComponent(s.id) + '.html' + '#board';
       return '<tr' + (rank === 1 ? ' class="gh-table__row--top"' : '') + '>' +
                '<td><span class="gh-rank' + rankCls(rank) + '">' + rank + '</span></td>' +
                '<td><a href="' + url + '" class="gh-table__link">' + esc(s.name) + '</a></td>' +
@@ -370,7 +370,7 @@
     var side = document.querySelector('[data-gh-board-side]');
     if (side) {
       side.innerHTML = sorted.slice(0, 5).map(function (s) {
-        return '<li><a href="spot.html?id=' + encodeURIComponent(s.id) + '#board">' + esc(s.name) + '</a>' +
+        return '<li><a href="/spot/' + encodeURIComponent(s.id) + '.html' + '#board">' + esc(s.name) + '</a>' +
                '<span class="gh-category-item__count">' + machinesText(s.machines) + '</span></li>';
       }).join('');
     }
@@ -408,7 +408,8 @@
   /* 店舗詳細（spot.html）                                               */
   /* ------------------------------------------------------------------ */
   function renderDetail() {
-    var id = getParam('id');
+    /* 静的生成ページ（/spot/<id>.html）は window.GH_SPOT_STATIC_ID を持つ */
+    var id = getParam('id') || window.GH_SPOT_STATIC_ID;
     var store = id ? byId[id] : null;
 
     if (!store) {
@@ -438,7 +439,7 @@
     if (metaDesc) metaDesc.setAttribute('content', pageDesc);
 
     /* SEO: canonical・OGPをこの店舗のURLに更新し、構造化データを追加 */
-    var pageUrl = 'https://gacha-hiroba.com/spot.html?id=' + encodeURIComponent(store.id);
+    var pageUrl = 'https://gacha-hiroba.com/spot/' + encodeURIComponent(store.id) + '.html';
     var setAttr = function (sel, attr, val) { var el = document.querySelector(sel); if (el) el.setAttribute(attr, val); };
     setAttr('link[rel="canonical"]', 'href', pageUrl);
     setAttr('meta[property="og:title"]', 'content', pageTitle);
@@ -472,12 +473,15 @@
         { '@type': 'ListItem', 'position': 3, 'name': store.name, 'item': pageUrl }
       ]
     };
-    [ld, crumbs].forEach(function (obj) {
-      var sc = document.createElement('script');
-      sc.type = 'application/ld+json';
-      sc.textContent = JSON.stringify(obj);
-      document.head.appendChild(sc);
-    });
+    /* 静的生成ページには焼き込み済み（data-gh-static）なので二重注入しない */
+    if (!document.querySelector('script[type="application/ld+json"][data-gh-static]')) {
+      [ld, crumbs].forEach(function (obj) {
+        var sc = document.createElement('script');
+        sc.type = 'application/ld+json';
+        sc.textContent = JSON.stringify(obj);
+        document.head.appendChild(sc);
+      });
+    }
 
     /* パンくず */
     var crumbArea = qs('spotCrumbArea');
@@ -591,7 +595,7 @@
       return;
     }
     box.innerHTML = others.map(function (s) {
-      return '<a href="spot.html?id=' + encodeURIComponent(s.id) + '" class="gh-nearby__item">' +
+      return '<a href="/spot/' + encodeURIComponent(s.id) + '.html' + '" class="gh-nearby__item">' +
                '<span class="gh-rank">🏬</span>' +
                '<div><strong>' + esc(s.name) + '</strong>' +
                '<small>' + esc(s.area) + ' ・ ' + machinesText(s.machines) + '</small></div>' +
@@ -658,7 +662,7 @@
         '<thead><tr><th>店舗名</th><th>エリア</th><th>設置台数</th><th>営業時間</th></tr></thead><tbody>' +
         hits.map(function (s) {
           return '<tr>' +
-            '<td><a class="gh-table__link" href="spot.html?id=' + encodeURIComponent(s.id) + '">' + esc(s.name) + '</a>' +
+            '<td><a class="gh-table__link" href="/spot/' + encodeURIComponent(s.id) + '.html' + '">' + esc(s.name) + '</a>' +
               '<small class="gh-store-brand">' + esc(s.brand) + '</small></td>' +
             '<td>' + esc(s.area) + '</td>' +
             '<td>' + machinesText(s.machines) + '</td>' +
@@ -697,7 +701,7 @@
         '<thead><tr><th>店舗名</th><th>エリア</th><th>設置台数</th><th>営業時間</th></tr></thead><tbody>' +
         bHits.map(function (s) {
           return '<tr>' +
-            '<td><a class="gh-table__link" href="spot.html?id=' + encodeURIComponent(s.id) + '">' + esc(s.name) + '</a>' +
+            '<td><a class="gh-table__link" href="/spot/' + encodeURIComponent(s.id) + '.html' + '">' + esc(s.name) + '</a>' +
               '<small class="gh-store-brand">' + esc(s.brand) + '</small></td>' +
             '<td>' + esc(s.area) + '</td>' +
             '<td>' + machinesText(s.machines) + '</td>' +
@@ -745,7 +749,7 @@
       arr.forEach(function (s) {
         html +=
           '<tr>' +
-            '<td><a class="gh-table__link" href="spot.html?id=' + encodeURIComponent(s.id) + '">' + esc(s.name) + '</a>' +
+            '<td><a class="gh-table__link" href="/spot/' + encodeURIComponent(s.id) + '.html' + '">' + esc(s.name) + '</a>' +
               '<small class="gh-store-brand">' + esc(s.brand) + '</small></td>' +
             '<td>' + esc(s.area) + '</td>' +
             '<td>' + machinesText(s.machines) + '</td>' +
@@ -793,7 +797,7 @@
     var grads = ['gh-spot-card__img--akiba', 'gh-spot-card__img--osaka', 'gh-spot-card__img--nagoya'];
     box.innerHTML = top.map(function (s, i) {
       var badge = i === 0 ? '<span class="gh-spot-card__badge gh-badge--hot">台数1位</span>' : '';
-      return '<a href="spot.html?id=' + encodeURIComponent(s.id) + '" class="gh-spot-card' + (i === 0 ? ' gh-spot-card--lg' : '') + '">' +
+      return '<a href="/spot/' + encodeURIComponent(s.id) + '.html' + '" class="gh-spot-card' + (i === 0 ? ' gh-spot-card--lg' : '') + '">' +
                '<div class="gh-spot-card__img ' + grads[i % grads.length] + '">' + badge + '</div>' +
                '<div class="gh-spot-card__body">' +
                  '<span class="gh-spot-card__area">' + esc(s.area) + '</span>' +
@@ -818,7 +822,7 @@
     var item = function (s, i) {
       var cls = 'gh-ticker-item' + (i === 0 ? ' gh-ticker-item--hot' : '');
       var tag = i === 0 ? ' <em>台数1位</em>' : '';
-      return '<a href="spot.html?id=' + encodeURIComponent(s.id) + '" class="' + cls + '">' +
+      return '<a href="/spot/' + encodeURIComponent(s.id) + '.html' + '" class="' + cls + '">' +
                esc(s.name.replace('ガチャガチャの森 ', '')) +
                ' <span class="gh-ticker-item__star">' + machinesText(s.machines) + '</span>' + tag + '</a>';
     };
