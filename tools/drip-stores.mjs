@@ -22,6 +22,14 @@ const existingIds = new Set((win.GH_SPOTS || []).map((s) => s.id));
 const queueData = JSON.parse(readFileSync(queueUrl, 'utf8'));
 const queue = Array.isArray(queueData.queue) ? queueData.queue : [];
 
+/* 同日二重実行ガード：手動追加やcron遅延で1日に2回走っても追加は1日1回まで。
+   （lastRunDate は JST の日付。手動で当日分を入れた日はここを更新しておく） */
+const todayJst = new Date(Date.now() + 9 * 3600 * 1000).toISOString().slice(0, 10);
+if (queueData.lastRunDate === todayJst && process.env.DRIP_FORCE !== '1') {
+  console.log('drip-stores: 本日(' + todayJst + ')分は追加済みです。何もしません（DRIP_FORCE=1 で強制実行可）。');
+  process.exit(0);
+}
+
 const drip =
   parseInt(process.env.DRIP_COUNT, 10) ||
   parseInt(queueData.dripPerDay, 10) ||
@@ -93,6 +101,7 @@ writeFileSync(spotsUrl, out);
 
 /* キューを更新（追加した分＋既存だった分を消し込み、残りを書き戻す） */
 queueData.queue = remaining;
+queueData.lastRunDate = todayJst;
 writeFileSync(queueUrl, JSON.stringify(queueData, null, 2) + '\n');
 
 console.log('drip-stores: ' + toAdd.length + ' 件を追加しました → ' + toAdd.map((e) => e.id + '（' + e.name + '）').join(' / '));
