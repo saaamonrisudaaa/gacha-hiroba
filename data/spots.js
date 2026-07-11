@@ -2385,6 +2385,98 @@ window.GH_SPOTS = [
     hours: '10:00〜21:00',
     lat: 35.1854, lon: 136.9472,
     access: 'イオンモールナゴヤドーム前内（ナゴヤドーム前矢田駅から徒歩約6分）'
+  },
+
+  /* ── 2026-07-11 追加バッチ（札幌・府中・関西3県・北九州・幕張） ── */
+  {
+    id: 'gashaplant-sapporo-factory',
+    brand: 'ガシャプラント',
+    name: 'ガシャプラント サッポロファクトリー2条館店',
+    region: 'tohoku',
+    pref: '北海道',
+    area: '北海道・札幌',
+    address: '北海道札幌市中央区北2条東4 サッポロファクトリー 2条館 1F',
+    hours: '10:00〜20:00',
+    lat: 43.0665, lon: 141.3605,
+    access: 'サッポロファクトリー2条館 1F（常時約200種類・ガシャポンのデパートと合わせて回遊できる）'
+  },
+  {
+    id: 'gachaste-fuchu-kururu',
+    brand: 'ガチャステ',
+    name: 'ガチャステ 府中くるる店',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・府中',
+    address: '東京都府中市宮町1-50 くるる内',
+    hours: '10:00〜23:00',
+    lat: 35.6693, lon: 139.4785,
+    access: 'くるる内（京王線府中駅から徒歩約2分・タイトー運営・年中無休）'
+  },
+  {
+    id: 'ggmori-aeon-shijonawate',
+    brand: 'ガチャガチャの森',
+    name: 'ガチャガチャの森 イオンモール四條畷店',
+    region: 'kansai',
+    pref: '大阪府',
+    area: '大阪府・四條畷',
+    address: '大阪府四條畷市砂4-3-2 イオンモール四條畷',
+    lat: 34.7333, lon: 135.6162,
+    access: 'イオンモール四條畷内（JR学研都市線 忍ケ丘駅からバス）'
+  },
+  {
+    id: 'ggmori-aeon-itami',
+    brand: 'ガチャガチャの森',
+    name: 'ガチャガチャの森 イオンモール伊丹店',
+    region: 'kansai',
+    pref: '兵庫県',
+    area: '兵庫県・伊丹',
+    address: '兵庫県伊丹市藤ノ木1-1-1 イオンモール伊丹',
+    lat: 34.7906, lon: 135.4128,
+    access: 'イオンモール伊丹内（JR伊丹駅直結）'
+  },
+  {
+    id: 'ggmori-aeon-yamatokoriyama',
+    brand: 'ガチャガチャの森',
+    name: 'ガチャガチャの森 イオンモール大和郡山店',
+    region: 'kansai',
+    pref: '奈良県',
+    area: '奈良県・大和郡山',
+    address: '奈良県大和郡山市下三橋町741 イオンモール大和郡山',
+    lat: 34.6595, lon: 135.7994,
+    access: 'イオンモール大和郡山内（JR郡山駅からバス・奈良県内の大型カプセルトイ専門店）'
+  },
+  {
+    id: 'ggmori-aeon-wakayama',
+    brand: 'ガチャガチャの森',
+    name: 'ガチャガチャの森 イオンモール和歌山店',
+    region: 'kansai',
+    pref: '和歌山県',
+    area: '和歌山県・和歌山',
+    address: '和歌山県和歌山市中字楠谷573 イオンモール和歌山',
+    lat: 34.2600, lon: 135.1520,
+    access: 'イオンモール和歌山内（JR和歌山駅・南海和歌山大学前駅からアクセス）'
+  },
+  {
+    id: 'ggmori-aeon-yahatahigashi',
+    brand: 'ガチャガチャの森',
+    name: 'ガチャガチャの森 イオンモール八幡東店',
+    region: 'kyushu',
+    pref: '福岡県',
+    area: '福岡県・北九州',
+    address: '福岡県北九州市八幡東区東田3-2-102 イオンモール八幡東',
+    lat: 33.8697, lon: 130.8060,
+    access: 'イオンモール八幡東内（JRスペースワールド駅から徒歩約5分）'
+  },
+  {
+    id: 'ggmori-aeon-makuhari-shintoshin',
+    brand: 'ガチャガチャの森',
+    name: 'ガチャガチャの森 イオンモール幕張新都心店',
+    region: 'kanto',
+    pref: '千葉県',
+    area: '千葉県・幕張新都心',
+    address: '千葉県千葉市美浜区豊砂1-1 イオンモール幕張新都心',
+    lat: 35.6479, lon: 140.0324,
+    access: 'イオンモール幕張新都心内（JR海浜幕張駅からバス・幕張豊砂駅すぐ）'
   }
 
 ];

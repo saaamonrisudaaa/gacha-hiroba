@@ -192,6 +192,17 @@ if (location.hash === '#board') {
       .replace(/&gt;&gt;(\d+)/g, '<a href="#res$1" class="gh-bbs__anchor">&gt;&gt;$1</a>')
       .replace(/\n/g, '<br>');
   }
+  /* シード投稿（data/board-seed.js）。実投稿より前の「古い投稿」として表示する */
+  function seedViews() {
+    const arr = (window.GH_BOARD_SEED || {})[SPOT] || [];
+    return arr.map((s, i) => ({
+      num: i + 1,
+      name: s.name || '名無しのガチャー',
+      date: s.date || '',
+      id: idHash(SPOT + '-seed-' + i),
+      body: s.body || ''
+    }));
+  }
   function makePost(p) {
     const post = document.createElement('article');
     post.className = 'gh-bbs__post';
@@ -276,8 +287,10 @@ if (location.hash === '#board') {
       .then(({ data, error }) => {
         if (error) throw error;
         list.innerHTML = '';                              // サンプル投稿を消してDBの投稿を表示
-        data.forEach((p, i) => list.insertBefore(makePost(toView(p, i + 1)), list.firstElementChild));
-        total = data.length;
+        const seeds = seedViews();                        // シード投稿を最古として先に描画
+        seeds.forEach(s => list.insertBefore(makePost(s), list.firstElementChild));
+        data.forEach((p, i) => list.insertBefore(makePost(toView(p, seeds.length + i + 1)), list.firstElementChild));
+        total = seeds.length + data.length;
         if (count) count.textContent = String(total);
         if (total === 0) {
           const empty = document.createElement('p');
@@ -295,8 +308,10 @@ if (location.hash === '#board') {
     const loadSaved = () => { try { return JSON.parse(localStorage.getItem(STORE_KEY)) || []; } catch (e) { return []; } };
     const persist   = a  => { try { localStorage.setItem(STORE_KEY, JSON.stringify(a)); } catch (e) {} };
 
+    const seeds = seedViews();                            // シード投稿を最古として先に描画
     const saved = loadSaved();
-    if (saved.length) { const e = document.getElementById('bbsEmpty'); if (e) e.remove(); }
+    if (seeds.length || saved.length) { const e = document.getElementById('bbsEmpty'); if (e) e.remove(); }
+    seeds.forEach(s => list.insertBefore(makePost(s), list.firstElementChild));
     saved.forEach(p => list.insertBefore(makePost(p), list.firstElementChild));
     if (count) count.textContent = String(list.querySelectorAll('.gh-bbs__post').length);
 

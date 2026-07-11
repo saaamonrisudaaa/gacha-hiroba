@@ -30,6 +30,8 @@
   <url><loc>https://gacha-hiroba.com/stores.html?pref=%E6%B2%96%E7%B8%84%E7%9C%8C</loc><lastmod>2026-07-11</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://gacha-hiroba.com/stores.html?pref=%E9%9D%99%E5%B2%A1%E7%9C%8C</loc><lastmod>2026-07-11</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://gacha-hiroba.com/stores.html?pref=%E5%85%B5%E5%BA%AB%E7%9C%8C</loc><lastmod>2026-07-11</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://gacha-hiroba.com/stores.html?pref=%E5%A5%88%E8%89%AF%E7%9C%8C</loc><lastmod>2026-07-11</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://gacha-hiroba.com/stores.html?pref=%E5%92%8C%E6%AD%8C%E5%B1%B1%E7%9C%8C</loc><lastmod>2026-07-11</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://gacha-hiroba.com/stores.html?brand=%E3%82%AC%E3%83%81%E3%83%A3%E3%82%AC%E3%83%81%E3%83%A3%E3%81%AE%E6%A3%AE</loc><lastmod>2026-07-11</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://gacha-hiroba.com/stores.html?brand=%E3%82%AC%E3%82%B7%E3%83%A3%E3%83%9D%E3%83%B3%E3%81%AE%E3%83%87%E3%83%91%E3%83%BC%E3%83%88</loc><lastmod>2026-07-11</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://gacha-hiroba.com/stores.html?brand=gashacoco%EF%BC%88%E3%82%AC%E3%82%B7%E3%83%A3%E3%82%B3%E3%82%B3%EF%BC%89</loc><lastmod>2026-07-11</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
@@ -42,6 +44,7 @@
   <url><loc>https://gacha-hiroba.com/stores.html?brand=%E3%81%8C%E3%81%A1%E3%82%83%E5%87%A6</loc><lastmod>2026-07-11</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://gacha-hiroba.com/stores.html?brand=CAPSULE%20LAB%EF%BC%88%E3%82%AB%E3%83%97%E3%82%B3%E3%83%B3%EF%BC%89</loc><lastmod>2026-07-11</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://gacha-hiroba.com/stores.html?brand=%E3%82%AC%E3%82%B7%E3%83%A3%E3%83%9D%E3%83%B3%E3%83%90%E3%83%B3%E3%83%80%E3%82%A4%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%B7%E3%83%A7%E3%83%83%E3%83%97</loc><lastmod>2026-07-11</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://gacha-hiroba.com/stores.html?brand=%E3%82%AC%E3%83%81%E3%83%A3%E3%82%B9%E3%83%86</loc><lastmod>2026-07-11</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://gacha-hiroba.com/article.html?area=shibuya</loc><lastmod>2026-07-11</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://gacha-hiroba.com/article.html?area=harajuku</loc><lastmod>2026-07-11</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://gacha-hiroba.com/article.html?area=ikebukuro</loc><lastmod>2026-07-11</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
@@ -240,4 +243,12 @@
   <url><loc>https://gacha-hiroba.com/spot/gashapon-jr-shinagawa.html</loc><lastmod>2026-07-11</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://gacha-hiroba.com/spot/capsulelab-namba-walk.html</loc><lastmod>2026-07-11</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://gacha-hiroba.com/spot/ggmori-nagoya-dome-mae.html</loc><lastmod>2026-07-11</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://gacha-hiroba.com/spot/gashaplant-sapporo-factory.html</loc><lastmod>2026-07-11</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://gacha-hiroba.com/spot/gachaste-fuchu-kururu.html</loc><lastmod>2026-07-11</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://gacha-hiroba.com/spot/ggmori-aeon-shijonawate.html</loc><lastmod>2026-07-11</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://gacha-hiroba.com/spot/ggmori-aeon-itami.html</loc><lastmod>2026-07-11</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://gacha-hiroba.com/spot/ggmori-aeon-yamatokoriyama.html</loc><lastmod>2026-07-11</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://gacha-hiroba.com/spot/ggmori-aeon-wakayama.html</loc><lastmod>2026-07-11</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://gacha-hiroba.com/spot/ggmori-aeon-yahatahigashi.html</loc><lastmod>2026-07-11</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://gacha-hiroba.com/spot/ggmori-aeon-makuhari-shintoshin.html</loc><lastmod>2026-07-11</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
 </urlset>
