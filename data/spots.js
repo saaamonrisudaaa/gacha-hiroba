@@ -2699,6 +2699,244 @@ window.GH_SPOTS = [
     address: '東京都渋谷区神宮前6-1-9 キデイランド原宿店',
     lat: 35.6688, lon: 139.7043,
     access: '表参道沿いの玩具店・1F/2Fに約1,000種類のカプセルトイ（明治神宮前駅から徒歩約3分）'
+  },
+
+  /* ── 2026-07-12 全国20件拡充（横浜駅・仙台・福岡・神戸・新潟・熊本ほか） ── */
+  {
+    id: 'cpla-tamaplaza',
+    brand: '#C-pla（シープラ）',
+    name: '#C-pla たまプラーザ店',
+    region: 'kanto',
+    pref: '神奈川県',
+    area: '神奈川県・たまプラーザ',
+    address: '神奈川県横浜市青葉区美しが丘1-7 東急百貨店たまプラーザ店',
+    lat: 35.5768, lon: 139.5595,
+    access: '東急百貨店たまプラーザ店内（たまプラーザ駅直結）'
+  },
+  {
+    id: 'gashadepa-yokohama-ekimae',
+    brand: 'ガシャポンのデパート',
+    name: 'ガシャポンのデパート 横浜駅前店',
+    region: 'kanto',
+    pref: '神奈川県',
+    area: '神奈川県・横浜駅',
+    address: '神奈川県横浜市西区南幸1-10-1 相鉄南幸16ビル 1〜3F',
+    hours: '10:00〜23:00',
+    machines: 2800,
+    lat: 35.465, lon: 139.6194,
+    access: '相鉄南幸16ビル1〜3F（横浜駅西口から徒歩約3分・3フロアの大型店）'
+  },
+  {
+    id: 'yodobashi-yokohama-gacha',
+    brand: 'ヨドバシカメラ',
+    name: 'ヨドバシカメラ マルチメディア横浜（ガチャガチャコーナー）',
+    region: 'kanto',
+    pref: '神奈川県',
+    area: '神奈川県・横浜駅',
+    address: '神奈川県横浜市西区北幸1-2-7 ヨドバシカメラ マルチメディア横浜',
+    hours: '9:30〜22:00',
+    machines: 1000,
+    lat: 35.4665, lon: 139.6199,
+    access: '6FとB1Fに設置（横浜駅西口から徒歩約3分）'
+  },
+  {
+    id: 'yodobashi-yokohama-gachakan',
+    brand: 'ヨドバシカメラ',
+    name: 'ヨドバシカメラ 横浜駅前 ガチャガチャ館',
+    region: 'kanto',
+    pref: '神奈川県',
+    area: '神奈川県・横浜駅',
+    address: '神奈川県横浜市西区南幸1-5-27 ヨドバシ相鉄駅前ビル 1F',
+    hours: '9:30〜21:00',
+    machines: 800,
+    lat: 35.4657, lon: 139.6205,
+    access: 'ヨドバシ相鉄駅前ビル1F・ガチャ専用館（横浜駅西口すぐ）'
+  },
+  {
+    id: 'gachanoeki-sotetsu-yokohama',
+    brand: 'ガチャの駅',
+    name: 'ガチャの駅 by LaLaLa IST 相鉄横浜駅店',
+    region: 'kanto',
+    pref: '神奈川県',
+    area: '神奈川県・横浜駅',
+    address: '神奈川県横浜市西区南幸1-5-1 相鉄本線横浜駅 1F 改札内',
+    hours: '7:00〜23:00',
+    machines: 120,
+    lat: 35.4655, lon: 139.621,
+    access: '相鉄線横浜駅改札内（朝7時から・通勤ついでに回せる駅ナカ）'
+  },
+  {
+    id: 'dreamcapsule-outlet-shonan-hiratsuka',
+    brand: 'ドリームカプセル',
+    name: 'Dream Capsule ジ アウトレット湘南平塚店',
+    region: 'kanto',
+    pref: '神奈川県',
+    area: '神奈川県・平塚',
+    address: '神奈川県平塚市大神8-1-1 ジ アウトレット湘南平塚',
+    lat: 35.3692, lon: 139.3395,
+    access: 'ジ アウトレット湘南平塚内（平塚駅からバス）'
+  },
+  {
+    id: 'gashadepa-yokohama-world-porters',
+    brand: 'ガシャポンのデパート',
+    name: 'ガシャポンのデパート 横浜ワールドポーターズ店',
+    region: 'kanto',
+    pref: '神奈川県',
+    area: '神奈川県・みなとみらい',
+    address: '神奈川県横浜市中区新港2-2-1 横浜ワールドポーターズ',
+    lat: 35.4547, lon: 139.638,
+    access: '横浜ワールドポーターズ内（みなとみらい線 馬車道駅・桜木町駅から徒歩圏）'
+  },
+  {
+    id: 'palo-aeon-makuhari-shintoshin',
+    brand: 'TOYS SPOT PALO',
+    name: 'TOYS SPOT PALO イオンモール幕張新都心店',
+    region: 'kanto',
+    pref: '千葉県',
+    area: '千葉県・幕張新都心',
+    address: '千葉県千葉市美浜区豊砂1-1 イオンモール幕張新都心',
+    lat: 35.6482, lon: 140.033,
+    access: 'イオンモール幕張新都心内（幕張豊砂駅すぐ・イオンファンタジー運営）'
+  },
+  {
+    id: 'dreamcapsule-aeontown-chikusa',
+    brand: 'ドリームカプセル',
+    name: 'ドリームカプセル イオンタウン千種店',
+    region: 'tokai',
+    pref: '愛知県',
+    area: '愛知県・千種',
+    address: '愛知県名古屋市千種区千種2-16-13 イオンタウン千種',
+    lat: 35.161, lon: 136.931,
+    access: 'イオンタウン千種内（JR千種駅から徒歩圏）'
+  },
+  {
+    id: 'gashapon-bandai-sendai-parco',
+    brand: 'ガシャポンバンダイオフィシャルショップ',
+    name: 'ガシャポンバンダイオフィシャルショップ 仙台PARCO店',
+    region: 'tohoku',
+    pref: '宮城県',
+    area: '宮城県・仙台駅',
+    address: '宮城県仙台市青葉区中央1-2-3 仙台PARCO',
+    machines: 300,
+    lat: 38.261, lon: 140.88,
+    access: '仙台PARCO内（仙台駅から徒歩約2分・バンダイ公式）'
+  },
+  {
+    id: 'gashadepa-bivi-sendai',
+    brand: 'ガシャポンのデパート',
+    name: 'ガシャポンのデパート BiVi仙台駅東口店',
+    region: 'tohoku',
+    pref: '宮城県',
+    area: '宮城県・仙台駅',
+    address: '宮城県仙台市宮城野区榴岡2-1-40 BiVi仙台駅東口',
+    lat: 38.2591, lon: 140.8858,
+    access: 'BiVi仙台駅東口内（仙台駅東口から徒歩約2分）'
+  },
+  {
+    id: 'ggmori-lalaport-fukuoka',
+    brand: 'ガチャガチャの森',
+    name: 'ガチャガチャの森 ららぽーと福岡店',
+    region: 'kyushu',
+    pref: '福岡県',
+    area: '福岡県・博多',
+    address: '福岡県福岡市博多区那珂6-23-1 ららぽーと福岡',
+    lat: 33.5638, lon: 130.4462,
+    access: 'ららぽーと福岡内（JR竹下駅から徒歩約9分）'
+  },
+  {
+    id: 'dreamcapsule-hakata-marui',
+    brand: 'ドリームカプセル',
+    name: 'ドリームカプセル 博多マルイ店',
+    region: 'kyushu',
+    pref: '福岡県',
+    area: '福岡県・博多駅',
+    address: '福岡県福岡市博多区博多駅中央街9-1 KITTE博多 6F（博多マルイ内）',
+    hours: '10:00〜21:00',
+    lat: 33.5893, lon: 130.4193,
+    access: '博多駅直結KITTEビル6F・常時600種類以上'
+  },
+  {
+    id: 'dreamcapsule-kobe-umie',
+    brand: 'ドリームカプセル',
+    name: 'ドリームカプセル 神戸ハーバーランドumie店',
+    region: 'kansai',
+    pref: '兵庫県',
+    area: '兵庫県・神戸ハーバーランド',
+    address: '兵庫県神戸市中央区東川崎町1-7-2 umie SOUTH MALL 4F',
+    hours: '10:00〜20:00',
+    machines: 300,
+    lat: 34.6786, lon: 135.1817,
+    access: 'umie SOUTH MALL 4F（JR神戸駅から徒歩約5分）'
+  },
+  {
+    id: 'gashapon-bandai-os-cinemas-kobe',
+    brand: 'ガシャポンバンダイオフィシャルショップ',
+    name: 'ガシャポンバンダイオフィシャルショップ OSシネマズ神戸ハーバーランド店',
+    region: 'kansai',
+    pref: '兵庫県',
+    area: '兵庫県・神戸ハーバーランド',
+    address: '兵庫県神戸市中央区東川崎町1-7-2 umie（OSシネマズ神戸ハーバーランド）',
+    lat: 34.6789, lon: 135.182,
+    access: 'OSシネマズ神戸ハーバーランド（映画の前後に・umie内）'
+  },
+  {
+    id: 'gashadepa-niigata',
+    brand: 'ガシャポンのデパート',
+    name: 'ガシャポンのデパート 新潟店',
+    region: 'tohoku',
+    pref: '新潟県',
+    area: '新潟県・新潟駅',
+    address: '新潟県新潟市中央区南笹口1-1-1 ひもろぎビル 2F',
+    tel: '025-384-4980',
+    lat: 37.9092, lon: 139.0645,
+    access: 'ひもろぎビル2F（新潟駅南口から徒歩約4分）'
+  },
+  {
+    id: 'gashadepa-wondercity-minami-kumamoto',
+    brand: 'ガシャポンのデパート',
+    name: 'ガシャポンのデパート ワンダーシティ南熊本店',
+    region: 'kyushu',
+    pref: '熊本県',
+    area: '熊本県・熊本',
+    address: '熊本県熊本市中央区九品寺6-9-1 ワンダーシティ南熊本',
+    hours: '10:00〜翌2:00',
+    lat: 32.786, lon: 130.7175,
+    access: 'ワンダーシティ南熊本内（深夜2時まで・年中無休）'
+  },
+  {
+    id: 'gashadepa-youmetown-sanpian',
+    brand: 'ガシャポンのデパート',
+    name: 'ガシャポンのデパート ゆめタウンサンピアン店',
+    region: 'kyushu',
+    pref: '熊本県',
+    area: '熊本県・熊本',
+    address: '熊本県熊本市東区上南部2-2-2 ゆめタウンサンピアン',
+    lat: 32.821, lon: 130.758,
+    access: 'ゆめタウンサンピアン内（熊本市東区・イズミ公式掲載）'
+  },
+
+  {
+    id: 'gashadepa-tressa-yokohama',
+    brand: 'ガシャポンのデパート',
+    name: 'ガシャポンのデパート トレッサ横浜店',
+    region: 'kanto',
+    pref: '神奈川県',
+    area: '神奈川県・港北',
+    address: '神奈川県横浜市港北区師岡町700 トレッサ横浜',
+    lat: 35.5286, lon: 139.6355,
+    access: 'トレッサ横浜内（東急東横線 大倉山駅からバス・綱島街道沿い）'
+  },
+
+  {
+    id: 'cpla-ario-sapporo',
+    brand: '#C-pla（シープラ）',
+    name: '#C-pla アリオ札幌店',
+    region: 'tohoku',
+    pref: '北海道',
+    area: '北海道・札幌',
+    address: '北海道札幌市東区北7条東9-2-20 アリオ札幌',
+    lat: 43.0724, lon: 141.3672,
+    access: 'アリオ札幌内（JR苗穂駅から徒歩約3分・ガシャポンのデパートと合わせて回遊できる）'
   }
 
 ];
