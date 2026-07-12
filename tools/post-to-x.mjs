@@ -43,53 +43,57 @@ const slot = process.env.X_SLOT || (
 /* ---------- ユーティリティ ---------- */
 const pick = (arr, seed) => arr[seed % arr.length];
 const machinesText = n => '約' + Number(n).toLocaleString('ja-JP') + '台';
-const spotUrl = s => ORIGIN + '/spot.html?id=' + encodeURIComponent(s.id);
+const spotUrl = s => ORIGIN + '/spot/' + encodeURIComponent(s.id) + '.html';
 const articleUrl = a => ORIGIN + '/article.html?area=' + encodeURIComponent(a.slug);
+
+/* ---------- 投稿済みログ（過去にツイートした文面の再投稿を防ぐ） ---------- */
+const logPath = new URL('../data/x-posted-log.json', import.meta.url);
+const postedLog = existsSync(logPath)
+  ? JSON.parse(readFileSync(logPath, 'utf8'))
+  : { note: '投稿済み文面ログ。投稿成功時に追記し、同一文面の再投稿を防ぐ（API/Chrome共用）。', posts: [] };
+const norm = t => String(t || '').replace(/https?:\/\/\S+/g, '').replace(/\s+/g, '');
+const alreadyPosted = t => (postedLog.posts || []).some(p => norm(p.text) === norm(t));
+/* 本文の長さ＝URLを除いた文字数（ルール: 50文字以内） */
+const bodyLen = t => [...norm(t)].length;
 
 /* 投稿対象としておいしい店（台数公表・座標あり＝主要店） */
 const bigSpots = spots.filter(s => s.machines >= 300).sort((a, b) => (b.machines || 0) - (a.machines || 0));
 const lateSpots = spots.filter(s => /2[234]:/.test(s.hours || '') || /〜2[234]時/.test(s.hours || ''));
 const areaArts = articles.filter(a => !a.type && !a.ranking);
 
-/* ---------- 自動生成（時間帯別・日替わりローテーション） ---------- */
-function generate() {
-  if (slot === 'morning') {
-    const s = pick(bigSpots, dayKey);
-    const opens = [
-      `おはようございます☀️ 今日の一店は「${s.name}」。${s.machines ? machinesText(s.machines) + 'のマシンが並ぶ' : ''}${s.area.split('・')[1] || s.area}の人気スポットです。`,
-      `☀️今日のガチャスポット：${s.name}（${s.area.split('・')[1] || s.area}）。${s.machines ? machinesText(s.machines) + '設置。' : ''}${s.access ? '' : ''}週末の予定にどうぞ。`,
-      `朝のガチャ紹介🎰 ${s.area.split('・')[1] || s.area}の「${s.name}」${s.machines ? '、' + machinesText(s.machines) : ''}。詳しい場所と営業時間はこちら👇`
-    ];
-    return pick(opens, dayKey) + '\n' + spotUrl(s);
-  }
+/* ---------- 自動生成 ----------
+   ルール: 本文（URL除く）50文字以内・改行で段落分け・投稿済みログと重複しない。
+   候補を複数作り、条件を満たす最初のものを選ぶ。 ---------- */
+function candidates() {
+  const s1 = pick(bigSpots, dayKey);
+  const s2 = pick(bigSpots, dayKey + 3);
+  const a = pick(areaArts, dayKey);
+  const late = pick(lateSpots.length ? lateSpots : bigSpots, dayKey);
+  const shortName = (x) => [...x.name].length <= 22 ? x.name : (x.area.split('・')[1] || x.area) + 'の大型店';
   if (slot === 'noon') {
-    const a = pick(areaArts, dayKey);
-    const opens = [
-      `お昼休みにサクッと読める${a.label}のガチャガチャまとめ🎰 駅からの行き方も載せてます`,
-      `${a.label}でガチャ回すならこの記事をどうぞ📍 掲載店の台数・営業時間つきです`,
-      `ランチのついでに1回どうですか？${a.label}のガチャスポットまとめました🎰`
+    return [
+      `お昼のガチャ情報🎰\n${a.label}のまとめはこちら👇\n` + articleUrl(a),
+      `${a.label}でガチャ回すなら📍\n台数・営業時間つきでまとめてます\n` + articleUrl(a),
+      `今日のガチャスポット🎰\n${shortName(s1)}\n${s1.machines ? machinesText(s1.machines) + '設置' : ''}\n` + spotUrl(s1),
+      `ランチついでに1回どうですか🎰\n${a.label}のスポット一覧👇\n` + articleUrl(a)
     ];
-    return pick(opens, dayKey) + '\n' + articleUrl(a) + '\n#ガチャガチャ';
   }
-  if (slot === 'afternoon') {
-    const tips = [
-      `ガチャの価格、いまは1回300〜500円が中心。マシン正面のパネルに書いてあるので回す前にチェックです💡`,
-      `専門店には両替機がある店が多いですが、駅ナカの小さいコーナーにはないことも。100円玉は多めに持っていくのが安心です💡`,
-      `キャッシュレス対応のガチャ筐体、大型店を中心に増えてます。それでも硬貨式が主流なので現金は忘れずに💡`,
-      `空カプセルは店内の回収ボックスへ。最近はどの専門店にもだいたい置いてあります♻️`,
-      `メーカー公式の「発売日」は問屋出荷日。店頭に並ぶのは数日〜数週間ズレるので、見つからなくても焦らないでOK💡`
-    ];
-    const closers = ['', '\nはじめての専門店ガイドはこちら👇\n' + ORIGIN + '/article.html?area=guide-first-visit'];
-    return pick(tips, dayKey) + pick(closers, dayKey % 2);
-  }
-  // evening
-  const s = pick(lateSpots.length ? lateSpots : bigSpots, dayKey);
-  const opens = [
-    `仕事帰りに寄れるガチャスポット🌙 「${s.name}」は${(s.hours || '').replace(/（.*?）/g, '')}営業。`,
-    `今日もおつかれさまです🌙 ${s.area.split('・')[1] || s.area}の「${s.name}」なら夜でも回せます（${(s.hours || '').replace(/（.*?）/g, '')}）。`,
-    `夜ガチャ派に🌙 ${s.name}、${(s.hours || '').replace(/（.*?）/g, '')}まで開いてます。`
+  /* afternoon（16時）: 豆知識と店舗紹介を織り交ぜる */
+  return [
+    `午後のガチャ情報🎰\n${shortName(s2)}\n${s2.machines ? machinesText(s2.machines) + '設置' : ''}\n` + spotUrl(s2),
+    `ガチャは1回300〜500円が中心💡\n小銭の準備はお忘れなく`,
+    `空カプセルは回収ボックスへ♻️\n専門店ならだいたいあります`,
+    `夜まで回せる店もあります🌙\n${shortName(late)}\n` + spotUrl(late),
+    `100円玉は多めが安心💡\n両替機がない店もあります`
   ];
-  return pick(opens, dayKey) + '\n' + spotUrl(s);
+}
+function generate() {
+  const cands = candidates();
+  /* 50文字以内 かつ 未投稿のものを優先。無ければ50字以内の先頭 → それも無ければ先頭 */
+  const ok = cands.filter(t => bodyLen(t) <= 50);
+  const fresh = ok.filter(t => !alreadyPosted(t));
+  const list = fresh.length ? fresh : (ok.length ? ok : cands);
+  return pick(list, dayKey);
 }
 
 /* ---------- キューから取得（あれば優先） ---------- */
@@ -99,8 +103,9 @@ let queueChanged = false;
 if (existsSync(queuePath)) {
   const data = JSON.parse(readFileSync(queuePath, 'utf8'));
   const q = data.queue || [];
-  let idx = q.findIndex(p => p.slot === slot);
-  if (idx === -1) idx = q.findIndex(p => !p.slot);
+  const usable = p => !alreadyPosted(p.text) && bodyLen(p.text) <= 50;
+  let idx = q.findIndex(p => p.slot === slot && usable(p));
+  if (idx === -1) idx = q.findIndex(p => !p.slot && usable(p));
   if (idx !== -1) {
     text = q[idx].text;
     if (CAN_POST) {
@@ -150,6 +155,8 @@ const res = await fetch(url, {
 const body = await res.json().catch(() => ({}));
 if (res.ok) {
   console.log('投稿成功 🎉 tweet id:', body.data && body.data.id);
+  postedLog.posts.push({ date: new Date().toISOString(), slot, text });
+  writeFileSync(logPath, JSON.stringify(postedLog, null, 2) + '\n');
 } else {
   console.error('投稿失敗:', res.status, JSON.stringify(body));
   process.exit(1);

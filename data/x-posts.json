@@ -1,33 +1,29 @@
 {
-  "note": "X自動投稿の手書きキュー。slot: morning(7:30) / noon(12:30) / afternoon(15:30) / evening(19:30)。各時間帯で先頭から1件ずつ使われ、使用後は自動で削除されます。空になった時間帯は実データから自動生成に切り替わるので、放置してもOK。自然な文面を心がけ、リンクは毎回入れなくてよい。",
+  "note": "X自動投稿の手書きキュー。slot: noon(12:00) / afternoon(16:00)。本文（URL除く）は50文字以内・改行で段落分け・過去投稿と重複しないこと（data/x-posted-log.json 参照）。トレンドネタは毎日の自動メンテナンスが調査して補充。空の時間帯は実データから自動生成に切替。",
   "queue": [
     {
       "slot": "noon",
-      "text": "祖師ヶ谷大蔵のウルトラマン商店街にもガチャ専門店ができてました（カプセル楽局・駅徒歩1分）。商店街を歩くだけでも楽しい街です🚋\n#ガチャガチャ #祖師ヶ谷大蔵"
+      "text": "全国のガチャ店、260店舗以上を掲載中🎰\n47都道府県制覇まであと少し\nhttps://gacha-hiroba.com/stores.html"
+    },
+    {
+      "slot": "afternoon",
+      "text": "横浜駅は西口徒歩5分圏に6店舗🎰\n合計5,000台超の激戦区です\nhttps://gacha-hiroba.com/stores.html?q=%E6%A8%AA%E6%B5%9C"
     },
     {
       "slot": "noon",
-      "text": "錦糸町、実は駅徒歩数分圏内にガチャスポットが5つある密集地帯です（PARCO・オリナス・マルイ・駅前・ヨドバシ）。南口→北口の順で回るのがスムーズ🎰\nhttps://gacha-hiroba.com/article.html?area=kinshicho"
+      "text": "九州のガチャ勢へ🎰\n熊本・光の森に約1,000面の大型店\nhttps://gacha-hiroba.com/spot/gashadepa-youmetown-hikarinomori.html"
+    },
+    {
+      "slot": "afternoon",
+      "text": "仕事帰りの1回に🌙\n高田馬場は24時まで回せます\nhttps://gacha-hiroba.com/spot/gachaste-bigbox-takadanobaba.html"
     },
     {
       "slot": "noon",
-      "text": "巣鴨の地蔵通り商店街にもガチャ専門店があります。おばあちゃんの原宿でカプセル楽局、なんだか良い光景です🍡 駅前にももう1店舗。"
+      "text": "札幌のガチャ、実は激アツ🎰\n大通〜狸小路だけで5店舗あります\nhttps://gacha-hiroba.com/stores.html?q=%E6%9C%AD%E5%B9%8C"
     },
     {
-      "slot": "noon",
-      "text": "高円寺は庚申通りとパル商店街に1店ずつカプセル楽局があります。古着屋巡りのついでにガチャ、合う街だと思います🎸\n#高円寺 #ガチャガチャ"
-    },
-    {
-      "slot": "morning",
-      "text": "おはようございます☀️ ガチャひろば、ついに全国対応になりました。北は札幌サッポロファクトリー（約600台）から南は那覇の沖映通りまで、掲載155店舗に🎌 お住まいの地域の店舗もぜひ探してみてください\nhttps://gacha-hiroba.com/stores.html"
-    },
-    {
-      "slot": "noon",
-      "text": "仙台の方へ。東仙台のフォレオ2Fに「ガシャポンのデパート駿河屋」があります（約530台・朝9時から22時まで）。朝イチから回せる店、実は貴重です🎰\nhttps://gacha-hiroba.com/spot/gashadepa-surugaya-higashisendai.html"
-    },
-    {
-      "slot": "noon",
-      "text": "大阪・梅田のガチャ事情、実はすごいことになってます。茶屋町に2階建て・西日本最大2,400台の「ガチャガチャの森」、ヨドバシ梅田タワーに約1,800台、HEP FIVEにガシャポンのデパート。大阪駅から徒歩圏でこの規模🎰\nhttps://gacha-hiroba.com/stores.html?pref=%E5%A4%A7%E9%98%AA%E5%BA%9C"
+      "slot": "afternoon",
+      "text": "ガチャは1回300〜500円が中心💡\n小銭の準備はお忘れなく"
     }
   ]
 }

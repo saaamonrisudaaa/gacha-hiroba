@@ -1,15 +1,14 @@
-# X（旧Twitter）自動投稿：毎日 7:30 / 12:30 / 15:30 / 19:30 JST
+# X（旧Twitter）自動投稿：毎日 12:00 / 16:00 JST の2回
 # - data/x-posts.json のキューを優先して投稿し、使った分をコミットで消し込む
-# - キューが空の時間帯は実データから自動生成
+# - キューが空の時間帯は実データから自動生成（本文50文字以内・段落分け）
+# - 投稿済み文面は data/x-posted-log.json に記録し、同一文面の再投稿を防ぐ
 # - GitHub Actions の cron は数分〜十数分遅れることがあります（自然なゆらぎとして許容）
 name: x-auto-post
 
 on:
   schedule:
-    - cron: '30 22 * * *'   # 07:30 JST
-    - cron: '30 3 * * *'    # 12:30 JST
-    - cron: '30 6 * * *'    # 15:30 JST
-    - cron: '30 10 * * *'   # 19:30 JST
+    - cron: '0 3 * * *'    # 12:00 JST
+    - cron: '0 7 * * *'    # 16:00 JST
   workflow_dispatch:
     inputs:
       dry_run:
@@ -44,10 +43,10 @@ jobs:
 
       - name: Commit queue update
         run: |
-          if ! git diff --quiet data/x-posts.json; then
+          git add data/x-posts.json data/x-posted-log.json
+          if ! git diff --cached --quiet; then
             git config user.name "gacha-hiroba-bot"
             git config user.email "actions@users.noreply.github.com"
-            git add data/x-posts.json
             git commit -m "x-post: consume queue item [skip ci]"
             git push
           fi
