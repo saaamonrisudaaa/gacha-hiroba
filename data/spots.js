@@ -3274,6 +3274,64 @@ window.GH_SPOTS = [
     address: '福岡県筑紫野市針摺東3-3-1 ゆめタウン筑紫野',
     lat: 33.5138, lon: 130.5254,
     access: 'ゆめタウン筑紫野内（西鉄朝倉街道駅から徒歩圏）'
+  },
+
+  /* ── 2026-07-12 福島県 初掲載ほか（空白県つぶし第1弾） ── */
+  {
+    id: 'gashadepa-aeontown-koriyama',
+    brand: 'ガシャポンのデパート',
+    name: 'ガシャポンのデパート イオンタウン郡山店',
+    region: 'tohoku',
+    pref: '福島県',
+    area: '福島県・郡山',
+    address: '福島県郡山市松木町2-88 イオンタウン郡山',
+    hours: '10:00〜21:00',
+    lat: 37.4126, lon: 140.3958,
+    access: 'イオンタウン郡山内（郡山駅からバス・福島県内最大級）'
+  },
+  {
+    id: 'gashapon-bandai-aeontown-koriyama',
+    brand: 'ガシャポンバンダイオフィシャルショップ',
+    name: 'ガシャポンバンダイオフィシャルショップ イオンタウン郡山店',
+    region: 'tohoku',
+    pref: '福島県',
+    area: '福島県・郡山',
+    address: '福島県郡山市松木町2-88 イオンタウン郡山',
+    lat: 37.4128, lon: 140.396,
+    access: 'イオンタウン郡山内（ガシャポンのデパートと併設）'
+  },
+  {
+    id: 'capsulepark-ati-koriyama',
+    brand: 'カプセルパーク',
+    name: 'カプセルパーク アティ郡山店',
+    region: 'tohoku',
+    pref: '福島県',
+    area: '福島県・郡山駅',
+    address: '福島県郡山市駅前2-11-1 アティ郡山',
+    lat: 37.3986, lon: 140.3878,
+    access: 'アティ郡山内（郡山駅前すぐ）'
+  },
+  {
+    id: 'cpla-bivi-sendai',
+    brand: '#C-pla（シープラ）',
+    name: '#C-pla 仙台駅東口BiVi店',
+    region: 'tohoku',
+    pref: '宮城県',
+    area: '宮城県・仙台駅',
+    address: '宮城県仙台市宮城野区榴岡2-1-25 BiVi仙台駅東口 1F',
+    lat: 38.2589, lon: 140.8856,
+    access: 'BiVi仙台駅東口1F（仙台駅東口から徒歩約2分・ガシャポンのデパートと同館）'
+  },
+  {
+    id: 'gachaokoku-joepla-matsuyama',
+    brand: 'ガチャ王国',
+    name: 'ガチャ王国 ジョー・プラ店',
+    region: 'chugoku',
+    pref: '愛媛県',
+    area: '愛媛県・松山',
+    address: '愛媛県松山市朝生田町5-1-25 ジョー・プラ',
+    lat: 33.8214, lon: 132.7729,
+    access: 'ジョー・プラ内（松山市・いよてつ余戸線方面）'
   }
 
 ];

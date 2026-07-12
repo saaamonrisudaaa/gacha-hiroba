@@ -54,6 +54,7 @@
   <url><loc>https://gacha-hiroba.com/stores.html?pref=%E5%BE%B3%E5%B3%B6%E7%9C%8C</loc><lastmod>2026-07-12</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://gacha-hiroba.com/stores.html?pref=%E6%84%9B%E5%AA%9B%E7%9C%8C</loc><lastmod>2026-07-12</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://gacha-hiroba.com/stores.html?pref=%E4%BD%90%E8%B3%80%E7%9C%8C</loc><lastmod>2026-07-12</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://gacha-hiroba.com/stores.html?pref=%E7%A6%8F%E5%B3%B6%E7%9C%8C</loc><lastmod>2026-07-12</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://gacha-hiroba.com/stores.html?brand=%E3%82%AC%E3%83%81%E3%83%A3%E3%82%AC%E3%83%81%E3%83%A3%E3%81%AE%E6%A3%AE</loc><lastmod>2026-07-12</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://gacha-hiroba.com/stores.html?brand=%E3%82%AC%E3%82%B7%E3%83%A3%E3%83%9D%E3%83%B3%E3%81%AE%E3%83%87%E3%83%91%E3%83%BC%E3%83%88</loc><lastmod>2026-07-12</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://gacha-hiroba.com/stores.html?brand=gashacoco%EF%BC%88%E3%82%AC%E3%82%B7%E3%83%A3%E3%82%B3%E3%82%B3%EF%BC%89</loc><lastmod>2026-07-12</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
@@ -70,6 +71,7 @@
   <url><loc>https://gacha-hiroba.com/stores.html?brand=%E3%82%AD%E3%83%87%E3%82%A4%E3%83%A9%E3%83%B3%E3%83%89</loc><lastmod>2026-07-12</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://gacha-hiroba.com/stores.html?brand=%E3%82%AC%E3%83%81%E3%83%A3%E3%82%B9%E3%83%86</loc><lastmod>2026-07-12</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://gacha-hiroba.com/stores.html?brand=TOYS%20SPOT%20PALO</loc><lastmod>2026-07-12</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://gacha-hiroba.com/stores.html?brand=%E3%82%AC%E3%83%81%E3%83%A3%E7%8E%8B%E5%9B%BD</loc><lastmod>2026-07-12</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://gacha-hiroba.com/article.html?area=shibuya</loc><lastmod>2026-07-12</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://gacha-hiroba.com/article.html?area=harajuku</loc><lastmod>2026-07-12</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://gacha-hiroba.com/article.html?area=ikebukuro</loc><lastmod>2026-07-12</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
@@ -345,4 +347,9 @@
   <url><loc>https://gacha-hiroba.com/spot/ggmori-youmetown-hatsukaichi.html</loc><lastmod>2026-07-12</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://gacha-hiroba.com/spot/gashadepa-youmetown-hikarinomori.html</loc><lastmod>2026-07-12</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://gacha-hiroba.com/spot/gashadepa-youmetown-chikushino.html</loc><lastmod>2026-07-12</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://gacha-hiroba.com/spot/gashadepa-aeontown-koriyama.html</loc><lastmod>2026-07-12</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://gacha-hiroba.com/spot/gashapon-bandai-aeontown-koriyama.html</loc><lastmod>2026-07-12</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://gacha-hiroba.com/spot/capsulepark-ati-koriyama.html</loc><lastmod>2026-07-12</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://gacha-hiroba.com/spot/cpla-bivi-sendai.html</loc><lastmod>2026-07-12</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://gacha-hiroba.com/spot/gachaokoku-joepla-matsuyama.html</loc><lastmod>2026-07-12</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
 </urlset>
