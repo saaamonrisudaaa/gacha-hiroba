@@ -2477,6 +2477,57 @@ window.GH_SPOTS = [
     address: '千葉県千葉市美浜区豊砂1-1 イオンモール幕張新都心',
     lat: 35.6479, lon: 140.0324,
     access: 'イオンモール幕張新都心内（JR海浜幕張駅からバス・幕張豊砂駅すぐ）'
+  },
+
+  {
+    id: 'cpla-tanukikoji-5chome',
+    brand: '#C-pla（シープラ）',
+    name: '#C-pla 狸小路5丁目店',
+    region: 'tohoku',
+    pref: '北海道',
+    area: '北海道・狸小路',
+    address: '北海道札幌市中央区南2条西5丁目 狸小路5丁目アーケード内',
+    lat: 43.0574, lon: 141.3502,
+    access: '狸小路商店街5丁目（地下鉄大通駅・すすきの駅から徒歩約5分）'
+  },
+
+  {
+    id: 'dreamcapsule-magnet-shibuya109',
+    brand: 'ドリームカプセル',
+    name: 'ドリームカプセル MAGNET by SHIBUYA109店',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・渋谷',
+    address: '東京都渋谷区神南1-23-10 MAGNET by SHIBUYA109 内',
+    lat: 35.6595, lon: 139.6987,
+    access: 'MAGNET by SHIBUYA109（渋谷駅ハチ公口から徒歩約3分・スクランブル交差点前）'
+  },
+
+  {
+    id: 'ggmori-aeon-sakai-teppocho',
+    brand: 'ガチャガチャの森',
+    name: 'ガチャガチャの森 イオンモール堺鉄砲町店',
+    region: 'kansai',
+    pref: '大阪府',
+    area: '大阪府・堺',
+    address: '大阪府堺市堺区鉄砲町1 イオンモール堺鉄砲町',
+    hours: '10:00〜21:00',
+    lat: 34.5936, lon: 135.4808,
+    access: 'イオンモール堺鉄砲町内（南海高野線 七道駅から徒歩約5分）'
+  },
+
+  {
+    id: 'gashapon-bandai-airportwalk-nagoya',
+    brand: 'ガシャポンバンダイオフィシャルショップ',
+    name: 'ガシャポンバンダイオフィシャルショップ エアポートウォーク名古屋店',
+    region: 'tokai',
+    pref: '愛知県',
+    area: '愛知県・豊山',
+    address: '愛知県西春日井郡豊山町大字豊場林先1-8 エアポートウォーク名古屋 3F',
+    hours: '10:00〜21:30',
+    machines: 300,
+    lat: 35.2465, lon: 136.9245,
+    access: 'エアポートウォーク名古屋 3F（県営名古屋空港となり）'
   }
 
 ];
