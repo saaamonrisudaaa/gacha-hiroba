@@ -2528,6 +2528,177 @@ window.GH_SPOTS = [
     machines: 300,
     lat: 35.2465, lon: 136.9245,
     access: 'エアポートウォーク名古屋 3F（県営名古屋空港となり）'
+  },
+
+  /* ── 2026-07-12 東京15件拡充（銀座・表参道・新橋・羽田・多摩など空白エリア） ── */
+  {
+    id: 'cpla-premium-marronniergate-ginza',
+    brand: '#C-pla（シープラ）',
+    name: '#C-pla premium マロニエゲート銀座店',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・銀座',
+    address: '東京都中央区銀座3-2-1 マロニエゲート銀座2',
+    lat: 35.6727, lon: 139.7648,
+    access: 'マロニエゲート銀座2内（銀座駅・JR有楽町駅から徒歩約3分）'
+  },
+  {
+    id: 'cpla-premium-omokado-omotesando',
+    brand: '#C-pla（シープラ）',
+    name: '#C-pla premium 東急プラザ表参道「オモカド」店',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・表参道',
+    address: '東京都渋谷区神宮前4-30-3 東急プラザ表参道「オモカド」',
+    lat: 35.6685, lon: 139.7056,
+    access: '東急プラザ表参道オモカド内（表参道駅から徒歩約1分・神宮前交差点）'
+  },
+  {
+    id: 'cpla-tokyu-plaza-shibuya',
+    brand: '#C-pla（シープラ）',
+    name: '#C-pla 東急プラザ渋谷店',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・渋谷',
+    address: '東京都渋谷区道玄坂1-2-3 東急プラザ渋谷',
+    lat: 35.6591, lon: 139.7005,
+    access: '東急プラザ渋谷内（渋谷駅西口直結）'
+  },
+  {
+    id: 'cpla-licopa-higashiyamato',
+    brand: '#C-pla（シープラ）',
+    name: '#C-pla LICOPA東大和店',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・東大和',
+    address: '東京都東大和市桜が丘2-142-1 LICOPA東大和',
+    lat: 35.7346, lon: 139.4258,
+    access: 'LICOPA東大和内（多摩都市モノレール桜街道駅から徒歩約3分）'
+  },
+  {
+    id: 'palo-shibuya-a2',
+    brand: 'TOYS SPOT PALO',
+    name: 'TOYS SPOT PALO 渋谷A2ビル店',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・渋谷',
+    address: '東京都渋谷区宇田川町28-3 アンテナGSビル（A2ビル）2F',
+    tel: '070-3100-4946',
+    lat: 35.6614, lon: 139.6975,
+    access: 'A2ビル2F（渋谷駅ハチ公口から徒歩約5分・イオンファンタジー運営）'
+  },
+  {
+    id: 'palo-aeon-higashikurume',
+    brand: 'TOYS SPOT PALO',
+    name: 'TOYS SPOT PALO イオンモール東久留米店',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・東久留米',
+    address: '東京都東久留米市南沢5-17-62 イオンモール東久留米',
+    lat: 35.7398, lon: 139.5183,
+    access: 'イオンモール東久留米内（西武池袋線ひばりヶ丘駅からバス）'
+  },
+  {
+    id: 'gachaste-taito-tama-center',
+    brand: 'ガチャステ',
+    name: 'ガチャステ タイトーステーション多摩センター店',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・多摩センター',
+    address: '東京都多摩市落合1丁目 タイトーステーション多摩センター店内',
+    lat: 35.6247, lon: 139.4239,
+    access: '多摩センター駅から徒歩約3分（タイトー公式の遊べるガチャストア）'
+  },
+  {
+    id: 'gachaworld-haneda-t3',
+    brand: 'ガチャワールド（ペニイ）',
+    name: 'ガチャワールド 羽田空港第3ターミナル店',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・羽田空港',
+    address: '東京都大田区羽田空港2-6-5 羽田空港第3ターミナル',
+    machines: 500,
+    lat: 35.5453, lon: 139.7684,
+    access: '羽田空港第3ターミナル（国際線）内・搭乗前や帰国時のお土産に'
+  },
+  {
+    id: 'hakuhinkan-toypark-ginza',
+    brand: '博品館',
+    name: '博品館TOY PARK 銀座本店（ガチャガチャコーナー）',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・銀座',
+    address: '東京都中央区銀座8-8-11 博品館TOY PARK',
+    hours: '11:00〜20:00',
+    lat: 35.6690, lon: 139.7623,
+    access: '銀座八丁目の老舗玩具店・館内にガチャガチャコーナー（新橋駅から徒歩約3分・年中無休）'
+  },
+  {
+    id: 'yamashiroya-ueno',
+    brand: 'ヤマシロヤ',
+    name: 'ヤマシロヤ 上野店（ガチャガチャコーナー）',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・上野',
+    address: '東京都台東区上野6-14-6 ヤマシロヤ',
+    hours: '10:00〜21:30',
+    lat: 35.7113, lon: 139.7758,
+    access: '上野駅前のビルまるごと玩具店・1Fにガチャガチャコーナー（上野駅から徒歩約1分）'
+  },
+  {
+    id: 'kenele-stand-jr-akihabara',
+    brand: 'ケンエレスタンド',
+    name: 'ケンエレスタンド JR秋葉原駅店',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・秋葉原',
+    address: '東京都千代田区外神田1-17-6 JR秋葉原駅構内',
+    lat: 35.6984, lon: 139.7731,
+    access: 'JR秋葉原駅構内（大人向けカプセルトイの駅ナカスタンド）'
+  },
+  {
+    id: 'kenele-stand-jr-shimbashi',
+    brand: 'ケンエレスタンド',
+    name: 'ケンエレスタンド JR新橋駅店',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・新橋',
+    address: '東京都港区新橋2-17-14 JR新橋駅構内',
+    lat: 35.6664, lon: 139.7583,
+    access: 'JR新橋駅構内（仕事帰りに回せる大人向けカプセルトイスタンド）'
+  },
+  {
+    id: 'kenele-stand-jr-ueno',
+    brand: 'ケンエレスタンド',
+    name: 'ケンエレスタンド JR上野駅店',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・上野',
+    address: '東京都台東区上野7-1-1 JR上野駅構内',
+    lat: 35.7141, lon: 139.7774,
+    access: 'JR上野駅構内（改札近くの大人向けカプセルトイスタンド）'
+  },
+  {
+    id: 'kenele-stand-gransta-yaekita',
+    brand: 'ケンエレスタンド',
+    name: 'ケンエレスタンド グランスタ八重北店',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・東京駅',
+    address: '東京都千代田区丸の内1-9-1 東京駅 グランスタ八重北',
+    lat: 35.6812, lon: 139.7671,
+    access: '東京駅 グランスタ八重北（駅構内・新幹線乗車前のお土産にも）'
+  },
+  {
+    id: 'kiddyland-harajuku',
+    brand: 'キデイランド',
+    name: 'キデイランド原宿店（カプセルトイコーナー）',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・原宿',
+    address: '東京都渋谷区神宮前6-1-9 キデイランド原宿店',
+    lat: 35.6688, lon: 139.7043,
+    access: '表参道沿いの玩具店・1F/2Fに約1,000種類のカプセルトイ（明治神宮前駅から徒歩約3分）'
   }
 
 ];
