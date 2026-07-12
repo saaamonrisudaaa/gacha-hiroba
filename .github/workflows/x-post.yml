@@ -1,4 +1,4 @@
-# X（旧Twitter）自動投稿：毎日 12:00 / 16:00 JST の2回
+# X（旧Twitter）自動投稿：毎日 7:30 / 12:30 / 15:30 / 19:30 JST
 # - data/x-posts.json のキューを優先して投稿し、使った分をコミットで消し込む
 # - キューが空の時間帯は実データから自動生成（本文50文字以内・段落分け）
 # - 投稿済み文面は data/x-posted-log.json に記録し、同一文面の再投稿を防ぐ
@@ -7,8 +7,10 @@ name: x-auto-post
 
 on:
   schedule:
-    - cron: '0 3 * * *'    # 12:00 JST
-    - cron: '0 7 * * *'    # 16:00 JST
+    - cron: '30 22 * * *'   # 07:30 JST
+    - cron: '30 3 * * *'    # 12:30 JST
+    - cron: '30 6 * * *'    # 15:30 JST
+    - cron: '30 10 * * *'   # 19:30 JST
   workflow_dispatch:
     inputs:
       dry_run:

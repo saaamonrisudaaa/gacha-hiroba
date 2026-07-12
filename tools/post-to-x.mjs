@@ -70,6 +70,20 @@ function candidates() {
   const a = pick(areaArts, dayKey);
   const late = pick(lateSpots.length ? lateSpots : bigSpots, dayKey);
   const shortName = (x) => [...x.name].length <= 22 ? x.name : (x.area.split('・')[1] || x.area) + 'の大型店';
+  if (slot === 'morning') {
+    return [
+      `おはようございます☀️\n今日の一店：${shortName(s1)}\n` + spotUrl(s1),
+      `☀️今日のガチャスポット\n${shortName(s1)}${s1.machines ? '（' + machinesText(s1.machines) + '）' : ''}\n` + spotUrl(s1),
+      `朝ガチャ情報🎰\n${shortName(s2)}\n週末の予定にどうぞ\n` + spotUrl(s2)
+    ];
+  }
+  if (slot === 'evening') {
+    return [
+      `今日もおつかれさまです🌙\n${shortName(late)}は夜も回せます\n` + spotUrl(late),
+      `仕事帰りの1回に🌙\n${shortName(late)}\n` + spotUrl(late),
+      `夜ガチャ派へ🌙\n${shortName(late)}が開いてます\n` + spotUrl(late)
+    ];
+  }
   if (slot === 'noon') {
     return [
       `お昼のガチャ情報🎰\n${a.label}のまとめはこちら👇\n` + articleUrl(a),
