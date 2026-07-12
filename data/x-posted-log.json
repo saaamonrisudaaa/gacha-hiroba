@@ -1,4 +1,10 @@
 {
   "note": "投稿済み文面ログ。投稿成功時に追記し、同一文面の再投稿を防ぐ（API/Chrome共用）。",
-  "posts": []
+  "posts": [
+    {
+      "date": "2026-07-12T23:29:24.900Z",
+      "slot": "morning",
+      "text": "☀️今日のガチャスポット\nカプセル楽局 戸越銀座店（約440台）\nhttps://gacha-hiroba.com/spot/caprak-togoshiginza.html"
+    }
+  ]
 }
