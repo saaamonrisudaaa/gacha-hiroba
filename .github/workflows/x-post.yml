@@ -15,7 +15,19 @@ on:
     inputs:
       dry_run:
         description: 'ドライラン（1 = 投稿せず文面確認のみ）'
+        type: choice
+        options: ['1', '0']
         default: '1'
+      slot:
+        description: '投稿枠（due = 現在時刻の定時枠）'
+        type: choice
+        options: ['due', 'morning', 'noon', 'afternoon', 'evening']
+        default: 'due'
+      verify_only:
+        description: '投稿せず @gachahiroba の認証だけ確認'
+        type: choice
+        options: ['0', '1']
+        default: '0'
 
 permissions:
   contents: write
@@ -34,13 +46,42 @@ jobs:
         with:
           node-version: 24
 
+      - name: Validate post rules and queue
+        run: |
+          node --test tools/x-post-rules.test.mjs
+          node tools/validate-x-posts.mjs
+
+      - name: Resolve post slot
+        id: resolve-slot
+        shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          EVENT_SCHEDULE: ${{ github.event.schedule }}
+          INPUT_SLOT: ${{ inputs.slot }}
+        run: |
+          if [[ "$EVENT_NAME" == "schedule" ]]; then
+            case "$EVENT_SCHEDULE" in
+              '30 22 * * *') slot='morning' ;;
+              '30 3 * * *') slot='noon' ;;
+              '30 6 * * *') slot='afternoon' ;;
+              '30 10 * * *') slot='evening' ;;
+              *) echo "Unknown schedule: $EVENT_SCHEDULE" >&2; exit 1 ;;
+            esac
+          else
+            slot="${INPUT_SLOT:-due}"
+          fi
+          echo "slot=$slot" >> "$GITHUB_OUTPUT"
+
       - name: Post to X
         env:
           X_API_KEY: ${{ secrets.X_API_KEY }}
           X_API_SECRET: ${{ secrets.X_API_SECRET }}
           X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
           X_ACCESS_SECRET: ${{ secrets.X_ACCESS_SECRET }}
-          X_DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.dry_run || '' }}
+          X_EXPECTED_USERNAME: gachahiroba
+          X_SLOT: ${{ steps.resolve-slot.outputs.slot }}
+          X_DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || '0' }}
+          X_VERIFY_ONLY: ${{ github.event_name == 'workflow_dispatch' && inputs.verify_only || '0' }}
         run: node tools/post-to-x.mjs
 
       - name: Commit queue update
@@ -50,5 +91,13 @@ jobs:
             git config user.name "gacha-hiroba-bot"
             git config user.email "actions@users.noreply.github.com"
             git commit -m "x-post: consume queue item [skip ci]"
-            git push
+            for attempt in 1 2 3; do
+              git pull --rebase origin "$GITHUB_REF_NAME"
+              if git push; then
+                exit 0
+              fi
+              if [[ "$attempt" -lt 3 ]]; then sleep 2; fi
+            done
+            echo "Failed to persist X post log after 3 attempts" >&2
+            exit 1
           fi
