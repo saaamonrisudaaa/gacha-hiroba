@@ -4,6 +4,7 @@
       id は URL に使う識別子（半角英数・ハイフン）。重複しないように。
       region: kanto / kansai / tokai / kyushu / tohoku / chugoku
       lat / lon: 地図表示用のおおよその緯度・経度（施設のおよその位置）
+      sourceUrl / verifiedAt: 公式一次情報のURL / 最終確認日（YYYY-MM-DD）
       closedAfter: 'YYYY-MM-DD'（最終営業日）。この日を過ぎると一覧・検索・
         地図・記事・sitemap のすべてから自動的に除外される（削除扱い）。
    =========================================================================== */
@@ -3345,6 +3346,44 @@ window.GH_SPOTS = [
     hours: '10:00〜20:00',
     lat: 43.0668, lon: 141.3537,
     access: 'さっぽろ東急百貨店内（さっぽろ駅直結・ガシャポンのデパートと併設）'
+  },
+
+  /* ── 2026-07-13 未掲載県を追加（当日4件の不足分） ── */
+  {
+    id: 'gashapon-bandai-bookoff-gifu-orchidpark',
+    brand: 'ガシャポンバンダイオフィシャルショップ',
+    name: 'ガシャポンバンダイオフィシャルショップBOOKOFF岐阜オーキッドパーク店',
+    region: 'tokai',
+    pref: '岐阜県',
+    area: '岐阜県・岐阜',
+    address: '岐阜県岐阜市香蘭2-23 West 2F',
+    lat: 35.41076379025201, lon: 136.7448844762608,
+    sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90001574',
+    verifiedAt: '2026-07-13'
+  },
+  {
+    id: 'gashapon-bandai-tsutaya-waiplaza-takefu',
+    brand: 'ガシャポンバンダイオフィシャルショップ',
+    name: 'ガシャポンバンダイオフィシャルショップTSUTAYAワイプラザ武生店',
+    region: 'tokai',
+    pref: '福井県',
+    area: '福井県・越前',
+    address: '福井県越前市横市町28-14-1 武生楽市 2F',
+    lat: 35.9070218, lon: 136.1929915,
+    sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90000953',
+    verifiedAt: '2026-07-13'
+  },
+  {
+    id: 'gashapon-bandai-aeonmall-tottori-kita',
+    brand: 'ガシャポンバンダイオフィシャルショップ',
+    name: 'ガシャポンバンダイオフィシャルショップイオンモール鳥取北店',
+    region: 'chugoku',
+    pref: '鳥取県',
+    area: '鳥取県・鳥取',
+    address: '鳥取県鳥取市晩稲(おくて)348',
+    lat: 35.524691199950055, lon: 134.2015493936938,
+    sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90001635',
+    verifiedAt: '2026-07-13'
   }
 
 ];

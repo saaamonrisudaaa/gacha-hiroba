@@ -1,5 +1,5 @@
 # 店舗の自動追加：毎日 data/spots-queue.json から数件を data/spots.js へ反映
-# - dripPerDay 件ずつ（既定2件）。キューが空なら何もしない（no-op）
+# - dripPerDay 件ずつ（既定4件）。4件未満なら変更せず失敗
 # - 反映後に sitemap.xml / sitemap.html / feed.xml を再生成してコミット
 # - キューの補充（新しい店舗の調査・追記）は、セッション稼働中にまとめて行う
 # - GitHub Actions の cron は数分〜十数分遅れることがあります（自然なゆらぎとして許容）
@@ -9,11 +9,6 @@ on:
   schedule:
     - cron: '17 0 * * *'   # 09:17 JST（毎日）
   workflow_dispatch:
-    inputs:
-      count:
-        description: '追加件数（空なら spots-queue.json の dripPerDay）'
-        required: false
-        default: ''
 
 permissions:
   contents: write
@@ -27,33 +22,60 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
 
       - uses: actions/setup-node@v4
         with:
           node-version: 24
 
+      - name: Validate store queue
+        run: node tools/validate-stores.mjs
+
       - name: Drip stores from queue
-        env:
-          DRIP_COUNT: ${{ github.event.inputs.count }}
-        run: node tools/drip-stores.mjs
+        id: drip
+        run: |
+          node tools/drip-stores.mjs
+          if git diff --quiet -- data/spots.js data/spots-queue.json; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Regenerate store pages / sitemap / feed
+        if: steps.drip.outputs.changed == 'true'
         run: |
+          node tools/validate-stores.mjs
           node tools/gen-pages.mjs
           node tools/gen-sitemap.mjs
 
       - name: Commit changes
+        if: steps.drip.outputs.changed == 'true'
         run: |
           git add -A data/spots.js data/spots-queue.json sitemap.xml sitemap.html feed.xml spot/
           if git diff --cached --quiet; then
-            echo "変更なし（キューが空か新規なし）。コミットしません。"
+            echo "変更なし。コミットしません。"
             exit 0
           fi
           git config user.name "gacha-hiroba-bot"
           git config user.email "actions@users.noreply.github.com"
-          git commit -m "stores: auto-add from queue [skip ci]"
+          git commit -m "stores: auto-add 4 from queue"
           for i in 1 2 3 4; do
-            git pull --rebase origin main && git push origin HEAD:main && exit 0
+            if ! git pull --rebase origin main; then
+              git rebase --abort || true
+              echo "rebase retry $i..."
+              sleep $((2**i))
+              continue
+            fi
+            node tools/validate-stores.mjs
+            node tools/gen-pages.mjs
+            node tools/gen-sitemap.mjs
+            git add -A data/spots.js data/spots-queue.json sitemap.xml sitemap.html feed.xml spot/
+            if ! git diff --cached --quiet; then
+              git commit --amend --no-edit
+            fi
+            git diff --check
+            git push origin HEAD:main && exit 0
             echo "push retry $i..."; sleep $((2**i))
           done
           echo "push に失敗しました" >&2; exit 1
