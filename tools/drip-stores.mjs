@@ -2,8 +2,10 @@
    data/spots-queue.json の先頭から数件を取り出し、data/spots.js の配列末尾へ
    追記する。使った分はキューから消し込む。毎日 GitHub Actions から実行される。
 
-   追加件数の決め方： 環境変数 DRIP_COUNT > queue の dripPerDay > 既定値 2
-   キューが空、または追加できる新規店舗が無い場合は何もせず正常終了（no-op）。
+   追加件数は常に4件。環境変数 DRIP_COUNT または queue の dripPerDay が
+   4以外なら設定ミスとして中断する。
+   同日二重実行を除き、必要件数を満たせない場合は何も変更せず失敗する。
+   DRIP_DRY_RUN=1 なら選定結果だけを表示し、ファイルは変更しない。
 
    実行後は必ず `node tools/gen-sitemap.mjs` で sitemap を更新すること
    （ワークフロー側で連続実行している）。 */
@@ -30,10 +32,12 @@ if (queueData.lastRunDate === todayJst && process.env.DRIP_FORCE !== '1') {
   process.exit(0);
 }
 
-const drip =
-  parseInt(process.env.DRIP_COUNT, 10) ||
-  parseInt(queueData.dripPerDay, 10) ||
-  2;
+const configuredDrip = process.env.DRIP_COUNT || queueData.dripPerDay || 4;
+const drip = Number(configuredDrip);
+if (!Number.isInteger(drip) || drip !== 4) {
+  console.error('drip-stores: 追加件数は必ず4にしてください: ' + configuredDrip);
+  process.exit(1);
+}
 
 /* 追加対象の選び方：
    dailyMix（例: ["北海道","東京都","大阪府","愛知県"]）が設定されていれば、
@@ -60,13 +64,18 @@ toAdd.forEach((it) => existingIds.add(it.id));
 const remaining = candidates.filter((it) => !picked.has(it.id));
 if (stale.length) console.log('drip-stores: 既掲載のためキューから削除: ' + stale.map((s) => s.id).join(', '));
 
-if (toAdd.length === 0) {
-  console.log('drip-stores: 追加できる新規店舗がありません（キュー残 ' + queue.length + ' 件）。何もしません。');
+if (toAdd.length < drip) {
+  console.error('drip-stores: 追加可能な店舗が不足しています。変更しません（候補 ' + toAdd.length + ' 件 / 必要 ' + drip + ' 件 / キュー ' + queue.length + ' 件）。');
+  process.exit(1);
+}
+if (process.env.DRIP_DRY_RUN === '1') {
+  console.log('drip-stores: dry-run / ' + toAdd.length + ' 件を追加予定 → ' + toAdd.map((e) => e.id + '（' + e.name + '）').join(' / '));
+  console.log('drip-stores: dry-run / 追加後の総店舗数 ' + (win.GH_SPOTS.length + toAdd.length) + ' 件 / キュー残 ' + remaining.length + ' 件');
   process.exit(0);
 }
 
 /* ── オブジェクトを spots.js と同じ体裁の JS リテラルに整形 ── */
-const FIELD_ORDER = ['id', 'brand', 'name', 'region', 'pref', 'area', 'zip', 'address', 'tel', 'hours', 'machines', 'closedAfter'];
+const FIELD_ORDER = ['id', 'brand', 'name', 'region', 'pref', 'area', 'zip', 'address', 'tel', 'hours', 'machines', 'closedAfter', 'sourceUrl', 'verifiedAt'];
 const q = (v) => "'" + String(v).replace(/\\/g, '\\\\').replace(/'/g, "\\'") + "'";
 
 function fmt(e) {
