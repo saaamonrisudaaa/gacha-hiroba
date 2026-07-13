@@ -1,6 +1,13 @@
 {
-  "note": "X自動投稿の手書きキュー。slot: noon(12:00) / afternoon(16:00)。本文（URL除く）は50文字以内・改行で段落分け・過去投稿と重複しないこと（data/x-posted-log.json 参照）。トレンドネタは毎日の自動メンテナンスが調査して補充。空の時間帯は実データから自動生成に切替。",
+  "note": "X自動投稿キュー。slot: morning(7:30) / noon(12:30) / afternoon(15:30) / evening(19:30) JST。各textはフック・本文・URLの厳密な3行、本文はURLを除いて50文字以内、data/x-posted-log.json と重複しないこと。毎日10:23の自動メンテナンスが公式情報を調査して補充し、合う話題がない場合はサイト実データから補充する。",
   "queue": [
+    {
+      "slot": "afternoon",
+      "origin": "trend",
+      "referenceUrl": "https://www.takaratomy-arts.co.jp/items/gacha/calendar/",
+      "addedAt": "2026-07-13T04:50:00.000Z",
+      "text": "今週はどれを回す？\n7月13日週の新作を見つけるコツはこちら\nhttps://gacha-hiroba.com/article.html?area=guide-find-new"
+    },
     {
       "slot": "noon",
       "text": "全国のガチャ店、260店舗以上を掲載中🎰\n47都道府県制覇まであと少し\nhttps://gacha-hiroba.com/stores.html"
@@ -23,7 +30,7 @@
     },
     {
       "slot": "afternoon",
-      "text": "ガチャは1回300〜500円が中心💡\n小銭の準備はお忘れなく"
+      "text": "ガチャは1回300〜500円が中心💡\n小銭の準備はお忘れなく\nhttps://gacha-hiroba.com/article.html?area=guide-find-new"
     }
   ]
 }
