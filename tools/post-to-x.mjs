@@ -192,7 +192,7 @@ console.log('slot:', slot, '| queue使用:', queueIndex >= 0, '| 本文文字数
 console.log('---- 投稿文 ----\n' + text + '\n----------------');
 
 /* ---------- 投稿（OAuth 1.0a User Context / X API v2） ---------- */
-if (DRY) {
+if (DRY && !VERIFY_ONLY) {
   console.log('[DRY RUN] 投稿はスキップしました');
   process.exit(0);
 }
