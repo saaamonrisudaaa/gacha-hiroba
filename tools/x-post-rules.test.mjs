@@ -38,6 +38,10 @@ test('絵文字を見た目どおり1文字として数える', () => {
   assert.equal(bodyLength(`🎰\n🎯\n${url}`), 2);
 });
 
+test('本文内の空白は文字数に含める', () => {
+  assert.equal(bodyLength(`ガチャ 広場\n新作\n${url}`), 8);
+});
+
 test('重複キーはURLと空白の違いを無視する', () => {
   assert.equal(
     duplicateKey(`同じフック\n同じ本文\n${url}`),

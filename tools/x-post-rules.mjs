@@ -15,7 +15,10 @@ export function duplicateKey(value) {
 }
 
 export function bodyLength(value) {
-  return [...graphemeSegmenter.segment(duplicateKey(value))].length;
+  const bodyWithoutUrls = normalizeNewlines(value)
+    .replace(URL_PATTERN, '')
+    .replace(/\n/gu, '');
+  return [...graphemeSegmenter.segment(bodyWithoutUrls)].length;
 }
 
 export function validatePost(value) {
