@@ -2,10 +2,6 @@
   "note": "X自動投稿キュー。slot: morning(7:30) / noon(12:30) / afternoon(15:30) / evening(19:30) JST。各textはフック・本文・URLの厳密な3行、本文はURLを除いて50文字以内、data/x-posted-log.json と重複しないこと。毎日10:23の自動メンテナンスが公式情報を調査して補充し、合う話題がない場合はサイト実データから補充する。",
   "queue": [
     {
-      "slot": "afternoon",
-      "text": "横浜駅は西口徒歩5分圏に6店舗🎰\n合計5,000台超の激戦区です\nhttps://gacha-hiroba.com/stores.html?q=%E6%A8%AA%E6%B5%9C"
-    },
-    {
       "slot": "noon",
       "text": "九州のガチャ勢へ🎰\n熊本・光の森に約1,000面の大型店\nhttps://gacha-hiroba.com/spot/gashadepa-youmetown-hikarinomori.html"
     },
