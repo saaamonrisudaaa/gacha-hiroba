@@ -3384,6 +3384,58 @@ window.GH_SPOTS = [
     lat: 35.524691199950055, lon: 134.2015493936938,
     sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90001635',
     verifiedAt: '2026-07-13'
+  },
+
+  {
+    id: 'gashapon-bandai-plant-izumo',
+    brand: 'ガシャポンバンダイオフィシャルショップ',
+    name: 'ガシャポンバンダイオフィシャルショップPLANT出雲店',
+    region: 'chugoku',
+    pref: '島根県',
+    area: '島根県・出雲',
+    address: '島根県出雲市塩冶町1408-2',
+    sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90001433',
+    verifiedAt: '2026-07-13',
+    lat: 35.35925428783788, lon: 132.74980169798624
+  },
+
+  {
+    id: 'gashadepa-fujigran-iwakuni',
+    brand: 'ガシャポンのデパート',
+    name: 'ガシャポンのデパートフジグラン岩国店',
+    region: 'chugoku',
+    pref: '山口県',
+    area: '山口県・岩国',
+    address: '山口県岩国市麻里布町2-9-8 フジグラン岩国店 5F',
+    sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90000480',
+    verifiedAt: '2026-07-13',
+    lat: 34.168722, lon: 132.223352
+  },
+
+  {
+    id: 'gashapon-bandai-libro-moriya',
+    brand: 'ガシャポンバンダイオフィシャルショップ',
+    name: 'ガシャポンバンダイオフィシャルショップ リブロイオンタウン守谷店',
+    region: 'kanto',
+    pref: '茨城県',
+    area: '茨城県・守谷',
+    address: '茨城県守谷市百合ケ丘3丁目249-1 イオンタウン守谷本館 2F',
+    sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90000766',
+    verifiedAt: '2026-07-13',
+    lat: 35.9448157, lon: 139.990594
+  },
+
+  {
+    id: 'gashapon-bandai-aeoncinema-okayama',
+    brand: 'ガシャポンバンダイオフィシャルショップ',
+    name: 'ガシャポンバンダイオフィシャルショップイオンシネマ岡山店',
+    region: 'chugoku',
+    pref: '岡山県',
+    area: '岡山県・岡山',
+    address: '岡山県岡山市北区下石井1-2-1 イオンモール岡山5F',
+    sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90000805',
+    verifiedAt: '2026-07-13',
+    lat: 34.6620824, lon: 133.9177261
   }
 
 ];
