@@ -1,6 +1,7 @@
 /* ===========================================================================
    X（旧Twitter）自動投稿スクリプト
-   GitHub Actions から 1日4回（7:30 / 12:30 / 15:30 / 19:30 JST）呼ばれる。
+   GitHub Actions から 1日4枠（7:30 / 12:30 / 15:30 / 19:30 JST）呼ばれる。
+   各枠は3投稿で、1件目だけURL付き、2・3件目はURLなし。投稿間隔は2分。
 
    仕組み：
    1) data/x-posts.json の queue に手書きの投稿があれば、現在の時間帯
@@ -18,11 +19,13 @@ import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { createHmac, randomBytes } from 'node:crypto';
 import {
   POST_SLOTS,
+  completedPositions,
   duplicateKey,
   jstDateKey,
+  remainingIntervalMs,
+  validatePlainPost,
   validatePost,
-  wasLaterSlotPosted,
-  wasSlotPosted
+  wasLaterSlotPosted
 } from './x-post-rules.mjs';
 
 const ORIGIN = 'https://gacha-hiroba.com';
@@ -42,8 +45,16 @@ const jstMinutes = jstHour * 60 + now.getUTCMinutes();
 const dayKey = Math.floor(now.getTime() / 86400000); // JST日単位の通し番号
 const DRY = process.env.X_DRY_RUN === '1';
 const VERIFY_ONLY = process.env.X_VERIFY_ONLY === '1';
+const BATCH_SIZE = 3;
+const POST_INTERVAL_MS = 2 * 60 * 1000;
+const position = Number(process.env.X_POST_POSITION || 1);
 const KEY = process.env.X_API_KEY, KSEC = process.env.X_API_SECRET;
 const TOK = process.env.X_ACCESS_TOKEN, TSEC = process.env.X_ACCESS_SECRET;
+
+if (!Number.isInteger(position) || position < 1 || position > BATCH_SIZE) {
+  console.error(`不正なX_POST_POSITIONです: ${process.env.X_POST_POSITION}`);
+  process.exit(1);
+}
 
 /* ---------- ユーティリティ ---------- */
 const pick = (arr, seed) => arr.length ? arr[((seed % arr.length) + arr.length) % arr.length] : null;
@@ -81,12 +92,21 @@ if (!POST_SLOTS.includes(slot)) {
   console.error(`不正なX_SLOTです: ${slot}`);
   process.exit(1);
 }
-if (!DRY && !VERIFY_ONLY && wasSlotPosted(posts, currentJstDate, slot)) {
-  console.log(`${currentJstDate} の ${slot} 枠は投稿済みのためスキップしました`);
-  process.exit(0);
-}
 if (!DRY && !VERIFY_ONLY && wasLaterSlotPosted(posts, currentJstDate, slot)) {
   console.log(`${currentJstDate} の後続枠が投稿済みのため、遅延した ${slot} 枠をスキップしました`);
+  process.exit(0);
+}
+const completed = completedPositions(posts, currentJstDate, slot, BATCH_SIZE);
+if (!DRY && !VERIFY_ONLY && completed.size >= BATCH_SIZE) {
+  console.log(`${currentJstDate} の ${slot} 枠は3件投稿済みのためスキップしました`);
+  process.exit(0);
+}
+if (!DRY && !VERIFY_ONLY && completed.has(position)) {
+  console.log(`${currentJstDate} の ${slot} 枠 ${position}/3 は投稿済みのためスキップしました`);
+  process.exit(0);
+}
+if (!DRY && !VERIFY_ONLY && position > 1 && !completed.has(position - 1)) {
+  console.log(`${currentJstDate} の ${slot} 枠 ${position - 1}/3 が未完了のため ${position}/3 をスキップしました`);
   process.exit(0);
 }
 
@@ -94,16 +114,16 @@ if (!DRY && !VERIFY_ONLY && wasLaterSlotPosted(posts, currentJstDate, slot)) {
 const bigSpots = spots.filter(s => s.machines >= 300).sort((a, b) => (b.machines || 0) - (a.machines || 0));
 const lateSpots = spots.filter(s => /2[234]:/.test(s.hours || '') || /〜2[234]時/.test(s.hours || ''));
 const areaArts = articles.filter(a => !a.type && !a.ranking);
+const shortName = x => [...x.name].length <= 22 ? x.name : (x.area.split('・')[1] || x.area) + 'の大型店';
 
 /* ---------- 自動生成 ----------
    ルール: 本文（URL除く）50文字以内・改行で段落分け・投稿済みログと重複しない。
    候補を複数作り、条件を満たす最初のものを選ぶ。 ---------- */
-function candidates() {
+function linkedCandidates() {
   const s1 = pick(bigSpots, dayKey);
   const s2 = pick(bigSpots, dayKey + 3);
   const a = pick(areaArts, dayKey);
   const late = pick(lateSpots.length ? lateSpots : bigSpots, dayKey);
-  const shortName = (x) => [...x.name].length <= 22 ? x.name : (x.area.split('・')[1] || x.area) + 'の大型店';
   if (slot === 'morning') {
     return [
       `おはようございます☀️\n今日の一店：${shortName(s1)}\n` + spotUrl(s1),
@@ -135,8 +155,8 @@ function candidates() {
     `次に回す店を探そう🎰\n${a.label}のスポット一覧はこちら\n` + articleUrl(a)
   ];
 }
-function generate() {
-  const cands = candidates();
+function generateLinked() {
+  const cands = linkedCandidates();
   const seen = new Set();
   const fresh = cands.filter(text => {
     const result = validatePost(text);
@@ -147,12 +167,32 @@ function generate() {
   return pick(fresh, dayKey);
 }
 
+function plainCandidates() {
+  const offset = POST_SLOTS.indexOf(slot) * 71 + position * 29;
+  const ordered = Array.from({ length: spots.length }, (_, index) => pick(spots, dayKey + offset + index));
+  if (position === 2) {
+    return ordered.map(spot => `今日の気になるガチャ店🎰\n${spot.name}`);
+  }
+  return ordered.map(spot => `${spot.pref || spot.area}でガチャ巡り📍\n${spot.name}も候補にどうぞ`);
+}
+
+function generatePlain() {
+  const seen = new Set();
+  const fresh = plainCandidates().filter(text => {
+    const result = validatePlainPost(text);
+    if (!result.valid || alreadyPosted(text) || seen.has(result.key)) return false;
+    seen.add(result.key);
+    return true;
+  });
+  return pick(fresh, dayKey + position * 17);
+}
+
 /* ---------- キューから取得（あれば優先） ---------- */
 const queuePath = new URL('../data/x-posts.json', import.meta.url);
 let text = null;
 let queueData = null;
 let queueIndex = -1;
-if (existsSync(queuePath)) {
+if (position === 1 && existsSync(queuePath)) {
   const data = JSON.parse(readFileSync(queuePath, 'utf8'));
   const q = data.queue || [];
   const seen = new Set();
@@ -171,14 +211,14 @@ if (existsSync(queuePath)) {
     queueIndex = idx;
   }
 }
-if (!text) text = generate();
+if (!text) text = position === 1 ? generateLinked() : generatePlain();
 
 if (!text) {
   console.warn('有効な未投稿候補がないため、重複投稿せずにスキップしました');
   process.exit(0);
 }
 
-const selected = validatePost(text);
+const selected = position === 1 ? validatePost(text) : validatePlainPost(text);
 if (!selected.valid) {
   console.error('投稿直前検証に失敗しました:', selected.errors.join(' / '));
   process.exit(1);
@@ -188,7 +228,7 @@ if (alreadyPosted(text)) {
   process.exit(0);
 }
 
-console.log('slot:', slot, '| queue使用:', queueIndex >= 0, '| 本文文字数:', selected.bodyLength);
+console.log('slot:', slot, `| 投稿: ${position}/3`, '| URL:', position === 1 ? 'あり' : 'なし', '| queue使用:', queueIndex >= 0, '| 本文文字数:', selected.bodyLength);
 console.log('---- 投稿文 ----\n' + text + '\n----------------');
 
 /* ---------- 投稿（OAuth 1.0a User Context / X API v2） ---------- */
@@ -238,6 +278,19 @@ if (VERIFY_ONLY) {
   process.exit(0);
 }
 
+if (position > 1) {
+  const previous = posts
+    .filter(post => post?.slot === slot && post?.position === position - 1 && (post?.jstDate || jstDateKey(post?.date)) === currentJstDate)
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())[0];
+  if (previous) {
+    const remaining = remainingIntervalMs(previous.date, new Date(), POST_INTERVAL_MS);
+    if (remaining > 0) {
+      console.log(`前の投稿から2分空けるため ${Math.ceil(remaining / 1000)} 秒待機します`);
+      await new Promise(resolve => setTimeout(resolve, remaining));
+    }
+  }
+}
+
 const url = 'https://api.x.com/2/tweets';
 const res = await fetch(url, {
   method: 'POST',
@@ -252,12 +305,14 @@ if (res.ok) {
     date: new Date().toISOString(),
     jstDate: currentJstDate,
     slot,
+    position,
+    format: position === 1 ? 'linked' : 'plain',
     text,
     tweetId,
     postUrl: `https://x.com/${actualUsername}/status/${tweetId}`
   });
   writeFileSync(logPath, JSON.stringify(postedLog, null, 2) + '\n');
-  if (queueData && queueIndex >= 0) {
+  if (position === 1 && queueData && queueIndex >= 0) {
     queueData.queue.splice(queueIndex, 1);
     writeFileSync(queuePath, JSON.stringify(queueData, null, 2) + '\n');
   }
@@ -267,11 +322,13 @@ if (res.ok) {
     date: new Date().toISOString(),
     jstDate: currentJstDate,
     slot,
+    position,
+    format: position === 1 ? 'linked' : 'plain',
     text,
     status: 'already-present-on-x'
   });
   writeFileSync(logPath, JSON.stringify(postedLog, null, 2) + '\n');
-  if (queueData && queueIndex >= 0) {
+  if (position === 1 && queueData && queueIndex >= 0) {
     queueData.queue.splice(queueIndex, 1);
     writeFileSync(queuePath, JSON.stringify(queueData, null, 2) + '\n');
   }
