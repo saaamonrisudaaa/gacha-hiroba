@@ -3436,6 +3436,58 @@ window.GH_SPOTS = [
     sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90000805',
     verifiedAt: '2026-07-13',
     lat: 34.6620824, lon: 133.9177261
+  },
+
+  {
+    id: 'dreamcapsule-naha-opa',
+    brand: 'ドリームカプセル',
+    name: 'ドリームカプセル 那覇OPA',
+    region: 'kyushu',
+    pref: '沖縄県',
+    area: '沖縄県・那覇',
+    address: '沖縄県那覇市泉崎1-20-1 カフーナ旭橋A街区',
+    sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90000932',
+    verifiedAt: '2026-07-13',
+    lat: 26.2113208, lon: 127.6764053
+  },
+
+  {
+    id: 'capsulepark-kawatoku',
+    brand: 'カプセルパーク',
+    name: 'カプセルパーク川徳店',
+    region: 'tohoku',
+    pref: '岩手県',
+    area: '岩手県・盛岡',
+    address: '岩手県盛岡市菜園1丁目10番1号 パルクアベニュー・カワトク 6F',
+    sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90001409',
+    verifiedAt: '2026-07-13',
+    lat: 39.70088891960067, lon: 141.14691601353593
+  },
+
+  {
+    id: 'gashapon-bandai-tsutaya-miyazaki-takachiho-dori',
+    brand: 'ガシャポンバンダイオフィシャルショップ',
+    name: 'ガシャポンバンダイオフィシャルショップ蔦屋書店 宮崎高千穂通り店',
+    region: 'kyushu',
+    pref: '宮崎県',
+    area: '宮崎県・宮崎',
+    address: '宮崎県宮崎市橘通東4丁目8-1 カリーノ宮崎 2F',
+    sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90000964',
+    verifiedAt: '2026-07-13',
+    lat: 31.916618, lon: 131.4250519
+  },
+
+  {
+    id: 'cpla-kyoto-shijo-kawaramachi',
+    brand: '#C-pla（シープラ）',
+    name: '#C-pla京都四条河原町',
+    region: 'kansai',
+    pref: '京都府',
+    area: '京都府・四条河原町',
+    address: '京都府京都市中京区河原町通三条下る山崎町2丁目258番地 AD-G四条河原町 1F',
+    sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90001209',
+    verifiedAt: '2026-07-13',
+    lat: 35.006734252973935, lon: 135.76899085837667
   }
 
 ];
