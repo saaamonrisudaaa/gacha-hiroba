@@ -1,6 +1,7 @@
 export const POST_SLOTS = ['morning', 'noon', 'afternoon', 'evening'];
 
 const URL_PATTERN = /https?:\/\/\S+/gu;
+const URL_LIKE_PATTERN = /(?:https?:\/\/|www\.|(?:[a-z0-9-]+\.)+(?:com|jp|net|org)(?:\/|\b))/iu;
 const graphemeSegmenter = new Intl.Segmenter('ja', { granularity: 'grapheme' });
 
 export function normalizeNewlines(value) {
@@ -66,6 +67,37 @@ export function validatePost(value) {
   };
 }
 
+export function validatePlainPost(value) {
+  const text = normalizeNewlines(value);
+  const errors = [];
+  const lines = text.split('\n');
+
+  if (lines.length !== 2) {
+    errors.push('URLなし投稿はフック・本文の2行にしてください');
+  }
+  if (lines.some(line => !line || line !== line.trim())) {
+    errors.push('各行は空にせず、行頭・行末に空白を入れないでください');
+  }
+  if (URL_LIKE_PATTERN.test(text)) {
+    errors.push('URLなし投稿にはURLやドメインを書かないでください');
+  }
+
+  const length = bodyLength(text);
+  if (length > 50) {
+    errors.push(`本文は50文字以内にしてください（現在${length}文字）`);
+  }
+
+  return {
+    valid: errors.length === 0,
+    errors,
+    text,
+    hook: lines[0] || '',
+    body: lines[1] || '',
+    bodyLength: length,
+    key: duplicateKey(text)
+  };
+}
+
 export function jstDateKey(value = new Date()) {
   const date = value instanceof Date ? value : new Date(value);
   if (Number.isNaN(date.getTime())) return null;
@@ -82,6 +114,33 @@ export function loggedJstDate(post) {
 
 export function wasSlotPosted(posts, dateKey, slot) {
   return (posts || []).some(post => post?.slot === slot && loggedJstDate(post) === dateKey);
+}
+
+export function remainingIntervalMs(previousValue, nowValue = new Date(), intervalMs = 120000) {
+  const previous = previousValue instanceof Date ? previousValue : new Date(previousValue);
+  const now = nowValue instanceof Date ? nowValue : new Date(nowValue);
+  if (Number.isNaN(previous.getTime()) || Number.isNaN(now.getTime())) return 0;
+  return Math.max(0, intervalMs - (now.getTime() - previous.getTime()));
+}
+
+export function completedPositions(posts, dateKey, slot, batchSize = 3) {
+  const matches = (posts || []).filter(
+    post => post?.slot === slot && loggedJstDate(post) === dateKey
+  );
+  if (matches.some(post => !Number.isInteger(post?.position))) {
+    return new Set(Array.from({ length: batchSize }, (_, index) => index + 1));
+  }
+  return new Set(matches
+    .map(post => post.position)
+    .filter(position => position >= 1 && position <= batchSize));
+}
+
+export function wasPositionPosted(posts, dateKey, slot, position, batchSize = 3) {
+  return completedPositions(posts, dateKey, slot, batchSize).has(position);
+}
+
+export function isSlotBatchComplete(posts, dateKey, slot, batchSize = 3) {
+  return completedPositions(posts, dateKey, slot, batchSize).size >= batchSize;
 }
 
 export function wasLaterSlotPosted(posts, dateKey, slot) {
