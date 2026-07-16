@@ -316,6 +316,9 @@ if (res.ok) {
     queueData.queue.splice(queueIndex, 1);
     writeFileSync(queuePath, JSON.stringify(queueData, null, 2) + '\n');
   }
+} else if (res.status === 402 && /credits depleted|CreditsDepleted|credits-depleted/iu.test(JSON.stringify(body))) {
+  console.error('X APIクレジット不足のため投稿を停止しました。クレジット補充後に再実行してください。');
+  process.exit(1);
 } else if (res.status === 403 && /duplicate content/iu.test(JSON.stringify(body))) {
   console.warn('X側で既存文面と判定されたため、再投稿せず投稿済みログへ移しました');
   postedLog.posts.push({

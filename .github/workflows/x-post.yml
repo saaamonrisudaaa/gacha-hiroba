@@ -7,10 +7,10 @@ name: x-auto-post
 
 on:
   schedule:
-    - cron: '30 22 * * *'   # 07:30 JST
-    - cron: '30 3 * * *'    # 12:30 JST
-    - cron: '30 6 * * *'    # 15:30 JST
-    - cron: '30 10 * * *'   # 19:30 JST
+    - cron: '50 22 * * *'   # 07:50 JST backup
+    - cron: '50 3 * * *'    # 12:50 JST backup
+    - cron: '50 6 * * *'    # 15:50 JST backup
+    - cron: '50 10 * * *'   # 19:50 JST backup
   workflow_dispatch:
     inputs:
       dry_run:
@@ -62,10 +62,10 @@ jobs:
         run: |
           if [[ "$EVENT_NAME" == "schedule" ]]; then
             case "$EVENT_SCHEDULE" in
-              '30 22 * * *') slot='morning' ;;
-              '30 3 * * *') slot='noon' ;;
-              '30 6 * * *') slot='afternoon' ;;
-              '30 10 * * *') slot='evening' ;;
+              '50 22 * * *') slot='morning' ;;
+              '50 3 * * *') slot='noon' ;;
+              '50 6 * * *') slot='afternoon' ;;
+              '50 10 * * *') slot='evening' ;;
               *) echo "Unknown schedule: $EVENT_SCHEDULE" >&2; exit 1 ;;
             esac
           else
@@ -83,7 +83,13 @@ jobs:
           X_SLOT: ${{ steps.resolve-slot.outputs.slot }}
           X_DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || '0' }}
           X_VERIFY_ONLY: ${{ github.event_name == 'workflow_dispatch' && inputs.verify_only || '0' }}
+          X_API_POSTING_ENABLED: ${{ vars.X_API_POSTING_ENABLED }}
         run: |
+          if [[ "$X_DRY_RUN" != "1" && "$X_VERIFY_ONLY" != "1" && "$X_API_POSTING_ENABLED" != "1" ]]; then
+            echo "::notice::Live X posting is paused. Set repository variable X_API_POSTING_ENABLED=1 after API credits are available."
+            exit 0
+          fi
+
           git config user.name "gacha-hiroba-bot"
           git config user.email "actions@users.noreply.github.com"
 
