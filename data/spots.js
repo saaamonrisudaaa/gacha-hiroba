@@ -3488,6 +3488,58 @@ window.GH_SPOTS = [
     sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90001209',
     verifiedAt: '2026-07-13',
     lat: 35.006734252973935, lon: 135.76899085837667
+  },
+
+  {
+    id: 'ggmori-marugamemachi-green',
+    brand: 'ガチャガチャの森',
+    name: 'ガチャガチャの森丸亀町グリーン店',
+    region: 'chugoku',
+    pref: '香川県',
+    area: '香川県・高松',
+    address: '香川県高松市丸亀町7番地16 丸亀町グリーン 西館2F',
+    sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90001038',
+    verifiedAt: '2026-07-13',
+    lat: 34.3422143950302, lon: 134.049279978923
+  },
+
+  {
+    id: 'dreamcapsule-kochi-avenue',
+    brand: 'ドリームカプセル',
+    name: 'ドリームカプセル 高知アベニュー店',
+    region: 'chugoku',
+    pref: '高知県',
+    area: '高知県・高知',
+    address: '高知県高知市帯屋町1丁目13-23 帯屋町商店街内 アベニュービル2F',
+    sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90001196',
+    verifiedAt: '2026-07-13',
+    lat: 33.56017321307528, lon: 133.53896577883248
+  },
+
+  {
+    id: 'cpla-moraju-saga',
+    brand: '#C-pla（シープラ）',
+    name: '#C-plaモラージュ佐賀',
+    region: 'kyushu',
+    pref: '佐賀県',
+    area: '佐賀県・佐賀',
+    address: '佐賀県佐賀市巨勢町牛島730',
+    sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90001437',
+    verifiedAt: '2026-07-13',
+    lat: 33.25130185683441, lon: 130.31926193768396
+  },
+
+  {
+    id: 'gashapon-bandai-miraiya-tsu-shiroyama',
+    brand: 'ガシャポンバンダイオフィシャルショップ',
+    name: 'ガシャポンバンダイオフィシャルショップ未来屋書店津城山店',
+    region: 'tokai',
+    pref: '三重県',
+    area: '三重県・津',
+    address: '三重県津市久居小野辺町1130-7 イオン津城山SC 2F',
+    sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90001223',
+    verifiedAt: '2026-07-13',
+    lat: 34.67939320601478, lon: 136.5013748296255
   }
 
 ];
