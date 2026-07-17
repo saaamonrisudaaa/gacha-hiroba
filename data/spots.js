@@ -3540,6 +3540,58 @@ window.GH_SPOTS = [
     sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90001223',
     verifiedAt: '2026-07-13',
     lat: 34.67939320601478, lon: 136.5013748296255
+  },
+
+  {
+    id: 'gashapon-bandai-fumotto-minami-alps',
+    brand: 'ガシャポンバンダイオフィシャルショップ',
+    name: 'ガシャポンバンダイオフィシャルショップfumotto南アルプス店',
+    region: 'kanto',
+    pref: '山梨県',
+    area: '山梨県・南アルプス',
+    address: '山梨県南アルプス市十日市場1571-1 fumotto南アルプス内',
+    sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90001667',
+    verifiedAt: '2026-07-13',
+    lat: 35.61263412001422, lon: 138.4819199557557
+  },
+
+  {
+    id: 'cpla-ohme-otsu-terrace',
+    brand: '#C-pla（シープラ）',
+    name: '#C-plaOh!Me大津テラス',
+    region: 'kansai',
+    pref: '滋賀県',
+    area: '滋賀県・大津',
+    address: '滋賀県大津市打出浜14-30 Oh!Me大津テラス 5F 503区画',
+    sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90001536',
+    verifiedAt: '2026-07-13',
+    lat: 35.004307145337066, lon: 135.8797953040894
+  },
+
+  {
+    id: 'ggmori-centerrace-tenmonkan',
+    brand: 'ガチャガチャの森',
+    name: 'ガチャガチャの森センテラス天文館店',
+    region: 'kyushu',
+    pref: '鹿児島県',
+    area: '鹿児島県・天文館',
+    address: '鹿児島県鹿児島市千日町1-1 センテラス天文館2F',
+    sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90001047',
+    verifiedAt: '2026-07-13',
+    lat: 31.5902029210204, lon: 130.554861738695
+  },
+
+  {
+    id: 'gashapon-bandai-miraiya-niigata-aoyama',
+    brand: 'ガシャポンバンダイオフィシャルショップ',
+    name: 'ガシャポンバンダイオフィシャルショップ未来屋書店新潟青山店',
+    region: 'tohoku',
+    pref: '新潟県',
+    area: '新潟県・青山',
+    address: '新潟県新潟市西区青山2丁目5-1 イオン新潟青山店2F',
+    sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90000958',
+    verifiedAt: '2026-07-13',
+    lat: 37.8963783, lon: 139.0049982
   }
 
 ];
