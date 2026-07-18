@@ -3592,6 +3592,58 @@ window.GH_SPOTS = [
     sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90000958',
     verifiedAt: '2026-07-13',
     lat: 37.8963783, lon: 139.0049982
+  },
+
+  {
+    id: 'dreamcapsule-ciinaciina-aomori',
+    brand: 'ドリームカプセル',
+    name: 'ドリームカプセル シーナシーナ青森店',
+    region: 'tohoku',
+    pref: '青森県',
+    area: '青森県・青森',
+    address: '青森県青森市浜田1丁目14-1 CiiNA CiiNA青森 1F',
+    sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90000765',
+    verifiedAt: '2026-07-13',
+    lat: 40.8009576, lon: 140.7490938
+  },
+
+  {
+    id: 'gashapon-bandai-lalaport-iwata',
+    brand: 'ガシャポンバンダイオフィシャルショップ',
+    name: 'ガシャポンバンダイオフィシャルショップららぽーと磐田店',
+    region: 'tokai',
+    pref: '静岡県',
+    area: '静岡県・磐田',
+    address: '静岡県磐田市高見丘1200 ららぽーと磐田2F',
+    sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90001416',
+    verifiedAt: '2026-07-13',
+    lat: 34.75028667290205, lon: 137.84188906786738
+  },
+
+  {
+    id: 'gashadepa-akeno-acrosstown',
+    brand: 'ガシャポンのデパート',
+    name: 'ガシャポンのデパートあけのアクロスタウン店',
+    region: 'kyushu',
+    pref: '大分県',
+    area: '大分県・大分',
+    address: '大分県大分市明野東1-1-1 あけのアクロスタウン 4F',
+    sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90000511',
+    verifiedAt: '2026-07-13',
+    lat: 33.2240833, lon: 131.652358
+  },
+
+  {
+    id: 'gashapon-bandai-tsutaya-nakano',
+    brand: 'ガシャポンバンダイオフィシャルショップ',
+    name: 'ガシャポンバンダイオフィシャルショップ蔦屋書店 中野店',
+    region: 'tokai',
+    pref: '長野県',
+    area: '長野県・中野',
+    address: '長野県中野市大字吉田550',
+    sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90001175',
+    verifiedAt: '2026-07-13',
+    lat: 36.755675170391804, lon: 138.3567823785082
   }
 
 ];
