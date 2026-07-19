@@ -3644,6 +3644,58 @@ window.GH_SPOTS = [
     sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90001175',
     verifiedAt: '2026-07-13',
     lat: 36.755675170391804, lon: 138.3567823785082
+  },
+
+  {
+    id: 'gashapon-bandai-cinemasunshine-yamatokoriyama',
+    brand: 'ガシャポンバンダイオフィシャルショップ',
+    name: 'ガシャポンバンダイオフィシャルショップシネマサンシャイン大和郡山店',
+    region: 'kansai',
+    pref: '奈良県',
+    area: '奈良県・大和郡山',
+    address: '奈良県大和郡山市下三橋町741 イオンモール大和郡山 3F',
+    sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90001756',
+    verifiedAt: '2026-07-13',
+    lat: 34.6512542571435, lon: 135.80218703907187
+  },
+
+  {
+    id: 'ggmori-favore-toyama',
+    brand: 'ガチャガチャの森',
+    name: 'ガチャガチャの森 ファボーレ富山店',
+    region: 'tokai',
+    pref: '富山県',
+    area: '富山県・婦中',
+    address: '富山県富山市婦中町下轡田165-1 ファボーレ富山2F',
+    sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90001682',
+    verifiedAt: '2026-07-13',
+    lat: 36.66265773948624, lon: 137.1714723025712
+  },
+
+  {
+    id: 'gashapon-bandai-tsutayaway-gardenpark-wakayama',
+    brand: 'ガシャポンバンダイオフィシャルショップ',
+    name: 'ガシャポンバンダイオフィシャルショップTSUTAYA WAY ガーデンパーク和歌山店',
+    region: 'kansai',
+    pref: '和歌山県',
+    area: '和歌山県・和歌山',
+    address: '和歌山県和歌山市松江字向鵜ノ島1469-1',
+    sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90001652',
+    verifiedAt: '2026-07-13',
+    lat: 34.23933162098501, lon: 135.15376362551908
+  },
+
+  {
+    id: 'gashapon-bandai-surugaya-matsuyama-okaido',
+    brand: 'ガシャポンバンダイオフィシャルショップ',
+    name: 'ガシャポンバンダイオフィシャルショップ駿河屋松山大街道店',
+    region: 'chugoku',
+    pref: '愛媛県',
+    area: '愛媛県・大街道',
+    address: '愛媛県松山市大街道2丁目5-9 久保豊第1ビル3F',
+    sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90001460',
+    verifiedAt: '2026-07-13',
+    lat: 33.84074633926759, lon: 132.77052667396327
   }
 
 ];
