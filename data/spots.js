@@ -171,7 +171,7 @@ window.GH_SPOTS = [
     address: '東京都豊島区東池袋3-1-3 サンシャインシティ ワールドインポートマートビル 3F',
     machines: 3000,
     lat: 35.7290, lon: 139.7200,
-    access: 'サンシャインシティ ワールドインポートマートビル 3F（Cross Store 東京全体で4,096台＝単一会場のカプセルトイ機最多ギネス世界記録・2026年6月認定）'
+    access: 'サンシャインシティ ワールドインポートマートビル 3F（Cross Store 東京全体で4,096台＝単一会場のカプセルトイ機最多ギネス世界記録・2026年6月認定）・バンダイオフィシャルショップ併設'
   },
   {
     id: 'yodobashi-ikebukuro-gacha-jungle',
@@ -274,7 +274,7 @@ window.GH_SPOTS = [
     hours: '10:00〜22:00（土日祝 9:00〜21:00）',
     machines: 137,
     lat: 35.7141, lon: 139.7774,
-    access: 'JR上野駅 構内3F（改札内エリア）'
+    access: 'JR上野駅 構内3F（改札内エリア）・駅構内にケンエレスタンドも設置'
   },
   {
     id: 'cpla-coppice-kichijoji',
@@ -324,20 +324,6 @@ window.GH_SPOTS = [
     address: '東京都墨田区江東橋3-9-10 丸井錦糸町店 4F',
     lat: 35.6963, lon: 139.8125,
     access: '丸井錦糸町店 4F（錦糸町駅 南口 徒歩1分）'
-  },
-  {
-    id: 'cpla-kinshicho-parco',
-    brand: '#C-pla（シープラ）',
-    name: '#C-pla 錦糸町PARCO店',
-    region: 'kanto',
-    pref: '東京都',
-    area: '東京都・錦糸町',
-    address: '東京都墨田区江東橋4-27-14 錦糸町PARCO 5F',
-    tel: '090-2438-3817',
-    hours: '10:30〜21:00',
-    machines: 1000,
-    lat: 35.6959, lon: 139.8138,
-    access: '錦糸町PARCO 5F（錦糸町駅 徒歩1分・リニューアルで約1,000種以上に拡大）'
   },
   {
     id: 'yodobashi-kinshicho-gacha',
@@ -478,7 +464,7 @@ window.GH_SPOTS = [
     hours: '10:00〜20:00',
     machines: 800,
     lat: 35.7124, lon: 139.4210,
-    access: 'ららぽーと立川立飛 namcoおまけ横丁内（多摩モノレール 立飛駅前・地域最大級の800面）'
+    access: 'ららぽーと立川立飛 namcoおまけ横丁内（多摩モノレール 立飛駅前・地域最大級の800面）・バンダイオフィシャルショップ併設'
   },
   {
     id: 'gashacoco-ikebukuro-sunshine-st',
@@ -558,19 +544,6 @@ window.GH_SPOTS = [
     hours: '10:00〜22:00',
     lat: 35.7066, lon: 139.6495,
     access: '高円寺駅 北口 徒歩約3分・庚申通り商店街内（2024年3月オープン）'
-  },
-  {
-    id: 'gbo-akihabara',
-    brand: 'ガシャポン（バンダイ）',
-    name: 'ガシャポンバンダイオフィシャルショップ 秋葉原店',
-    region: 'kanto',
-    pref: '東京都',
-    area: '東京都・秋葉原',
-    address: '東京都千代田区外神田1-15-9 4F',
-    hours: '10:00〜23:00',
-    machines: 800,
-    lat: 35.7000, lon: 139.7706,
-    access: '秋葉原駅 徒歩1分（約800面・ガシャポンのデパート秋葉原店と同フロア・2023年3月オープン）'
   },
   {
     id: 'caprak-sugamo-jizodori',
@@ -665,7 +638,7 @@ window.GH_SPOTS = [
     tel: '070-1366-7321',
     hours: '10:00〜21:00',
     lat: 35.6705, lon: 139.8330,
-    access: '南砂町SUNAMO 3F（東西線 南砂町駅エリア・#C-pla 2ndとガシャポンオフィシャルショップ併設）'
+    access: '南砂町SUNAMO 3F（東西線 南砂町駅エリア・#C-pla 2ndとガシャポンオフィシャルショップ併設）・同フロアに2nd店もあり計2店舗'
   },
   {
     id: 'caprak-hachioji-ekimae',
@@ -790,29 +763,6 @@ window.GH_SPOTS = [
     access: '池袋駅 東口側（大型EXタイプ・深夜23時まで営業）'
   },
   {
-    id: 'gbo-lalaport-tachihi',
-    brand: 'ガシャポン（バンダイ）',
-    name: 'ガシャポンバンダイオフィシャルショップ ららぽーと立川立飛店',
-    region: 'kanto',
-    pref: '東京都',
-    area: '東京都・立川',
-    address: '東京都立川市泉町935-1 ららぽーと立川立飛内',
-    lat: 35.7126, lon: 139.4212,
-    access: 'ららぽーと立川立飛内（ガシャポンのデパート同施設・多摩モノレール 立飛駅前）'
-  },
-  {
-    id: 'cpla-2nd-sunamo',
-    brand: '#C-pla（シープラ）',
-    name: '#C-pla 2nd SUNAMO店',
-    region: 'kanto',
-    pref: '東京都',
-    area: '東京都・南砂町',
-    address: '東京都江東区新砂3-4-31 南砂町ショッピングセンターSUNAMO 3F',
-    hours: '10:00〜21:00',
-    lat: 35.6707, lon: 139.8332,
-    access: '南砂町SUNAMO 3F（#C-pla SUNAMO店の2号店・同フロア）'
-  },
-  {
     id: 'gachaworld-ario-kameari',
     brand: 'ガチャワールド（タカラトミーアーツ）',
     name: 'ガチャワールド アリオ亀有店',
@@ -823,19 +773,7 @@ window.GH_SPOTS = [
     hours: '10:00〜21:00',
     machines: 501,
     lat: 35.7625, lon: 139.8555,
-    access: 'アリオ亀有 3F（遊園地がコンセプトの大型店・2024年11月オープン）'
-  },
-  {
-    id: 'ggmori-ario-kameari',
-    brand: 'ガチャガチャの森',
-    name: 'ガチャガチャの森 アリオ亀有店',
-    region: 'kanto',
-    pref: '東京都',
-    area: '東京都・亀有',
-    address: '東京都葛飾区亀有3-49-3 アリオ亀有 3F',
-    hours: '10:00〜21:00',
-    lat: 35.7626, lon: 139.8557,
-    access: 'アリオ亀有 3F（同フロアにガチャワールドも・2024年12月オープン）'
+    access: 'アリオ亀有 3F（遊園地がコンセプトの大型店・2024年11月オープン）・同館3Fにガチャガチャの森もあり'
   },
   {
     id: 'gashadepa-iy-oimachi',
@@ -957,19 +895,7 @@ window.GH_SPOTS = [
     hours: '10:00〜20:00',
     machines: 678,
     lat: 35.7110, lon: 139.7965,
-    access: '雷門 徒歩1分（678面・2025年12月16日オープン）'
-  },
-  {
-    id: 'gbo-asakusa',
-    brand: 'ガシャポン（バンダイ）',
-    name: 'ガシャポンオフィシャルショップ@ASAKUSA',
-    region: 'kanto',
-    pref: '東京都',
-    area: '東京都・浅草',
-    address: '東京都台東区浅草1-3-4 K-雷門 1F',
-    machines: 548,
-    lat: 35.7110, lon: 139.7966,
-    access: '雷門 徒歩1分・浅草駅 徒歩2分（gashacoco浅草と同ビル1F・548台）'
+    access: '雷門 徒歩1分（678面・2025年12月16日オープン）・1Fはガシャポンオフィシャルショップ@ASAKUSA'
   },
   {
     id: 'gachadokoro-asakusa',
@@ -1095,17 +1021,6 @@ window.GH_SPOTS = [
     access: 'サンシャイン60通り沿い 1F（2024年9月13日オープン・バンダイ公式）'
   },
   {
-    id: 'gbo-ikebukuro',
-    brand: 'ガシャポン（バンダイ）',
-    name: 'ガシャポンバンダイオフィシャルショップ 池袋店',
-    region: 'kanto',
-    pref: '東京都',
-    area: '東京都・池袋',
-    address: '東京都豊島区東池袋3-1-3 サンシャインシティ ワールドインポートマートビル 3F',
-    lat: 35.7292, lon: 139.7187,
-    access: 'サンシャインシティ 3F（ガシャポンのデパート池袋総本店と同フロア）'
-  },
-  {
     id: 'gbo-namco-tokyo-kabukicho',
     brand: 'ガシャポン（バンダイ）',
     name: 'ガシャポンバンダイオフィシャルショップ namcoTOKYO東急歌舞伎町タワー店',
@@ -1115,18 +1030,6 @@ window.GH_SPOTS = [
     address: '東京都新宿区歌舞伎町1-29-1 東急歌舞伎町タワー内 namcoTOKYO',
     lat: 35.6952, lon: 139.7019,
     access: '東急歌舞伎町タワー namcoTOKYO内（西武新宿駅すぐ・新宿駅 徒歩圏）'
-  },
-  {
-    id: 'gbo-tachikawa-takashimaya',
-    brand: 'ガシャポン（バンダイ）',
-    name: 'ガシャポンバンダイオフィシャルショップ 立川高島屋S.C.店',
-    region: 'kanto',
-    pref: '東京都',
-    area: '東京都・立川',
-    address: '東京都立川市曙町2-39-3 立川高島屋S.C. 3F',
-    hours: '10:00〜21:00',
-    lat: 35.7004, lon: 139.4144,
-    access: '立川高島屋S.C. 3F namco内（ガシャポンのデパートと同時オープン・2023年12月）'
   },
   {
     id: 'cpla-granduo-tachikawa',
@@ -1334,19 +1237,7 @@ window.GH_SPOTS = [
     hours: '10:00〜20:30（無休）',
     machines: 100,
     lat: 35.6799, lon: 139.7692,
-    access: '東京駅 八重洲口 東京駅一番街 B1F（東京キャラクターストリート内）'
-  },
-  {
-    id: 'gbo-tokyo-station',
-    brand: 'ガシャポン（バンダイ）',
-    name: 'ガシャポンバンダイオフィシャルショップ＠TOKYO STATION',
-    region: 'kanto',
-    pref: '東京都',
-    area: '東京都・東京駅',
-    address: '東京都千代田区丸の内1-9-1 東京駅一番街 B1F 東京キャラクターストリート内',
-    hours: '10:00〜20:30（無休）',
-    lat: 35.6801, lon: 139.7689,
-    access: '東京駅 八重洲口 東京駅一番街 B1F（東京キャラクターストリート内）'
+    access: '東京駅 八重洲口 東京駅一番街 B1F（東京キャラクターストリート内）・バンダイオフィシャルショップ併設'
   },
 
   /* ───────────── 神奈川県 ───────────── */
@@ -1852,21 +1743,6 @@ window.GH_SPOTS = [
     access: '高崎オーパ 4F（高崎駅 至近）'
   },
   {
-    id: 'ggmori-pon-aeonmall-takasaki',
-    brand: 'Pon!（ガチャガチャの森）',
-    name: 'Pon! イオンモール高崎店',
-    region: 'kanto',
-    pref: '群馬県',
-    area: '群馬県・高崎',
-    zip: '370-3521',
-    address: '群馬県高崎市棟高町1400番地 イオンモール高崎 3F',
-    tel: '080-4789-0539',
-    hours: '10:00〜21:00',
-    machines: 420,
-    lat: 36.3733, lon: 139.0293,
-    access: 'イオンモール高崎 3F'
-  },
-  {
     id: 'ggmori-aeonmall-takasaki',
     brand: 'ガチャガチャの森',
     name: 'ガチャガチャの森 イオンモール高崎店',
@@ -1879,7 +1755,7 @@ window.GH_SPOTS = [
     hours: '10:00〜21:00',
     machines: 510,
     lat: 36.3733, lon: 139.0290,
-    access: 'イオンモール高崎 3F'
+    access: 'イオンモール高崎 3F・姉妹ブランドPon!も同フロアに'
   },
 
   /* ───────────── 栃木県 ───────────── */
@@ -2236,7 +2112,7 @@ window.GH_SPOTS = [
     address: '北海道札幌市東区北7条東9-2-20 アリオ札幌 本館2F',
     hours: '10:00〜20:00',
     lat: 43.0721, lon: 141.3676,
-    access: 'アリオ札幌 本館2F（JR苗穂駅から徒歩約3分）'
+    access: 'アリオ札幌 本館2F（JR苗穂駅から徒歩約3分）・#C-plaも同館に出店'
   },
   {
     id: 'gashadepa-sapporo-tokyu',
@@ -2452,7 +2328,7 @@ window.GH_SPOTS = [
     area: '奈良県・大和郡山',
     address: '奈良県大和郡山市下三橋町741 イオンモール大和郡山',
     lat: 34.6595, lon: 135.7994,
-    access: 'イオンモール大和郡山内（JR郡山駅からバス・奈良県内の大型カプセルトイ専門店）'
+    access: 'イオンモール大和郡山内（JR郡山駅からバス・奈良県内の大型カプセルトイ専門店）・3Fにバンダイオフィシャルショップも'
   },
   {
     id: 'ggmori-aeon-wakayama',
@@ -2644,17 +2520,6 @@ window.GH_SPOTS = [
     access: 'JR新橋駅構内（仕事帰りに回せる大人向けカプセルトイスタンド）'
   },
   {
-    id: 'kenele-stand-jr-ueno',
-    brand: 'ケンエレスタンド',
-    name: 'ケンエレスタンド JR上野駅店',
-    region: 'kanto',
-    pref: '東京都',
-    area: '東京都・上野',
-    address: '東京都台東区上野7-1-1 JR上野駅構内',
-    lat: 35.7141, lon: 139.7774,
-    access: 'JR上野駅構内（改札近くの大人向けカプセルトイスタンド）'
-  },
-  {
     id: 'kenele-stand-gransta-yaekita',
     brand: 'ケンエレスタンド',
     name: 'ケンエレスタンド グランスタ八重北店',
@@ -2795,7 +2660,7 @@ window.GH_SPOTS = [
     area: '宮城県・仙台駅',
     address: '宮城県仙台市宮城野区榴岡2-1-25 BiVi仙台駅東口',
     lat: 38.2591, lon: 140.8858,
-    access: 'BiVi仙台駅東口内（仙台駅東口から徒歩約2分）'
+    access: 'BiVi仙台駅東口内（仙台駅東口から徒歩約2分）・1Fに#C-plaも出店'
   },
   {
     id: 'ggmori-lalaport-fukuoka',
@@ -2892,17 +2757,6 @@ window.GH_SPOTS = [
     access: 'トレッサ横浜内（東急東横線 大倉山駅からバス・綱島街道沿い）'
   },
 
-  {
-    id: 'cpla-ario-sapporo',
-    brand: '#C-pla（シープラ）',
-    name: '#C-pla アリオ札幌店',
-    region: 'tohoku',
-    pref: '北海道',
-    area: '北海道・札幌',
-    address: '北海道札幌市東区北7条東9-2-20 アリオ札幌',
-    lat: 43.0724, lon: 141.3672,
-    access: 'アリオ札幌内（JR苗穂駅から徒歩約3分・ガシャポンのデパートと合わせて回遊できる）'
-  },
 
   /* ── 2026-07-12 全国30件拡充（20県を新規開拓） ── */
   {
@@ -2914,18 +2768,7 @@ window.GH_SPOTS = [
     area: '石川県・金沢',
     address: '石川県金沢市堀川新町3-1 金沢フォーラス 5F',
     lat: 36.5786, lon: 136.648,
-    access: '金沢フォーラス5F（金沢駅から徒歩約1分）'
-  },
-  {
-    id: 'gashapon-bandai-kanazawa-forus',
-    brand: 'ガシャポンバンダイオフィシャルショップ',
-    name: 'ガシャポンバンダイオフィシャルショップ 金沢フォーラス店',
-    region: 'tokai',
-    pref: '石川県',
-    area: '石川県・金沢',
-    address: '石川県金沢市堀川新町3-1 金沢フォーラス 5F',
-    lat: 36.5787, lon: 136.6482,
-    access: '金沢フォーラス5F（ガシャポンのデパートと併設）'
+    access: '金沢フォーラス5F（金沢駅から徒歩約1分）・バンダイオフィシャルショップ併設'
   },
   {
     id: 'gashadepa-apina-nagano-ohashi',
@@ -2961,7 +2804,7 @@ window.GH_SPOTS = [
     tel: '080-4423-5447',
     hours: '10:00〜21:00',
     lat: 34.6595, lon: 133.9184,
-    access: 'イオンモール岡山5F（岡山駅から徒歩約5分）'
+    access: 'イオンモール岡山5F（岡山駅から徒歩約5分）・同5Fにバンダイオフィシャルショップも'
   },
   {
     id: 'ggmori-aeon-takaoka',
@@ -3252,18 +3095,7 @@ window.GH_SPOTS = [
     address: '福島県郡山市松木町2-88 イオンタウン郡山',
     hours: '10:00〜21:00',
     lat: 37.4126, lon: 140.3958,
-    access: 'イオンタウン郡山内（郡山駅からバス・福島県内最大級）'
-  },
-  {
-    id: 'gashapon-bandai-aeontown-koriyama',
-    brand: 'ガシャポンバンダイオフィシャルショップ',
-    name: 'ガシャポンバンダイオフィシャルショップ イオンタウン郡山店',
-    region: 'tohoku',
-    pref: '福島県',
-    area: '福島県・郡山',
-    address: '福島県郡山市松木町2-88 イオンタウン郡山',
-    lat: 37.4128, lon: 140.396,
-    access: 'イオンタウン郡山内（ガシャポンのデパートと併設）'
+    access: 'イオンタウン郡山内（郡山駅からバス・福島県内最大級）・バンダイオフィシャルショップ併設'
   },
   {
     id: 'capsulepark-ati-koriyama',
@@ -3277,17 +3109,6 @@ window.GH_SPOTS = [
     access: 'アティ郡山内（郡山駅前すぐ）'
   },
   {
-    id: 'cpla-bivi-sendai',
-    brand: '#C-pla（シープラ）',
-    name: '#C-pla 仙台駅東口BiVi店',
-    region: 'tohoku',
-    pref: '宮城県',
-    area: '宮城県・仙台駅',
-    address: '宮城県仙台市宮城野区榴岡2-1-25 BiVi仙台駅東口 1F',
-    lat: 38.2589, lon: 140.8856,
-    access: 'BiVi仙台駅東口1F（仙台駅東口から徒歩約2分・ガシャポンのデパートと同館）'
-  },
-  {
     id: 'gachaokoku-joepla-matsuyama',
     brand: 'ガチャ王国',
     name: 'ガチャ王国 ジョー・プラ店',
@@ -3299,18 +3120,6 @@ window.GH_SPOTS = [
     access: 'ジョー・プラ内（松山市・いよてつ余戸線方面）'
   },
 
-  {
-    id: 'gashapon-bandai-sapporo-tokyu',
-    brand: 'ガシャポンバンダイオフィシャルショップ',
-    name: 'ガシャポンバンダイオフィシャルショップ さっぽろ東急百貨店',
-    region: 'tohoku',
-    pref: '北海道',
-    area: '北海道・札幌駅',
-    address: '北海道札幌市中央区北4条西2-1 さっぽろ東急百貨店',
-    hours: '10:00〜20:00',
-    lat: 43.0668, lon: 141.3537,
-    access: 'さっぽろ東急百貨店内（さっぽろ駅直結・ガシャポンのデパートと併設）'
-  },
 
   /* ── 2026-07-13 未掲載県を追加（当日4件の不足分） ── */
   {
@@ -3389,18 +3198,6 @@ window.GH_SPOTS = [
     lat: 35.9448157, lon: 139.990594
   },
 
-  {
-    id: 'gashapon-bandai-aeoncinema-okayama',
-    brand: 'ガシャポンバンダイオフィシャルショップ',
-    name: 'ガシャポンバンダイオフィシャルショップイオンシネマ岡山店',
-    region: 'chugoku',
-    pref: '岡山県',
-    area: '岡山県・岡山',
-    address: '岡山県岡山市北区下石井1-2-1 イオンモール岡山5F',
-    sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90000805',
-    verifiedAt: '2026-07-13',
-    lat: 34.6620824, lon: 133.9177261
-  },
 
   {
     id: 'dreamcapsule-naha-opa',
@@ -3610,18 +3407,6 @@ window.GH_SPOTS = [
     lat: 36.755675170391804, lon: 138.3567823785082
   },
 
-  {
-    id: 'gashapon-bandai-cinemasunshine-yamatokoriyama',
-    brand: 'ガシャポンバンダイオフィシャルショップ',
-    name: 'ガシャポンバンダイオフィシャルショップシネマサンシャイン大和郡山店',
-    region: 'kansai',
-    pref: '奈良県',
-    area: '奈良県・大和郡山',
-    address: '奈良県大和郡山市下三橋町741 イオンモール大和郡山 3F',
-    sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90001756',
-    verifiedAt: '2026-07-13',
-    lat: 34.6512542571435, lon: 135.80218703907187
-  },
 
   {
     id: 'ggmori-favore-toyama',
