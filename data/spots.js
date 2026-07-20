@@ -357,8 +357,13 @@ window.GH_SPOTS = [
     region: 'kanto',
     pref: '東京都',
     area: '東京都・錦糸町',
-    address: '東京都墨田区 錦糸町駅前（詳細住所は確認中）',
-    access: '錦糸町駅前（2026年6月4日オープン・詳細は公式サイトで確認中）'
+    address: '東京都墨田区江東橋3-13-6 1・2F',
+    tel: '070-5558-2902',
+    hours: '10:00〜21:00',
+    sourceUrl: 'https://gashacoco.jp/news/3925/',
+    verifiedAt: '2026-07-20',
+    lat: 35.6953, lon: 139.8127,
+    access: '錦糸町駅南口から徒歩約2分・1/2Fの2フロア（2026年6月4日オープン）'
   },
   {
     id: 'gashacoco-shapo-koiwa',
@@ -482,8 +487,11 @@ window.GH_SPOTS = [
     region: 'kanto',
     pref: '東京都',
     area: '東京都・池袋',
-    address: '東京都豊島区東池袋1丁目 サンシャイン通り沿い（詳細住所は確認中）',
-    access: 'サンシャイン通り沿い（2026年2月5日オープン・詳細は公式サイトで確認中）'
+    address: '東京都豊島区東池袋1-21-13 aune池袋 1F',
+    sourceUrl: 'https://gashacoco.jp/shop-list/3219',
+    verifiedAt: '2026-07-20',
+    lat: 35.7300, lon: 139.7143,
+    access: 'サンシャイン通り沿い aune池袋 1F（池袋駅東口から徒歩約4分・2026年2月5日オープン）'
   },
   {
     id: 'caprak-machida',
@@ -2468,17 +2476,6 @@ window.GH_SPOTS = [
     lat: 33.8697, lon: 130.8060,
     access: 'イオンモール八幡東内（JRスペースワールド駅から徒歩約5分）'
   },
-  {
-    id: 'ggmori-aeon-makuhari-shintoshin',
-    brand: 'ガチャガチャの森',
-    name: 'ガチャガチャの森 イオンモール幕張新都心店',
-    region: 'kanto',
-    pref: '千葉県',
-    area: '千葉県・幕張新都心',
-    address: '千葉県千葉市美浜区豊砂1-1 イオンモール幕張新都心',
-    lat: 35.6479, lon: 140.0324,
-    access: 'イオンモール幕張新都心内（JR海浜幕張駅からバス・幕張豊砂駅すぐ）'
-  },
 
   {
     id: 'cpla-tanukikoji-5chome',
@@ -2492,17 +2489,6 @@ window.GH_SPOTS = [
     access: '狸小路商店街5丁目（地下鉄大通駅・すすきの駅から徒歩約5分）'
   },
 
-  {
-    id: 'dreamcapsule-magnet-shibuya109',
-    brand: 'ドリームカプセル',
-    name: 'ドリームカプセル MAGNET by SHIBUYA109店',
-    region: 'kanto',
-    pref: '東京都',
-    area: '東京都・渋谷',
-    address: '東京都渋谷区神南1-23-10 MAGNET by SHIBUYA109 内',
-    lat: 35.6595, lon: 139.6987,
-    access: 'MAGNET by SHIBUYA109（渋谷駅ハチ公口から徒歩約3分・スクランブル交差点前）'
-  },
 
   {
     id: 'ggmori-aeon-sakai-teppocho',
@@ -2542,17 +2528,6 @@ window.GH_SPOTS = [
     address: '東京都中央区銀座3-2-1 マロニエゲート銀座2',
     lat: 35.6727, lon: 139.7648,
     access: 'マロニエゲート銀座2内（銀座駅・JR有楽町駅から徒歩約3分）'
-  },
-  {
-    id: 'cpla-premium-omokado-omotesando',
-    brand: '#C-pla（シープラ）',
-    name: '#C-pla premium 東急プラザ表参道「オモカド」店',
-    region: 'kanto',
-    pref: '東京都',
-    area: '東京都・表参道',
-    address: '東京都渋谷区神宮前4-30-3 東急プラザ表参道「オモカド」',
-    lat: 35.6685, lon: 139.7056,
-    access: '東急プラザ表参道オモカド内（表参道駅から徒歩約1分・神宮前交差点）'
   },
   {
     id: 'cpla-tokyu-plaza-shibuya',
@@ -2776,17 +2751,6 @@ window.GH_SPOTS = [
     address: '神奈川県平塚市大神8-1-1 ジ アウトレット湘南平塚',
     lat: 35.3692, lon: 139.3395,
     access: 'ジ アウトレット湘南平塚内（平塚駅からバス）'
-  },
-  {
-    id: 'gashadepa-yokohama-world-porters',
-    brand: 'ガシャポンのデパート',
-    name: 'ガシャポンのデパート 横浜ワールドポーターズ店',
-    region: 'kanto',
-    pref: '神奈川県',
-    area: '神奈川県・みなとみらい',
-    address: '神奈川県横浜市中区新港2-2-1 横浜ワールドポーターズ',
-    lat: 35.4547, lon: 139.638,
-    access: '横浜ワールドポーターズ内（みなとみらい線 馬車道駅・桜木町駅から徒歩圏）'
   },
   {
     id: 'palo-aeon-makuhari-shintoshin',
@@ -3748,6 +3712,37 @@ window.GH_SPOTS = [
     sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90001647',
     verifiedAt: '2026-07-13',
     lat: 36.708886677125896, lon: 136.70137878477934
+  },
+
+  /* ── 2026-07-20 赤羽フォローアップ（7/17開業確認済み） ── */
+  {
+    id: 'caprak-akabane-higashiguchi',
+    brand: 'カプセル楽局',
+    name: 'カプセル楽局 赤羽駅東口店',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・赤羽',
+    address: '東京都北区赤羽1-13-7 はやまビル 1F・B1F',
+    sourceUrl: 'https://akabane-shinbun.com/archives/258027',
+    verifiedAt: '2026-07-20',
+    lat: 35.7776, lon: 139.7218,
+    access: '赤羽駅東口から徒歩約2分・地下フロアもある広めの店舗（2026年7月17日オープン）'
+  },
+  {
+    id: 'caprak-akabane-suzuran',
+    brand: 'カプセル楽局',
+    name: 'カプセル楽局 赤羽スズラン通り店',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・赤羽',
+    zip: '115-0045',
+    address: '東京都北区赤羽2-1-18',
+    tel: '03-5939-6057',
+    hours: '10:00〜22:00',
+    sourceUrl: 'https://map.yahoo.co.jp/v3/place/58I9SCLuMQA',
+    verifiedAt: '2026-07-20',
+    lat: 35.7794, lon: 139.7205,
+    access: '赤羽スズラン通り商店街（LaLaガーデン）内・赤羽駅東口から徒歩約3分'
   }
 
 ];
