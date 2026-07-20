@@ -2,59 +2,6 @@
   "note": "店舗追加キュー。GitHub Actions（.github/workflows/daily-stores.yml）が毎日キュー先頭から正確に dripPerDay 件を data/spots.js へ反映し、使った分を消し込みます。lastRunDate が当日(JST)なら二重実行を防ぐため何もしません。有効候補が4件未満なら部分追加せず失敗します。queue へは公式一次情報で営業中を確認した店舗だけを追記し、sourceUrl と verifiedAt を必ず保存してください。id・店名の重複は検証で拒否します。",
   "dripPerDay": 4,
   "dailyMix": [],
-  "lastRunDate": "2026-07-19",
-  "queue": [
-    {
-      "id": "gashapon-bandai-usagiya-tsutaya-yaita",
-      "brand": "ガシャポンバンダイオフィシャルショップ",
-      "name": "ガシャポンバンダイオフィシャルショップうさぎやTSUTAYA矢板店",
-      "region": "kanto",
-      "pref": "栃木県",
-      "area": "栃木県・矢板",
-      "address": "栃木県矢板市末広町20-1 2F",
-      "lat": 36.8054072,
-      "lon": 139.9346475,
-      "sourceUrl": "https://gashapon.jp/shop/shop.php?shop_code=S90000963",
-      "verifiedAt": "2026-07-13"
-    },
-    {
-      "id": "gashacoco-aeonmall-yamagata-minami",
-      "brand": "gashacoco（ガシャココ）",
-      "name": "ガシャココイオンモール山形南",
-      "region": "tohoku",
-      "pref": "山形県",
-      "area": "山形県・山形",
-      "address": "山形県山形市若宮3-7-8 イオンモール山形南2F",
-      "lat": 38.2266622,
-      "lon": 140.3060975,
-      "sourceUrl": "https://gashapon.jp/shop/shop.php?shop_code=S90001086",
-      "verifiedAt": "2026-07-13"
-    },
-    {
-      "id": "gashadepa-akita-opa",
-      "brand": "ガシャポンのデパート",
-      "name": "ガシャポンのデパート秋田OPA店",
-      "region": "tohoku",
-      "pref": "秋田県",
-      "area": "秋田県・秋田",
-      "address": "秋田県秋田市千秋久保田町4-2 秋田OPA 5F",
-      "lat": 39.7178406,
-      "lon": 140.128159,
-      "sourceUrl": "https://gashapon.jp/shop/shop.php?shop_code=S90000848",
-      "verifiedAt": "2026-07-13"
-    },
-    {
-      "id": "gashapon-bandai-cinemasunshine-kahoku",
-      "brand": "ガシャポンバンダイオフィシャルショップ",
-      "name": "ガシャポンバンダイオフィシャルショップシネマサンシャインかほく店",
-      "region": "tokai",
-      "pref": "石川県",
-      "area": "石川県・かほく",
-      "address": "石川県かほく市内日角タ25 イオンモールかほく2F",
-      "lat": 36.708886677125896,
-      "lon": 136.70137878477934,
-      "sourceUrl": "https://gashapon.jp/shop/shop.php?shop_code=S90001647",
-      "verifiedAt": "2026-07-13"
-    }
-  ]
+  "lastRunDate": "2026-07-20",
+  "queue": []
 }

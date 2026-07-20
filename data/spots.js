@@ -3696,6 +3696,58 @@ window.GH_SPOTS = [
     sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90001460',
     verifiedAt: '2026-07-13',
     lat: 33.84074633926759, lon: 132.77052667396327
+  },
+
+  {
+    id: 'gashapon-bandai-usagiya-tsutaya-yaita',
+    brand: 'ガシャポンバンダイオフィシャルショップ',
+    name: 'ガシャポンバンダイオフィシャルショップうさぎやTSUTAYA矢板店',
+    region: 'kanto',
+    pref: '栃木県',
+    area: '栃木県・矢板',
+    address: '栃木県矢板市末広町20-1 2F',
+    sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90000963',
+    verifiedAt: '2026-07-13',
+    lat: 36.8054072, lon: 139.9346475
+  },
+
+  {
+    id: 'gashacoco-aeonmall-yamagata-minami',
+    brand: 'gashacoco（ガシャココ）',
+    name: 'ガシャココイオンモール山形南',
+    region: 'tohoku',
+    pref: '山形県',
+    area: '山形県・山形',
+    address: '山形県山形市若宮3-7-8 イオンモール山形南2F',
+    sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90001086',
+    verifiedAt: '2026-07-13',
+    lat: 38.2266622, lon: 140.3060975
+  },
+
+  {
+    id: 'gashadepa-akita-opa',
+    brand: 'ガシャポンのデパート',
+    name: 'ガシャポンのデパート秋田OPA店',
+    region: 'tohoku',
+    pref: '秋田県',
+    area: '秋田県・秋田',
+    address: '秋田県秋田市千秋久保田町4-2 秋田OPA 5F',
+    sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90000848',
+    verifiedAt: '2026-07-13',
+    lat: 39.7178406, lon: 140.128159
+  },
+
+  {
+    id: 'gashapon-bandai-cinemasunshine-kahoku',
+    brand: 'ガシャポンバンダイオフィシャルショップ',
+    name: 'ガシャポンバンダイオフィシャルショップシネマサンシャインかほく店',
+    region: 'tokai',
+    pref: '石川県',
+    area: '石川県・かほく',
+    address: '石川県かほく市内日角タ25 イオンモールかほく2F',
+    sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90001647',
+    verifiedAt: '2026-07-13',
+    lat: 36.708886677125896, lon: 136.70137878477934
   }
 
 ];
