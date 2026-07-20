@@ -45,7 +45,7 @@ const jstMinutes = jstHour * 60 + now.getUTCMinutes();
 const dayKey = Math.floor(now.getTime() / 86400000); // JST日単位の通し番号
 const DRY = process.env.X_DRY_RUN === '1';
 const VERIFY_ONLY = process.env.X_VERIFY_ONLY === '1';
-const BATCH_SIZE = 3;
+const BATCH_SIZE = 1;
 const POST_INTERVAL_MS = 2 * 60 * 1000;
 const position = Number(process.env.X_POST_POSITION || 1);
 const KEY = process.env.X_API_KEY, KSEC = process.env.X_API_SECRET;
@@ -98,15 +98,15 @@ if (!DRY && !VERIFY_ONLY && wasLaterSlotPosted(posts, currentJstDate, slot)) {
 }
 const completed = completedPositions(posts, currentJstDate, slot, BATCH_SIZE);
 if (!DRY && !VERIFY_ONLY && completed.size >= BATCH_SIZE) {
-  console.log(`${currentJstDate} の ${slot} 枠は3件投稿済みのためスキップしました`);
+  console.log(`${currentJstDate} の ${slot} 枠は1件投稿済みのためスキップしました`);
   process.exit(0);
 }
 if (!DRY && !VERIFY_ONLY && completed.has(position)) {
-  console.log(`${currentJstDate} の ${slot} 枠 ${position}/3 は投稿済みのためスキップしました`);
+  console.log(`${currentJstDate} の ${slot} 枠 ${position}/1 は投稿済みのためスキップしました`);
   process.exit(0);
 }
 if (!DRY && !VERIFY_ONLY && position > 1 && !completed.has(position - 1)) {
-  console.log(`${currentJstDate} の ${slot} 枠 ${position - 1}/3 が未完了のため ${position}/3 をスキップしました`);
+  console.log(`${currentJstDate} の ${slot} 枠 ${position - 1}/1 が未完了のため ${position}/1 をスキップしました`);
   process.exit(0);
 }
 
@@ -228,7 +228,7 @@ if (alreadyPosted(text)) {
   process.exit(0);
 }
 
-console.log('slot:', slot, `| 投稿: ${position}/3`, '| URL:', position === 1 ? 'あり' : 'なし', '| queue使用:', queueIndex >= 0, '| 本文文字数:', selected.bodyLength);
+console.log('slot:', slot, `| 投稿: ${position}/1`, '| URL:', position === 1 ? 'あり' : 'なし', '| queue使用:', queueIndex >= 0, '| 本文文字数:', selected.bodyLength);
 console.log('---- 投稿文 ----\n' + text + '\n----------------');
 
 /* ---------- 投稿（OAuth 1.0a User Context / X API v2） ---------- */

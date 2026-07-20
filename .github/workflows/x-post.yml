@@ -1,16 +1,11 @@
-# X（旧Twitter）自動投稿：毎日 7:30 / 12:30 / 15:30 / 19:30 JST
-# - 各枠3投稿。1件目はサイトURL付き、2・3件目はURLなし、各投稿の間隔は2分
-# - 1件目は data/x-posts.json のキューを優先し、2・3件目は実データから自動生成
+# X（旧Twitter）手動APIフォールバック
+# - 定時投稿はCodexのChrome自動化（08:57 / 12:05 / 16:31 JST）が各枠1件だけ実行
+# - このworkflowは定時実行せず、障害時の手動フォールバックだけに使用
+# - 1回の実行につきサイトURL付き投稿を1件だけ処理
 # - 投稿済み文面は data/x-posted-log.json に記録し、同一文面の再投稿を防ぐ
-# - GitHub Actions の cron は数分〜十数分遅れることがあります（自然なゆらぎとして許容）
 name: x-auto-post
 
 on:
-  schedule:
-    - cron: '30 22 * * *'   # 07:30 JST
-    - cron: '30 3 * * *'    # 12:30 JST
-    - cron: '30 6 * * *'    # 15:30 JST
-    - cron: '30 10 * * *'   # 19:30 JST
   workflow_dispatch:
     inputs:
       dry_run:
@@ -56,24 +51,12 @@ jobs:
         id: resolve-slot
         shell: bash
         env:
-          EVENT_NAME: ${{ github.event_name }}
-          EVENT_SCHEDULE: ${{ github.event.schedule }}
           INPUT_SLOT: ${{ inputs.slot }}
         run: |
-          if [[ "$EVENT_NAME" == "schedule" ]]; then
-            case "$EVENT_SCHEDULE" in
-              '30 22 * * *') slot='morning' ;;
-              '30 3 * * *') slot='noon' ;;
-              '30 6 * * *') slot='afternoon' ;;
-              '30 10 * * *') slot='evening' ;;
-              *) echo "Unknown schedule: $EVENT_SCHEDULE" >&2; exit 1 ;;
-            esac
-          else
-            slot="${INPUT_SLOT:-due}"
-          fi
+          slot="${INPUT_SLOT:-due}"
           echo "slot=$slot" >> "$GITHUB_OUTPUT"
 
-      - name: Post three times to X
+      - name: Post once to X
         env:
           X_API_KEY: ${{ secrets.X_API_KEY }}
           X_API_SECRET: ${{ secrets.X_API_SECRET }}
@@ -93,7 +76,7 @@ jobs:
             if git diff --cached --quiet; then
               return 0
             fi
-            git commit -m "x-post: persist ${current_position}/3 [skip ci]"
+            git commit -m "x-post: persist ${current_position}/1 [skip ci]"
             for attempt in 1 2 3; do
               if ! git pull --rebase origin "$GITHUB_REF_NAME"; then
                 git rebase --abort || true
@@ -106,7 +89,7 @@ jobs:
               fi
               if [[ "$attempt" -lt 3 ]]; then sleep 2; fi
             done
-            echo "Failed to persist X post ${current_position}/3 after 3 attempts" >&2
+            echo "Failed to persist X post ${current_position}/1 after 3 attempts" >&2
             return 1
           }
 
@@ -115,7 +98,5 @@ jobs:
             exit 0
           fi
 
-          for position in 1 2 3; do
-            X_POST_POSITION="$position" node tools/post-to-x.mjs
-            persist_state "$position"
-          done
+          X_POST_POSITION=1 node tools/post-to-x.mjs
+          persist_state "1"
