@@ -2324,3 +2324,12 @@ img { display: block; max-width: 100%; }
 .gh-langbar { display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; padding: 8px 40px 8px 14px; background: #1d4ed8; color: #fff; font-size: 13px; position: relative; }
 .gh-langbar a { color: #fff; font-weight: 700; text-decoration: underline; }
 .gh-langbar__close { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #fff; font-size: 18px; cursor: pointer; padding: 4px 8px; }
+
+/* ── マスコットアイコン（ヘッダーロゴ）: 画像版の調整 ── */
+img.gh-logo__icon {
+  background: #fff;
+  object-fit: cover;
+  padding: 0;
+  border: 1.5px solid rgba(255, 255, 255, 0.85);
+  box-sizing: border-box;
+}

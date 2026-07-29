@@ -101,6 +101,7 @@ const html = `<!doctype html>
   <meta name="description" content="ガチャひろばの全ページ一覧。掲載中の全ガチャガチャ店舗（${spots.length}店舗）とエリア別まとめ・ランキング・ガイド記事（${articles.length}本）へのリンク集です。" />
   <title>サイトマップ｜全${spots.length}店舗・全記事一覧 | ガチャひろば</title>
   <link rel="canonical" href="${ORIGIN}/sitemap.html" />
+  <link rel="icon" type="image/png" href="assets/mascot-icon.png" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -108,7 +109,7 @@ const html = `<!doctype html>
     <div class="gh-header__top">
       <div class="gh-container gh-header__inner">
         <a class="gh-logo" href="index.html" aria-label="ガチャひろば トップへ">
-          <span class="gh-logo__icon">G</span>
+          <img class="gh-logo__icon" src="assets/mascot-icon.png" alt="ガチャひろばのマスコット" width="34" height="34" />
           <span class="gh-logo__text">ガチャ<em>ひろば</em></span>
         </a>
       </div>
