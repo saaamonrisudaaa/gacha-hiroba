@@ -2333,3 +2333,27 @@ img.gh-logo__icon {
   border: 1.5px solid rgba(255, 255, 255, 0.85);
   box-sizing: border-box;
 }
+
+/* ── ガチャグッズユニット（文脈広告カード） ── */
+.gh-goods { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.gh-goods__card {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 14px; min-height: 52px;
+  background: var(--gh-card, #fff);
+  border: 1.5px solid var(--gh-border, #e5e2f0);
+  border-radius: 12px; text-decoration: none; color: inherit;
+  transition: border-color .15s, transform .15s, box-shadow .15s;
+}
+.gh-goods__card:hover {
+  border-color: var(--gh-accent, #e0245e);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(0,0,0,.08);
+}
+.gh-goods__emoji { font-size: 26px; flex: 0 0 auto; }
+.gh-goods__body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.gh-goods__title { font-size: 14px; font-weight: 700; line-height: 1.35; }
+.gh-goods__note { font-size: 11.5px; color: var(--gh-muted, #888); line-height: 1.4; }
+.gh-goods__arrow { margin-left: auto; color: var(--gh-accent, #e0245e); font-size: 12px; flex: 0 0 auto; }
+@media (max-width: 700px) {
+  .gh-goods { grid-template-columns: 1fr; }
+}

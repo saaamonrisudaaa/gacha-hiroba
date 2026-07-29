@@ -811,6 +811,26 @@ document.addEventListener('click', e => {
     }
   }
 
+  /* ── ガチャ関連グッズユニット（[data-gh-gacha-goods] に描画。本命の文脈広告） ── */
+  document.querySelectorAll('[data-gh-gacha-goods]').forEach(box => {
+    const goods = (cfg.gachaGoods || []).filter(g => g && g.url && g.title);
+    if (!goods.length) return;
+    box.innerHTML =
+      '<div class="gh-goods">' +
+      goods.map(g =>
+        '<a class="gh-goods__card" href="' + esc(g.url) + '" target="_blank" rel="nofollow sponsored noopener" data-ad-unit="goods">' +
+          '<span class="gh-goods__emoji" aria-hidden="true">' + esc(g.emoji || '🎁') + '</span>' +
+          '<span class="gh-goods__body">' +
+            '<strong class="gh-goods__title">' + esc(g.title) + '</strong>' +
+            '<small class="gh-goods__note">' + esc(g.note || '') + '</small>' +
+          '</span>' +
+          '<span class="gh-goods__arrow" aria-hidden="true">▶</span>' +
+        '</a>').join('') +
+      '</div>' + discHtml;
+    const sec = box.closest('.gh-goods-sec');
+    if (sec) sec.hidden = false;
+  });
+
   /* ── 下からスライドインするPRバナー（自前描画＝広告ブロッカーでも表示。閉じる可） ── */
   const bar = cfg.bottomBar;
   let barClosed = false;
@@ -843,10 +863,13 @@ document.addEventListener('click', e => {
   if (!products.length) return;                        // 未設定ならプレースホルダー維持
 
   const max = cfg.maxPerSlot || 4;
-  // 件数が多いときは日替わりでローテーション（全バナーに露出を回す）
+  // ガチャ関連グッズを常に先頭へ（日替わり2件）。残り枠は汎用バナーのローテーション
   const day = Math.floor(Date.now() / 86400000);
+  const goodsAll = (cfg.gachaGoods || []).filter(g => g && g.url && g.title);
+  const gStart = goodsAll.length ? day % goodsAll.length : 0;
+  const goodsRotated = goodsAll.slice(gStart).concat(goodsAll.slice(0, gStart)).slice(0, 2);
   const start = products.length ? day % products.length : 0;
-  const rotated = products.slice(start).concat(products.slice(0, start));
+  const rotated = goodsRotated.concat(products.slice(start).concat(products.slice(0, start)));
 
   const card = (p, i) => {
     // バナーHTML（楽天の画像リンク等）→ 見出し＋枠付き画像＋CTAボタンのカードにして目立たせる
@@ -881,3 +904,15 @@ document.addEventListener('click', e => {
     slot.classList.add('gh-ad--filled');
   });
 })();
+
+/* ── 広告クリック計測（GA4: ad_click）。rel=sponsored のリンクを対象 ── */
+document.addEventListener('click', e => {
+  const a = e.target.closest && e.target.closest('a[rel~="sponsored"]');
+  if (!a || typeof window.gtag !== 'function') return;
+  const unit = a.dataset.adUnit
+    || (a.closest('.gh-goods') ? 'goods'
+      : a.closest('.gh-bottombar') ? 'bottombar'
+      : a.closest('.gh-affil') ? 'sidebar'
+      : a.closest('.gh-featured') ? 'featured' : 'other');
+  try { window.gtag('event', 'ad_click', { ad_unit: unit, link_url: (a.href || '').slice(0, 180) }); } catch (err) {}
+}, true);

@@ -25,10 +25,30 @@ window.GH_ADS = {
      ×で閉じると、そのタブを閉じるまで再表示しません） */
   bottomBar: {
     emoji: '🎰',
-    text: 'ガチャ活のお供に！楽天市場で人気アイテムをチェック',
-    cta: '楽天市場で見る ▶',
-    url: 'https://hb.afl.rakuten.co.jp/hsc/5547dfc6.546f7c0d.5547dfc7.ed412751/?link_type=pict&ut=eyJwYWdlIjoic2hvcCIsInR5cGUiOiJwaWN0IiwiY29sIjoxLCJjYXQiOiIxIiwiYmFuIjoyNzYyNDgyLCJhbXAiOmZhbHNlfQ%3D%3D'
+    text: '家庭用ガチャマシン、楽天で買えるの知ってた？',
+    cta: '見てみる ▶',
+    url: 'https://hb.afl.rakuten.co.jp/hgc/5599358c.6687774a.5547dfc7.ed412751/?pc=' + encodeURIComponent('https://search.rakuten.co.jp/search/mall/ガチャガチャ 本体 おもちゃ/')
   },
+
+
+  /* ── ガチャ関連グッズ（本命ユニット。店舗ページ本文・サイドバー先頭に常時表示） ──
+     リンクは楽天アフィリエイトの「どこでもリンク」IDに検索結果URLを載せたもの。
+     ※ IDはユーザー提供のものを流用（改変禁止）。文言だけ自由に調整可。 */
+  gachaGoodsHeading: '🎁 ガチャ好きに人気のアイテム',
+  gachaGoods: [
+    { emoji: '🎰', title: '家庭用ガチャガチャマシン', note: '自宅でガチャが回せる・誕生日やパーティーの景品入れに人気',
+      url: 'https://hb.afl.rakuten.co.jp/hgc/5599358c.6687774a.5547dfc7.ed412751/?pc=' + encodeURIComponent('https://search.rakuten.co.jp/search/mall/ガチャガチャ 本体 おもちゃ/') },
+    { emoji: '🥠', title: 'カプセルトイ福袋・詰め合わせ', note: '何が出るかはお楽しみ・まとめ買いでガチャ気分',
+      url: 'https://hb.afl.rakuten.co.jp/hgc/5599358c.6687774a.5547dfc7.ed412751/?pc=' + encodeURIComponent('https://search.rakuten.co.jp/search/mall/カプセルトイ 福袋/') },
+    { emoji: '🗄️', title: 'コレクションケース・見せる収納', note: '取った景品をきれいに飾る・ミニフィギュア棚の定番',
+      url: 'https://hb.afl.rakuten.co.jp/hgc/5599358c.6687774a.5547dfc7.ed412751/?pc=' + encodeURIComponent('https://search.rakuten.co.jp/search/mall/コレクションケース フィギュア/') },
+    { emoji: '🎀', title: 'サンリオのガチャ・グッズ', note: '人気キャラのカプセルトイをおうちでも',
+      url: 'https://hb.afl.rakuten.co.jp/hgc/5599358c.6687774a.5547dfc7.ed412751/?pc=' + encodeURIComponent('https://search.rakuten.co.jp/search/mall/サンリオ ガチャ/') },
+    { emoji: '🧸', title: 'ちいかわのガチャ・グッズ', note: '売り切れがちな人気シリーズを通販でチェック',
+      url: 'https://hb.afl.rakuten.co.jp/hgc/5599358c.6687774a.5547dfc7.ed412751/?pc=' + encodeURIComponent('https://search.rakuten.co.jp/search/mall/ちいかわ ガチャ/') },
+    { emoji: '🔑', title: 'ガチャ景品の交換・キーホルダー用品', note: 'ボールチェーン・カプセル用リング・痛バ用品など',
+      url: 'https://hb.afl.rakuten.co.jp/hgc/5599358c.6687774a.5547dfc7.ed412751/?pc=' + encodeURIComponent('https://search.rakuten.co.jp/search/mall/キーホルダー パーツ カプセルトイ/') }
+  ],
 
   /* サイドバー1枠に表示する最大件数（超過分は日替わりローテーション） */
   maxPerSlot: 3,
