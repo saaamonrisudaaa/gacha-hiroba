@@ -1564,7 +1564,7 @@ window.GH_SPOTS = [
     hours: '10:00〜21:00',
     machines: 780,
     lat: 35.6478, lon: 140.0403,
-    access: 'イオンモール幕張新都心 グランドモール 3F'
+    access: 'イオンモール幕張新都心 グランドモール 3F・TOYS SPOT PALOも同モールに出店'
   },
   {
     id: 'ggmori-aeonmall-funabashi',
@@ -2010,7 +2010,7 @@ window.GH_SPOTS = [
     address: '大阪府大阪市北区芝田1-1-3 阪急三番街 北館1F',
     hours: '10:00〜21:00',
     lat: 34.7047, lon: 135.4980,
-    access: '阪急三番街 北館1F（阪急大阪梅田駅直結）'
+    access: '阪急三番街 北館1F（阪急大阪梅田駅直結）・キデイランド（北館B1F・1F）のカプセルトイコーナーも同館に'
   },
   {
     id: 'gashapon-bandai-umeda',
@@ -2060,18 +2060,6 @@ window.GH_SPOTS = [
     hours: '10:00〜22:00',
     lat: 34.7066, lon: 135.4996,
     access: 'チャスカ茶屋町（MARUZEN＆ジュンク堂書店の入るビル）駿河屋売り場内（阪急大阪梅田駅から徒歩約4分）'
-  },
-  {
-    id: 'kiddyland-osaka-umeda',
-    brand: 'キデイランド',
-    name: 'キデイランド大阪梅田店（カプセルトイコーナー）',
-    region: 'kansai',
-    pref: '大阪府',
-    area: '大阪府・梅田',
-    address: '大阪府大阪市北区芝田1-1-3 阪急三番街 北館 B1F・1F',
-    hours: '10:00〜21:00',
-    lat: 34.7049, lon: 135.4982,
-    access: '阪急三番街 北館（阪急大阪梅田駅直結）・キャラクターグッズと合わせて楽しめるガチャコーナー'
   },
   {
     id: 'gashadepa-osaka-nihonbashi',
@@ -2618,17 +2606,6 @@ window.GH_SPOTS = [
     access: 'ジ アウトレット湘南平塚内（平塚駅からバス）'
   },
   {
-    id: 'palo-aeon-makuhari-shintoshin',
-    brand: 'TOYS SPOT PALO',
-    name: 'TOYS SPOT PALO イオンモール幕張新都心店',
-    region: 'kanto',
-    pref: '千葉県',
-    area: '千葉県・幕張新都心',
-    address: '千葉県千葉市美浜区豊砂1-1 イオンモール幕張新都心',
-    lat: 35.6482, lon: 140.033,
-    access: 'イオンモール幕張新都心内（幕張豊砂駅すぐ・イオンファンタジー運営）'
-  },
-  {
     id: 'dreamcapsule-aeontown-chikusa',
     brand: 'ドリームカプセル',
     name: 'ドリームカプセル イオンタウン千種店',
@@ -2696,18 +2673,7 @@ window.GH_SPOTS = [
     hours: '10:00〜20:00',
     machines: 300,
     lat: 34.6786, lon: 135.1817,
-    access: 'umie SOUTH MALL 4F（JR神戸駅から徒歩約5分）'
-  },
-  {
-    id: 'gashapon-bandai-os-cinemas-kobe',
-    brand: 'ガシャポンバンダイオフィシャルショップ',
-    name: 'ガシャポンバンダイオフィシャルショップ OSシネマズ神戸ハーバーランド店',
-    region: 'kansai',
-    pref: '兵庫県',
-    area: '兵庫県・神戸ハーバーランド',
-    address: '兵庫県神戸市中央区東川崎町1-7-2 umie（OSシネマズ神戸ハーバーランド）',
-    lat: 34.6789, lon: 135.182,
-    access: 'OSシネマズ神戸ハーバーランド（映画の前後に・umie内）'
+    access: 'umie SOUTH MALL 4F（JR神戸駅から徒歩約5分）・OSシネマズ側にバンダイオフィシャルショップも'
   },
   {
     id: 'gashadepa-niigata',
@@ -3047,7 +3013,7 @@ window.GH_SPOTS = [
     address: '佐賀県佐賀市巨勢町牛島730 モラージュ佐賀',
     machines: 600,
     lat: 33.2481, lon: 130.3238,
-    access: 'モラージュ佐賀内（佐賀駅からバス・約600面）'
+    access: 'モラージュ佐賀内（佐賀駅からバス・約600面）・#C-plaも同館に出店'
   },
   {
     id: 'ggmori-youmetown-hatsukaichi',
@@ -3277,18 +3243,6 @@ window.GH_SPOTS = [
     lat: 33.56017321307528, lon: 133.53896577883248
   },
 
-  {
-    id: 'cpla-moraju-saga',
-    brand: '#C-pla（シープラ）',
-    name: '#C-plaモラージュ佐賀',
-    region: 'kyushu',
-    pref: '佐賀県',
-    area: '佐賀県・佐賀',
-    address: '佐賀県佐賀市巨勢町牛島730',
-    sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90001437',
-    verifiedAt: '2026-07-13',
-    lat: 33.25130185683441, lon: 130.31926193768396
-  },
 
   {
     id: 'gashapon-bandai-miraiya-tsu-shiroyama',
