@@ -2360,3 +2360,12 @@ img.gh-logo__icon {
 
 /* 新着掲載店舗リストのエリア表記 */
 .gh-trending-list__area { display: block; font-size: 11px; color: var(--gh-muted, #888); margin-top: 2px; }
+
+/* 店舗ページの紹介文ブロック */
+.gh-spot-intro { margin: 14px 0 0; }
+.gh-spot-intro p {
+  margin: 0 0 8px; font-size: 13.5px; line-height: 1.8;
+  color: var(--gh-muted, #666);
+}
+.gh-spot-intro p:last-child { margin-bottom: 0; }
+.gh-spot-intro a { color: var(--gh-accent, #e0245e); }

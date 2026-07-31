@@ -22,6 +22,24 @@ let template = readFileSync(new URL('../spot.html', import.meta.url), 'utf8');
    （http(s):・ルート絶対・#アンカー・tel: 等は触らない） */
 template = template.replace(/(href|src)="(?!https?:|\/|#|tel:|mailto:|data:)([^"]+)"/g, '$1="/$2"');
 
+
+/* ブランドの事実ベースの説明（各チェーンの公表情報にもとづく一般的な特徴）。
+   薄い店舗ページに、その店を理解するための文脈を足すために使う。 */
+const BRAND_NOTE = {
+  'ガチャガチャの森': 'ガチャガチャの森は、全国のショッピングモールや駅前を中心に展開するカプセルトイ専門店チェーンです。木をイメージした店内に多数のマシンが並びます。',
+  'ガシャポンのデパート': 'ガシャポンのデパートは、バンダイナムコが展開するカプセルトイの大型専門店です。大量のマシンをそろえた「デパート」型の売り場が特徴です。',
+  'カプセル楽局': 'カプセル楽局は、ゲオグループが展開するカプセルトイ専門店です。駅前や商店街など、生活動線上の小型店を中心に出店しています。',
+  '#C-pla（シープラ）': '#C-pla（シープラ）は、トーシンが展開するカプセルトイ専門店です。商業施設内から路面店まで幅広く出店しています。',
+  'ガシャポンバンダイオフィシャルショップ': 'ガシャポンバンダイオフィシャルショップは、バンダイ公式のガシャポン専門ショップです。書店や映画館などの併設型店舗も多く展開しています。',
+  'gashacoco（ガシャココ）': 'gashacoco（ガシャココ）は、駅ビルや商業施設を中心に展開するカプセルトイ専門店です。',
+  'ドリームカプセル': 'ドリームカプセルは、マルイなどの商業施設を中心に展開するカプセルトイ専門店です。',
+  'CAPSULE LAB（カプコン）': 'カプセルラボは、カプコンが展開するカプセルトイ専門コーナーです。ショッピングモール内の大規模な売り場が特徴です。',
+  'ケンエレスタンド': 'ケンエレスタンドは、ケンエレファントが展開する大人向けカプセルトイのショップです。駅構内などに出店しています。',
+  'ガチャステ': 'ガチャステは、タイトーなどが手がけるカプセルトイ専門店です。アミューズメント施設との併設店もあります。',
+  'TOYS SPOT PALO': 'TOYS SPOT PALOは、イオンファンタジーが展開するカプセルトイ専門店です。',
+  'ヨドバシカメラ': 'ヨドバシカメラの一部店舗には、ホビー売り場を中心とした大規模なガチャガチャコーナーが設置されています。'
+};
+
 const esc = (s) => String(s == null ? '' : s)
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const machinesText = (n) => (n == null || n === '') ? '—' : '約' + Number(n).toLocaleString('ja-JP') + '台';
@@ -118,13 +136,31 @@ function buildPage(store) {
     metric('ブランド', store.brand || '—', '公式店舗') + '</div>');
 
   /* ── 店舗紹介文（静的のみ。ユニークテキストで薄いページ化を防ぐ） ── */
+  const samePref = spots.filter((x) => x.pref === store.pref);
+  const sameArea = spots.filter((x) => x.area === store.area && x.id !== store.id);
+  const prefLink = '<a href="/stores.html?pref=' + encodeURIComponent(store.pref) + '">' +
+    esc(store.pref) + 'の掲載店舗（' + samePref.length + '件）</a>';
+  const brandLink = '<a href="/stores.html?brand=' + encodeURIComponent(store.brand) + '">' +
+    esc(store.brand) + 'の店舗一覧</a>';
   const intro =
-    '<p class="gh-detail-note" style="margin:14px 0 0">' +
-    esc(store.name) + 'は、' + esc(store.pref) + '（' + esc(store.area) + '）にあるガチャガチャ・カプセルトイの設置スポットです。' +
-    (store.machines ? 'ガチャマシンの設置台数は' + esc(machinesText(store.machines)) + '。' : '') +
-    (store.hours ? '営業時間は' + esc(store.hours) + '。' : '') +
-    (store.access ? 'アクセスは' + esc(store.access) + '。' : '') +
-    '最新の入荷状況や混雑情報は、このページの掲示板タブでチェック・共有できます。</p>';
+    '<div class="gh-spot-intro">' +
+    '<p>' +
+      esc(store.name) + 'は、' + esc(store.pref) + '（' + esc(store.area) + '）にあるガチャガチャ・カプセルトイの設置スポットです。' +
+      (store.machines ? 'ガチャマシンの設置台数は' + esc(machinesText(store.machines)) + '。' : '') +
+      (store.hours ? '営業時間は' + esc(store.hours) + '。' : '') +
+      (store.access ? 'アクセスは' + esc(store.access) + '。' : '') +
+    '</p>' +
+    (BRAND_NOTE[store.brand] ? '<p>' + esc(BRAND_NOTE[store.brand]) + '</p>' : '') +
+    '<p>' +
+      (sameArea.length
+        ? esc(store.area) + 'エリアには、この店舗を含めて' + (sameArea.length + 1) + '件のガチャスポットを掲載しています。'
+        : '') +
+      '同じ地域のお店は' + prefLink + '、同じブランドのお店は' + brandLink + 'からも探せます。' +
+    '</p>' +
+    '<p>掲載内容は公開情報をもとにしています。最新の入荷状況・混雑・在庫については、' +
+      'このページの掲示板タブで情報をチェック・共有できます。' +
+      '営業時間や設置台数は変更される場合があるため、お出かけ前に店舗の公式情報もあわせてご確認ください。</p>' +
+    '</div>';
   html = swap(html, '<div class="gh-detail-layout">', intro + '\n      <div class="gh-detail-layout">');
 
   /* ── 詳細テーブル・地図・掲示板見出し・同エリア店舗 ── */
