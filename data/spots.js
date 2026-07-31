@@ -3554,6 +3554,53 @@ window.GH_SPOTS = [
     verifiedAt: '2026-07-31',
     lat: 34.599, lon: 133.7757,
     access: 'アリオ倉敷内（JR倉敷駅北口すぐ・倉敷みらい公園となり）'
+  },
+
+  /* ── 2026-07-31 名古屋の中心部（大須・栄）を追加 ── */
+  {
+    id: 'cpla-nagoya-osu',
+    brand: '#C-pla（シープラ）',
+    name: '#C-pla 名古屋大須店',
+    region: 'tokai',
+    pref: '愛知県',
+    area: '愛知県・大須',
+    zip: '460-0011',
+    address: '愛知県名古屋市中区大須3-26-26 クレスト大須 3A',
+    hours: '10:00〜21:00',
+    sourceUrl: 'https://news.yahoo.co.jp/expert/articles/80a6a71a42466793f3d37ff459bdde0c1252604b',
+    verifiedAt: '2026-07-31',
+    lat: 35.1595, lon: 136.9033,
+    access: '大須商店街内・クレスト大須3A（地下鉄上前津駅から徒歩約3分）'
+  },
+  {
+    id: 'capsulehouse-osu',
+    brand: 'カプセルハウス',
+    name: 'カプセルハウス 大須店',
+    region: 'tokai',
+    pref: '愛知県',
+    area: '愛知県・大須',
+    zip: '460-0011',
+    address: '愛知県名古屋市中区大須3-31-18',
+    hours: '11:30〜20:30（土日祝 10:00〜21:00）',
+    machines: 380,
+    sourceUrl: 'https://tv-aichi.co.jp/osu-tankentai/genre/interior/post_265.html',
+    verifiedAt: '2026-07-31',
+    lat: 35.1589, lon: 136.9042,
+    access: '大須商店街内・東海エリア最大級の380台（地下鉄上前津駅から徒歩約4分）'
+  },
+  {
+    id: 'ggmori-oasis21',
+    brand: 'ガチャガチャの森',
+    name: 'ガチャガチャの森 オアシス21店',
+    region: 'tokai',
+    pref: '愛知県',
+    area: '愛知県・栄',
+    zip: '461-0005',
+    address: '愛知県名古屋市東区東桜1-11-1 オアシス21',
+    sourceUrl: 'https://www.sakaepark.co.jp/shops/3650/',
+    verifiedAt: '2026-07-31',
+    lat: 35.1712, lon: 136.9086,
+    access: 'オアシス21内（地下鉄栄町駅から徒歩約1分・栄の中心部）'
   }
 
 ];
