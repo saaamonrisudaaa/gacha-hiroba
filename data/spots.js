@@ -3601,6 +3601,70 @@ window.GH_SPOTS = [
     verifiedAt: '2026-07-31',
     lat: 35.1712, lon: 136.9086,
     access: 'オアシス21内（地下鉄栄町駅から徒歩約1分・栄の中心部）'
+  },
+
+  /* ── 2026-07-31 名古屋の未登録店（地下街・ゼロゲート）を追加 ── */
+  {
+    id: 'gashacoco-nagoya-zerogate',
+    brand: 'gashacoco（ガシャココ）',
+    name: 'gashacoco 名古屋ゼロゲート',
+    region: 'tokai',
+    pref: '愛知県',
+    area: '愛知県・矢場町',
+    zip: '460-0008',
+    address: '愛知県名古屋市中区栄3-28-11 名古屋ゼロゲート 1F',
+    tel: '070-5024-5454',
+    hours: '10:00〜20:00',
+    sourceUrl: 'https://gashacoco.jp/shop-list/2861/',
+    verifiedAt: '2026-07-31',
+    lat: 35.1637, lon: 136.9061,
+    access: '名古屋ゼロゲート1F（地下鉄矢場町駅5番出口から徒歩約3分・名古屋最大級）'
+  },
+  {
+    id: 'gashacoco-esca-nagoya',
+    brand: 'gashacoco（ガシャココ）',
+    name: 'gashacoco エスカ地下街',
+    region: 'tokai',
+    pref: '愛知県',
+    area: '愛知県・名古屋駅',
+    address: '愛知県名古屋市中村区椿町6-9先 エスカ地下街',
+    tel: '080-4953-4666',
+    hours: '10:00〜20:30',
+    sourceUrl: 'https://www.esca-sc.com/shop_guide/1385/',
+    verifiedAt: '2026-07-31',
+    lat: 35.1699, lon: 136.8792,
+    access: 'エスカ地下街（JR名古屋駅 新幹線口の地下街・乗り換えのついでに）'
+  },
+  {
+    id: 'cpla-sakaechika',
+    brand: '#C-pla（シープラ）',
+    name: '#C-pla サカエチカ店',
+    region: 'tokai',
+    pref: '愛知県',
+    area: '愛知県・栄',
+    zip: '460-0008',
+    address: '愛知県名古屋市中区栄3-4-6先 サカエチカ',
+    hours: '10:00〜21:00',
+    sourceUrl: 'https://sakaechika.com/shop/53-2/',
+    verifiedAt: '2026-07-31',
+    lat: 35.1683, lon: 136.9068,
+    access: '栄の地下街サカエチカ内（地下鉄栄駅直結・雨の日でも濡れずに行ける）'
+  },
+  {
+    id: 'dreamcapsule-nagoya-central-park',
+    brand: 'ドリームカプセル',
+    name: 'ドリームカプセル 名古屋栄セントラルパーク店',
+    region: 'tokai',
+    pref: '愛知県',
+    area: '愛知県・栄',
+    address: '愛知県名古屋市中区錦3-15-13先 セントラルパーク地下街',
+    tel: '090-6194-8097',
+    hours: '10:00〜21:00（日祝は〜20:00）',
+    machines: 500,
+    sourceUrl: 'https://www.centralpark.co.jp/shop/dreamcapsule/',
+    verifiedAt: '2026-07-31',
+    lat: 35.1707, lon: 136.9074,
+    access: 'セントラルパーク地下街（中部電力 MIRAI TOWERのほぼ真下・常時500種類以上）'
   }
 
 ];
