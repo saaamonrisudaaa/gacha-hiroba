@@ -3482,6 +3482,78 @@ window.GH_SPOTS = [
     verifiedAt: '2026-07-20',
     lat: 35.7794, lon: 139.7205,
     access: '赤羽スズラン通り商店街（LaLaガーデン）内・赤羽駅東口から徒歩約3分'
+  },
+
+  /* ── 2026-07-31 追加（1店舗のみだった5県を強化） ── */
+  {
+    id: 'gashadepa-plant5-sakaiminato',
+    brand: 'ガシャポンのデパート',
+    name: 'ガシャポンのデパート PLANT-5 境港店',
+    region: 'chugoku',
+    pref: '鳥取県',
+    area: '鳥取県・境港',
+    address: '鳥取県境港市竹内団地276 PLANT-5 境港店内',
+    tel: '0859-47-5600',
+    hours: '8:00〜22:00',
+    sourceUrl: 'https://www.lazuda.com/news/archives/5282',
+    verifiedAt: '2026-07-31',
+    lat: 35.5405, lon: 133.247,
+    access: 'PLANT-5境港店内（年中無休・朝8時から回せる／水木しげるロードから車圏）'
+  },
+  {
+    id: 'capsulelab-youmetown-izumo',
+    brand: 'CAPSULE LAB（カプコン）',
+    name: 'カプセルラボ ゆめタウン出雲店',
+    region: 'chugoku',
+    pref: '島根県',
+    area: '島根県・出雲',
+    address: '島根県出雲市大塚町650-1 ゆめタウン出雲 本館2F・3F',
+    hours: '10:00〜21:30',
+    machines: 500,
+    sourceUrl: 'https://www.izumi.jp/tenpo/izumo/shop/service/capsulalabo',
+    verifiedAt: '2026-07-31',
+    lat: 35.3702, lon: 132.7565,
+    access: 'ゆめタウン出雲 本館2F・3F（山陰最大級・約500台／2024年4月オープン）'
+  },
+  {
+    id: 'capsulelab-aeonmall-toki',
+    brand: 'CAPSULE LAB（カプコン）',
+    name: 'カプセルラボ・キャラカプ イオンモール土岐店',
+    region: 'tokai',
+    pref: '岐阜県',
+    area: '岐阜県・土岐',
+    address: '岐阜県土岐市土岐津町土岐口1372-1 イオンモール土岐 2F',
+    machines: 800,
+    sourceUrl: 'https://toki.aeonmall.jp/shop/ccd2d00a-581c-4d8b-b953-376d4c8be53d',
+    verifiedAt: '2026-07-31',
+    lat: 35.3556, lon: 137.1846,
+    access: 'イオンモール土岐 2F（常時800台以上の大規模コーナー／中央自動車道 土岐JCT近く）'
+  },
+  {
+    id: 'cpla-plus-aeonmall-kashihara',
+    brand: '#C-pla（シープラ）',
+    name: '#C-pla+ イオンモール橿原店',
+    region: 'kansai',
+    pref: '奈良県',
+    area: '奈良県・橿原',
+    address: '奈良県橿原市曲川町7-20-1 イオンモール橿原',
+    sourceUrl: 'https://kashihara.aeonmall.jp/shop/a67d63be-9635-4d34-96dd-2f232ec9522e',
+    verifiedAt: '2026-07-31',
+    lat: 34.5093, lon: 135.7642,
+    access: 'イオンモール橿原内（約900種類のラインナップ／近鉄大和八木駅からバス）'
+  },
+  {
+    id: 'cpla-plus-ario-kurashiki',
+    brand: '#C-pla（シープラ）',
+    name: '#C-pla+ 012 アリオ倉敷店',
+    region: 'chugoku',
+    pref: '岡山県',
+    area: '岡山県・倉敷',
+    address: '岡山県倉敷市寿町12-2 アリオ倉敷',
+    sourceUrl: 'https://www.gachagachanomori.com/shoplist/',
+    verifiedAt: '2026-07-31',
+    lat: 34.599, lon: 133.7757,
+    access: 'アリオ倉敷内（JR倉敷駅北口すぐ・倉敷みらい公園となり）'
   }
 
 ];
