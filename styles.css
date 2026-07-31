@@ -2357,3 +2357,6 @@ img.gh-logo__icon {
 @media (max-width: 700px) {
   .gh-goods { grid-template-columns: 1fr; }
 }
+
+/* 新着掲載店舗リストのエリア表記 */
+.gh-trending-list__area { display: block; font-size: 11px; color: var(--gh-muted, #888); margin-top: 2px; }

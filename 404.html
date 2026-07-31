@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="お探しのページは見つかりませんでした。ガチャひろばのトップページや店舗一覧から目的のガチャガチャ設置店をお探しください。" />
+  <title>ページが見つかりません（404） | ガチャひろば</title>
+  <link rel="canonical" href="https://gacha-hiroba.com/404.html" />
+  <link rel="alternate" hreflang="ja" href="https://gacha-hiroba.com/" />
+  <link rel="alternate" hreflang="en" href="https://gacha-hiroba.com/english.html" />
+  <link rel="alternate" hreflang="x-default" href="https://gacha-hiroba.com/" />
+  <meta property="og:site_name" content="ガチャひろば" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="ja_JP" />
+  <meta property="og:title" content="ガチャひろば｜全国のガチャガチャ設置場所・カプセルトイ専門店 検索" />
+  <meta property="og:description" content="ガチャガチャ（カプセルトイ・ガシャポン）の設置場所・専門店を探せる検索サイト。東京・関東の店舗一覧、設置台数ランキング、店舗ごとの掲示板、マップ検索。新宿・池袋・渋谷・原宿・秋葉原など主要エリアを掲載中。" />
+  <meta property="og:url" content="https://gacha-hiroba.com/" />
+  <meta property="og:image" content="https://gacha-hiroba.com/assets/ogp.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2728413518163071"
+     crossorigin="anonymous"></script>
+  <link rel="alternate" type="application/rss+xml" title="ガチャひろば 新着・特集記事" href="https://gacha-hiroba.com/feed.xml" />
+  <link rel="icon" type="image/png" href="assets/mascot-icon.png" />
+  <link rel="stylesheet" href="styles.css" />
+  <!-- Supabase (アクセス数ランキング用・裏側データ) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+  <script src="data/spots.js" defer></script>
+  <script src="data/articles.js" defer></script>
+  <script src="spots-ui.js" defer></script>
+  <script src="data/ads.js" defer></script>
+  <script src="script.js" defer></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "ガチャひろば",
+    "alternateName": "gacha-hiroba",
+    "url": "https://gacha-hiroba.com/",
+    "description": "全国のガチャガチャ（カプセルトイ）設置場所・専門店を探せる検索サイト",
+    "inLanguage": "ja"
+  }
+  </script>
+  <meta name="robots" content="noindex" />
+</head>
+<body>
+
+  <header class="gh-header">
+    <div class="gh-header__top">
+      <div class="gh-container gh-header__inner">
+        <a class="gh-logo" href="index.html" aria-label="ガチャひろば トップへ">
+          <img class="gh-logo__icon" src="assets/mascot-icon.png" alt="ガチャひろばのマスコット" width="34" height="34" />
+          <span class="gh-logo__text">ガチャ<em>ひろば</em></span>
+        </a>
+        <form class="gh-search" role="search">
+          <input class="gh-search__input" type="search" placeholder="エリア・駅名・店名で検索" aria-label="ガチャ場所を検索" />
+          <button class="gh-search__btn" type="submit" aria-label="検索">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          </button>
+        </form>
+        <button class="gh-hamburger" aria-label="メニューを開く" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+    <div class="gh-subnav">
+      <div class="gh-container">
+        <nav class="gh-nav-tabs" aria-label="メインナビゲーション">
+          <a href="index.html" class="active">トップ</a>
+          <a href="board.html">掲示板</a>
+          <a href="news.html">新着情報</a>
+          <a href="ranking.html">ランキング</a>
+          <a href="area.html">エリア別</a>
+          <a href="category.html">カテゴリー別</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- Scrolling ticker bar (like market summary bar) -->
+  <div class="gh-ticker-bar">
+    <div class="gh-container gh-ticker-bar__inner">
+      <span class="gh-ticker-bar__label">注目スポット</span>
+      <div class="gh-ticker-scroll" aria-label="注目スポット" aria-live="polite">
+        <div class="gh-ticker-track" data-gh-ticker></div>
+      </div>
+    </div>
+  </div>
+
+  <main class="gh-main">
+    <div class="gh-container">
+      <div class="gh-page-hero" style="text-align:center">
+        <img src="assets/mascot-icon.png" alt="" width="88" height="88" style="border-radius:50%;margin-bottom:12px" />
+        <h1 class="gh-page-hero__title">ページが見つかりませんでした</h1>
+        <p class="gh-page-hero__desc">
+          お探しのページは移動または削除された可能性があります。<br />
+          閉店した店舗のページは自動的に非公開になることがあります。
+        </p>
+      </div>
+      <section class="gh-section">
+        <div class="gh-section__header"><h2 class="gh-section__title">こちらからお探しください</h2></div>
+        <div class="gh-category-list">
+          <a href="index.html" class="gh-category-item"><span class="gh-category-item__icon">🏠</span><span>トップページ</span></a>
+          <a href="stores.html" class="gh-category-item"><span class="gh-category-item__icon">🏬</span><span>店舗一覧から探す</span></a>
+          <a href="map.html" class="gh-category-item"><span class="gh-category-item__icon">🗺️</span><span>マップで探す</span></a>
+          <a href="ranking.html" class="gh-category-item"><span class="gh-category-item__icon">🏆</span><span>設置台数ランキング</span></a>
+          <a href="news.html" class="gh-category-item"><span class="gh-category-item__icon">📰</span><span>エリア別まとめ記事</span></a>
+          <a href="board.html" class="gh-category-item"><span class="gh-category-item__icon">💬</span><span>掲示板</span></a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="gh-footer">
+    <div class="gh-container">
+      <div class="gh-footer__main">
+        <div class="gh-footer__brand">
+          <a class="gh-logo" href="index.html"><img class="gh-logo__icon" src="assets/mascot-icon.png" alt="ガチャひろばのマスコット" width="34" height="34" /><span class="gh-logo__text">ガチャ<em>ひろば</em></span></a>
+          <p>全国のガチャガチャ設置場所情報を網羅。<br />あなたのガチャライフをサポートします。</p>
+        </div>
+        <div class="gh-footer__links">
+          <div><strong>サービス</strong><a href="index.html">トップ</a><a href="ranking.html">ランキング</a><a href="news.html">新着情報</a><a href="map.html">マップ検索</a></div>
+          <div><strong>情報</strong><a href="area.html">エリア別</a><a href="category.html">カテゴリー別</a><a href="advertising.html">広告掲載</a></div>
+          <div><strong>サポート</strong><a href="board.html">お問い合わせ</a><a href="terms.html">利用規約</a><a href="privacy.html">プライバシー</a><a href="sitemap.html">サイトマップ</a><a href="english.html">English</a><a href="advertising.html">広告掲載</a></div>
+        </div>
+      </div>
+      <div class="gh-footer__bottom">
+        <span>© 2026 ガチャひろば (gacha-hiroba.com)</span>
+        <span>Powered by ガチャひろば</span>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

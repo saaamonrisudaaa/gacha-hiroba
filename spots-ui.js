@@ -79,6 +79,53 @@
   if (document.querySelector('[data-gh-article-list]')) renderArticleList();
   if (document.querySelector('[data-gh-upcoming]')) renderUpcoming();
   if (qs('enTopStores')) renderEnglishTop();
+  if (document.querySelector('[data-gh-brand-nav]')) renderBrandNav();
+  if (document.querySelector('[data-gh-new-spots]')) renderNewSpots();
+
+
+  /* ------------------------------------------------------------------ */
+  /* ブランドから探す（[data-gh-brand-nav]）                             */
+  /*   実データのブランド別店舗数を多い順に表示し、実在する絞り込み      */
+  /*   ページ（stores.html?brand=）へリンクする。                        */
+  /* ------------------------------------------------------------------ */
+  function renderBrandNav() {
+    var box = document.querySelector('[data-gh-brand-nav]');
+    if (!box) return;
+    var counts = {};
+    SPOTS.forEach(function (s) { counts[s.brand] = (counts[s.brand] || 0) + 1; });
+    var ICON = {
+      'ガチャガチャの森': '🌳', 'ガシャポンのデパート': '🏬', '#C-pla（シープラ）': '🎯',
+      'カプセル楽局': '💊', 'gashacoco（ガシャココ）': '🥚', 'ドリームカプセル': '💫',
+      'ガシャポンバンダイオフィシャルショップ': '⭐', 'CAPSULE LAB（カプコン）': '🔬',
+      'ヨドバシカメラ': '📷', 'ガチャステ': '🎮', 'TOYS SPOT PALO': '🧸', 'ケンエレスタンド': '🐘'
+    };
+    var brands = Object.keys(counts).filter(function (b) { return counts[b] >= 2; })
+      .sort(function (a, b) { return counts[b] - counts[a]; }).slice(0, 8);
+    if (!brands.length) { box.innerHTML = ''; return; }
+    box.innerHTML = brands.map(function (b) {
+      return '<a href="stores.html?brand=' + encodeURIComponent(b) + '" class="gh-category-item">' +
+               '<span class="gh-category-item__icon">' + (ICON[b] || '🎰') + '</span>' +
+               '<span>' + esc(b.replace(/（.*?）/g, '')) + '</span>' +
+               '<span class="gh-category-item__count">' + counts[b] + '店</span>' +
+             '</a>';
+    }).join('');
+  }
+
+
+  /* ------------------------------------------------------------------ */
+  /* 新着掲載店舗（[data-gh-new-spots]）                                  */
+  /*   データ配列の末尾＝最近追加した店舗。実在ページへリンクする。      */
+  /* ------------------------------------------------------------------ */
+  function renderNewSpots() {
+    var box = document.querySelector('[data-gh-new-spots]');
+    if (!box) return;
+    var latest = SPOTS.slice(-8).reverse();
+    box.innerHTML = latest.map(function (s, i) {
+      return '<li><a href="/spot/' + encodeURIComponent(s.id) + '.html">' + esc(s.name) + '</a>' +
+             (i === 0 ? '<span class="gh-badge gh-badge--hot">NEW</span>' : '') +
+             '<small class="gh-trending-list__area">' + esc(s.area) + '</small></li>';
+    }).join('');
+  }
 
   /* ------------------------------------------------------------------ */
   /* エリアまとめ記事（article.html?area=slug）                          */
