@@ -49,7 +49,7 @@ document.querySelectorAll('.gh-search').forEach(form => {
   } catch (e) {}
   form.addEventListener('submit', () => {
     const q = input.value.trim();
-    if (q) location.href = 'stores.html?q=' + encodeURIComponent(q);
+    if (q) location.href = '/stores.html?q=' + encodeURIComponent(q);
     else input.focus();
   });
 });
@@ -60,7 +60,7 @@ document.querySelectorAll('.gh-widget__form').forEach(form => {
   if (!sel) return;
   form.addEventListener('submit', () => {
     const pref = sel.value.trim();
-    if (pref) location.href = 'stores.html?pref=' + encodeURIComponent(pref);
+    if (pref) location.href = '/stores.html?pref=' + encodeURIComponent(pref);
     else sel.focus();
   });
 });
@@ -623,7 +623,7 @@ renderRanking('national');
     bar.className = 'gh-langbar';
     bar.innerHTML =
       '<span>🌐 Visiting from abroad?</span>' +
-      '<a href="english.html">Read our English guide to gachapon stores →</a>' +
+      '<a href="/english.html">Read our English guide to gachapon stores →</a>' +
       '<button type="button" class="gh-langbar__close" aria-label="Close">×</button>';
     bar.querySelector('.gh-langbar__close').addEventListener('click', () => {
       bar.remove();
@@ -659,7 +659,7 @@ renderRanking('national');
       listEl.innerHTML = rows.map(p => {
         const sid = String(p.spot || '').replace(/^spot-/, '');
         const store = spots.find(s => s.id === sid);
-        const href = store ? '/spot/' + encodeURIComponent(store.id) + '.html' + '#board' : 'board.html';
+        const href = store ? '/spot/' + encodeURIComponent(store.id) + '.html' + '#board' : '/board.html';
         const where = store ? store.name : '総合掲示板';
         const raw = String(p.body || '');
         const excerpt = raw.length > 42 ? raw.slice(0, 42) + '…' : raw;

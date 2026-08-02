@@ -103,7 +103,7 @@
       .sort(function (a, b) { return counts[b] - counts[a]; }).slice(0, 8);
     if (!brands.length) { box.innerHTML = ''; return; }
     box.innerHTML = brands.map(function (b) {
-      return '<a href="stores.html?brand=' + encodeURIComponent(b) + '" class="gh-category-item">' +
+      return '<a href="/stores.html?brand=' + encodeURIComponent(b) + '" class="gh-category-item">' +
                '<span class="gh-category-item__icon">' + (ICON[b] || '🎰') + '</span>' +
                '<span>' + esc(b.replace(/（.*?）/g, '')) + '</span>' +
                '<span class="gh-category-item__count">' + counts[b] + '店</span>' +
@@ -130,7 +130,7 @@
   /* ------------------------------------------------------------------ */
   /* エリアまとめ記事（article.html?area=slug）                          */
   /* ------------------------------------------------------------------ */
-  function articleUrl(a) { return 'article.html?area=' + encodeURIComponent(a.slug); }
+  function articleUrl(a) { return '/article.html?area=' + encodeURIComponent(a.slug); }
   function articleStores(a) {
     return SPOTS.filter(function (s) { return a.areas.indexOf(s.area) !== -1; })
                 .sort(function (x, y) { return (y.machines || 0) - (x.machines || 0); });
@@ -160,7 +160,7 @@
       if (box) {
         box.innerHTML =
           '<div class="gh-page-hero"><h1 class="gh-page-hero__title">記事が見つかりませんでした</h1>' +
-          '<p class="gh-page-hero__desc"><a href="news.html">特集記事の一覧へ戻る →</a></p></div>';
+          '<p class="gh-page-hero__desc"><a href="/news.html">特集記事の一覧へ戻る →</a></p></div>';
       }
       return;
     }
@@ -466,7 +466,7 @@
           '<div class="gh-page-hero">' +
             '<h1 class="gh-page-hero__title">店舗が見つかりませんでした</h1>' +
             '<p class="gh-page-hero__desc">URLが正しいかご確認ください。' +
-            '<a href="stores.html">店舗一覧へ戻る →</a></p>' +
+            '<a href="/stores.html">店舗一覧へ戻る →</a></p>' +
           '</div>';
       }
       return;
@@ -541,7 +541,7 @@
     if (badges) {
       badges.innerHTML =
         '<a class="gh-badge gh-badge--lg" style="text-decoration:none" ' +
-          'href="stores.html?brand=' + encodeURIComponent(store.brand) + '" ' +
+          'href="/stores.html?brand=' + encodeURIComponent(store.brand) + '" ' +
           'title="' + esc(store.brand) + 'の店舗一覧を見る">' + esc(store.brand) + '</a>' +
         '<span class="gh-badge gh-badge--lg">' + esc(store.area) + '</span>';
     }
@@ -638,7 +638,7 @@
 
     if (!others.length) {
       box.innerHTML = '<p class="gh-widget__text">同じエリアの登録店舗は準備中です。' +
-        '<a href="stores.html">店舗一覧を見る →</a></p>';
+        '<a href="/stores.html">店舗一覧を見る →</a></p>';
       return;
     }
     box.innerHTML = others.map(function (s) {
@@ -688,7 +688,7 @@
       });
       if (arts.length) {
         artHtml = '<div class="gh-news-list" style="margin-bottom:16px">' + arts.map(function (a) {
-          return '<a href="article.html?area=' + encodeURIComponent(a.slug) + '" class="gh-news-item">' +
+          return '<a href="/article.html?area=' + encodeURIComponent(a.slug) + '" class="gh-news-item">' +
                    '<span class="gh-badge gh-badge--new">まとめ記事</span>' +
                    '<span>' + esc(a.emoji + ' ' + a.title) + '</span></a>';
         }).join('') + '</div>';
@@ -699,7 +699,7 @@
           '<div class="gh-section" style="text-align:center;padding:34px 16px">' +
             '<p style="margin:0 0 6px;font-weight:700">「' + esc(query) + '」に一致する店舗は見つかりませんでした。</p>' +
             '<p style="margin:0;font-size:13px;color:var(--gh-muted)">店名・駅名・エリア名（例：渋谷、池袋、横浜）でお試しください。' +
-            '<a href="stores.html">すべての店舗を見る →</a></p>' +
+            '<a href="/stores.html">すべての店舗を見る →</a></p>' +
           '</div>';
         return;
       }
@@ -739,7 +739,7 @@
         box.innerHTML =
           '<div class="gh-section" style="text-align:center;padding:34px 16px">' +
             '<p style="margin:0 0 6px;font-weight:700">「' + esc(brand) + '」の店舗は見つかりませんでした。</p>' +
-            '<p style="margin:0;font-size:13px;color:var(--gh-muted)"><a href="stores.html">すべての店舗を見る →</a></p>' +
+            '<p style="margin:0;font-size:13px;color:var(--gh-muted)"><a href="/stores.html">すべての店舗を見る →</a></p>' +
           '</div>';
         return;
       }
@@ -772,7 +772,7 @@
       setAttr('meta[property="og:url"]', 'content', pUrl);
       if (!source.length) {
         box.innerHTML = '<p class="gh-widget__text">' + esc(pref) + 'の登録店舗は現在準備中です。' +
-          '<a href="stores.html">すべての店舗を見る →</a></p>';
+          '<a href="/stores.html">すべての店舗を見る →</a></p>';
         setText('storeCount', '0');
         return;
       }
@@ -826,9 +826,9 @@
     box.innerHTML =
       '<p class="gh-brand-chips__label">ブランドから探す</p>' +
       '<div class="gh-brand-chips">' +
-      (active ? '<a class="gh-tab" href="stores.html">すべて</a>' : '') +
+      (active ? '<a class="gh-tab" href="/stores.html">すべて</a>' : '') +
       brands.map(function (b) {
-        return '<a class="gh-tab' + (b === active ? ' active' : '') + '" href="stores.html?brand=' + encodeURIComponent(b) + '">' +
+        return '<a class="gh-tab' + (b === active ? ' active' : '') + '" href="/stores.html?brand=' + encodeURIComponent(b) + '">' +
           esc(b) + '<span class="gh-brand-chips__count">' + counts[b] + '</span></a>';
       }).join('') + '</div>';
   }
@@ -887,7 +887,7 @@
       if (!groups.length) return;
       var variant = box.getAttribute('data-gh-area-cards');
       box.innerHTML = groups.map(function (g, i) {
-        var url = 'stores.html?pref=' + encodeURIComponent(g.pref);
+        var url = '/stores.html?pref=' + encodeURIComponent(g.pref);
         if (variant === 'pref') {
           return '<a href="' + url + '" class="gh-pref-card' + (i === 0 ? ' gh-pref-card--top' : '') + '">' +
                    '<span class="gh-pref-card__name">' + esc(g.pref) + '</span>' +
