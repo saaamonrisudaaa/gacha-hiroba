@@ -1228,6 +1228,7 @@ img { display: block; max-width: 100%; }
 
 @media (prefers-reduced-motion: reduce) {
   .gh-ticker-track { animation: none; }
+  .gh-live-dot { animation: none; box-shadow: none; }
   *, *::before, *::after { transition: none !important; }
 }
 
@@ -2369,3 +2370,195 @@ img.gh-logo__icon {
 }
 .gh-spot-intro p:last-child { margin-bottom: 0; }
 .gh-spot-intro a { color: var(--gh-accent, #e0245e); }
+
+/* =====================================================================
+   トップページ刷新（2026-08）
+   ① 検索ヒーロー ② 今日発売 ③ 掲示板フィード ④ 急上昇ワード ⑥ 新着口コミ
+   ===================================================================== */
+
+/* ── ① 検索ヒーロー ── */
+.gh-tophero {
+  background: linear-gradient(135deg, #1a1d3a 0%, #2d3166 100%);
+  border-radius: var(--gh-radius, 8px);
+  padding: 22px 22px 18px;
+  margin-bottom: 16px;
+  color: #fff;
+}
+.gh-tophero__title {
+  font-size: 19px; font-weight: 800; line-height: 1.45;
+  margin: 0 0 4px; letter-spacing: -.01em;
+}
+.gh-tophero__lead { margin: 0 0 14px; font-size: 12.5px; color: rgba(255,255,255,.72); }
+.gh-tophero__form {
+  display: flex; align-items: stretch; gap: 0;
+  background: #fff; border-radius: 8px; overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0,0,0,.18);
+  width: 100%; max-width: none; height: auto; border: 0; flex: 0 0 auto;
+}
+.gh-tophero__input {
+  flex: 1 1 auto; min-width: 0;
+  border: 0; outline: 0; background: transparent;
+  padding: 14px 16px; font-size: 15px; color: var(--gh-text, #111);
+  height: auto; border-radius: 0;
+}
+.gh-tophero__input::placeholder { color: #9ca3af; font-size: 13.5px; }
+.gh-tophero__input:focus { background: transparent; }
+.gh-tophero__btn {
+  flex: 0 0 auto; display: inline-flex; align-items: center; gap: 6px;
+  padding: 0 20px; border: 0; cursor: pointer;
+  background: var(--gh-accent, #e94560); color: #fff;
+  font-size: 14px; font-weight: 800; border-radius: 0;
+  width: auto; height: auto;
+}
+.gh-tophero__btn:hover { background: #c73550; }
+.gh-tophero__quick { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.gh-tophero__quick-label { font-size: 11.5px; font-weight: 700; color: rgba(255,255,255,.6); }
+.gh-tophero__chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.gh-tophero__chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 5px 11px; border-radius: 999px;
+  background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.18);
+  color: #fff; font-size: 12px; font-weight: 600; text-decoration: none;
+}
+.gh-tophero__chip:hover { background: rgba(255,255,255,.22); text-decoration: none; }
+.gh-tophero__chip span { font-size: 10.5px; color: rgba(255,255,255,.6); font-weight: 700; }
+.gh-tophero__chip--map { background: rgba(233,69,96,.9); border-color: transparent; }
+.gh-tophero__chip--map:hover { background: var(--gh-accent, #e94560); }
+
+/* 「動いている」ことを示す点滅ドット */
+.gh-live-dot {
+  display: inline-block; width: 7px; height: 7px; border-radius: 50%;
+  background: var(--gh-up, #16a34a); margin-right: 7px; vertical-align: middle;
+  box-shadow: 0 0 0 0 rgba(22,163,74,.5); animation: gh-live 2s infinite;
+}
+@keyframes gh-live {
+  0%   { box-shadow: 0 0 0 0 rgba(22,163,74,.5); }
+  70%  { box-shadow: 0 0 0 6px rgba(22,163,74,0); }
+  100% { box-shadow: 0 0 0 0 rgba(22,163,74,0); }
+}
+
+/* ── ② 今日発売のガチャ ── */
+.gh-rel-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.gh-rel {
+  display: flex; flex-direction: column; gap: 4px;
+  padding: 12px 14px; border: 1px solid var(--gh-border, #e5e7eb);
+  border-radius: 6px; background: #fff; color: inherit; text-decoration: none;
+  border-left: 3px solid var(--gh-accent2, #ff8c42);
+}
+a.gh-rel:hover { background: #fffaf5; text-decoration: none; }
+.gh-rel__badge {
+  align-self: flex-start; font-size: 10.5px; font-weight: 800;
+  padding: 2px 8px; border-radius: 4px;
+  background: #f3f4f6; color: var(--gh-muted, #6b7280);
+}
+.gh-rel__badge--today { background: var(--gh-accent, #e94560); color: #fff; }
+.gh-rel__badge--soon  { background: var(--gh-new-bg, #eff6ff); color: var(--gh-link, #1d4ed8); }
+.gh-rel__title { font-size: 13.5px; font-weight: 700; line-height: 1.5; }
+.gh-rel__meta { font-size: 11.5px; color: var(--gh-muted, #6b7280); line-height: 1.5; }
+.gh-rel__note { display: block; margin-top: 2px; }
+.gh-rel__src { font-size: 11.5px; font-weight: 700; color: var(--gh-link, #1d4ed8); margin-top: 2px; }
+.gh-rel-note { margin: 10px 0 0; font-size: 11px; color: var(--gh-muted, #6b7280); }
+
+/* ── ③ 掲示板フィード（5ch/Yahoo掲示板風） ── */
+.gh-post-list {
+  border-top: 1px solid var(--gh-border, #e5e7eb);
+}
+.gh-post {
+  padding: 11px 2px 10px;
+  border-bottom: 1px solid var(--gh-border, #e5e7eb);
+}
+.gh-post:hover { background: #fafbfc; }
+.gh-post__head {
+  display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px;
+  font-size: 11.5px; color: var(--gh-muted, #6b7280);
+}
+.gh-post__name { color: var(--gh-up, #16a34a); font-weight: 800; }
+.gh-post__id { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 10.5px; opacity: .75; }
+.gh-post__ago { margin-left: auto; font-weight: 700; color: var(--gh-accent, #e94560); }
+.gh-post__body {
+  display: block; margin: 5px 0 7px;
+  font-size: 13.5px; line-height: 1.7; color: var(--gh-text, #111);
+  text-decoration: none;
+}
+.gh-post__body:hover { text-decoration: underline; }
+.gh-post__foot { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
+.gh-post__store {
+  font-size: 11.5px; font-weight: 700; color: var(--gh-link, #1d4ed8);
+  display: inline-flex; align-items: center; gap: 6px; text-decoration: none;
+}
+.gh-post__store:hover { text-decoration: underline; }
+.gh-post__area {
+  font-weight: 600; color: var(--gh-muted, #6b7280);
+  background: #f3f4f6; border-radius: 3px; padding: 1px 6px; font-size: 10.5px;
+}
+.gh-post__stats { margin-left: auto; display: inline-flex; align-items: center; gap: 10px; }
+.gh-post__stat { font-size: 11.5px; color: var(--gh-muted, #6b7280); font-weight: 700; text-decoration: none; }
+.gh-post__stat--photo { color: var(--gh-accent2, #ff8c42); }
+.gh-post__stat--link:hover { text-decoration: underline; }
+.gh-community-foot {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 14px;
+}
+.gh-community-foot__note { font-size: 11.5px; color: var(--gh-muted, #6b7280); }
+
+/* ── ④ 急上昇ワード ── */
+.gh-trend { display: flex; flex-wrap: wrap; gap: 8px; }
+.gh-trend__item {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 7px 13px 7px 9px; border-radius: 999px;
+  border: 1px solid var(--gh-border, #e5e7eb); background: #fff;
+  color: var(--gh-text, #111); font-size: 13px; font-weight: 700; text-decoration: none;
+}
+.gh-trend__item:hover { border-color: var(--gh-accent, #e94560); text-decoration: none; }
+.gh-trend__rank {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 19px; height: 19px; border-radius: 50%;
+  background: #f3f4f6; color: var(--gh-muted, #6b7280);
+  font-size: 11px; font-weight: 800;
+}
+.gh-trend__item--hot { background: var(--gh-hot-bg, #fef2f2); border-color: #fecaca; }
+.gh-trend__item--hot .gh-trend__rank { background: var(--gh-accent, #e94560); color: #fff; }
+
+/* ── ⑥ 新着口コミ ── */
+.gh-review-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.gh-review {
+  display: flex; flex-direction: column; gap: 8px;
+  padding: 13px 15px; border: 1px solid var(--gh-border, #e5e7eb);
+  border-radius: 6px; color: inherit; text-decoration: none; background: #fff;
+}
+.gh-review:hover { background: #fafbfc; text-decoration: none; }
+.gh-review__body { margin: 0; font-size: 13px; line-height: 1.7; }
+.gh-review__body::before { content: '“'; color: var(--gh-border, #e5e7eb); font-size: 20px; font-weight: 800; margin-right: 2px; }
+.gh-review__meta { display: flex; flex-direction: column; gap: 1px; font-size: 11.5px; color: var(--gh-muted, #6b7280); }
+.gh-review__meta strong { font-size: 12px; color: var(--gh-link, #1d4ed8); font-weight: 700; }
+
+/* ── サイドバー：いま活発な掲示板 ── */
+.gh-active-boards { list-style: none; margin: 0; padding: 0; counter-reset: gh-ab; }
+.gh-active-boards li { border-bottom: 1px solid var(--gh-border, #e5e7eb); }
+.gh-active-boards li:last-child { border-bottom: none; }
+.gh-active-boards a {
+  display: grid; grid-template-columns: 17px 1fr; align-items: start; gap: 2px 8px;
+  padding: 8px 2px; color: inherit; text-decoration: none;
+}
+.gh-active-boards a::before {
+  counter-increment: gh-ab; content: counter(gh-ab);
+  grid-row: span 2; width: 17px; height: 17px; border-radius: 50%;
+  background: #f3f4f6; color: var(--gh-muted, #6b7280);
+  font-size: 10.5px; font-weight: 800; text-align: center; line-height: 17px;
+  margin-top: 1px;
+}
+.gh-active-boards li:nth-child(1) a::before { background: var(--gh-accent, #e94560); color: #fff; }
+.gh-active-boards li:nth-child(2) a::before { background: #9ca3af; color: #fff; }
+.gh-active-boards li:nth-child(3) a::before { background: #cd7c2f; color: #fff; }
+.gh-active-boards a:hover .gh-active-board__name { color: var(--gh-link, #1d4ed8); text-decoration: underline; }
+.gh-active-board__name { font-size: 12.5px; font-weight: 700; line-height: 1.45; }
+.gh-active-board__meta { font-size: 10.5px; color: var(--gh-muted, #6b7280); }
+
+@media (max-width: 768px) {
+  .gh-tophero { padding: 18px 16px 16px; }
+  .gh-tophero__title { font-size: 16px; }
+  .gh-tophero__btn { padding: 0 15px; }
+  .gh-tophero__btn span { display: none; }
+  .gh-rel-list, .gh-review-list { grid-template-columns: 1fr; }
+  .gh-post__ago { margin-left: 0; }
+  .gh-post__stats { margin-left: 0; width: 100%; }
+}

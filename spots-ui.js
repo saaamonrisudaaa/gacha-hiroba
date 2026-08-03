@@ -81,6 +81,30 @@
   if (qs('enTopStores')) renderEnglishTop();
   if (document.querySelector('[data-gh-brand-nav]')) renderBrandNav();
   if (document.querySelector('[data-gh-new-spots]')) renderNewSpots();
+  if (document.querySelector('[data-gh-releases]')) renderReleases();
+  if (document.querySelector('[data-gh-tophero-chips]')) renderHeroChips();
+
+
+  /* ------------------------------------------------------------------ */
+  /* トップの検索ボックス直下のクイックリンク（[data-gh-tophero-chips]）    */
+  /*   掲載店舗数の多いエリアを実データから算出して並べる。              */
+  /*   店舗が増えれば自動で入れ替わる（メンテ不要）。                    */
+  /* ------------------------------------------------------------------ */
+  function renderHeroChips() {
+    var box = document.querySelector('[data-gh-tophero-chips]');
+    if (!box || !SPOTS.length) return;
+    var counts = {};
+    SPOTS.forEach(function (s) {
+      var a = (s.area || '').split('・')[1] || s.area;
+      if (a) counts[a] = (counts[a] || 0) + 1;
+    });
+    var top = Object.keys(counts).sort(function (a, b) { return counts[b] - counts[a]; }).slice(0, 8);
+    box.innerHTML = top.map(function (a) {
+      return '<a class="gh-tophero__chip" href="/stores.html?q=' + encodeURIComponent(a) + '">' +
+        esc(a) + '<span>' + counts[a] + '</span></a>';
+    }).join('') +
+      '<a class="gh-tophero__chip gh-tophero__chip--map" href="/map.html">🗺️ 現在地から探す</a>';
+  }
 
 
   /* ------------------------------------------------------------------ */
@@ -125,6 +149,61 @@
              (i === 0 ? '<span class="gh-badge gh-badge--hot">NEW</span>' : '') +
              '<small class="gh-trending-list__area">' + esc(s.area) + '</small></li>';
     }).join('');
+  }
+
+
+  /* ------------------------------------------------------------------ */
+  /* 今日発売のガチャ（[data-gh-releases]）                               */
+  /*   data/releases.js から、当日発売 → 直近7日以内 → 今後の予定 の順で   */
+  /*   拾う。該当が無ければセクションごと非表示（空の枠を出さない）。      */
+  /* ------------------------------------------------------------------ */
+  function renderReleases() {
+    var box = document.querySelector('[data-gh-releases]');
+    if (!box) return;
+    var all = (window.GH_RELEASES || []).filter(function (r) { return r && r.date && r.title; });
+    if (!all.length) return;
+
+    var now = new Date(Date.now() + 9 * 3600 * 1000);   /* JST */
+    var today = now.toISOString().slice(0, 10);
+    var dayMs = 86400000;
+    var diff = function (d) {
+      return Math.round((new Date(d + 'T00:00:00+09:00').getTime() -
+        new Date(today + 'T00:00:00+09:00').getTime()) / dayMs);
+    };
+
+    var todays = all.filter(function (r) { return r.date === today; });
+    var recent = all.filter(function (r) { var d = diff(r.date); return d < 0 && d >= -7; });
+    var soon = all.filter(function (r) { return diff(r.date) > 0; });
+
+    var list, label;
+    if (todays.length) { list = todays; label = '本日発売'; }
+    else if (recent.length) { list = recent; label = '今週の新作'; }
+    else if (soon.length) { list = soon.slice().sort(function (a, b) { return a.date < b.date ? -1 : 1; }); label = '発売予定'; }
+    else { return; }
+
+    var badgeOf = function (r) {
+      var d = diff(r.date);
+      if (d === 0) return '<span class="gh-rel__badge gh-rel__badge--today">本日発売</span>';
+      if (d > 0) return '<span class="gh-rel__badge gh-rel__badge--soon">' + r.date.slice(5).replace('-', '/') + ' 発売</span>';
+      return '<span class="gh-rel__badge">' + r.date.slice(5).replace('-', '/') + ' 発売</span>';
+    };
+
+    box.innerHTML = list.slice(0, 6).map(function (r) {
+      var inner =
+        badgeOf(r) +
+        '<strong class="gh-rel__title">' + esc(r.title) + '</strong>' +
+        '<small class="gh-rel__meta">' + esc(r.maker || '') +
+          (r.note ? '<span class="gh-rel__note">' + esc(r.note) + '</span>' : '') + '</small>';
+      return r.source
+        ? '<a class="gh-rel" href="' + esc(r.source) + '" target="_blank" rel="noopener">' + inner +
+          '<span class="gh-rel__src">メーカー公式で見る →</span></a>'
+        : '<div class="gh-rel">' + inner + '</div>';
+    }).join('');
+
+    var head = document.querySelector('[data-gh-releases-label]');
+    if (head) head.textContent = label;
+    var sec = box.closest('.gh-release-sec');
+    if (sec) sec.hidden = false;
   }
 
   /* ------------------------------------------------------------------ */
@@ -444,7 +523,7 @@
     var topStore = SPOTS.slice().sort(function (a, b) { return (b.machines || 0) - (a.machines || 0); })[0];
     setText('statStores', SPOTS.length.toLocaleString('ja-JP') + '店舗');
     setText('statMachines', '約' + totalMachines.toLocaleString('ja-JP') + '台');
-    setText('statPrefs', Object.keys(prefs).length + '都県');
+    setText('statPrefs', Object.keys(prefs).length + '都道府県');
     if (topStore) {
       setText('statTop', machinesText(topStore.machines));
       setText('statTopName', topStore.name.replace('ガチャガチャの森 ', '').replace('Pon!（ガチャガチャの森）', ''));
@@ -549,7 +628,7 @@
     if (addr) {
       addr.innerHTML =
         '<span>📍 ' + esc((store.zip ? '〒' + store.zip + ' ' : '') + store.address) + '</span>' +
-        (store.access ? '<span class="gh-hero__divider">｜</span><span>🚉 ' + esc(store.access) + '</span>' : '');
+        (store.access ? '<span class="gh-tophero__divider">｜</span><span>🚉 ' + esc(store.access) + '</span>' : '');
     }
 
     /* 見出し数値（株価の位置＝設置台数） */
