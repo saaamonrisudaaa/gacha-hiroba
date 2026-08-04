@@ -1023,26 +1023,46 @@ document.addEventListener('click', e => {
   const bar = cfg.bottomBar;
   let barClosed = false;
   try { barClosed = sessionStorage.getItem('gh-bottombar-closed') === '1'; } catch (e) {}
-  if (bar && bar.url && !barClosed) {
+  /* banners があれば画像バナーを1つランダムに表示。無ければ従来のテキスト表示。 */
+  const barBanners = (bar && Array.isArray(bar.banners) ? bar.banners : [])
+    .filter(b => b && b.url && b.img);
+  const barPick = barBanners.length ? barBanners[Math.floor(Math.random() * barBanners.length)] : null;
+  if (bar && (barPick || bar.url) && !barClosed) {
     const el = document.createElement('div');
-    el.className = 'gh-bottombar';
+    el.className = 'gh-bottombar' + (barPick ? ' gh-bottombar--banner' : '');
     el.setAttribute('role', 'complementary');
     el.setAttribute('aria-label', '広告');
-    el.innerHTML =
-      '<span class="gh-bottombar__icon" aria-hidden="true">' + esc(bar.emoji || '🛒') + '</span>' +
-      '<span class="gh-bottombar__body">' +
-        '<span class="gh-bottombar__eyebrow">' +
-          '<span class="gh-bottombar__pr">PR</span>' +
-          (bar.label ? '<span class="gh-bottombar__label">' + esc(bar.label) + '</span>' : '') +
+    const eyebrow =
+      '<span class="gh-bottombar__eyebrow">' +
+        '<span class="gh-bottombar__pr">PR</span>' +
+        (bar.label ? '<span class="gh-bottombar__label">' + esc(bar.label) + '</span>' : '') +
+      '</span>';
+    const close = '<button type="button" class="gh-bottombar__close" aria-label="広告を閉じる">×</button>';
+    if (barPick) {
+      el.innerHTML =
+        eyebrow +
+        '<a class="gh-bottombar__banner" href="' + esc(barPick.url) + '" target="_blank" rel="nofollow sponsored noopener">' +
+          '<img src="' + esc(barPick.img) + '" alt="' + esc(bar.label || '広告') + '" loading="lazy" />' +
+        '</a>' +
+        close;
+    } else {
+      el.innerHTML =
+        '<span class="gh-bottombar__icon" aria-hidden="true">' + esc(bar.emoji || '🛒') + '</span>' +
+        '<span class="gh-bottombar__body">' +
+          eyebrow +
+          '<strong class="gh-bottombar__text">' + esc(bar.text || '') + '</strong>' +
+          (bar.sub ? '<small class="gh-bottombar__sub">' + esc(bar.sub) + '</small>' : '') +
         '</span>' +
-        '<strong class="gh-bottombar__text">' + esc(bar.text || '') + '</strong>' +
-        (bar.sub ? '<small class="gh-bottombar__sub">' + esc(bar.sub) + '</small>' : '') +
-      '</span>' +
-      '<a class="gh-bottombar__cta" href="' + esc(bar.url) + '" target="_blank" rel="nofollow sponsored noopener">' +
-        esc(bar.cta || '見てみる') + '<span aria-hidden="true">→</span></a>' +
-      '<button type="button" class="gh-bottombar__close" aria-label="広告を閉じる">×</button>';
+        '<a class="gh-bottombar__cta" href="' + esc(bar.url) + '" target="_blank" rel="nofollow sponsored noopener">' +
+          esc(bar.cta || '見てみる') + '<span aria-hidden="true">→</span></a>' +
+        close;
+    }
     document.body.appendChild(el);
-    setTimeout(() => el.classList.add('is-open'), 900);   // 少し遅れてスッと出す
+    /* バナー画像が読めない場合（広告ブロッカー・配信停止など）は、
+       中身のない枠を出しっぱなしにしないでバナーごと消す。 */
+    const barImg = el.querySelector('.gh-bottombar__banner img');
+    if (barImg) barImg.addEventListener('error', () => el.remove());
+    setTimeout(() => { if (el.isConnected) el.classList.add('is-open'); }, 900);
     el.querySelector('.gh-bottombar__close').addEventListener('click', () => {
       el.classList.remove('is-open');
       try { sessionStorage.setItem('gh-bottombar-closed', '1'); } catch (e) {}

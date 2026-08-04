@@ -2845,3 +2845,50 @@ a.gh-rel--row:hover { background: #fffaf5; }
   .gh-bottombar { transition: opacity .2s ease; }
   .gh-bottombar__cta:hover { transform: none; }
 }
+
+/* ── 下部PRバナー：画像バナー版（楽天アフィリエイトの pict バナーを載せる） ──
+      バナー画像そのものが主役なので、カードは白基調・枠を最小限にする。
+      バナーのサイズが何であっても崩れないよう、高さ上限だけを決めて縦横比は保つ。 */
+.gh-bottombar--banner {
+  gap: 10px;
+  padding: 8px 10px;
+  padding-bottom: calc(8px + env(safe-area-inset-bottom, 0px));
+  /* 幅は基本形（min(680px, 100%-24px)）のまま確定値にしておく。
+     width:auto にすると画像側の max-width:100% と循環して画像が潰れるため。
+     バナーはこの中で中央寄せし、はみ出す場合だけ縮小する。 */
+  background: rgba(255, 255, 255, .96);
+  backdrop-filter: blur(6px);
+  border: 1px solid var(--gh-border, #e5e7eb);
+  box-shadow: 0 12px 30px rgba(15, 20, 40, .18), 0 2px 6px rgba(15, 20, 40, .1);
+  color: var(--gh-text, #111);
+}
+.gh-bottombar--banner .gh-bottombar__eyebrow {
+  flex: 0 0 auto; flex-direction: column; align-items: flex-start; gap: 2px;
+}
+.gh-bottombar--banner .gh-bottombar__pr {
+  background: #f3f4f6; color: var(--gh-muted, #6b7280);
+}
+.gh-bottombar--banner .gh-bottombar__label {
+  color: #bf0000; font-size: 10px; white-space: nowrap;
+}
+.gh-bottombar__banner {
+  flex: 0 1 auto; min-width: 0; margin-inline: auto;
+  display: block; line-height: 0;
+  border-radius: 6px; overflow: hidden;
+}
+.gh-bottombar__banner img {
+  display: block; width: auto; height: auto;
+  max-width: 100%; max-height: 80px;
+}
+.gh-bottombar--banner .gh-bottombar__close {
+  border-color: var(--gh-border, #e5e7eb);
+  background: #f9fafb;
+  color: var(--gh-muted, #6b7280);
+}
+.gh-bottombar--banner .gh-bottombar__close:hover { background: #f3f4f6; color: var(--gh-text, #111); }
+
+@media (max-width: 600px) {
+  .gh-bottombar--banner { gap: 8px; padding: 7px 8px; }
+  .gh-bottombar--banner .gh-bottombar__eyebrow { gap: 1px; }
+  .gh-bottombar__banner img { max-height: 56px; }
+}

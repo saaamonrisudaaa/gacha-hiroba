@@ -24,12 +24,23 @@ window.GH_ADS = {
   /* 下からスライド表示するPRバナー（サイト自前の描画なので確実に表示される。
      ×で閉じると、そのタブを閉じるまで再表示しません） */
   bottomBar: {
-    emoji: '🏨',
     label: '楽天トラベル',
-    text: 'ガチャ遠征の宿、探しておく？',
-    sub: '池袋・梅田・名古屋の大型店めぐりは、前泊すると開店から回れます',
-    cta: '宿を探す',
-    url: 'https://hb.afl.rakuten.co.jp/hgc/5599358c.6687774a.5547dfc7.ed412751/?pc=' + encodeURIComponent('https://travel.rakuten.co.jp/')
+    /* 楽天アフィリエイトのバナー（画像リンク）。表示のたびに1つをランダムに出す。
+       追加・差し替えはこの配列を編集するだけ。url は必ず対になる img とセットで。 */
+    banners: [
+      {
+        url: 'https://hb.afl.rakuten.co.jp/hsc/564efd44.32ad5424.5547dfc7.ed412751/?link_type=pict&ut=eyJwYWdlIjoic2hvcCIsInR5cGUiOiJwaWN0IiwiY29sIjoxLCJjYXQiOiIxIiwiYmFuIjoyMTg4NjQ4LCJhbXAiOmZhbHNlfQ%3D%3D',
+        img: 'https://hbb.afl.rakuten.co.jp/hsb/564efd44.32ad5424.5547dfc7.ed412751/?me_id=2100001&me_adv_id=2188648&t=pict'
+      },
+      {
+        url: 'https://hb.afl.rakuten.co.jp/hsc/564efd3b.7ea62774.5547dfc7.ed412751/?link_type=pict&ut=eyJwYWdlIjoic2hvcCIsInR5cGUiOiJwaWN0IiwiY29sIjoxLCJjYXQiOiIxIiwiYmFuIjoyMTg4NjQ5LCJhbXAiOmZhbHNlfQ%3D%3D',
+        img: 'https://hbb.afl.rakuten.co.jp/hsb/564efd3b.7ea62774.5547dfc7.ed412751/?me_id=2100001&me_adv_id=2188649&t=pict'
+      },
+      {
+        url: 'https://hb.afl.rakuten.co.jp/hsc/5547dfc6.546f7c0d.5547dfc7.ed412751/?link_type=pict&ut=eyJwYWdlIjoic2hvcCIsInR5cGUiOiJwaWN0IiwiY29sIjoxLCJjYXQiOiIxIiwiYmFuIjoyNzYyNDgyLCJhbXAiOmZhbHNlfQ%3D%3D',
+        img: 'https://hbb.afl.rakuten.co.jp/hsb/5547dfc6.546f7c0d.5547dfc7.ed412751/?me_id=2100001&me_adv_id=2762482&t=pict'
+      }
+    ]
   },
 
 
