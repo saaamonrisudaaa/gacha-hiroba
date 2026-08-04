@@ -26,19 +26,18 @@ window.GH_ADS = {
   bottomBar: {
     label: '楽天トラベル',
     /* 楽天アフィリエイトのバナー（画像リンク）。表示のたびに1つをランダムに出す。
-       追加・差し替えはこの配列を編集するだけ。url は必ず対になる img とセットで。 */
+       追加・差し替えはこの配列を編集するだけ。url は必ず対になる img とセットで。
+       どのバナーかは img の me_adv_id で識別できる（下のコメント参照）。 */
     banners: [
       {
+        /* me_adv_id=2188648 */
         url: 'https://hb.afl.rakuten.co.jp/hsc/564efd44.32ad5424.5547dfc7.ed412751/?link_type=pict&ut=eyJwYWdlIjoic2hvcCIsInR5cGUiOiJwaWN0IiwiY29sIjoxLCJjYXQiOiIxIiwiYmFuIjoyMTg4NjQ4LCJhbXAiOmZhbHNlfQ%3D%3D',
         img: 'https://hbb.afl.rakuten.co.jp/hsb/564efd44.32ad5424.5547dfc7.ed412751/?me_id=2100001&me_adv_id=2188648&t=pict'
       },
       {
+        /* me_adv_id=2188649 */
         url: 'https://hb.afl.rakuten.co.jp/hsc/564efd3b.7ea62774.5547dfc7.ed412751/?link_type=pict&ut=eyJwYWdlIjoic2hvcCIsInR5cGUiOiJwaWN0IiwiY29sIjoxLCJjYXQiOiIxIiwiYmFuIjoyMTg4NjQ5LCJhbXAiOmZhbHNlfQ%3D%3D',
         img: 'https://hbb.afl.rakuten.co.jp/hsb/564efd3b.7ea62774.5547dfc7.ed412751/?me_id=2100001&me_adv_id=2188649&t=pict'
-      },
-      {
-        url: 'https://hb.afl.rakuten.co.jp/hsc/5547dfc6.546f7c0d.5547dfc7.ed412751/?link_type=pict&ut=eyJwYWdlIjoic2hvcCIsInR5cGUiOiJwaWN0IiwiY29sIjoxLCJjYXQiOiIxIiwiYmFuIjoyNzYyNDgyLCJhbXAiOmZhbHNlfQ%3D%3D',
-        img: 'https://hbb.afl.rakuten.co.jp/hsb/5547dfc6.546f7c0d.5547dfc7.ed412751/?me_id=2100001&me_adv_id=2762482&t=pict'
       }
     ]
   },
@@ -68,7 +67,6 @@ window.GH_ADS = {
 
   /* ── サイドバー広告（楽天 画像リンク。タグ改変なし） ── */
   products: [
-    { html: '<a href="https://hb.afl.rakuten.co.jp/hsc/5547dfc6.546f7c0d.5547dfc7.ed412751/?link_type=pict&ut=eyJwYWdlIjoic2hvcCIsInR5cGUiOiJwaWN0IiwiY29sIjoxLCJjYXQiOiIxIiwiYmFuIjoyNzYyNDgyLCJhbXAiOmZhbHNlfQ%3D%3D" target="_blank" rel="nofollow sponsored noopener" style="word-wrap:break-word;"><img src="https://hbb.afl.rakuten.co.jp/hsb/5547dfc6.546f7c0d.5547dfc7.ed412751/?me_id=2100001&me_adv_id=2762482&t=pict" border="0" style="margin:2px" alt="" title=""></a>' },
     { html: '<a href="https://hb.afl.rakuten.co.jp/hsc/5564759c.96df2cee.5547dfc7.ed412751/?link_type=pict&ut=eyJwYWdlIjoic2hvcCIsInR5cGUiOiJwaWN0IiwiY29sIjoxLCJjYXQiOiI0NCIsImJhbiI6Mjc5NDg1OCwiYW1wIjpmYWxzZX0%3D" target="_blank" rel="nofollow sponsored noopener" style="word-wrap:break-word;"><img src="https://hbb.afl.rakuten.co.jp/hsb/5564759c.96df2cee.5547dfc7.ed412751/?me_id=1&me_adv_id=2794858&t=pict" border="0" style="margin:2px" alt="" title=""></a>' },
     { html: '<a href="https://hb.afl.rakuten.co.jp/hsc/556475fe.727454bc.5547dfc7.ed412751/?link_type=pict&ut=eyJwYWdlIjoic2hvcCIsInR5cGUiOiJwaWN0IiwiY29sIjoxLCJjYXQiOiI1OCIsImJhbiI6MzIzMDk1MCwiYW1wIjpmYWxzZX0%3D" target="_blank" rel="nofollow sponsored noopener" style="word-wrap:break-word;"><img src="https://hbb.afl.rakuten.co.jp/hsb/556475fe.727454bc.5547dfc7.ed412751/?me_id=1&me_adv_id=3230950&t=pict" border="0" style="margin:2px" alt="" title=""></a>' },
     { html: '<a href="https://hb.afl.rakuten.co.jp/hsc/556669ff.829cf853.5547dfc7.ed412751/?link_type=pict&ut=eyJwYWdlIjoic2hvcCIsInR5cGUiOiJwaWN0IiwiY29sIjoxLCJjYXQiOiIxMzMiLCJiYW4iOjIxODg2NTksImFtcCI6ZmFsc2V9" target="_blank" rel="nofollow sponsored noopener" style="word-wrap:break-word;"><img src="https://hbb.afl.rakuten.co.jp/hsb/556669ff.829cf853.5547dfc7.ed412751/?me_id=2100001&me_adv_id=2188659&t=pict" border="0" style="margin:2px" alt="" title=""></a>' },

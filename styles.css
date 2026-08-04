@@ -2887,8 +2887,20 @@ a.gh-rel--row:hover { background: #fffaf5; }
 }
 .gh-bottombar--banner .gh-bottombar__close:hover { background: #f3f4f6; color: var(--gh-text, #111); }
 
+/* スマホでは横一列だとバナーが潰れて読めないので、
+   ラベル行を上、バナーを下の2段組にして横幅をバナーに全振りする。 */
 @media (max-width: 600px) {
-  .gh-bottombar--banner { gap: 8px; padding: 7px 8px; }
-  .gh-bottombar--banner .gh-bottombar__eyebrow { gap: 1px; }
-  .gh-bottombar__banner img { max-height: 56px; }
+  .gh-bottombar--banner {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas: "eyebrow close" "banner banner";
+    gap: 5px 8px;
+    padding: 7px 9px 9px;
+  }
+  .gh-bottombar--banner .gh-bottombar__eyebrow {
+    grid-area: eyebrow; flex-direction: row; align-items: center; gap: 6px;
+  }
+  .gh-bottombar--banner .gh-bottombar__close { grid-area: close; width: 22px; height: 22px; font-size: 12px; }
+  .gh-bottombar__banner { grid-area: banner; margin-inline: 0; }
+  .gh-bottombar__banner img { max-height: 72px; }
 }
