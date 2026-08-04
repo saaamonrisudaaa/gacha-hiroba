@@ -103,8 +103,6 @@ const html = `<!doctype html>
   <meta name="description" content="ガチャひろばの全ページ一覧。掲載中の全ガチャガチャ店舗（${spots.length}店舗）とエリア別まとめ・ランキング・ガイド記事（${articles.length}本）へのリンク集です。" />
   <title>サイトマップ｜全${spots.length}店舗・全記事一覧 | ガチャひろば</title>
   <link rel="canonical" href="${ORIGIN}/sitemap.html" />
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6639949649791403"
-     crossorigin="anonymous"></script>
   <link rel="icon" type="image/png" href="assets/mascot-icon.png" />
   <link rel="stylesheet" href="styles.css" />
 </head>
