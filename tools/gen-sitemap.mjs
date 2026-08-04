@@ -97,6 +97,7 @@ const html = `<!doctype html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
+  <meta name="google-site-verification" content="YN5Q0DnCsIhwgitcXjcGqxlmfMec80Wl0uZskCNS11w" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="ガチャひろばの全ページ一覧。掲載中の全ガチャガチャ店舗（${spots.length}店舗）とエリア別まとめ・ランキング・ガイド記事（${articles.length}本）へのリンク集です。" />
   <title>サイトマップ｜全${spots.length}店舗・全記事一覧 | ガチャひろば</title>
