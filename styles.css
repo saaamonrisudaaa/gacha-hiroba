@@ -2753,3 +2753,95 @@ a.gh-rel--row:hover { background: #fffaf5; }
 }
 .gh-byline img { flex: 0 0 auto; border-radius: 50%; }
 .gh-byline a { color: var(--gh-link, #1d4ed8); font-weight: 700; }
+
+/* =====================================================================
+   下部PRバナー（楽天トラベル）— 全幅の白い帯をやめ、浮いたカードに刷新
+   ===================================================================== */
+.gh-bottombar {
+  position: fixed;
+  left: 50%;
+  right: auto;
+  bottom: 16px;
+  z-index: 95;
+  width: min(680px, calc(100% - 24px));
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  border: 1px solid rgba(255, 255, 255, .1);
+  border-radius: 14px;
+  background:
+    radial-gradient(120% 160% at 88% 12%, rgba(233, 69, 96, .38) 0%, rgba(233, 69, 96, 0) 58%),
+    linear-gradient(118deg, #10152c 0%, #1e2550 52%, #2c2360 100%);
+  color: #fff;
+  box-shadow: 0 14px 34px rgba(12, 16, 38, .34), 0 2px 6px rgba(12, 16, 38, .22);
+  transform: translate(-50%, calc(100% + 28px));
+  transition: transform .42s cubic-bezier(.2, .8, .25, 1), opacity .3s ease;
+  opacity: 0;
+}
+.gh-bottombar.is-open { transform: translate(-50%, 0); opacity: 1; }
+
+.gh-bottombar__icon {
+  flex: 0 0 auto;
+  width: 40px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 11px;
+  background: rgba(255, 255, 255, .1);
+  border: 1px solid rgba(255, 255, 255, .14);
+  font-size: 20px; line-height: 1;
+}
+.gh-bottombar__body { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+.gh-bottombar__eyebrow { display: flex; align-items: center; gap: 6px; }
+.gh-bottombar__pr {
+  font-size: 9.5px; font-weight: 800; letter-spacing: .04em;
+  padding: 1px 5px; border-radius: 3px;
+  background: rgba(255, 255, 255, .16); color: rgba(255, 255, 255, .82);
+}
+.gh-bottombar__label {
+  font-size: 10.5px; font-weight: 800; letter-spacing: .04em;
+  color: #ff9db0;
+}
+.gh-bottombar__text {
+  font-size: 14px; font-weight: 800; line-height: 1.45; color: #fff;
+  display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;
+}
+.gh-bottombar__sub {
+  font-size: 11.5px; line-height: 1.45; color: rgba(255, 255, 255, .66);
+  display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;
+}
+.gh-bottombar__cta {
+  flex: 0 0 auto;
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 10px 17px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #ff5b78 0%, #e0143c 100%);
+  color: #fff; font-weight: 800; font-size: 13px; white-space: nowrap;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(224, 20, 60, .42);
+}
+.gh-bottombar__cta:hover { filter: brightness(1.07); text-decoration: none; transform: translateY(-1px); }
+.gh-bottombar__cta span { transition: transform .2s ease; }
+.gh-bottombar__cta:hover span { transform: translateX(2px); }
+.gh-bottombar__close {
+  flex: 0 0 auto;
+  width: 26px; height: 26px;
+  border: 1px solid rgba(255, 255, 255, .16);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .06);
+  color: rgba(255, 255, 255, .6);
+  font-size: 14px; line-height: 1; cursor: pointer;
+}
+.gh-bottombar__close:hover { background: rgba(255, 255, 255, .14); color: #fff; }
+
+@media (max-width: 600px) {
+  .gh-bottombar { bottom: 10px; gap: 10px; padding: 11px 12px; border-radius: 13px; }
+  .gh-bottombar__icon { width: 34px; height: 34px; font-size: 17px; border-radius: 9px; }
+  .gh-bottombar__text { font-size: 13px; }
+  .gh-bottombar__sub { display: none; }
+  .gh-bottombar__cta { padding: 9px 13px; font-size: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gh-bottombar { transition: opacity .2s ease; }
+  .gh-bottombar__cta:hover { transform: none; }
+}

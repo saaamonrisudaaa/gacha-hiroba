@@ -1029,10 +1029,17 @@ document.addEventListener('click', e => {
     el.setAttribute('role', 'complementary');
     el.setAttribute('aria-label', '広告');
     el.innerHTML =
-      '<span class="gh-affil__pr">PR</span>' +
-      '<span class="gh-bottombar__emoji" aria-hidden="true">' + esc(bar.emoji || '🛒') + '</span>' +
-      '<span class="gh-bottombar__text">' + esc(bar.text || '') + '</span>' +
-      '<a class="gh-bottombar__cta" href="' + esc(bar.url) + '" target="_blank" rel="nofollow sponsored noopener">' + esc(bar.cta || '見てみる ▶') + '</a>' +
+      '<span class="gh-bottombar__icon" aria-hidden="true">' + esc(bar.emoji || '🛒') + '</span>' +
+      '<span class="gh-bottombar__body">' +
+        '<span class="gh-bottombar__eyebrow">' +
+          '<span class="gh-bottombar__pr">PR</span>' +
+          (bar.label ? '<span class="gh-bottombar__label">' + esc(bar.label) + '</span>' : '') +
+        '</span>' +
+        '<strong class="gh-bottombar__text">' + esc(bar.text || '') + '</strong>' +
+        (bar.sub ? '<small class="gh-bottombar__sub">' + esc(bar.sub) + '</small>' : '') +
+      '</span>' +
+      '<a class="gh-bottombar__cta" href="' + esc(bar.url) + '" target="_blank" rel="nofollow sponsored noopener">' +
+        esc(bar.cta || '見てみる') + '<span aria-hidden="true">→</span></a>' +
       '<button type="button" class="gh-bottombar__close" aria-label="広告を閉じる">×</button>';
     document.body.appendChild(el);
     setTimeout(() => el.classList.add('is-open'), 900);   // 少し遅れてスッと出す

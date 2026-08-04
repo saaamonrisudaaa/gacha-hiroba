@@ -24,10 +24,12 @@ window.GH_ADS = {
   /* 下からスライド表示するPRバナー（サイト自前の描画なので確実に表示される。
      ×で閉じると、そのタブを閉じるまで再表示しません） */
   bottomBar: {
-    emoji: '🎰',
-    text: '家庭用ガチャマシン、楽天で買えるの知ってた？',
-    cta: '見てみる ▶',
-    url: 'https://hb.afl.rakuten.co.jp/hgc/5599358c.6687774a.5547dfc7.ed412751/?pc=' + encodeURIComponent('https://search.rakuten.co.jp/search/mall/ガチャガチャ 本体 おもちゃ/')
+    emoji: '🏨',
+    label: '楽天トラベル',
+    text: 'ガチャ遠征の宿、探しておく？',
+    sub: '池袋・梅田・名古屋の大型店めぐりは、前泊すると開店から回れます',
+    cta: '宿を探す',
+    url: 'https://hb.afl.rakuten.co.jp/hgc/5599358c.6687774a.5547dfc7.ed412751/?pc=' + encodeURIComponent('https://travel.rakuten.co.jp/')
   },
 
 
