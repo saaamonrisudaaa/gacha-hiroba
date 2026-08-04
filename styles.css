@@ -2617,3 +2617,139 @@ a.gh-rel:hover { background: #fffaf5; text-decoration: none; }
 @media (max-width: 520px) {
   .gh-prefindex__list { grid-template-columns: 1fr; }
 }
+
+/* =====================================================================
+   トップページ 情報密度チューニング（2026-08 第2版）
+   ねらい: LPっぽい大きな帯・説明文・均等カードをやめ、
+           「今日発売 / 急上昇 / 最新投稿 / ランキング」を密に見せる。
+   ===================================================================== */
+
+/* ── ① 検索バー（薄い帯。旧ヒーローの置き換え） ── */
+.gh-topbar {
+  background: var(--gh-surface, #fff);
+  border: 1px solid var(--gh-border, #e5e7eb);
+  border-top: 3px solid var(--gh-accent, #e94560);
+  border-radius: var(--gh-radius, 8px);
+  padding: 12px 14px 11px;
+  margin-bottom: 10px;
+  box-shadow: var(--gh-shadow);
+}
+.gh-topbar__h1 {
+  font-size: 12px; font-weight: 700; color: var(--gh-muted, #6b7280);
+  margin: 0 0 8px; letter-spacing: .01em;
+}
+.gh-topbar__form {
+  display: flex; align-items: stretch; width: 100%; max-width: none;
+  height: auto; border: 1px solid #d1d5db; border-radius: 6px; overflow: hidden;
+  background: #fff;
+}
+.gh-topbar__form:focus-within { border-color: var(--gh-accent, #e94560); }
+.gh-topbar__input {
+  flex: 1 1 auto; min-width: 0; border: 0; outline: 0; background: #fff;
+  padding: 9px 12px; font-size: 14px; color: var(--gh-text, #111); border-radius: 0;
+}
+.gh-topbar__input::placeholder { color: #9ca3af; font-size: 13px; }
+.gh-topbar__input:focus { background: #fff; }
+.gh-topbar__btn {
+  flex: 0 0 auto; display: inline-flex; align-items: center; gap: 5px;
+  padding: 0 16px; border: 0; cursor: pointer; border-radius: 0;
+  background: var(--gh-accent, #e94560); color: #fff; font-size: 13px; font-weight: 800;
+}
+.gh-topbar__btn:hover { background: #c73550; }
+.gh-topbar__trend {
+  display: flex; align-items: center; gap: 8px; margin-top: 9px;
+  overflow-x: auto; scrollbar-width: none;
+}
+.gh-topbar__trend::-webkit-scrollbar { display: none; }
+.gh-topbar__trend-label {
+  flex: 0 0 auto; font-size: 11.5px; font-weight: 800; color: var(--gh-accent, #e94560);
+}
+.gh-topbar__trend .gh-trend { flex-wrap: nowrap; gap: 6px; }
+.gh-topbar__trend .gh-trend__item {
+  flex: 0 0 auto; padding: 3px 10px 3px 5px; font-size: 12px; border-radius: 4px;
+}
+.gh-topbar__trend .gh-trend__rank { width: 16px; height: 16px; font-size: 10px; }
+
+/* ── 概況バー：薄く詰める ── */
+.gh-main__content > .gh-summary-bar { gap: 8px; margin-bottom: 10px; }
+.gh-main__content > .gh-summary-bar .gh-summary-card { padding: 9px 11px; }
+.gh-main__content > .gh-summary-bar .gh-summary-card__label { font-size: 10.5px; margin-bottom: 1px; }
+.gh-main__content > .gh-summary-bar .gh-summary-card__value { font-size: 19px; line-height: 1.25; }
+.gh-main__content > .gh-summary-bar .gh-summary-card__change { font-size: 10.5px; }
+
+/* ── セクションの余白を全体的に詰める ── */
+.gh-main__content > .gh-section { padding: 14px 15px; margin-bottom: 10px; }
+.gh-main__content > .gh-section .gh-section__header { margin-bottom: 10px; }
+.gh-sec--tight { padding: 13px 15px !important; }
+.gh-section__title--lg { font-size: 18px; }
+/* 主役セクション（掲示板）は枠を強めて視線を集める */
+.gh-sec--main { border-top: 3px solid var(--gh-accent, #e94560); }
+
+/* ── ② 今日発売：先頭1件を大きく、残りは行で密に ── */
+.gh-rel-list { display: grid; grid-template-columns: 1.15fr 1fr; gap: 10px; align-items: start; }
+.gh-rel-rest { display: flex; flex-direction: column; }
+.gh-rel--lead {
+  padding: 12px 14px; border-left-width: 4px; gap: 5px;
+  background: #fffdfa;
+}
+.gh-rel--lead .gh-rel__title { font-size: 15px; line-height: 1.5; }
+.gh-rel--row {
+  flex-direction: row; align-items: baseline; flex-wrap: wrap; gap: 4px 8px;
+  padding: 7px 2px; border: 0; border-bottom: 1px solid var(--gh-border, #e5e7eb);
+  border-radius: 0; background: transparent;
+}
+.gh-rel-rest > .gh-rel--row:last-child { border-bottom: 0; }
+a.gh-rel--row:hover { background: #fffaf5; }
+.gh-rel--row .gh-rel__badge { order: 0; align-self: baseline; padding: 1px 6px; font-size: 10px; }
+.gh-rel--row .gh-rel__title {
+  order: 1; flex: 1 1 60%; font-size: 12.5px; font-weight: 700; line-height: 1.5;
+}
+.gh-rel--row .gh-rel__meta { order: 2; flex: 0 0 auto; font-size: 10.5px; }
+
+/* ── ③ 掲示板フィード：情報量を上げつつ行間を詰める ── */
+.gh-sec--main .gh-post { padding: 9px 2px 8px; }
+.gh-sec--main .gh-post__body { margin: 4px 0 5px; font-size: 14px; line-height: 1.65; }
+.gh-sec--main .gh-post__head { font-size: 11px; gap: 7px; }
+.gh-post-list__more {
+  display: block; margin-top: 11px; padding: 9px; text-align: center;
+  border: 1px solid var(--gh-border, #e5e7eb); border-radius: 6px;
+  font-size: 13px; font-weight: 700; color: var(--gh-link, #1d4ed8); text-decoration: none;
+}
+.gh-post-list__more:hover { background: #f9fafb; text-decoration: none; }
+
+/* ── ④ ランキング：上位ほど大きく ── */
+.gh-table--rank td { padding: 7px 10px; }
+.gh-table--rank tbody tr:nth-child(1) td { padding-top: 11px; padding-bottom: 11px; }
+.gh-table--rank tbody tr:nth-child(1) .gh-table__link { font-size: 16px; font-weight: 800; }
+.gh-table--rank tbody tr:nth-child(2) .gh-table__link,
+.gh-table--rank tbody tr:nth-child(3) .gh-table__link { font-size: 14.5px; font-weight: 700; }
+.gh-table--rank tbody tr:nth-child(n+4) .gh-table__link { font-size: 13px; }
+.gh-table--rank tbody tr:nth-child(n+4) .gh-num { font-size: 12.5px; }
+
+/* ── ⑤ 新着口コミ：均等2列をやめて詰める ── */
+.gh-review-list { grid-template-columns: 1fr 1fr; gap: 8px; }
+.gh-review { padding: 10px 12px; gap: 6px; }
+.gh-review__body { font-size: 12.5px; line-height: 1.65; }
+
+/* ── その他セクションも詰める ── */
+.gh-main__content > .gh-section .gh-news-list > * { padding-top: 9px; padding-bottom: 9px; }
+.gh-main__content .gh-area-grid { gap: 7px; }
+
+@media (max-width: 768px) {
+  .gh-topbar { padding: 11px 12px; }
+  .gh-topbar__btn { padding: 0 13px; }
+  .gh-topbar__btn span { display: none; }
+  .gh-rel-list { grid-template-columns: 1fr; }
+  .gh-review-list { grid-template-columns: 1fr; }
+  .gh-main__content > .gh-section { padding: 13px 13px; }
+}
+
+/* ── 運営バイライン（トップページ唯一の説明文・人の気配を出す1行） ── */
+.gh-byline {
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  margin: 0 0 10px; padding: 8px 12px;
+  background: #fffdf7; border: 1px dashed #e5d9c3; border-radius: 6px;
+  font-size: 12px; color: #6b5b45; line-height: 1.6;
+}
+.gh-byline img { flex: 0 0 auto; border-radius: 50%; }
+.gh-byline a { color: var(--gh-link, #1d4ed8); font-weight: 700; }

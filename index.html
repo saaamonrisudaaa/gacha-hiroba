@@ -95,100 +95,90 @@
       <div class="gh-main__content">
 
         <!-- ============================================================
-             ① まず探す：検索ボックス（トップの最上部・最優先）
+             ① 検索（最上部・コンパクト）＋ 急上昇ワードを同じ帯にまとめる
              ============================================================ -->
-        <section class="gh-tophero" aria-label="ガチャスポットを検索">
-          <h1 class="gh-tophero__title">全国のガチャガチャ設置場所・カプセルトイ専門店検索「ガチャひろば」</h1>
-          <p class="gh-tophero__lead">設置場所・台数・口コミ・入荷情報を、ガチャ好きみんなで持ち寄る広場です。</p>
-          <form class="gh-search gh-tophero__form" role="search">
-            <input class="gh-search__input gh-tophero__input" type="search"
+        <div class="gh-topbar">
+          <h1 class="gh-topbar__h1">全国のガチャガチャ設置場所・カプセルトイ専門店検索</h1>
+          <form class="gh-search gh-topbar__form" role="search">
+            <input class="gh-search__input gh-topbar__input" type="search"
                    placeholder="エリア・駅名・店名で検索（例：池袋、梅田、C-pla）"
                    aria-label="ガチャスポットを検索" />
-            <button class="gh-search__btn gh-tophero__btn" type="submit">
+            <button class="gh-search__btn gh-topbar__btn" type="submit">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
               <span>検索</span>
             </button>
           </form>
-          <div class="gh-tophero__quick">
-            <span class="gh-tophero__quick-label">よく見られているエリア</span>
-            <div class="gh-tophero__chips" data-gh-tophero-chips></div>
+          <div class="gh-topbar__trend gh-trend-sec" hidden>
+            <span class="gh-topbar__trend-label">🔥 急上昇</span>
+            <div class="gh-trend" data-gh-trending></div>
           </div>
-        </section>
+        </div>
 
-        <!-- サイト概況（Yahooファイナンスの指数バー相当・実データ） -->
+        <!-- サイト概況（実データ・薄い帯） -->
         <section class="gh-summary-bar" aria-label="サービス概況">
           <div class="gh-summary-card">
-            <span class="gh-summary-card__label">登録店舗数</span>
+            <span class="gh-summary-card__label">登録店舗</span>
             <strong class="gh-summary-card__value" id="statStores">—</strong>
-            <span class="gh-summary-card__change">掲載中（毎日追加）</span>
+            <span class="gh-summary-card__change">毎日追加</span>
           </div>
           <div class="gh-summary-card">
             <span class="gh-summary-card__label">合計設置台数</span>
             <strong class="gh-summary-card__value" id="statMachines">—</strong>
-            <span class="gh-summary-card__change">全店舗の合計（目安）</span>
+            <span class="gh-summary-card__change">公表値の合計</span>
           </div>
           <div class="gh-summary-card">
             <span class="gh-summary-card__label">掲載都道府県</span>
             <strong class="gh-summary-card__value" id="statPrefs">—</strong>
-            <span class="gh-summary-card__change">全国をカバー</span>
+            <span class="gh-summary-card__change">全国</span>
           </div>
           <div class="gh-summary-card">
-            <span class="gh-summary-card__label">最多設置台数</span>
+            <span class="gh-summary-card__label">最多設置</span>
             <strong class="gh-summary-card__value" id="statTop">—</strong>
             <span class="gh-summary-card__change" id="statTopName">—</span>
           </div>
         </section>
 
+        <!-- 運営の実態を1行だけ。トップページで唯一の説明文にする -->
+        <p class="gh-byline">
+          <img src="assets/mascot-icon.png" alt="" width="22" height="22" />
+          公式サイトを1件ずつ確認しながら、毎日すこしずつ登録しています。
+          <a href="contact.html">情報の間違い・未掲載店の連絡はこちら</a>
+        </p>
+
         <!-- ============================================================
-             ② 今日発売のガチャ（data/releases.js・当日→今週→発売予定）
-                データが無い日はセクションごと自動で非表示になります。
+             ② 今日発売のガチャ（先頭1件を大きく、残りは行リストで密に）
              ============================================================ -->
-        <section class="gh-section gh-release-sec" hidden>
+        <section class="gh-section gh-sec--tight gh-release-sec" hidden>
           <div class="gh-section__header">
             <h2 class="gh-section__title">
               <span class="gh-live-dot" aria-hidden="true"></span>
-              <span data-gh-releases-label>本日発売のガチャ</span>
+              <span data-gh-releases-label>本日発売</span>
             </h2>
             <a href="news.html" class="gh-section__more">新着情報 →</a>
           </div>
           <div class="gh-rel-list" data-gh-releases></div>
-          <p class="gh-rel-note">発売日・ラインナップはメーカー公式情報にもとづきます。店舗により入荷日が前後する場合があります。</p>
         </section>
 
         <!-- ============================================================
-             ③ 最新の掲示板投稿（本サイトの中心。掲示板風UIで「人がいる」ことを見せる）
+             ③ 最新の掲示板投稿（このサイトの主役。いちばん大きく・いちばん密に）
              ============================================================ -->
-        <section class="gh-section gh-community-sec" hidden>
+        <section class="gh-section gh-sec--main gh-community-sec" hidden>
           <div class="gh-section__header">
-            <h2 class="gh-section__title">
+            <h2 class="gh-section__title gh-section__title--lg">
               <span class="gh-live-dot" aria-hidden="true"></span>最新の掲示板投稿
             </h2>
             <a href="board.html" class="gh-section__more">もっと見る →</a>
           </div>
           <div class="gh-post-list" data-gh-community-feed></div>
-          <div class="gh-community-foot">
-            <a href="board.html" class="gh-btn gh-btn--primary">💬 掲示板をもっと見る</a>
-            <span class="gh-community-foot__note">入荷・在庫・混雑の情報交換ができます。書き込みは無料・登録不要。</span>
-          </div>
+          <a href="board.html" class="gh-post-list__more">掲示板をすべて見る（無料・登録不要）→</a>
         </section>
 
         <!-- ============================================================
-             ④ 急上昇ワード（実投稿と掲載データから算出）
+             ④ 設置台数ランキング（上位ほど大きく表示）
              ============================================================ -->
-        <section class="gh-section gh-trend-sec" hidden>
+        <section class="gh-section gh-sec--tight">
           <div class="gh-section__header">
-            <h2 class="gh-section__title">🔥 急上昇ワード</h2>
-            <a href="stores.html" class="gh-section__more">店舗を探す →</a>
-          </div>
-          <div class="gh-trend" data-gh-trending></div>
-        </section>
-
-        <!-- ============================================================
-             ⑤ 人気ランキング
-             ============================================================ -->
-        <section class="gh-section">
-          <div class="gh-section__header">
-            <h2 class="gh-section__title">ガチャスポット ランキング</h2>
+            <h2 class="gh-section__title">設置台数ランキング</h2>
             <div class="gh-tab-group" role="tablist" aria-label="ランキングエリア切り替え">
               <button class="gh-tab active" role="tab" data-tab="national">全国</button>
               <button class="gh-tab" role="tab" data-tab="tokyo">東京</button>
@@ -197,7 +187,7 @@
             </div>
           </div>
           <div class="gh-table-wrap">
-            <table class="gh-table" id="rankingTable" data-limit="10">
+            <table class="gh-table gh-table--rank" id="rankingTable" data-limit="12">
               <thead>
                 <tr>
                   <th>順位</th>
@@ -216,26 +206,14 @@
         </section>
 
         <!-- ============================================================
-             ⑥ 新着口コミ（掲示板投稿のうち、感想として読める長さのもの）
+             ⑤ 新着口コミ
              ============================================================ -->
-        <section class="gh-section gh-review-sec" hidden>
+        <section class="gh-section gh-sec--tight gh-review-sec" hidden>
           <div class="gh-section__header">
-            <h2 class="gh-section__title">🗣️ 新着の口コミ</h2>
+            <h2 class="gh-section__title">新着の口コミ</h2>
             <a href="board.html" class="gh-section__more">すべて見る →</a>
           </div>
           <div class="gh-review-list" data-gh-recent-reviews></div>
-        </section>
-
-        <!-- ============================================================
-             ⑦ その他コンテンツ
-             ============================================================ -->
-        <!-- Featured spots (visual cards) -->
-        <section class="gh-section">
-          <div class="gh-section__header">
-            <h2 class="gh-section__title">注目のガチャスポット</h2>
-            <a href="stores.html" class="gh-section__more">すべて見る →</a>
-          </div>
-          <div class="gh-spot-grid" data-gh-spot-cards></div>
         </section>
 
         <!-- News feed -->
@@ -262,7 +240,7 @@
             <h2 class="gh-section__title">エリアから探す</h2>
             <a href="area.html" class="gh-section__more">すべて見る →</a>
           </div>
-          <div class="gh-area-grid" data-gh-area-cards="cards"></div>
+          <div class="gh-area-grid" data-gh-area-cards="cards" data-gh-area-limit="12"></div>
         </section>
 
         <!-- 楽天市場でチェック（アフィリエイト / data/ads.js の featured を描画） -->

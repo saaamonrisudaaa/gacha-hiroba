@@ -689,7 +689,7 @@ renderRanking('national');
   /* ── 掲示板フィード（トップ上部・最重要） ── */
   function renderFeed(rows, counts) {
     if (!feedBox) return;
-    const list = rows.slice(0, 8);
+    const list = rows.slice(0, 12);
     if (!list.length) return;
     feedBox.innerHTML = list.map(p => {
       const store = storeOf(p.spot);
@@ -697,7 +697,7 @@ renderRanking('national');
       const area = store ? store.area : '';
       const href = boardHref(store);
       const raw = String(p.body || '');
-      const body = raw.length > 88 ? raw.slice(0, 88) + '…' : raw;
+      const body = raw.length > 120 ? raw.slice(0, 120) + '…' : raw;
       const threadCount = counts[p.spot] || 1;
       const likes = Number(p.likes);
       return '<article class="gh-post">' +
@@ -757,7 +757,7 @@ renderRanking('national');
     });
     Object.keys(areaCount).forEach(a => bump(a, Math.min(areaCount[a], 4)));
 
-    const words = Object.keys(score).sort((a, b) => score[b] - score[a]).slice(0, 10);
+    const words = Object.keys(score).sort((a, b) => score[b] - score[a]).slice(0, 8);
     if (!words.length) return;
     trendBox.innerHTML = words.map((w, i) => {
       const rankCls = i < 3 ? ' gh-trend__item--hot' : '';

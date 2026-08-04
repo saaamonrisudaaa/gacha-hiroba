@@ -188,17 +188,22 @@
       return '<span class="gh-rel__badge">' + r.date.slice(5).replace('-', '/') + ' 発売</span>';
     };
 
-    box.innerHTML = list.slice(0, 6).map(function (r) {
-      var inner =
-        badgeOf(r) +
+    /* 先頭1件を大きく、残りは行リストで密に並べる（均等なカードにしない） */
+    var shown = list.slice(0, 7);
+    var cell = function (r, lead) {
+      var cls = 'gh-rel' + (lead ? ' gh-rel--lead' : ' gh-rel--row');
+      var inner = badgeOf(r) +
         '<strong class="gh-rel__title">' + esc(r.title) + '</strong>' +
         '<small class="gh-rel__meta">' + esc(r.maker || '') +
-          (r.note ? '<span class="gh-rel__note">' + esc(r.note) + '</span>' : '') + '</small>';
+          (lead && r.note ? '<span class="gh-rel__note">' + esc(r.note) + '</span>' : '') + '</small>';
       return r.source
-        ? '<a class="gh-rel" href="' + esc(r.source) + '" target="_blank" rel="noopener">' + inner +
-          '<span class="gh-rel__src">メーカー公式で見る →</span></a>'
-        : '<div class="gh-rel">' + inner + '</div>';
-    }).join('');
+        ? '<a class="' + cls + '" href="' + esc(r.source) + '" target="_blank" rel="noopener">' + inner + '</a>'
+        : '<div class="' + cls + '">' + inner + '</div>';
+    };
+    box.innerHTML = cell(shown[0], true) +
+      (shown.length > 1
+        ? '<div class="gh-rel-rest">' + shown.slice(1).map(function (r) { return cell(r, false); }).join('') + '</div>'
+        : '');
 
     var head = document.querySelector('[data-gh-releases-label]');
     if (head) head.textContent = label;
@@ -965,6 +970,10 @@
       var groups = prefGroups();
       if (!groups.length) return;
       var variant = box.getAttribute('data-gh-area-cards');
+      /* トップページなど、全47都道府県を出すと縦に伸びすぎる場所は
+         data-gh-area-limit="12" のように件数を絞れる（掲載数の多い順） */
+      var limit = parseInt(box.getAttribute('data-gh-area-limit') || '0', 10);
+      if (limit > 0) groups = groups.slice(0, limit);
       box.innerHTML = groups.map(function (g, i) {
         var url = '/stores.html?pref=' + encodeURIComponent(g.pref);
         if (variant === 'pref') {
