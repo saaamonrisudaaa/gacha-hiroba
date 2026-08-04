@@ -2587,3 +2587,33 @@ a.gh-rel:hover { background: #fffaf5; text-decoration: none; }
   .gh-contact-card__actions { margin-left: 0; width: 100%; }
   .gh-contact-card__actions .gh-btn { flex: 1 1 auto; }
 }
+
+/* ── 都道府県インデックス（stores / area の静的ブロック・gen-static-blocks.mjs が生成） ── */
+.gh-prefindex__lead {
+  margin: 0 0 18px; font-size: 13.5px; line-height: 1.9; color: var(--gh-muted, #6b7280);
+}
+.gh-prefindex__group { margin-bottom: 18px; }
+.gh-prefindex__group:last-child { margin-bottom: 0; }
+.gh-prefindex__region {
+  display: flex; align-items: baseline; gap: 8px;
+  font-size: 13px; font-weight: 800; margin: 0 0 9px;
+  padding-bottom: 7px; border-bottom: 2px solid var(--gh-border, #e5e7eb);
+}
+.gh-prefindex__region span { font-size: 11px; font-weight: 700; color: var(--gh-muted, #6b7280); }
+.gh-prefindex__list {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 2px 14px;
+}
+.gh-prefindex__item {
+  display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap;
+  padding: 6px 2px; border-bottom: 1px solid var(--gh-border, #e5e7eb);
+}
+.gh-prefindex__item > a { font-size: 13px; font-weight: 700; }
+.gh-prefindex__count { font-size: 11px; color: var(--gh-muted, #6b7280); font-weight: 700; }
+.gh-prefindex__top {
+  flex: 1 1 100%; font-size: 11px; color: var(--gh-muted, #6b7280);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+@media (max-width: 520px) {
+  .gh-prefindex__list { grid-template-columns: 1fr; }
+}

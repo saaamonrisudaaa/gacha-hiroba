@@ -47,12 +47,13 @@ jobs:
         run: |
           node tools/validate-stores.mjs
           node tools/gen-pages.mjs
+          node tools/gen-static-blocks.mjs
           node tools/gen-sitemap.mjs
 
       - name: Commit changes
         if: steps.drip.outputs.changed == 'true'
         run: |
-          git add -A data/spots.js data/spots-queue.json sitemap.xml sitemap.html feed.xml spot/
+          git add -A data/spots.js data/spots-queue.json sitemap.xml sitemap.html feed.xml spot/ stores.html area.html
           if git diff --cached --quiet; then
             echo "変更なし。コミットしません。"
             exit 0
@@ -69,8 +70,9 @@ jobs:
             fi
             node tools/validate-stores.mjs
             node tools/gen-pages.mjs
+            node tools/gen-static-blocks.mjs
             node tools/gen-sitemap.mjs
-            git add -A data/spots.js data/spots-queue.json sitemap.xml sitemap.html feed.xml spot/
+            git add -A data/spots.js data/spots-queue.json sitemap.xml sitemap.html feed.xml spot/ stores.html area.html
             if ! git diff --cached --quiet; then
               git commit --amend --no-edit
             fi
