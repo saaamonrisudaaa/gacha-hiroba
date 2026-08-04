@@ -2562,3 +2562,28 @@ a.gh-rel:hover { background: #fffaf5; text-decoration: none; }
   .gh-post__ago { margin-left: 0; }
   .gh-post__stats { margin-left: 0; width: 100%; }
 }
+
+/* ── お問い合わせページ（contact.html） ── */
+.gh-contact-card {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 16px;
+  margin: 14px 0 6px; padding: 18px 20px;
+  border: 1px solid var(--gh-border, #e5e7eb); border-radius: var(--gh-radius, 8px);
+  background: linear-gradient(135deg, #1a1d3a 0%, #2d3166 100%); color: #fff;
+}
+.gh-contact-card__body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.gh-contact-card__label { font-size: 11.5px; font-weight: 700; color: rgba(255,255,255,.6); }
+.gh-contact-card__handle { font-size: 22px; font-weight: 800; letter-spacing: -.01em; line-height: 1.3; }
+.gh-contact-card__note { font-size: 12px; color: rgba(255,255,255,.72); }
+.gh-contact-card__actions { margin-left: auto; display: flex; flex-wrap: wrap; gap: 8px; }
+.gh-contact-hint { font-size: 12.5px; color: var(--gh-muted, #6b7280); margin: 0 0 4px; }
+/* .gh-prose a のリンク色がボタンにも効いてしまうため、ボタンだけ上書きする
+   （contact.html / advertising.html のボタンが青文字＋下線になる問題の修正） */
+.gh-prose a.gh-btn { color: var(--gh-text, #111); text-decoration: none; }
+.gh-prose a.gh-btn:hover { text-decoration: none; }
+.gh-prose a.gh-btn--primary { color: #fff; }
+@media (max-width: 600px) {
+  .gh-contact-card { padding: 16px; }
+  .gh-contact-card__handle { font-size: 19px; }
+  .gh-contact-card__actions { margin-left: 0; width: 100%; }
+  .gh-contact-card__actions .gh-btn { flex: 1 1 auto; }
+}

@@ -28,6 +28,7 @@ add('/category.html', '0.5');
 add('/terms.html', '0.2', 'monthly');
 add('/privacy.html', '0.2', 'monthly');
 add('/advertising.html', '0.2', 'monthly');
+add('/contact.html', '0.4', 'monthly');
 add('/sitemap.html', '0.4');
 add('/english.html', '0.7');
 
@@ -133,6 +134,7 @@ const html = `<!doctype html>
           <li><a href="ranking.html">ランキング</a></li>
           <li><a href="board.html">掲示板</a></li>
           <li><a href="news.html">新着情報・特集記事</a></li>
+          <li><a href="contact.html">お問い合わせ</a></li>
         </ul>
       </section>
       <section class="gh-section">
