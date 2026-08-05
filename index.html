@@ -114,53 +114,13 @@
           </div>
         </div>
 
-        <!-- サイト概況（実データ・薄い帯） -->
-        <section class="gh-summary-bar" aria-label="サービス概況">
-          <div class="gh-summary-card">
-            <span class="gh-summary-card__label">登録店舗</span>
-            <strong class="gh-summary-card__value" id="statStores">—</strong>
-            <span class="gh-summary-card__change">毎日追加</span>
-          </div>
-          <div class="gh-summary-card">
-            <span class="gh-summary-card__label">合計設置台数</span>
-            <strong class="gh-summary-card__value" id="statMachines">—</strong>
-            <span class="gh-summary-card__change">公表値の合計</span>
-          </div>
-          <div class="gh-summary-card">
-            <span class="gh-summary-card__label">掲載都道府県</span>
-            <strong class="gh-summary-card__value" id="statPrefs">—</strong>
-            <span class="gh-summary-card__change">全国</span>
-          </div>
-          <div class="gh-summary-card">
-            <span class="gh-summary-card__label">最多設置</span>
-            <strong class="gh-summary-card__value" id="statTop">—</strong>
-            <span class="gh-summary-card__change" id="statTopName">—</span>
-          </div>
-        </section>
-
-        <!-- 運営の実態を1行だけ。トップページで唯一の説明文にする -->
-        <p class="gh-byline">
-          <img src="assets/mascot-icon.png" alt="" width="22" height="22" />
-          公式サイトを1件ずつ確認しながら、毎日すこしずつ登録しています。
-          <a href="contact.html">情報の間違い・未掲載店の連絡はこちら</a>
-        </p>
-
         <!-- ============================================================
-             ② 今日発売のガチャ（先頭1件を大きく、残りは行リストで密に）
+             ② ライブ状況（投稿数・本日の投稿・最終更新。60秒ごとに更新）
              ============================================================ -->
-        <section class="gh-section gh-sec--tight gh-release-sec" hidden>
-          <div class="gh-section__header">
-            <h2 class="gh-section__title">
-              <span class="gh-live-dot" aria-hidden="true"></span>
-              <span data-gh-releases-label>本日発売</span>
-            </h2>
-            <a href="news.html" class="gh-section__more">新着情報 →</a>
-          </div>
-          <div class="gh-rel-list" data-gh-releases></div>
-        </section>
+        <div class="gh-live" data-gh-live-status hidden></div>
 
         <!-- ============================================================
-             ③ 最新の掲示板投稿（このサイトの主役。いちばん大きく・いちばん密に）
+             ③ 最新の掲示板投稿（ユーザー投稿。トップの主役・自動更新）
              ============================================================ -->
         <section class="gh-section gh-sec--main gh-community-sec" hidden>
           <div class="gh-section__header">
@@ -174,7 +134,46 @@
         </section>
 
         <!-- ============================================================
-             ④ 設置台数ランキング（上位ほど大きく表示）
+             ④ 最新画像（投稿に画像が含まれるときだけ出る）
+             ============================================================ -->
+        <section class="gh-section gh-sec--tight gh-photo-sec" hidden>
+          <div class="gh-section__header">
+            <h2 class="gh-section__title">
+              <span class="gh-live-dot" aria-hidden="true"></span>みんなが投稿した写真
+            </h2>
+            <a href="board.html" class="gh-section__more">掲示板へ →</a>
+          </div>
+          <div class="gh-photo-grid" data-gh-photos></div>
+        </section>
+
+        <!-- ============================================================
+             ⑤ 新着の口コミ（ユーザー投稿から抜粋）
+             ============================================================ -->
+        <section class="gh-section gh-sec--tight gh-review-sec" hidden>
+          <div class="gh-section__header">
+            <h2 class="gh-section__title">
+              <span class="gh-live-dot" aria-hidden="true"></span>新着の口コミ
+            </h2>
+            <a href="board.html" class="gh-section__more">すべて見る →</a>
+          </div>
+          <div class="gh-review-list" data-gh-recent-reviews></div>
+        </section>
+
+        <!-- ============================================================
+             ⑥ 今日話題の商品（発売情報 × 掲示板での言及数で並べ替え）
+             ============================================================ -->
+        <section class="gh-section gh-sec--tight gh-hot-sec" hidden>
+          <div class="gh-section__header">
+            <h2 class="gh-section__title">
+              <span class="gh-live-dot" aria-hidden="true"></span>今日話題の商品
+            </h2>
+            <a href="news.html" class="gh-section__more">新着情報 →</a>
+          </div>
+          <div class="gh-hot-list" data-gh-hot-items></div>
+        </section>
+
+        <!-- ============================================================
+             ⑦ 設置台数ランキング（上位ほど大きく表示）
              ============================================================ -->
         <section class="gh-section gh-sec--tight">
           <div class="gh-section__header">
@@ -205,16 +204,36 @@
           <a href="ranking.html" class="gh-table__more">ランキングをすべて見る →</a>
         </section>
 
-        <!-- ============================================================
-             ⑤ 新着口コミ
-             ============================================================ -->
-        <section class="gh-section gh-sec--tight gh-review-sec" hidden>
-          <div class="gh-section__header">
-            <h2 class="gh-section__title">新着の口コミ</h2>
-            <a href="board.html" class="gh-section__more">すべて見る →</a>
+        <!-- サイト概況（実データ・薄い帯） -->
+        <section class="gh-summary-bar" aria-label="サービス概況">
+          <div class="gh-summary-card">
+            <span class="gh-summary-card__label">登録店舗</span>
+            <strong class="gh-summary-card__value" id="statStores">—</strong>
+            <span class="gh-summary-card__change">毎日追加</span>
           </div>
-          <div class="gh-review-list" data-gh-recent-reviews></div>
+          <div class="gh-summary-card">
+            <span class="gh-summary-card__label">合計設置台数</span>
+            <strong class="gh-summary-card__value" id="statMachines">—</strong>
+            <span class="gh-summary-card__change">公表値の合計</span>
+          </div>
+          <div class="gh-summary-card">
+            <span class="gh-summary-card__label">掲載都道府県</span>
+            <strong class="gh-summary-card__value" id="statPrefs">—</strong>
+            <span class="gh-summary-card__change">全国</span>
+          </div>
+          <div class="gh-summary-card">
+            <span class="gh-summary-card__label">最多設置</span>
+            <strong class="gh-summary-card__value" id="statTop">—</strong>
+            <span class="gh-summary-card__change" id="statTopName">—</span>
+          </div>
         </section>
+
+        <!-- 運営の実態を1行だけ。トップページで唯一の説明文にする -->
+        <p class="gh-byline">
+          <img src="assets/mascot-icon.png" alt="" width="22" height="22" />
+          公式サイトを1件ずつ確認しながら、毎日すこしずつ登録しています。
+          <a href="contact.html">情報の間違い・未掲載店の連絡はこちら</a>
+        </p>
 
         <!-- News feed -->
         <section class="gh-section">

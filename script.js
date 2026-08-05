@@ -634,23 +634,42 @@ renderRanking('national');
 })();
 
 /* ===========================================================================
-   トップページのコミュニティ機能（掲示板フィード／急上昇ワード／新着口コミ）
-   Supabase の posts を1回だけ取得し、複数のセクションで使い回す。
+   トップページのライブ更新モジュール
+   Supabase の posts を定期取得し、ユーザー投稿から作られるセクションを
+   まとめて描き直す。ページを開いたままでも中身と経過時間が進み続ける。
+
+   ・掲示板フィード  [data-gh-community-feed]
+   ・急上昇ワード    [data-gh-trending]
+   ・最新画像        [data-gh-photos]
+   ・新着口コミ      [data-gh-recent-reviews]
+   ・今日話題の商品  [data-gh-hot-items]（発売情報×掲示板での言及数）
+   ・活発な掲示板    [data-gh-active-boards]
+   ・ライブ状況      [data-gh-live-status]
+
    取得できないとき（オフライン・RLS変更など）は各セクションを非表示のままにし、
    既存の他セクションには影響させない。
-   ※ posts に likes / comments など列が増えた場合は自動で表示に反映される
+   ※ posts に likes / image_url など列が増えた場合は自動で表示に反映される
      （行に含まれていれば使い、無ければ出さない設計）。
    =========================================================================== */
 (function () {
-  const feedBox = document.querySelector('[data-gh-community-feed]');
-  const trendBox = document.querySelector('[data-gh-trending]');
-  const reviewBox = document.querySelector('[data-gh-recent-reviews]');
-  const activeBox = document.querySelector('[data-gh-active-boards]');
+  const $ = sel => document.querySelector(sel);
+  const feedBox   = $('[data-gh-community-feed]');
+  const trendBox  = $('[data-gh-trending]');
+  const photoBox  = $('[data-gh-photos]');
+  const reviewBox = $('[data-gh-recent-reviews]');
+  const hotBox    = $('[data-gh-hot-items]');
+  const activeBox = $('[data-gh-active-boards]');
+  const statusBox = $('[data-gh-live-status]');
   if (!window.fetch) return;
-  if (!feedBox && !trendBox && !reviewBox && !activeBox) return;
+  if (!feedBox && !trendBox && !photoBox && !reviewBox && !hotBox && !activeBox && !statusBox) return;
+
+  const POLL_MS = 60000;   /* 投稿の再取得間隔 */
+  const TICK_MS = 15000;   /* 「○分前」の再計算間隔 */
+  const LIMIT   = 100;
 
   const esc = s => { const d = document.createElement('div'); d.textContent = (s == null ? '' : String(s)); return d.innerHTML; };
   const spots = () => window.GH_SPOTS || [];
+
   const ago = iso => {
     const m = Math.floor((Date.now() - new Date(iso).getTime()) / 60000);
     if (!(m >= 0)) return '';
@@ -661,6 +680,16 @@ renderRanking('national');
     const d = Math.floor(h / 24);
     return d < 30 ? d + '日前' : new Date(iso).toLocaleDateString('ja-JP');
   };
+  /* 経過時間はあとから書き換えられるよう <time data-ts> で出す */
+  const agoTag = (iso, cls) =>
+    '<time class="' + cls + '" data-ts="' + esc(iso) + '" datetime="' + esc(iso) + '">' + esc(ago(iso)) + '</time>';
+  function tickTimes(root) {
+    (root || document).querySelectorAll('[data-ts]').forEach(el => {
+      const s = ago(el.getAttribute('data-ts'));
+      if (s && el.textContent !== s) el.textContent = s;
+    });
+  }
+
   const dateLabel = iso => {
     const d = new Date(iso);
     if (isNaN(d.getTime())) return '';
@@ -673,8 +702,22 @@ renderRanking('national');
     return spots().find(s => s.id === sid) || null;
   };
   const boardHref = store => (store ? '/spot/' + encodeURIComponent(store.id) + '.html#board' : '/board.html');
-  /* 投稿本文に画像URLが含まれていれば「写真あり」とみなす（将来の画像投稿にも対応） */
-  const hasPhoto = p => !!(p.image_url || p.photo || /https?:\/\/\S+\.(jpg|jpeg|png|gif|webp)/i.test(String(p.body || '')));
+  const spotHref  = store => (store ? '/spot/' + encodeURIComponent(store.id) + '.html' : '/board.html');
+
+  /* 投稿に紐づく画像URL（将来 image_url 列が増えても、本文中のURLでも拾える） */
+  const IMG_RE = /https?:\/\/[^\s"'<>]+?\.(?:jpg|jpeg|png|gif|webp)(?:\?[^\s"'<>]*)?/ig;
+  function photosOf(p) {
+    const out = [];
+    if (p.image_url) out.push(String(p.image_url));
+    if (p.photo) out.push(String(p.photo));
+    const m = String(p.body || '').match(IMG_RE);
+    if (m) m.forEach(u => out.push(u));
+    return out.filter(u => /^https:\/\//i.test(u));
+  }
+  const hasPhoto = p => photosOf(p).length > 0;
+  /* 画像をサムネイルで見せるので、本文からは画像URLを取り除いて読みやすくする */
+  const textOf = p => String(p.body || '').replace(IMG_RE, '').replace(/[ \t]{2,}/g, ' ').trim();
+
   /* 5ch風の匿名ID（投稿ごとに安定） */
   const shortId = str => {
     let h = 2166136261 >>> 0;
@@ -686,7 +729,40 @@ renderRanking('national');
     return out;
   };
 
-  /* ── 掲示板フィード（トップ上部・最重要） ── */
+  /* ── 状態 ── */
+  const state = {
+    seen: new Set(),      /* 既に表示した投稿id（新着ハイライト判定に使う） */
+    first: true,          /* 初回描画かどうか */
+    total: null,          /* Supabase 側の総投稿数（Content-Range から取得） */
+    lastAt: null,         /* 最終取得時刻 */
+    newCount: 0           /* 前回取得以降に増えた件数 */
+  };
+
+  /* ── ① ライブ状況バー ── */
+  function renderStatus(rows) {
+    if (!statusBox) return;
+    const todayJst = new Date(Date.now() + 9 * 3600 * 1000).toISOString().slice(0, 10);
+    const today = rows.filter(p => {
+      const d = new Date(new Date(p.created_at).getTime() + 9 * 3600 * 1000);
+      return !isNaN(d.getTime()) && d.toISOString().slice(0, 10) === todayJst;
+    }).length;
+    const boards = new Set(rows.map(p => p.spot)).size;
+    const total = (state.total == null ? rows.length : state.total + seedRows().length);
+    statusBox.innerHTML =
+      '<span class="gh-live__dot" aria-hidden="true"></span>' +
+      '<span class="gh-live__label">みんなの投稿</span>' +
+      '<span class="gh-live__stat"><strong>' + total.toLocaleString('ja-JP') + '</strong>件</span>' +
+      '<span class="gh-live__sep" aria-hidden="true">/</span>' +
+      '<span class="gh-live__stat">本日 <strong>' + today + '</strong>件</span>' +
+      '<span class="gh-live__sep" aria-hidden="true">/</span>' +
+      '<span class="gh-live__stat">板 <strong>' + boards + '</strong></span>' +
+      (state.newCount > 0 ? '<span class="gh-live__new">新着 ' + state.newCount + '件</span>' : '') +
+      '<span class="gh-live__updated">更新 ' +
+        (state.lastAt ? agoTag(state.lastAt, 'gh-live__updated-time') : '—') + '</span>';
+    statusBox.hidden = false;
+  }
+
+  /* ── ② 掲示板フィード（トップの主役） ── */
   function renderFeed(rows, counts) {
     if (!feedBox) return;
     const list = rows.slice(0, 12);
@@ -696,40 +772,52 @@ renderRanking('national');
       const where = store ? store.name : '総合掲示板';
       const area = store ? store.area : '';
       const href = boardHref(store);
-      const raw = String(p.body || '');
+      const raw = textOf(p);
       const body = raw.length > 120 ? raw.slice(0, 120) + '…' : raw;
       const threadCount = counts[p.spot] || 1;
       const likes = Number(p.likes);
-      return '<article class="gh-post">' +
+      const pics = photosOf(p);
+      /* 初回表示では光らせない。2回目以降に増えた投稿だけをハイライトする */
+      const isNew = !state.first && !state.seen.has(String(p.id));
+      return '<article class="gh-post' + (isNew ? ' gh-post--new' : '') + '">' +
+        (isNew ? '<span class="gh-post__newbadge">NEW</span>' : '') +
         '<div class="gh-post__head">' +
           '<span class="gh-post__name">' + esc(p.name || '名無しのガチャー') + '</span>' +
           '<span class="gh-post__date">' + esc(dateLabel(p.created_at)) + '</span>' +
           '<span class="gh-post__id">ID:' + esc(shortId(String(p.id || '') + p.created_at)) + '</span>' +
-          '<span class="gh-post__ago">' + esc(ago(p.created_at)) + '</span>' +
+          agoTag(p.created_at, 'gh-post__ago') +
         '</div>' +
         '<a class="gh-post__body" href="' + href + '">' + esc(body) + '</a>' +
+        (pics.length
+          ? '<a class="gh-post__thumb" href="' + href + '"><img src="' + esc(pics[0]) +
+            '" alt="" loading="lazy" referrerpolicy="no-referrer" /></a>'
+          : '') +
         '<div class="gh-post__foot">' +
-          '<a class="gh-post__store" href="' + (store ? '/spot/' + encodeURIComponent(store.id) + '.html' : '/board.html') + '">' +
+          '<a class="gh-post__store" href="' + spotHref(store) + '">' +
             '🏬 ' + esc(where) + (area ? '<span class="gh-post__area">' + esc(area) + '</span>' : '') +
           '</a>' +
           '<span class="gh-post__stats">' +
-            (hasPhoto(p) ? '<span class="gh-post__stat gh-post__stat--photo" title="写真あり">📷 写真</span>' : '') +
+            (pics.length ? '<span class="gh-post__stat gh-post__stat--photo" title="写真あり">📷 ' + pics.length + '</span>' : '') +
             (Number.isFinite(likes) ? '<span class="gh-post__stat">👍 ' + likes + '</span>' : '') +
             '<a class="gh-post__stat gh-post__stat--link" href="' + href + '">💬 ' + threadCount + '</a>' +
           '</span>' +
         '</div>' +
       '</article>';
     }).join('');
+    /* 読めない画像はサムネごと消す（リンク切れの枠を残さない） */
+    dropBrokenImages(feedBox.querySelectorAll('.gh-post__thumb img'), img => {
+      const t = img.closest('.gh-post__thumb');
+      if (t) t.remove();
+    });
     const sec = feedBox.closest('.gh-community-sec');
     if (sec) sec.hidden = false;
   }
 
-  /* ── 急上昇ワード（実投稿＋掲載データから抽出。捏造しない） ── */
+  /* ── ③ 急上昇ワード（実投稿＋掲載データから算出。捏造しない） ── */
   function renderTrending(rows, counts) {
     if (!trendBox) return;
     const score = {};
     const bump = (w, n) => { if (w && w.length >= 2) score[w] = (score[w] || 0) + n; };
-    /* 直近の投稿が多い板 → その店舗名・エリア名を加点 */
     Object.keys(counts).forEach(spot => {
       const store = storeOf(spot);
       if (!store) return;
@@ -737,7 +825,6 @@ renderRanking('national');
       bump(areaWord, counts[spot] * 3);
       bump((store.brand || '').replace(/（.*?）/g, ''), counts[spot] * 2);
     });
-    /* 投稿本文に登場するエリア名・ブランド名を加点（既知の語のみ＝ノイズを出さない） */
     const known = new Set();
     spots().forEach(s => {
       const a = (s.area || '').split('・')[1] || s.area;
@@ -745,11 +832,12 @@ renderRanking('national');
       const b = (s.brand || '').replace(/（.*?）/g, '');
       if (b) known.add(b);
     });
+    /* 発売中の商品名（data/releases.js）も候補に加える＝いま話題の語を拾う */
+    releaseKeywords().forEach(k => known.add(k.word));
     rows.forEach(p => {
       const body = String(p.body || '');
-      known.forEach(w => { if (w.length >= 2 && body.indexOf(w) !== -1) bump(w, 2); });
+      known.forEach(w => { if (w.length >= 2 && body.indexOf(w) !== -1) bump(w, 3); });
     });
-    /* 補完: 掲載店舗が多いエリアを下支えに（投稿が少ない初期でも空にしない） */
     const areaCount = {};
     spots().forEach(s => {
       const a = (s.area || '').split('・')[1] || s.area;
@@ -770,22 +858,62 @@ renderRanking('national');
     if (sec) sec.hidden = false;
   }
 
-  /* ── 新着口コミ（本文が長めの投稿＝感想として読める投稿を抜粋） ── */
+  /* ── ④ 最新画像（投稿に含まれる画像だけ。無ければセクションごと非表示） ── */
+  function renderPhotos(rows) {
+    if (!photoBox) return;
+    const items = [];
+    rows.forEach(p => {
+      photosOf(p).forEach(u => {
+        if (items.length < 8 && !items.some(x => x.url === u)) items.push({ url: u, post: p });
+      });
+    });
+    if (!items.length) return;
+    photoBox.innerHTML = items.map(it => {
+      const store = storeOf(it.post.spot);
+      return '<a class="gh-photo" href="' + boardHref(store) + '" title="' + esc(store ? store.name : '総合掲示板') + '">' +
+        '<img src="' + esc(it.url) + '" alt="" loading="lazy" referrerpolicy="no-referrer" />' +
+        '<span class="gh-photo__meta">' + esc(store ? store.name : '総合掲示板') + '</span>' +
+      '</a>';
+    }).join('');
+    const sec = photoBox.closest('.gh-photo-sec');
+    /* 1枚でも実際に表示できたときだけセクションを出す。
+       全部リンク切れなら空の枠を出さない（ここが「動いていない」印象の元になるため） */
+    const show = () => { if (sec) sec.hidden = false; };
+    dropBrokenImages(photoBox.querySelectorAll('.gh-photo img'), img => {
+      const t = img.closest('.gh-photo');
+      if (t) t.remove();
+      if (!photoBox.querySelector('.gh-photo') && sec) sec.hidden = true;
+    }, show);
+  }
+
+  /* 画像の読み込み結果に応じて後始末する。
+     innerHTML 直後は既に error/load が済んでいる場合があるので complete も見る。 */
+  function dropBrokenImages(imgs, onBroken, onOk) {
+    Array.prototype.forEach.call(imgs, img => {
+      const broken = () => onBroken(img);
+      const ok = () => { if (onOk) onOk(img); };
+      if (img.complete) { (img.naturalWidth ? ok : broken)(); return; }
+      img.addEventListener('error', broken, { once: true });
+      img.addEventListener('load', ok, { once: true });
+    });
+  }
+
+  /* ── ⑤ 新着口コミ ── */
   function renderReviews(rows) {
     if (!reviewBox) return;
-    const list = rows.filter(p => String(p.body || '').length >= 30).slice(0, 4);
+    const list = rows.filter(p => textOf(p).length >= 30).slice(0, 4);
     if (!list.length) return;
     reviewBox.innerHTML = list.map(p => {
       const store = storeOf(p.spot);
       const where = store ? store.name : '総合掲示板';
       const href = boardHref(store);
-      const raw = String(p.body || '');
+      const raw = textOf(p);
       const body = raw.length > 110 ? raw.slice(0, 110) + '…' : raw;
       return '<a class="gh-review" href="' + href + '">' +
         '<p class="gh-review__body">' + esc(body) + '</p>' +
         '<span class="gh-review__meta">' +
           '<strong>' + esc(where) + '</strong>' +
-          '<span>' + esc(p.name || '名無しのガチャー') + '・' + esc(ago(p.created_at)) + '</span>' +
+          '<span>' + esc(p.name || '名無しのガチャー') + '・' + agoTag(p.created_at, 'gh-review__ago') + '</span>' +
         '</span>' +
       '</a>';
     }).join('');
@@ -793,12 +921,68 @@ renderRanking('national');
     if (sec) sec.hidden = false;
   }
 
-  /* ── サイドバー：いま書き込みが多い掲示板（回遊導線） ── */
+  /* ── ⑥ 今日話題の商品 ──
+     data/releases.js の発売情報に、掲示板での言及数を掛け合わせて並べ替える。
+     言及があるものは「掲示板で N件」を出し、無ければ出さない（数を作らない）。 */
+  function releaseKeywords() {
+    return (window.GH_RELEASES || [])
+      .filter(r => r && r.date && r.title)
+      .map(r => {
+        const t = String(r.title);
+        const q = t.match(/[『「]([^』」]+)[』」]/);       /* 『チェンソーマン レゼ篇』→ チェンソーマン */
+        const word = (q ? q[1] : t).split(/[\s　]/)[0];
+        return { release: r, word: word };
+      })
+      .filter(k => k.word && k.word.length >= 2);
+  }
+  function renderHotItems(rows) {
+    if (!hotBox) return;
+    const bodies = rows.map(p => String(p.body || ''));
+    const now = new Date(Date.now() + 9 * 3600 * 1000);
+    const today = now.toISOString().slice(0, 10);
+    const dayMs = 86400000;
+    const diff = d => Math.round((new Date(d + 'T00:00:00+09:00').getTime() -
+      new Date(today + 'T00:00:00+09:00').getTime()) / dayMs);
+
+    const items = releaseKeywords().map(k => {
+      const mentions = bodies.reduce((n, b) => n + (b.indexOf(k.word) !== -1 ? 1 : 0), 0);
+      return { r: k.release, word: k.word, mentions: mentions, d: diff(k.release.date) };
+    });
+    if (!items.length) return;
+    /* 言及が多い順 → 発売日が新しい順 */
+    items.sort((a, b) => (b.mentions - a.mentions) || (b.r.date < a.r.date ? -1 : 1));
+
+    const badge = it => {
+      if (it.d === 0) return '<span class="gh-hot__badge gh-hot__badge--today">本日発売</span>';
+      if (it.d > 0)  return '<span class="gh-hot__badge gh-hot__badge--soon">' + esc(it.r.date.slice(5).replace('-', '/')) + ' 発売</span>';
+      return '<span class="gh-hot__badge">' + esc(it.r.date.slice(5).replace('-', '/')) + ' 発売</span>';
+    };
+    const cell = (it, lead) => {
+      const inner = badge(it) +
+        '<strong class="gh-hot__title">' + esc(it.r.title) + '</strong>' +
+        '<small class="gh-hot__meta">' + esc(it.r.maker || '') +
+          (it.mentions ? '<span class="gh-hot__mentions">💬 掲示板で' + it.mentions + '件</span>' : '') +
+          (lead && it.r.note ? '<span class="gh-hot__note">' + esc(it.r.note) + '</span>' : '') +
+        '</small>';
+      const cls = 'gh-hot' + (lead ? ' gh-hot--lead' : ' gh-hot--row');
+      return it.r.source
+        ? '<a class="' + cls + '" href="' + esc(it.r.source) + '" target="_blank" rel="noopener">' + inner + '</a>'
+        : '<div class="' + cls + '">' + inner + '</div>';
+    };
+    const shown = items.slice(0, 7);
+    hotBox.innerHTML = cell(shown[0], true) +
+      (shown.length > 1
+        ? '<div class="gh-hot-rest">' + shown.slice(1).map(x => cell(x, false)).join('') + '</div>'
+        : '');
+    const sec = hotBox.closest('.gh-hot-sec');
+    if (sec) sec.hidden = false;
+  }
+
+  /* ── ⑦ サイドバー：いま書き込みが多い掲示板 ── */
   function renderActiveBoards(rows, counts) {
     if (!activeBox) return;
     const listEl = activeBox.querySelector('.gh-active-boards');
     if (!listEl) return;
-    /* 板ごとに「最新投稿日時」も持たせ、件数→新しさの順に並べる */
     const latest = {};
     rows.forEach(p => {
       const t = new Date(p.created_at).getTime();
@@ -814,51 +998,91 @@ renderRanking('national');
       const area = store ? store.area : '';
       return '<li class="gh-active-board"><a href="' + boardHref(store) + '">' +
         '<span class="gh-active-board__name">' + esc(where) + '</span>' +
-        '<span class="gh-active-board__meta">' + esc(area) + (area ? '・' : '') + '書き込み ' + counts[spot] + '件</span>' +
+        '<span class="gh-active-board__meta">' + esc(area) + (area ? '・' : '') +
+          '書き込み ' + counts[spot] + '件・' + agoTag(new Date(latest[spot]).toISOString(), 'gh-active-board__ago') +
+        '</span>' +
       '</a></li>';
     }).join('');
     activeBox.hidden = false;
   }
 
-  function render(rows) {
-    if (!Array.isArray(rows) || !rows.length) return false;
-    const counts = {};
-    rows.forEach(p => { counts[p.spot] = (counts[p.spot] || 0) + 1; });
-    renderFeed(rows, counts);
-    renderTrending(rows, counts);
-    renderReviews(rows);
-    renderActiveBoards(rows, counts);
-    return true;
-  }
-
-  /* 各店舗ページの掲示板に常時表示しているシード投稿（data/board-seed.js）も
-     同じフィードに載せる。Supabase が使えないとき（オフライン・障害時）でも
-     トップの掲示板が空にならない。※ シードが無ければ何も足さない。 */
+  /* ── 各店舗ページの掲示板に常時表示しているシード投稿も同じフィードに載せる ── */
+  let seedCache = null;
   function seedRows() {
+    if (seedCache) return seedCache;
     const seed = window.GH_BOARD_SEED;
-    if (!seed) return [];
+    if (!seed) { seedCache = []; return seedCache; }
     const out = [];
     Object.keys(seed).forEach(spot => {
       (seed[spot] || []).forEach((p, i) => {
-        /* "2026/07/05(日) 13:42:18" → ISO 相当に変換（失敗したら捨てる） */
         const m = String(p.date || '').match(/^(\d{4})\/(\d{2})\/(\d{2}).*?(\d{2}):(\d{2}):(\d{2})$/);
         if (!m) return;
         const d = new Date(+m[1], +m[2] - 1, +m[3], +m[4], +m[5], +m[6]);
         out.push({ id: spot + '-seed-' + i, spot: spot, name: p.name, body: p.body, created_at: d.toISOString() });
       });
     });
-    return out;
+    seedCache = out;
+    return seedCache;
   }
   const merge = rows => (Array.isArray(rows) ? rows : []).concat(seedRows())
     .sort((a, b) => String(b.created_at).localeCompare(String(a.created_at)));
 
-  /* 1回の取得を全セクションで共有（列が増えても壊れないよう select=* ） */
-  fetch(GH_SUPA_URL + '/rest/v1/posts?select=*&order=created_at.desc&limit=60', {
-    headers: { apikey: GH_SUPA_KEY, Authorization: 'Bearer ' + GH_SUPA_KEY }
-  })
-    .then(r => (r.ok ? r.json() : Promise.reject(new Error('http ' + r.status))))
-    .then(rows => { render(merge(rows)); })
-    .catch(() => { render(merge([])); });
+  function render(rows) {
+    if (!Array.isArray(rows) || !rows.length) return false;
+    const counts = {};
+    rows.forEach(p => { counts[p.spot] = (counts[p.spot] || 0) + 1; });
+    renderStatus(rows);
+    renderFeed(rows, counts);
+    renderTrending(rows, counts);
+    renderPhotos(rows);
+    renderReviews(rows);
+    renderHotItems(rows);
+    renderActiveBoards(rows, counts);
+    /* 次回の「新着」判定用に、いま表示した投稿を覚えておく */
+    rows.forEach(p => state.seen.add(String(p.id)));
+    state.first = false;
+    return true;
+  }
+
+  /* ── 取得 → 描画 ── */
+  function refresh() {
+    return fetch(GH_SUPA_URL + '/rest/v1/posts?select=*&order=created_at.desc&limit=' + LIMIT, {
+      headers: {
+        apikey: GH_SUPA_KEY,
+        Authorization: 'Bearer ' + GH_SUPA_KEY,
+        Prefer: 'count=exact'                      /* 総投稿数を Content-Range で受け取る */
+      }
+    })
+      .then(r => {
+        if (!r.ok) throw new Error('http ' + r.status);
+        const cr = r.headers.get('content-range');   /* 例: "0-59/123" */
+        const n = cr && cr.split('/')[1];
+        if (n && /^\d+$/.test(n)) state.total = Number(n);
+        return r.json();
+      })
+      .then(rows => {
+        const fresh = (rows || []).filter(p => !state.seen.has(String(p.id)));
+        state.newCount = state.first ? 0 : fresh.length;
+        state.lastAt = new Date().toISOString();
+        render(merge(rows));
+      })
+      .catch(() => {
+        /* 取得できないときはシードだけで描画（初回のみ）。以降は現状維持。 */
+        if (state.first) { state.lastAt = new Date().toISOString(); render(merge([])); }
+      });
+  }
+
+  refresh();
+
+  /* 経過時間は取得を待たずに進める（「○分前」が止まって見えないように） */
+  setInterval(() => tickTimes(), TICK_MS);
+
+  /* タブが見えているときだけ再取得する（無駄な通信をしない） */
+  let timer = setInterval(() => { if (!document.hidden) refresh(); }, POLL_MS);
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) { tickTimes(); refresh(); }
+  });
+  window.addEventListener('pagehide', () => clearInterval(timer));
 })();
 
 /* ── Spot exterior photo: upload + localStorage persistence (location.html) ── */
