@@ -65,6 +65,11 @@ window.GH_ADS = {
   /* サイドバー1枠に表示する最大件数（超過分は日替わりローテーション） */
   maxPerSlot: 3,
 
+  /* 「楽天市場でチェック」に一度に出す最大件数。
+     全件並べるとページ本文より広告のほうが長くなるため制限する。
+     出す件数を絞っても、日替わりで表示位置がずれるので全商品が順に露出する。 */
+  featuredMax: 6,
+
   /* ── サイドバー広告（楽天 画像リンク。タグ改変なし） ── */
   products: [
     { html: '<a href="https://hb.afl.rakuten.co.jp/hsc/5564759c.96df2cee.5547dfc7.ed412751/?link_type=pict&ut=eyJwYWdlIjoic2hvcCIsInR5cGUiOiJwaWN0IiwiY29sIjoxLCJjYXQiOiI0NCIsImJhbiI6Mjc5NDg1OCwiYW1wIjpmYWxzZX0%3D" target="_blank" rel="nofollow sponsored noopener" style="word-wrap:break-word;"><img src="https://hbb.afl.rakuten.co.jp/hsb/5564759c.96df2cee.5547dfc7.ed412751/?me_id=1&me_adv_id=2794858&t=pict" border="0" style="margin:2px" alt="" title=""></a>' },

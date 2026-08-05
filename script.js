@@ -1435,7 +1435,16 @@ document.addEventListener('click', e => {
   /* ── 横長「楽天市場でチェック」セクション（featured を [data-gh-featured] に描画） ── */
   const featBox = document.querySelector('[data-gh-featured]');
   if (featBox) {
-    const feat = (cfg.featured || []).filter(Boolean);
+    const featAll = (cfg.featured || []).filter(Boolean);
+    /* 表示は featuredMax 件まで。開始位置を日替わりでずらして、
+       件数を絞っても全商品が順番に露出するようにする。 */
+    const featMax = Number(cfg.featuredMax) > 0 ? Number(cfg.featuredMax) : featAll.length;
+    let feat = featAll;
+    if (featAll.length > featMax) {
+      const day = Math.floor((Date.now() + 9 * 3600 * 1000) / 86400000);
+      const start = day % featAll.length;
+      feat = featAll.concat(featAll).slice(start, start + featMax);
+    }
     if (feat.length) {
       featBox.innerHTML = feat.map(h => '<div class="gh-featured__item">' + h + '</div>').join('') + discHtml;
       const sec = featBox.closest('.gh-featured-sec');
