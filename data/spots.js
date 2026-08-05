@@ -3729,8 +3729,67 @@ window.GH_SPOTS = [
     verifiedAt: '2026-08-04',
     lat: 35.0836, lon: 137.156,
     access: '名鉄豊田市駅すぐのKiTARAブルー棟。愛知県下最大級の650面。朝8時から深夜0時半まで営業'
+  },
+  {
+    id: 'cpla-plus-markis-minatomirai',
+    brand: '#C-pla（シープラ）',
+    name: '#C-pla+ MARK IS みなとみらい店',
+    region: 'kanto',
+    pref: '神奈川県',
+    area: '神奈川県・みなとみらい',
+    address: '神奈川県横浜市西区みなとみらい3-5-1 MARK IS みなとみらい 3F',
+    hours: '月〜木 10:00〜20:00／金土日祝 10:00〜21:00',
+    sourceUrl: 'https://www.mec-markis.jp/mm/shop/detail/?act=10196',
+    verifiedAt: '2026-08-04',
+    lat: 35.4577, lon: 139.6319,
+    access: 'みなとみらい駅直結。常時900種類超の品ぞろえに加え、プロジェクションマッピングのテーブルや撮影ブース「C-pit」など遊べる仕掛けがある大型店'
+  },
+  {
+    id: 'gashapon-bos-minatomirai-tokyu-square',
+    brand: 'ガシャポンバンダイオフィシャルショップ',
+    name: 'ガシャポンバンダイオフィシャルショップ みなとみらい東急スクエア店',
+    region: 'kanto',
+    pref: '神奈川県',
+    area: '神奈川県・みなとみらい',
+    address: '神奈川県横浜市西区みなとみらい2-3-2 みなとみらい東急スクエア① 4F',
+    hours: '平日 11:00〜19:00／土日祝 11:00〜20:00',
+    machines: 300,
+    sourceUrl: 'https://www.minatomirai-square.com/floor/detail/?cd=000427',
+    verifiedAt: '2026-08-04',
+    lat: 35.4585, lon: 139.6335,
+    access: 'みなとみらい駅直結のクイーンズスクエア横浜内。2024年12月19日オープンのバンダイ公式店で、300面にバンダイの新商品が並ぶ'
+  },
+  {
+    id: 'gachagacha-collection-yokohama-sky',
+    brand: 'ガチャガチャコレクション',
+    name: 'ガチャガチャコレクション 横浜スカイビル',
+    region: 'kanto',
+    pref: '神奈川県',
+    area: '神奈川県・横浜駅',
+    address: '神奈川県横浜市西区高島2-19-12 横浜スカイビル 7F',
+    tel: '045-534-3212',
+    hours: '10:30〜20:30（1月1日を除き無休）',
+    machines: 300,
+    sourceUrl: 'https://www.yokohama-sky.co.jp/shop/gachagacha',
+    verifiedAt: '2026-08-04',
+    lat: 35.4665, lon: 139.6248,
+    access: '横浜駅東口すぐの横浜スカイビル7階。約300面。2022年4月オープン（旧マルイシティ横浜の建物）'
+  },
+  {
+    id: 'asobuild-yokohama-gacha',
+    brand: 'アソビル',
+    name: 'アソビル（ガチャガチャコーナー）',
+    region: 'kanto',
+    pref: '神奈川県',
+    area: '神奈川県・横浜駅',
+    address: '神奈川県横浜市西区高島2-14-9 アソビル 1F',
+    hours: '7:00〜21:00',
+    machines: 200,
+    sourceUrl: 'https://www.tokyu.co.jp/area/yokohama/article/arti-01KTJAX01CYZ7W24MMFHZNGWA1/',
+    verifiedAt: '2026-08-04',
+    lat: 35.4655, lon: 139.6238,
+    access: '横浜駅東口直通のアソビル1階。朝7時から回せるので出勤前や始発待ちにも。レトロ系から最新キャラまで約200台'
   }
-
 ];
 
 /* 閉店店舗の自動非表示：closedAfter（最終営業日）を過ぎた店舗は、
