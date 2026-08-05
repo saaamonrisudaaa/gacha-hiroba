@@ -22,6 +22,8 @@
   <script src="data/spots.js" defer></script>
   <script src="spots-ui.js" defer></script>
   <script src="data/ads.js" defer></script>
+  <!-- 新着書き込みのフォールバック用（Supabase が読めないときもハブが空にならない） -->
+  <script src="data/board-seed.js" defer></script>
   <script src="script.js" defer></script>
 </head>
 <body>
@@ -98,6 +100,21 @@
       <div class="gh-main__layout">
         <div class="gh-main__content">
 
+          <!-- ライブ状況＋全板横断の新着書き込み（script.js のライブモジュールが描画）
+               掲示板ハブなのに書き込みが1件も見えない状態を解消する -->
+          <div class="gh-live" data-gh-live-status hidden></div>
+
+          <section class="gh-section gh-sec--main gh-community-sec" style="margin-bottom:16px" hidden>
+            <div class="gh-section__header">
+              <h2 class="gh-section__title gh-section__title--lg">
+                <span class="gh-live-dot" aria-hidden="true"></span>全掲示板の新着書き込み
+              </h2>
+            </div>
+            <div class="gh-plaza" data-gh-plaza hidden></div>
+            <div class="gh-post-list" data-gh-community-feed></div>
+            <div class="gh-invite" data-gh-invite hidden></div>
+          </section>
+
           <!-- 掲示板検索 -->
           <section class="gh-section" style="margin-bottom:16px">
             <form class="gh-map-search-form" style="margin:0">
@@ -112,11 +129,11 @@
           <!-- 店舗の掲示板一覧（実データ・設置台数順） -->
           <section class="gh-section">
             <div class="gh-section__header">
-              <h2 class="gh-section__title">注目の掲示板</h2>
-              <span style="font-size:12px;color:var(--gh-muted);font-weight:600">設置台数順</span>
+              <h2 class="gh-section__title">掲示板一覧</h2>
+              <span style="font-size:12px;color:var(--gh-muted);font-weight:600">設置台数の多い順</span>
             </div>
             <div class="gh-table-wrap">
-              <table class="gh-table">
+              <table class="gh-table" data-board-limit="20">
                 <thead>
                   <tr>
                     <th style="width:44px">順位</th>
@@ -131,6 +148,7 @@
                 </tbody>
               </table>
             </div>
+            <p class="gh-board-more"><button type="button" class="gh-btn gh-btn--block" data-gh-board-more hidden></button></p>
             <p class="gh-detail-note" style="margin-top:12px">「見る」を押すと、その店舗の掲示板に移動できます。入荷情報・混雑状況・狙い目をみんなで共有しましょう。</p>
           </section>
 

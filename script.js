@@ -100,7 +100,20 @@ function renderRanking(key) {
 
   const table = tbody.closest('table');
   const limit = table ? parseInt(table.dataset.limit || '0', 10) : 0;
+  /* ランキングページは初期30件だけ出し、残りはボタンで展開する
+     （289件を最初から並べると、上位を見たいだけの人が延々スクロールすることになる） */
+  const more = document.querySelector('[data-gh-rank-more]');
   const shown = limit > 0 ? rows.slice(0, limit) : rows;
+  if (more) {
+    const rest = rows.length - shown.length;
+    more.hidden = rest <= 0;
+    more.textContent = rest > 0 ? '残り ' + rest + '件を表示 ▼' : '';
+    more.onclick = () => {
+      if (table) table.removeAttribute('data-limit');
+      more.hidden = true;
+      renderRanking(key);
+    };
+  }
 
   tbody.innerHTML = shown.map((s, i) => {
     const rank = i + 1;
@@ -1239,6 +1252,57 @@ renderRanking('national');
     if (!document.hidden) { tickTimes(); refresh(); }
   });
   window.addEventListener('pagehide', () => clearInterval(timer));
+})();
+
+/* ===========================================================================
+   店舗ページ：掲示板プレビュー
+   詳細タブにも最新の書き込みを出し、タブを切り替えなくても人の気配が見えるようにする。
+   #bbsList の描画結果をそのまま流用するので、通信は増やさない。
+   =========================================================================== */
+(function () {
+  const box = document.querySelector('[data-gh-bbs-preview]');
+  const list = document.querySelector('[data-gh-bbs-preview-list]');
+  const src = document.getElementById('bbsList');
+  if (!box || !list || !src) return;
+
+  const countEl = document.querySelector('[data-gh-bbs-preview-count]');
+  const badge = document.querySelector('[data-gh-board-badge]');
+  const boardTab = document.querySelector('.gh-detail-tabs [data-panel="board"]');
+
+  /* 「すべて見る」「書き込む」は掲示板タブへ切り替える */
+  document.querySelectorAll('[data-gh-open-board]').forEach(a => {
+    a.addEventListener('click', ev => {
+      if (!boardTab) return;
+      ev.preventDefault();
+      boardTab.click();
+      const form = document.getElementById(a.classList.contains('gh-btn') ? 'bbsForm' : 'bbsList');
+      if (form) form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  function sync() {
+    const posts = src.querySelectorAll('.gh-bbs__post');
+    const n = posts.length;
+    if (badge) { badge.textContent = n ? String(n) : ''; badge.hidden = !n; }
+    if (countEl) countEl.textContent = n ? '書き込み ' + n + '件' : '';
+    if (!n) {                                   /* 0件でも「最初の1件を」と誘う */
+      list.innerHTML = '<p class="gh-bbs-preview__empty">まだ書き込みがありません。' +
+        'あなたの1件が、次に来る人の助けになります。</p>';
+      box.hidden = false;
+      return;
+    }
+    list.innerHTML = '';
+    Array.prototype.slice.call(posts, 0, 3).forEach(el => {
+      const clone = el.cloneNode(true);
+      clone.classList.add('gh-bbs__post--preview');
+      list.appendChild(clone);
+    });
+    box.hidden = false;
+  }
+
+  sync();
+  /* 掲示板の描画・投稿にあわせて追従する */
+  new MutationObserver(sync).observe(src, { childList: true });
 })();
 
 /* ── Spot exterior photo: upload + localStorage persistence (location.html) ── */

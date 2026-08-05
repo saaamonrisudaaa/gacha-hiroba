@@ -79,7 +79,7 @@
       <div class="gh-detail-tabs" role="tablist" aria-label="表示切り替え">
         <button type="button" id="favoriteBtn" class="gh-detail-tabs__fav">♡ お気に入り登録</button>
         <button type="button" class="active" data-panel="detail" role="tab" aria-selected="true">詳細</button>
-        <button type="button" data-panel="board" role="tab" aria-selected="false">掲示板</button>
+        <button type="button" data-panel="board" role="tab" aria-selected="false">掲示板<span class="gh-detail-tabs__badge" data-gh-board-badge hidden></span></button>
       </div>
 
       <!-- ヒーロー（Yahooファイナンス個別銘柄イメージ。数値は設置台数） -->
@@ -109,17 +109,20 @@
           <!-- ============ 詳細 panel ============ -->
           <section class="gh-tab-panel" data-panel="detail">
 
-            <!-- アクセス統計（実データ蓄積中） -->
-            <section class="gh-section">
+            <!-- この店の掲示板（最新の書き込みを詳細タブにも出す。
+                 タブを切り替えないと人の気配が見えないのを解消するため） -->
+            <section class="gh-section gh-bbs-preview" data-gh-bbs-preview hidden>
               <div class="gh-section__header">
-                <h2 class="gh-section__title">人気トレンド（訪問数）</h2>
+                <h2 class="gh-section__title">
+                  <span class="gh-live-dot" aria-hidden="true"></span>この店の掲示板
+                  <span class="gh-bbs-preview__count" data-gh-bbs-preview-count></span>
+                </h2>
+                <a href="#board" class="gh-section__more" data-gh-open-board>すべて見る →</a>
               </div>
-              <div class="gh-stat-pending">
-                <span class="gh-stat-pending__icon">📊</span>
-                <div>
-                  <strong>アクセス統計を集計中です</strong>
-                  <p>訪問データが貯まり次第、曜日別・時間帯別の人気トレンドを公開します。掲示板で最新の入荷・混雑情報をチェックしてください。</p>
-                </div>
+              <div class="gh-bbs-preview__list" data-gh-bbs-preview-list></div>
+              <div class="gh-bbs-preview__foot">
+                <a href="#board" class="gh-btn gh-btn--primary" data-gh-open-board>✏️ この店の情報を書き込む</a>
+                <span class="gh-bbs-preview__note">入荷・在庫・混雑のひとことでも大歓迎です（登録不要）</span>
               </div>
             </section>
 

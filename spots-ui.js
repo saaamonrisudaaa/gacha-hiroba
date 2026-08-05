@@ -475,14 +475,15 @@
     var totalMachines = SPOTS.reduce(function (n, s) { return n + (Number(s.machines) || 0); }, 0);
     var prefs = {}; SPOTS.forEach(function (s) { prefs[s.pref] = 1; });
     setText('boardStatBoards', SPOTS.length + '板');
-    setText('boardStatPrefs', Object.keys(prefs).length + '都県');
+    setText('boardStatPrefs', Object.keys(prefs).length + '都道府県');
     setText('boardStatMachines', '約' + totalMachines.toLocaleString('ja-JP') + '台');
     if (sorted[0]) {
       setText('boardStatTop', sorted[0].name.replace('ガチャガチャの森 ', ''));
       setText('boardStatTopSub', machinesText(sorted[0].machines) + '（台数1位）');
     }
 
-    /* 一覧テーブル */
+    /* 一覧テーブル（初期は data-board-limit 件だけ出し、残りはボタンで展開する。
+       289件すべてを最初から並べると縦に伸びすぎて、目当ての板に辿り着けないため） */
     var tbody = document.querySelector('[data-gh-board-table]');
     var rankCls = function (r) { return r === 1 ? ' gh-rank--1' : r === 2 ? ' gh-rank--2' : r === 3 ? ' gh-rank--3' : ''; };
     tbody.innerHTML = sorted.map(function (s, i) {
@@ -496,6 +497,25 @@
                '<td><a href="' + url + '" class="gh-btn gh-btn--xs">見る</a></td>' +
              '</tr>';
     }).join('');
+
+    var table = tbody.closest('table');
+    var limit = table ? parseInt(table.getAttribute('data-board-limit') || '0', 10) : 0;
+    var moreBtn = document.querySelector('[data-gh-board-more]');
+    if (limit > 0 && sorted.length > limit) {
+      var rows = tbody.querySelectorAll('tr');
+      var hide = function () {
+        for (var i = limit; i < rows.length; i++) rows[i].hidden = true;
+      };
+      hide();
+      if (moreBtn) {
+        moreBtn.textContent = '残り ' + (sorted.length - limit) + '件の掲示板をすべて表示 ▼';
+        moreBtn.hidden = false;
+        moreBtn.addEventListener('click', function () {
+          for (var i = limit; i < rows.length; i++) rows[i].hidden = false;
+          moreBtn.hidden = true;
+        });
+      }
+    }
 
     /* サイドバー：大型スポットの掲示板 */
     var side = document.querySelector('[data-gh-board-side]');
@@ -877,9 +897,12 @@
           '</div>' +
           '<div class="gh-table-wrap"><table class="gh-table">' +
             '<thead><tr><th>店舗名</th><th>エリア</th><th>設置台数</th><th>営業時間</th></tr></thead><tbody>';
-      arr.forEach(function (s) {
+      /* 地方ごとに初期20件だけ出し、残りはボタンで展開する。
+         関東169件を最初から全部並べると、目当ての店に辿り着く前に力尽きるため。 */
+      var LIMIT = 20;
+      arr.forEach(function (s, i) {
         html +=
-          '<tr>' +
+          '<tr' + (i >= LIMIT ? ' hidden data-more="' + region + '"' : '') + '>' +
             '<td><a class="gh-table__link" href="/spot/' + encodeURIComponent(s.id) + '.html' + '">' + esc(s.name) + '</a>' +
               '<small class="gh-store-brand">' + esc(s.brand) + '</small></td>' +
             '<td>' + esc(s.area) + '</td>' +
@@ -887,10 +910,22 @@
             '<td>' + esc(s.hours || '—') + '</td>' +
           '</tr>';
       });
-      html += '</tbody></table></div></section>';
+      html += '</tbody></table></div>';
+      if (arr.length > LIMIT) {
+        html += '<button type="button" class="gh-btn gh-btn--block gh-list-more" data-more-btn="' + region + '">' +
+          '残り ' + (arr.length - LIMIT) + '件の' + esc(REGION_LABEL[region]) + 'の店舗を表示 ▼</button>';
+      }
+      html += '</section>';
     });
 
     box.innerHTML = html || '<p class="gh-widget__text">店舗はまだ登録されていません。</p>';
+    box.querySelectorAll('[data-more-btn]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var r = btn.getAttribute('data-more-btn');
+        box.querySelectorAll('[data-more="' + r + '"]').forEach(function (tr) { tr.hidden = false; });
+        btn.hidden = true;
+      });
+    });
     if (pref) { setText('storeCount', String(source.length)); }
     else { wireStoreTabs(); renderBrandChips(null); }
   }
