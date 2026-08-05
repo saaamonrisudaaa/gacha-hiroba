@@ -2543,19 +2543,6 @@ window.GH_SPOTS = [
     access: '東急百貨店たまプラーザ店内（たまプラーザ駅直結）'
   },
   {
-    id: 'gashadepa-yokohama-ekimae',
-    brand: 'ガシャポンのデパート',
-    name: 'ガシャポンのデパート 横浜駅前店',
-    region: 'kanto',
-    pref: '神奈川県',
-    area: '神奈川県・横浜駅',
-    address: '神奈川県横浜市西区南幸1-10-1 相鉄南幸16ビル 1〜3F',
-    hours: '10:00〜23:00',
-    machines: 2800,
-    lat: 35.465, lon: 139.6194,
-    access: '相鉄南幸16ビル1〜3F（横浜駅西口から徒歩約3分・3フロアの大型店）'
-  },
-  {
     id: 'yodobashi-yokohama-gacha',
     brand: 'ヨドバシカメラ',
     name: 'ヨドバシカメラ マルチメディア横浜（ガチャガチャコーナー）',
@@ -3789,6 +3776,35 @@ window.GH_SPOTS = [
     verifiedAt: '2026-08-04',
     lat: 35.4655, lon: 139.6238,
     access: '横浜駅東口直通のアソビル1階。朝7時から回せるので出勤前や始発待ちにも。レトロ系から最新キャラまで約200台'
+  },
+  {
+    id: 'cpla-yokohama-nishiguchi',
+    brand: '#C-pla（シープラ）',
+    name: '#C-pla 横浜西口店',
+    region: 'kanto',
+    pref: '神奈川県',
+    area: '神奈川県・横浜駅',
+    address: '神奈川県横浜市西区南幸1-10-1 相鉄南幸16ビル 1〜3F',
+    tel: '080-7945-1386',
+    hours: '10:00〜23:00',
+    sourceUrl: 'https://toshin.jpn.com/shop/%E6%A8%AA%E6%B5%9C%E8%A5%BF%E5%8F%A3%E5%BA%97/',
+    verifiedAt: '2026-08-04',
+    lat: 35.465, lon: 139.6194,
+    access: '横浜駅西口から徒歩約3分。3フロアで2,661種類。高額紙幣対応の両替機あり。23時まで営業しているので飲み会帰りにも寄れる'
+  },
+  {
+    id: 'gashapon-bos-surugaya-yokohama',
+    brand: 'ガシャポンバンダイオフィシャルショップ',
+    name: 'ガシャポンバンダイオフィシャルショップ 駿河屋横浜店',
+    region: 'kanto',
+    pref: '神奈川県',
+    area: '神奈川県・横浜駅',
+    address: '神奈川県横浜市西区高島2-19-12 横浜スカイビル 7F（駿河屋 横浜店内）',
+    hours: '10:30〜20:30（横浜スカイビルに準じる）',
+    sourceUrl: 'https://www.gashapon.jp/shop/shop.php?shop_code=S90000883',
+    verifiedAt: '2026-08-04',
+    lat: 35.4665, lon: 139.6248,
+    access: '横浜駅東口すぐ、横浜スカイビル7階の駿河屋内にあるバンダイ公式店。同じフロアのガチャガチャコレクションとはしごできる'
   }
 ];
 
