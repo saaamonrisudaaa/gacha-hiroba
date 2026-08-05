@@ -660,8 +660,10 @@ renderRanking('national');
   const hotBox    = $('[data-gh-hot-items]');
   const activeBox = $('[data-gh-active-boards]');
   const statusBox = $('[data-gh-live-status]');
+  const plazaBox  = $('[data-gh-plaza]');
+  const inviteBox = $('[data-gh-invite]');
   if (!window.fetch) return;
-  if (!feedBox && !trendBox && !photoBox && !reviewBox && !hotBox && !activeBox && !statusBox) return;
+  if (!feedBox && !trendBox && !photoBox && !reviewBox && !hotBox && !activeBox && !statusBox && !plazaBox) return;
 
   const POLL_MS = 60000;   /* 投稿の再取得間隔 */
   const TICK_MS = 15000;   /* 「○分前」の再計算間隔 */
@@ -718,6 +720,59 @@ renderRanking('national');
   /* 画像をサムネイルで見せるので、本文からは画像URLを取り除いて読みやすくする */
   const textOf = p => String(p.body || '').replace(IMG_RE, '').replace(/[ \t]{2,}/g, ' ').trim();
 
+  /* 表示名から色と頭文字を決めるアバター。同じ名前なら常に同じ見た目になる。
+     （写真ではなく名前から作るだけなので、無い情報を作っていることにはならない） */
+  const AV_COLORS = ['#e94560', '#ff8c42', '#f59e0b', '#16a34a', '#0ea5e9',
+                     '#6366f1', '#a855f7', '#ec4899', '#14b8a6', '#64748b'];
+  function avatarHtml(name, cls) {
+    const s = String(name || '名無しのガチャー');
+    let h = 0;
+    for (let i = 0; i < s.length; i++) h = (Math.imul(h, 31) + s.charCodeAt(i)) >>> 0;
+    const ch = Array.from(s)[0] || '？';
+    return '<span class="gh-av ' + (cls || '') + '" style="background:' + AV_COLORS[h % AV_COLORS.length] + '"' +
+      ' aria-hidden="true">' + esc(ch) + '</span>';
+  }
+
+  /* 板ごとにレス番号を振り、本文の「>>番号」から返信数を数える。
+     取得できている範囲での実数。数が無ければ何も出さない（作らない）。 */
+  function replyIndex(rows) {
+    const byBoard = {};
+    rows.forEach(p => { (byBoard[p.spot] = byBoard[p.spot] || []).push(p); });
+    const num = {}, replies = {};
+    Object.keys(byBoard).forEach(spot => {
+      const list = byBoard[spot].slice()
+        .sort((a, b) => String(a.created_at).localeCompare(String(b.created_at)));
+      const byNum = {};
+      list.forEach((p, i) => { num[String(p.id)] = i + 1; byNum[i + 1] = p; });
+      list.forEach(p => {
+        const m = String(p.body || '').match(/(?:>>|＞＞|»)\s*(\d+)/g);
+        if (!m) return;
+        m.forEach(t => {
+          const n = Number(String(t).replace(/[^0-9]/g, ''));
+          const target = byNum[n];
+          if (target && String(target.id) !== String(p.id)) {
+            replies[String(target.id)] = (replies[String(target.id)] || 0) + 1;
+          }
+        });
+      });
+    });
+    return { num: num, replies: replies };
+  }
+
+  /* いいね：posts に likes 列があるときだけ有効になる。
+     列が無い間はボタンを出さない（押せないボタンを置かない）。 */
+  const likedKey = 'gh-liked';
+  function likedSet() {
+    try { return new Set(JSON.parse(localStorage.getItem(likedKey) || '[]')); }
+    catch (e) { return new Set(); }
+  }
+  function markLiked(id) {
+    try {
+      const set = likedSet(); set.add(String(id));
+      localStorage.setItem(likedKey, JSON.stringify(Array.from(set)));
+    } catch (e) {}
+  }
+
   /* 5ch風の匿名ID（投稿ごとに安定） */
   const shortId = str => {
     let h = 2166136261 >>> 0;
@@ -762,11 +817,61 @@ renderRanking('national');
     statusBox.hidden = false;
   }
 
-  /* ── ② 掲示板フィード（トップの主役） ── */
+  /* いちばん書き込みが多い板（投稿導線の行き先に使う） */
+  function busiestBoard(counts) {
+    const spot = Object.keys(counts).sort((a, b) => counts[b] - counts[a])[0];
+    return spot ? storeOf(spot) : null;
+  }
+
+  /* ── 広場の顔ぶれ：直近に書き込んだ人のアイコンを並べる ── */
+  function renderPlaza(rows, counts) {
+    if (!plazaBox) return;
+    const seen = [];
+    rows.forEach(p => {
+      const n = String(p.name || '名無しのガチャー');
+      if (seen.length < 7 && seen.indexOf(n) === -1) seen.push(n);
+    });
+    if (!seen.length) return;
+    const store = busiestBoard(counts);
+    plazaBox.innerHTML =
+      '<span class="gh-plaza__faces">' + seen.map(n => avatarHtml(n, 'gh-av--face')).join('') + '</span>' +
+      '<span class="gh-plaza__text">' +
+        '<strong>' + esc(seen[0]) + '</strong> さんたちが書き込んでいます' +
+        '<small>入荷・在庫・混雑のひとことが、次に行く誰かの役に立ちます</small>' +
+      '</span>' +
+      '<a class="gh-plaza__cta" href="' + boardHref(store) + '">✏️ あなたも書き込む</a>';
+    plazaBox.hidden = false;
+  }
+
+  /* ── 投稿のお誘い（フィードの下） ── */
+  function renderInvite(rows, counts) {
+    if (!inviteBox) return;
+    const store = busiestBoard(counts);
+    inviteBox.innerHTML =
+      '<img class="gh-invite__icon" src="/assets/mascot-icon.png" alt="" width="44" height="44" />' +
+      '<span class="gh-invite__body">' +
+        '<strong class="gh-invite__title">あなたのガチャ活も教えてください</strong>' +
+        '<small class="gh-invite__note">' +
+          '「○○店に△△が入荷してた」「土曜の夕方は空いてた」だけでも助かります。' +
+          '登録不要・名前なしで書き込めます。</small>' +
+      '</span>' +
+      '<span class="gh-invite__actions">' +
+        '<a class="gh-btn gh-btn--primary gh-invite__go" href="' + boardHref(store) + '">' +
+          '✏️ <span>' + esc(store ? store.name : '掲示板') + '</span> の掲示板へ</a>' +
+        '<a class="gh-btn" href="/stores.html">よく行く店を探す</a>' +
+      '</span>';
+    inviteBox.hidden = false;
+  }
+
+  /* ── ② 掲示板フィード（トップの主役＝人） ── */
   function renderFeed(rows, counts) {
     if (!feedBox) return;
     const list = rows.slice(0, 12);
     if (!list.length) return;
+    const idx = replyIndex(rows);
+    const liked = likedSet();
+    /* likes 列を実際に持っている投稿（＝DB上の実投稿）にだけ、いいねを出す */
+    const hasLikes = p => p && Object.prototype.hasOwnProperty.call(p, 'likes');
     feedBox.innerHTML = list.map(p => {
       const store = storeOf(p.spot);
       const where = store ? store.name : '総合掲示板';
@@ -777,12 +882,17 @@ renderRanking('national');
       const threadCount = counts[p.spot] || 1;
       const likes = Number(p.likes);
       const pics = photosOf(p);
+      const resNo = idx.num[String(p.id)];
+      const replyN = idx.replies[String(p.id)] || 0;
+      const isLiked = liked.has(String(p.id));
       /* 初回表示では光らせない。2回目以降に増えた投稿だけをハイライトする */
       const isNew = !state.first && !state.seen.has(String(p.id));
       return '<article class="gh-post' + (isNew ? ' gh-post--new' : '') + '">' +
         (isNew ? '<span class="gh-post__newbadge">NEW</span>' : '') +
         '<div class="gh-post__head">' +
+          avatarHtml(p.name, 'gh-av--post') +
           '<span class="gh-post__name">' + esc(p.name || '名無しのガチャー') + '</span>' +
+          (resNo ? '<span class="gh-post__no">' + resNo + '</span>' : '') +
           '<span class="gh-post__date">' + esc(dateLabel(p.created_at)) + '</span>' +
           '<span class="gh-post__id">ID:' + esc(shortId(String(p.id || '') + p.created_at)) + '</span>' +
           agoTag(p.created_at, 'gh-post__ago') +
@@ -798,12 +908,19 @@ renderRanking('national');
           '</a>' +
           '<span class="gh-post__stats">' +
             (pics.length ? '<span class="gh-post__stat gh-post__stat--photo" title="写真あり">📷 ' + pics.length + '</span>' : '') +
-            (Number.isFinite(likes) ? '<span class="gh-post__stat">👍 ' + likes + '</span>' : '') +
-            '<a class="gh-post__stat gh-post__stat--link" href="' + href + '">💬 ' + threadCount + '</a>' +
+            (replyN ? '<a class="gh-post__stat gh-post__stat--link" href="' + href + '" title="この投稿への返信">↩ ' + replyN + '</a>' : '') +
+            (hasLikes(p)
+              ? '<button type="button" class="gh-post__like' + (isLiked ? ' is-liked' : '') + '" data-like="' + esc(String(p.id)) + '" ' +
+                'aria-pressed="' + (isLiked ? 'true' : 'false') + '" aria-label="いいね">' +
+                '<span aria-hidden="true">♥</span><span class="gh-post__like-n">' + (Number.isFinite(likes) ? likes : 0) + '</span></button>'
+              : '') +
+            '<a class="gh-post__stat gh-post__stat--link" href="' + href + '" title="この板の書き込み数">💬 ' + threadCount + '</a>' +
+            '<a class="gh-post__reply" href="' + href + '">返信する</a>' +
           '</span>' +
         '</div>' +
       '</article>';
     }).join('');
+    wireLikes();
     /* 読めない画像はサムネごと消す（リンク切れの枠を残さない） */
     dropBrokenImages(feedBox.querySelectorAll('.gh-post__thumb img'), img => {
       const t = img.closest('.gh-post__thumb');
@@ -811,6 +928,40 @@ renderRanking('national');
     });
     const sec = feedBox.closest('.gh-community-sec');
     if (sec) sec.hidden = false;
+  }
+
+  /* いいね：クリックで Supabase の RPC を呼ぶ。押した記録はこの端末に残して
+     二重送信を防ぐ。RPC が無い環境では見た目を元に戻すだけで、数は作らない。 */
+  let likesWired = false;
+  function wireLikes() {
+    if (likesWired || !feedBox) return;
+    likesWired = true;
+    feedBox.addEventListener('click', ev => {
+      const btn = ev.target.closest('[data-like]');
+      if (!btn || btn.classList.contains('is-liked')) return;
+      ev.preventDefault();
+      const id = btn.getAttribute('data-like');
+      const nEl = btn.querySelector('.gh-post__like-n');
+      const before = Number(nEl.textContent) || 0;
+      btn.classList.add('is-liked');
+      btn.setAttribute('aria-pressed', 'true');
+      nEl.textContent = before + 1;
+      fetch(GH_SUPA_URL + '/rest/v1/rpc/gh_like_post', {
+        method: 'POST',
+        headers: {
+          apikey: GH_SUPA_KEY,
+          Authorization: 'Bearer ' + GH_SUPA_KEY,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ post_id: id })
+      })
+        .then(r => { if (!r.ok) throw new Error('http ' + r.status); markLiked(id); })
+        .catch(() => {                       /* 送れなかったら見た目を戻す */
+          btn.classList.remove('is-liked');
+          btn.setAttribute('aria-pressed', 'false');
+          nEl.textContent = before;
+        });
+    });
   }
 
   /* ── ③ 急上昇ワード（実投稿＋掲載データから算出。捏造しない） ── */
@@ -912,8 +1063,11 @@ renderRanking('national');
       return '<a class="gh-review" href="' + href + '">' +
         '<p class="gh-review__body">' + esc(body) + '</p>' +
         '<span class="gh-review__meta">' +
-          '<strong>' + esc(where) + '</strong>' +
-          '<span>' + esc(p.name || '名無しのガチャー') + '・' + agoTag(p.created_at, 'gh-review__ago') + '</span>' +
+          avatarHtml(p.name, 'gh-av--sm') +
+          '<span class="gh-review__who">' +
+            '<strong>' + esc(where) + '</strong>' +
+            '<span>' + esc(p.name || '名無しのガチャー') + '・' + agoTag(p.created_at, 'gh-review__ago') + '</span>' +
+          '</span>' +
         '</span>' +
       '</a>';
     }).join('');
@@ -1032,7 +1186,9 @@ renderRanking('national');
     const counts = {};
     rows.forEach(p => { counts[p.spot] = (counts[p.spot] || 0) + 1; });
     renderStatus(rows);
+    renderPlaza(rows, counts);
     renderFeed(rows, counts);
+    renderInvite(rows, counts);
     renderTrending(rows, counts);
     renderPhotos(rows);
     renderReviews(rows);

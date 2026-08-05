@@ -125,11 +125,19 @@
         <section class="gh-section gh-sec--main gh-community-sec" hidden>
           <div class="gh-section__header">
             <h2 class="gh-section__title gh-section__title--lg">
-              <span class="gh-live-dot" aria-hidden="true"></span>最新の掲示板投稿
+              <span class="gh-live-dot" aria-hidden="true"></span>いま広場で話されていること
             </h2>
             <a href="board.html" class="gh-section__more">もっと見る →</a>
           </div>
+
+          <!-- 広場の顔ぶれ（直近に書き込んだ人）＋書き込み導線 -->
+          <div class="gh-plaza" data-gh-plaza hidden></div>
+
           <div class="gh-post-list" data-gh-community-feed></div>
+
+          <!-- 投稿のお誘い（行き先はいちばん活発な板） -->
+          <div class="gh-invite" data-gh-invite hidden></div>
+
           <a href="board.html" class="gh-post-list__more">掲示板をすべて見る（無料・登録不要）→</a>
         </section>
 
@@ -303,7 +311,8 @@
         <div class="gh-widget" data-gh-active-boards hidden>
           <h3 class="gh-widget__title">💬 いま活発な掲示板</h3>
           <ol class="gh-active-boards"></ol>
-          <a href="board.html" class="gh-btn gh-btn--block" style="margin-top:10px">掲示板トップへ →</a>
+          <a href="board.html" class="gh-btn gh-btn--primary gh-btn--block" style="margin-top:10px">✏️ 書き込んでみる</a>
+          <a href="board.html" class="gh-btn gh-btn--block" style="margin-top:6px">掲示板トップへ →</a>
         </div>
 
         <div class="gh-widget">

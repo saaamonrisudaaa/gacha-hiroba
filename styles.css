@@ -3024,3 +3024,96 @@ a.gh-hot--row:hover { background: #fffaf5; text-decoration: none; }
   .gh-live__dot, .gh-post--new, .gh-live__new { animation: none; }
   .gh-photo:hover img { transform: none; }
 }
+
+/* =====================================================================
+   広場感（人の存在を見せるUI）
+   ===================================================================== */
+
+/* ── アバター（表示名から色と頭文字を決める） ── */
+.gh-av {
+  display: inline-flex; align-items: center; justify-content: center;
+  flex: 0 0 auto; width: 26px; height: 26px; border-radius: 50%;
+  color: #fff; font-size: 13px; font-weight: 800; line-height: 1;
+  user-select: none;
+}
+.gh-av--post { width: 24px; height: 24px; font-size: 12px; }
+.gh-av--sm { width: 22px; height: 22px; font-size: 11px; }
+.gh-av--face { width: 30px; height: 30px; font-size: 14px; border: 2px solid #fff; }
+
+/* ── 広場の顔ぶれ ── */
+.gh-plaza {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 12px;
+  margin: 0 0 12px; padding: 11px 13px;
+  background: #fffdf7; border: 1px dashed #e8dcc4; border-radius: 8px;
+}
+.gh-plaza__faces { display: inline-flex; flex: 0 0 auto; }
+.gh-plaza__faces .gh-av { margin-left: -9px; box-shadow: 0 1px 3px rgba(0,0,0,.12); }
+.gh-plaza__faces .gh-av:first-child { margin-left: 0; }
+.gh-plaza__text { display: flex; flex-direction: column; gap: 1px; min-width: 0; font-size: 13px; }
+.gh-plaza__text strong { font-weight: 800; }
+.gh-plaza__text small { font-size: 11.5px; color: var(--gh-muted, #6b7280); }
+.gh-plaza__cta {
+  margin-left: auto; flex: 0 0 auto;
+  padding: 8px 15px; border-radius: 999px;
+  background: var(--gh-accent, #e94560); color: #fff;
+  font-size: 12.5px; font-weight: 800; text-decoration: none;
+  box-shadow: 0 2px 8px rgba(233, 69, 96, .28);
+}
+.gh-plaza__cta:hover { background: #c73550; text-decoration: none; }
+
+/* ── 投稿のお誘い ── */
+.gh-invite {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 13px;
+  margin-top: 13px; padding: 14px 15px;
+  border: 1px solid var(--gh-border, #e5e7eb); border-radius: 9px;
+  background: linear-gradient(180deg, #fffefb 0%, #fff8ee 100%);
+}
+.gh-invite__icon { flex: 0 0 auto; border-radius: 50%; }
+.gh-invite__body { display: flex; flex-direction: column; gap: 3px; flex: 1 1 240px; min-width: 0; }
+.gh-invite__title { font-size: 14.5px; font-weight: 800; }
+.gh-invite__note { font-size: 12px; line-height: 1.6; color: var(--gh-muted, #6b7280); }
+.gh-invite__actions { display: flex; flex-wrap: wrap; gap: 8px; margin-left: auto; }
+
+/* ── 投稿のレス番号・返信数・返信導線 ── */
+.gh-post__head { gap: 7px; }
+.gh-post__no {
+  font-size: 10.5px; font-weight: 800; color: var(--gh-muted, #6b7280);
+  background: #f3f4f6; border-radius: 3px; padding: 1px 5px;
+}
+.gh-post__reply {
+  font-size: 11.5px; font-weight: 700; color: var(--gh-link, #1d4ed8);
+  text-decoration: none; padding: 2px 8px; border-radius: 999px;
+  border: 1px solid var(--gh-border, #e5e7eb);
+}
+.gh-post__reply:hover { background: #eff6ff; text-decoration: none; }
+
+/* ── いいね（posts に likes 列があるときだけ出る） ── */
+.gh-post__like {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 2px 9px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--gh-border, #e5e7eb); background: #fff;
+  color: var(--gh-muted, #6b7280); font-size: 11.5px; font-weight: 700;
+}
+.gh-post__like:hover { border-color: #fca5b5; color: var(--gh-accent, #e94560); }
+.gh-post__like.is-liked {
+  background: var(--gh-hot-bg, #fef2f2); border-color: #fca5b5; color: var(--gh-accent, #e94560);
+}
+.gh-post__like.is-liked > span:first-child { animation: gh-pop .35s ease; }
+
+/* 口コミにも顔を出す */
+.gh-review__meta { flex-direction: row; align-items: center; gap: 8px; }
+.gh-review__who { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+
+@media (max-width: 600px) {
+  .gh-plaza { gap: 9px; padding: 10px 11px; }
+  .gh-plaza__cta { margin-left: 0; width: 100%; text-align: center; }
+  .gh-plaza__text { flex: 1 1 100%; }
+  .gh-invite__actions { margin-left: 0; width: 100%; }
+  .gh-invite__actions .gh-btn { flex: 1 1 auto; }
+}
+/* 店舗名が長くても途中で切れて見えないよう、ボタン内だけ省略する */
+.gh-invite__go { max-width: 100%; }
+.gh-invite__go span {
+  display: inline-block; max-width: 13em; overflow: hidden;
+  text-overflow: ellipsis; white-space: nowrap; vertical-align: bottom;
+}
