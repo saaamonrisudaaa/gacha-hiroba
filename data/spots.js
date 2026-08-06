@@ -3805,7 +3805,70 @@ window.GH_SPOTS = [
     verifiedAt: '2026-08-04',
     lat: 35.4665, lon: 139.6248,
     access: '横浜駅東口すぐ、横浜スカイビル7階の駿河屋内にあるバンダイ公式店。同じフロアのガチャガチャコレクションとはしごできる'
+  },
+
+  {
+    id: 'cpla-thebig-kiyota',
+    brand: '#C-pla（シープラ）',
+    name: '#C-pla ザ・ビッグ清田店',
+    region: 'tohoku',
+    pref: '北海道',
+    area: '北海道・清田',
+    address: '北海道札幌市清田区平岡1条1-1-3 ザ・ビッグ清田 2階',
+    tel: '070-6672-0259',
+    hours: '9:00〜21:00',
+    sourceUrl: 'https://toshin.jpn.com/cpla/',
+    verifiedAt: '2026-08-04',
+    lat: 42.9955, lon: 141.429,
+    access: 'ザ・ビッグ清田 2階。2026年4月24日オープン。「horenso planet」がテーマの店内に1000種類以上'
+  },
+
+  {
+    id: 'gashapon-bos-lalaport-izumi',
+    brand: 'ガシャポンバンダイオフィシャルショップ',
+    name: 'ガシャポンバンダイオフィシャルショップ ららぽーと和泉店',
+    region: 'kansai',
+    pref: '大阪府',
+    area: '大阪府・和泉',
+    address: '大阪府和泉市あゆみ野4-4-7 ららぽーと和泉',
+    hours: '平日 10:00〜20:00／土日祝 10:00〜21:00',
+    machines: 360,
+    sourceUrl: 'https://prtimes.jp/main/html/rd/p/000000306.000159118.html',
+    verifiedAt: '2026-08-04',
+    lat: 34.4478, lon: 135.4258,
+    access: 'ららぽーと和泉。2026年3月6日にガシャポンのデパートと同時オープンしたバンダイ公式ショップ'
+  },
+
+  {
+    id: 'gashapon-bos-toyota-kitara',
+    brand: 'ガシャポンバンダイオフィシャルショップ',
+    name: 'ガシャポンバンダイオフィシャルショップ 豊田KiTARA店',
+    region: 'tokai',
+    pref: '愛知県',
+    area: '愛知県・豊田',
+    address: '愛知県豊田市喜多町2-170 KiTARA ブルー棟 2階',
+    machines: 310,
+    sourceUrl: 'https://bandainamco-am.co.jp/others/gashapon-bandai-officialshop/store/toyota_k/',
+    verifiedAt: '2026-08-04',
+    lat: 35.0836, lon: 137.156,
+    access: 'KiTARAブルー棟2階。2025年12月12日オープンのバンダイ公式店。同じ館内のガチャガチャスポットKiTARAと合わせて回れる'
+  },
+
+  {
+    id: 'gashacoco-matsumoto-scena',
+    brand: 'gashacoco（ガシャココ）',
+    name: 'gashacoco 松本シェーナ',
+    region: 'tokai',
+    pref: '長野県',
+    area: '長野県・松本',
+    address: '長野県松本市中央1-10-30 松本シェーナ 3階',
+    hours: '10:00〜20:00',
+    sourceUrl: 'https://gashacoco.jp/shop-list/3237',
+    verifiedAt: '2026-08-04',
+    lat: 36.232, lon: 137.968,
+    access: 'JR松本駅から徒歩約6分、松本PARCO跡地の商業施設「松本シェーナ」3階。2026年6月30日オープン'
   }
+
 ];
 
 /* 閉店店舗の自動非表示：closedAfter（最終営業日）を過ぎた店舗は、
