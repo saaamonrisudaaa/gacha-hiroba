@@ -4047,8 +4047,22 @@ window.GH_SPOTS = [
     verifiedAt: '2026-08-07',
     lat: 35.6255, lon: 139.4237,
     access: '多摩センター駅前の丘の上プラザ。1,009台は都内のガチャガチャの森で最大規模。2026年8月7日オープン'
+  },
+  {
+    id: 'dreamcapsule-main-labo-sakae',
+    brand: 'ドリームカプセル',
+    name: 'ドリームカプセル Main Labo',
+    region: 'tokai',
+    pref: '愛知県',
+    area: '愛知県・栄',
+    address: '愛知県名古屋市中区栄3-31-6 ロイヤルビル 1〜3F',
+    tel: '090-6165-0063',
+    hours: '10:00〜21:00（1月1日休み）',
+    sourceUrl: 'https://www.dreamcapsule.co.jp/store/8390',
+    verifiedAt: '2026-08-07',
+    lat: 35.1637, lon: 136.9063,
+    access: '地下鉄名城線 矢場町駅5番出口から南すぐ、栄ミナミの路面店。1〜3階の3フロアに常時約800種。街とつながるフルオープンスタイルで、名古屋にちなんだオリジナル商品も置く'
   }
-
 ];
 
 /* 閉店店舗の自動非表示：closedAfter（最終営業日）を過ぎた店舗は、

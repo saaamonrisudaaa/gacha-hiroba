@@ -794,7 +794,12 @@
       var hits = SPOTS.filter(function (s) {
         var hay = normSearch([s.name, s.brand, s.area, s.pref, s.address, s.access]
           .map(function (f) { return (f == null ? '' : String(f)); }).join(' ') + ' ' + GENERIC);
-        return terms.every(function (t) { return hay.indexOf(t) !== -1; });
+        /* 空白を詰めた版も見る。「Main Labo」を「mainlabo」と入力しても、
+           「ガシャポン のデパート」のように余分な空白を入れても当たるようにする。 */
+        var flat = hay.replace(/\s+/g, '');
+        return terms.every(function (t) {
+          return hay.indexOf(t) !== -1 || flat.indexOf(t.replace(/\s+/g, '')) !== -1;
+        });
       }).sort(function (a, b) { return (b.machines || 0) - (a.machines || 0); });
 
       var tabGroup2 = document.querySelector('.gh-tab-group');
