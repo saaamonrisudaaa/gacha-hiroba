@@ -3937,8 +3937,36 @@ window.GH_SPOTS = [
     verifiedAt: '2026-08-05',
     lat: 33.9506, lon: 130.9247,
     access: 'JR下関駅直結のシーモール下関シネマ棟2F。2026年5月15日オープンのバンダイ公式店・240面。映画の前後に寄れる'
+  },
+  {
+    id: 'gachagachanomori-onoda-sunpark',
+    brand: 'ガチャガチャの森',
+    name: 'ガチャガチャの森 おのだサンパーク店',
+    region: 'chugoku',
+    pref: '山口県',
+    area: '山口県・山陽小野田',
+    address: '山口県山陽小野田市中川6-4-1 おのだサンパーク 2F',
+    tel: '090-9914-6175',
+    hours: '10:00〜20:00',
+    machines: 500,
+    sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90001820',
+    verifiedAt: '2026-08-05',
+    lat: 34.006, lon: 131.181,
+    access: 'おのだサンパーク2F。2026年7月4日オープン・約500台。同じ館内にガシャポンバンダイオフィシャルショップもある'
+  },
+  {
+    id: 'gashapon-bos-onoda-sunpark',
+    brand: 'ガシャポンバンダイオフィシャルショップ',
+    name: 'ガシャポンバンダイオフィシャルショップ おのだサンパーク店',
+    region: 'chugoku',
+    pref: '山口県',
+    area: '山口県・山陽小野田',
+    address: '山口県山陽小野田市中川6-4-1 おのだサンパーク',
+    sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90001757',
+    verifiedAt: '2026-08-05',
+    lat: 34.006, lon: 131.181,
+    access: 'おのだサンパーク内のバンダイ公式店。同じ館内のガチャガチャの森と合わせて回れる'
   }
-
 ];
 
 /* 閉店店舗の自動非表示：closedAfter（最終営業日）を過ぎた店舗は、
