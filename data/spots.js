@@ -3867,6 +3867,76 @@ window.GH_SPOTS = [
     verifiedAt: '2026-08-04',
     lat: 36.232, lon: 137.968,
     access: 'JR松本駅から徒歩約6分、松本PARCO跡地の商業施設「松本シェーナ」3階。2026年6月30日オープン'
+  },
+  {
+    id: 'cpla-moraju-saga',
+    brand: '#C-pla（シープラ）',
+    name: '#C-pla モラージュ佐賀店',
+    region: 'kyushu',
+    pref: '佐賀県',
+    area: '佐賀県・佐賀',
+    address: '佐賀県佐賀市巨勢町大字牛島字二本松730 モラージュ佐賀 北館2階',
+    sourceUrl: 'https://toshin.jpn.com/shop/%E3%83%A2%E3%83%A9%E3%83%BC%E3%82%B8%E3%83%A5%E4%BD%90%E8%B3%80%E5%BA%97/',
+    verifiedAt: '2026-08-05',
+    lat: 33.2481, lon: 130.3238,
+    access: 'モラージュ佐賀 北館2階。同じ施設の南館1階に2号店、館内にガシャポンのデパートもあり、まとめて回れる'
+  },
+  {
+    id: 'cpla-2nd-moraju-saga',
+    brand: '#C-pla（シープラ）',
+    name: '#C-pla 2nd モラージュ佐賀店',
+    region: 'kyushu',
+    pref: '佐賀県',
+    area: '佐賀県・佐賀',
+    address: '佐賀県佐賀市巨勢町大字牛島字二本松730 モラージュ佐賀 南館1階',
+    sourceUrl: 'https://toshin.jpn.com/shop/c-pla-2nd-%E3%83%A2%E3%83%A9%E3%83%BC%E3%82%B8%E3%83%A5%E4%BD%90%E8%B3%80%E5%BA%97/',
+    verifiedAt: '2026-08-05',
+    lat: 33.2481, lon: 130.3238,
+    access: 'モラージュ佐賀 南館1階。北館2階の1号店とは別区画なので、品ぞろえの違いを見比べられる'
+  },
+  {
+    id: 'gashadepa-plant3-shimizu',
+    brand: 'ガシャポンのデパート',
+    name: 'ガシャポンのデパート PLANT-3 清水店',
+    region: 'tokai',
+    pref: '福井県',
+    area: '福井県・福井',
+    address: '福井県福井市三留町21号4番地 スーパーセンター PLANT-3 清水店内',
+    hours: '8:00〜21:30',
+    machines: 710,
+    sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90000937',
+    verifiedAt: '2026-08-05',
+    lat: 35.9633, lon: 136.13,
+    access: '福井県内最大級の710面。スーパーセンター内なので朝8時から回せる（買い物のついでに寄りやすい）'
+  },
+  {
+    id: 'gashacoco-yumecity-shimonoseki',
+    brand: 'gashacoco（ガシャココ）',
+    name: 'gashacoco ゆめシティ下関',
+    region: 'chugoku',
+    pref: '山口県',
+    area: '山口県・下関',
+    address: '山口県下関市伊倉新町3-1-1 ゆめシティ',
+    hours: '10:00〜20:00',
+    sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90001318',
+    verifiedAt: '2026-08-05',
+    lat: 33.98, lon: 130.935,
+    access: 'ゆめシティ（新下関駅側）内。ハピネットのカプセルトイ専門店で、2024年4月オープン'
+  },
+  {
+    id: 'gashapon-bos-cs-shimonoseki',
+    brand: 'ガシャポンバンダイオフィシャルショップ',
+    name: 'ガシャポンバンダイオフィシャルショップ シネマサンシャイン下関店',
+    region: 'chugoku',
+    pref: '山口県',
+    area: '山口県・下関',
+    address: '山口県下関市竹崎町4-1-37 シーモール下関 シネマ棟 2F',
+    hours: '9:00〜21:00',
+    machines: 240,
+    sourceUrl: 'https://bandainamco-am.co.jp/others/gashapon-bandai-officialshop/store/cs_shimonoseki/',
+    verifiedAt: '2026-08-05',
+    lat: 33.9506, lon: 130.9247,
+    access: 'JR下関駅直結のシーモール下関シネマ棟2F。2026年5月15日オープンのバンダイ公式店・240面。映画の前後に寄れる'
   }
 
 ];
