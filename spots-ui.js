@@ -171,21 +171,42 @@
         new Date(today + 'T00:00:00+09:00').getTime()) / dayMs);
     };
 
+    /* 並び順は「本日発売 → 直近の発売予定 → 少し前に出た新作」。
+       発売がまだ先の商品を先頭に置かないため、日付の降順ではなく
+       今日からの近さで並べる。 */
+    var order = function (r) {
+      var d = diff(r.date);
+      if (d === 0) return [0, 0];
+      if (d > 0) return [1, d];        /* これから出るもの：近い順 */
+      return [2, -d];                  /* すでに出たもの：新しい順 */
+    };
+    var sortByProximity = function (arr) {
+      return arr.slice().sort(function (a, b) {
+        var x = order(a), y = order(b);
+        return (x[0] - y[0]) || (x[1] - y[1]);
+      });
+    };
+
     var todays = all.filter(function (r) { return r.date === today; });
-    var recent = all.filter(function (r) { var d = diff(r.date); return d < 0 && d >= -7; });
+    /* 「今週」は直近7日の発売＋10日以内の発売予定をまとめて扱う
+       （8/8発売のような目前の新作が拾えないのを避ける） */
+    var week = all.filter(function (r) { var d = diff(r.date); return d !== 0 && d >= -7 && d <= 10; });
     var soon = all.filter(function (r) { return diff(r.date) > 0; });
 
     var list, label;
-    if (todays.length) { list = todays; label = '本日発売'; }
-    else if (recent.length) { list = recent; label = '今週の新作'; }
-    else if (soon.length) { list = soon.slice().sort(function (a, b) { return a.date < b.date ? -1 : 1; }); label = '発売予定'; }
+    if (todays.length) { list = sortByProximity(todays.concat(week)); label = '本日発売'; }
+    else if (week.length) { list = sortByProximity(week); label = '今週の新作'; }
+    else if (soon.length) { list = sortByProximity(soon); label = '発売予定'; }
     else { return; }
 
+    /* label がある商品（発売日が週単位でしか公表されていないもの）は
+       その表記をそのまま出す。date は並び順と表示期間の判定にだけ使う。 */
     var badgeOf = function (r) {
       var d = diff(r.date);
-      if (d === 0) return '<span class="gh-rel__badge gh-rel__badge--today">本日発売</span>';
-      if (d > 0) return '<span class="gh-rel__badge gh-rel__badge--soon">' + r.date.slice(5).replace('-', '/') + ' 発売</span>';
-      return '<span class="gh-rel__badge">' + r.date.slice(5).replace('-', '/') + ' 発売</span>';
+      var cls = d === 0 ? ' gh-rel__badge--today' : d > 0 ? ' gh-rel__badge--soon' : '';
+      var text = r.label ? r.label
+        : (d === 0 ? '本日発売' : r.date.slice(5).replace('-', '/') + ' 発売');
+      return '<span class="gh-rel__badge' + cls + '">' + esc(text) + '</span>';
     };
 
     /* 先頭1件を大きく、残りは行リストで密に並べる（均等なカードにしない） */
@@ -195,6 +216,7 @@
       var inner = badgeOf(r) +
         '<strong class="gh-rel__title">' + esc(r.title) + '</strong>' +
         '<small class="gh-rel__meta">' + esc(r.maker || '') +
+          (r.price ? '<span class="gh-rel__price">' + esc(r.price) + '</span>' : '') +
           (lead && r.note ? '<span class="gh-rel__note">' + esc(r.note) + '</span>' : '') + '</small>';
       return r.source
         ? '<a class="' + cls + '" href="' + esc(r.source) + '" target="_blank" rel="noopener">' + inner + '</a>'

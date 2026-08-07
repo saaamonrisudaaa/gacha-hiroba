@@ -3148,3 +3148,8 @@ a.gh-hot--row:hover { background: #fffaf5; text-decoration: none; }
 }
 .gh-list-more:hover { background: #f3f4f6; }
 .gh-board-more { margin: 10px 0 0; }
+
+/* 発売情報の価格表記（1回いくら／全何種） */
+.gh-hot__price, .gh-rel__price {
+  margin-left: 6px; font-weight: 700; color: var(--gh-text, #111);
+}

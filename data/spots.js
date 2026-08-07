@@ -4032,6 +4032,21 @@ window.GH_SPOTS = [
     verifiedAt: '2026-08-05',
     lat: 35.806, lon: 139.718,
     access: 'JR川口駅東口の樹モールプラザ1F。約860台で22時まで営業しているので、仕事帰りにも寄れる'
+  },
+  {
+    id: 'gachagachanomori-okanoue-plaza',
+    brand: 'ガチャガチャの森',
+    name: 'ガチャガチャの森 丘の上プラザ店',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・多摩センター',
+    address: '東京都多摩市落合1-44 丘の上プラザ',
+    hours: '10:00〜20:00',
+    machines: 1009,
+    sourceUrl: 'https://www.value-press.com/pressrelease/378114',
+    verifiedAt: '2026-08-07',
+    lat: 35.6255, lon: 139.4237,
+    access: '多摩センター駅前の丘の上プラザ。1,009台は都内のガチャガチャの森で最大規模。2026年8月7日オープン'
   }
 
 ];

@@ -1116,18 +1116,29 @@ renderRanking('national');
       return { r: k.release, word: k.word, mentions: mentions, d: diff(k.release.date) };
     });
     if (!items.length) return;
-    /* 言及が多い順 → 発売日が新しい順 */
-    items.sort((a, b) => (b.mentions - a.mentions) || (b.r.date < a.r.date ? -1 : 1));
+    /* 言及が多い順 → 本日発売 → 直近の発売予定 → 少し前に出た新作。
+       発売がまだ先の商品が先頭に来ないよう、日付の降順ではなく今日からの近さで並べる。 */
+    const rank = it => (it.d === 0 ? [0, 0] : it.d > 0 ? [1, it.d] : [2, -it.d]);
+    items.sort((a, b) => {
+      if (b.mentions !== a.mentions) return b.mentions - a.mentions;
+      const x = rank(a), y = rank(b);
+      return (x[0] - y[0]) || (x[1] - y[1]);
+    });
 
+    /* 発売日が「○月第2週」のように週単位でしか公表されていない商品は、
+       date を並び順にだけ使い、バッジは label の表記をそのまま出す。 */
     const badge = it => {
-      if (it.d === 0) return '<span class="gh-hot__badge gh-hot__badge--today">本日発売</span>';
-      if (it.d > 0)  return '<span class="gh-hot__badge gh-hot__badge--soon">' + esc(it.r.date.slice(5).replace('-', '/')) + ' 発売</span>';
-      return '<span class="gh-hot__badge">' + esc(it.r.date.slice(5).replace('-', '/')) + ' 発売</span>';
+      const cls = it.d === 0 ? ' gh-hot__badge--today' : it.d > 0 ? ' gh-hot__badge--soon' : '';
+      const text = it.r.label
+        ? it.r.label
+        : (it.d === 0 ? '本日発売' : it.r.date.slice(5).replace('-', '/') + ' 発売');
+      return '<span class="gh-hot__badge' + cls + '">' + esc(text) + '</span>';
     };
     const cell = (it, lead) => {
       const inner = badge(it) +
         '<strong class="gh-hot__title">' + esc(it.r.title) + '</strong>' +
         '<small class="gh-hot__meta">' + esc(it.r.maker || '') +
+          (it.r.price ? '<span class="gh-hot__price">' + esc(it.r.price) + '</span>' : '') +
           (it.mentions ? '<span class="gh-hot__mentions">💬 掲示板で' + it.mentions + '件</span>' : '') +
           (lead && it.r.note ? '<span class="gh-hot__note">' + esc(it.r.note) + '</span>' : '') +
         '</small>';
