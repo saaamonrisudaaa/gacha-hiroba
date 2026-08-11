@@ -75,7 +75,7 @@ if (process.env.DRIP_DRY_RUN === '1') {
 }
 
 /* ── オブジェクトを spots.js と同じ体裁の JS リテラルに整形 ── */
-const FIELD_ORDER = ['id', 'brand', 'name', 'region', 'pref', 'area', 'zip', 'address', 'tel', 'hours', 'machines', 'closedAfter', 'sourceUrl', 'verifiedAt'];
+const FIELD_ORDER = ['id', 'brand', 'name', 'region', 'pref', 'area', 'zip', 'address', 'tel', 'hours', 'machines', 'opensOn', 'closedAfter', 'sourceUrl', 'verifiedAt'];
 const q = (v) => "'" + String(v).replace(/\\/g, '\\\\').replace(/'/g, "\\'") + "'";
 
 function fmt(e) {

@@ -91,7 +91,12 @@ function renderRanking(key) {
     return true;                                   // national
   };
 
-  const rows = spots.filter(inTab).sort((a, b) =>
+  /* オープン前の店舗（opensOn が未来日）は台数ランキングに載せない。
+     まだ1台も回せない店が上位に並ぶと順位の意味が壊れるため。 */
+  const jstToday = new Date(Date.now() + 9 * 3600 * 1000).toISOString().slice(0, 10);
+  const open = s => !(s.opensOn && s.opensOn > jstToday);
+
+  const rows = spots.filter(s => inTab(s) && open(s)).sort((a, b) =>
     (ghViewsOf(b) - ghViewsOf(a)) || ((b.machines || 0) - (a.machines || 0)));
   if (!rows.length) {
     tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--gh-muted);padding:22px">この地域の店舗は現在準備中です。</td></tr>';
@@ -580,8 +585,13 @@ renderRanking('national');
   const latlngs = [];
   spots.forEach(s => {
     const marker = L.marker([s.lat, s.lon]).addTo(map);
+    /* オープン前の店舗は地図でも「まだ開いていない」と分かるようにする */
+    const jstNow = new Date(Date.now() + 9 * 3600 * 1000).toISOString().slice(0, 10);
+    const soon = s.opensOn && s.opensOn > jstNow;
     marker.bindPopup(
       '<strong>' + esc(s.name) + '</strong><br>' +
+      (soon ? '<span style="color:#c2410c;font-weight:700">' +
+        esc(s.opensOn.slice(5).split('-').map(Number).join('/')) + ' オープン予定</span><br>' : '') +
       '<span style="color:#6b7280">' + esc(s.area) + '</span><br>' +
       '🎰 ' + machinesText(s.machines) + ' ・ 🕒 ' + esc(s.hours || '—') + '<br>' +
       '<a href="/spot/' + encodeURIComponent(s.id) + '.html' + '">詳細を見る →</a>'
@@ -1595,3 +1605,21 @@ document.addEventListener('click', e => {
       : a.closest('.gh-featured') ? 'featured' : 'other');
   try { window.gtag('event', 'ad_click', { ad_unit: unit, link_url: (a.href || '').slice(0, 180) }); } catch (err) {}
 }, true);
+
+
+/* ===========================================================================
+   オープン予定表示の鮮度合わせ
+   ★ spot/ の静的HTMLは生成した時点の状態を持っている。開業日を過ぎたあとも
+      ページを作り直すまで「オープン予定」と出続けてしまうので、開業日を過ぎた
+      [data-gh-preopen] はここで取り除き、通常の営業中店舗として見せる。
+      （逆に開業前なら何もしない＝JSが動かない環境でも予定表示は残る）
+   =========================================================================== */
+(function () {
+  var nodes = document.querySelectorAll('[data-gh-preopen]');
+  if (!nodes.length) return;
+  var today = new Date(Date.now() + 9 * 3600 * 1000).toISOString().slice(0, 10);  /* JST */
+  for (var i = 0; i < nodes.length; i++) {
+    var on = nodes[i].getAttribute('data-gh-preopen');
+    if (on && on <= today && nodes[i].parentNode) nodes[i].parentNode.removeChild(nodes[i]);
+  }
+})();

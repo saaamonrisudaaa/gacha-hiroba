@@ -35,6 +35,29 @@
     if (n == null || n === '') return '—';
     return '約' + Number(n).toLocaleString('ja-JP') + '台';
   }
+
+  /* ── オープン予定の店舗（data/spots.js の opensOn）──
+     まだ開いていない店舗を営業中と混ぜないための共通ヘルパー。
+     一覧・検索・掲示板一覧のどこに出ても必ずバッジが付くようにする。 */
+  var JST_TODAY = new Date(Date.now() + 9 * 3600 * 1000).toISOString().slice(0, 10);
+  function isPreOpen(s) { return !!(s && s.opensOn && s.opensOn > JST_TODAY); }
+  function openDateText(iso, long) {
+    var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || '');
+    if (!m) return String(iso || '');
+    if (!long) return Number(m[2]) + '/' + Number(m[3]);
+    var w = ['日', '月', '火', '水', '木', '金', '土'][
+      new Date(Date.UTC(+m[1], +m[2] - 1, +m[3])).getUTCDay()];
+    return Number(m[1]) + '年' + Number(m[2]) + '月' + Number(m[3]) + '日（' + w + '）';
+  }
+  function daysLeft(iso) {
+    return Math.round((new Date(iso + 'T00:00:00+09:00').getTime() -
+      new Date(JST_TODAY + 'T00:00:00+09:00').getTime()) / 86400000);
+  }
+  /* 一覧の店名の直後に付けるバッジ */
+  function openBadge(s) {
+    if (!isPreOpen(s)) return '';
+    return '<span class="gh-badge gh-badge--soon">' + esc(openDateText(s.opensOn, false)) + ' オープン予定</span>';
+  }
   function setText(id, value) { var el = qs(id); if (el) el.textContent = value; }
   function setAttr(sel, attr, val) { var el = document.querySelector(sel); if (el) el.setAttribute(attr, val); }
   /* 検索用の正規化：全角→半角（NFKC）・小文字化・ハイフン/#を除去。
@@ -146,7 +169,7 @@
     var latest = SPOTS.slice(-8).reverse();
     box.innerHTML = latest.map(function (s, i) {
       return '<li><a href="/spot/' + encodeURIComponent(s.id) + '.html">' + esc(s.name) + '</a>' +
-             (i === 0 ? '<span class="gh-badge gh-badge--hot">NEW</span>' : '') +
+             (isPreOpen(s) ? openBadge(s) : (i === 0 ? '<span class="gh-badge gh-badge--hot">NEW</span>' : '')) +
              '<small class="gh-trending-list__area">' + esc(s.area) + '</small></li>';
     }).join('');
   }
@@ -459,7 +482,7 @@
         var areaJp = (s.area || '').split('・')[1] || '';
         return '<tr>' +
           '<td>' + (i + 1) + '</td>' +
-          '<td><a class="gh-table__link" href="/spot/' + encodeURIComponent(s.id) + '.html' + '">' + esc(s.name) + '</a></td>' +
+          '<td><a class="gh-table__link" href="/spot/' + encodeURIComponent(s.id) + '.html' + '">' + esc(s.name) + '</a>' + openBadge(s) + '</td>' +
           '<td>' + esc(PREF_EN[s.pref] || s.pref) + (areaJp ? '<small class="gh-store-brand">' + esc(areaJp) + '</small>' : '') + '</td>' +
           '<td class="gh-num">' + Number(s.machines).toLocaleString('en-US') + '</td>' +
           '<td>' + esc(s.hours || '—') + '</td>' +
@@ -473,11 +496,32 @@
   /* ------------------------------------------------------------------ */
   function renderUpcoming() {
     var tbody = document.querySelector('[data-gh-upcoming]');
-    var items = window.GH_UPCOMING || [];
-    if (!tbody || !items.length) return;
-    tbody.innerHTML = items.map(function (u) {
+    if (!tbody) return;
+
+    /* ① data/spots.js の opensOn 付き＝住所・営業時間まで確定した予定店舗。
+          店舗ページが既にあるのでリンクを張る（開業日の早い順）。 */
+    var fromSpots = SPOTS.filter(isPreOpen).sort(function (a, b) {
+      return a.opensOn < b.opensOn ? -1 : a.opensOn > b.opensOn ? 1 : 0;
+    }).map(function (s) {
+      var left = daysLeft(s.opensOn);
+      return {
+        name: '<a class="gh-table__link" href="/spot/' + encodeURIComponent(s.id) + '.html">' + esc(s.name) + '</a>',
+        area: s.area,
+        expected: openDateText(s.opensOn, true) + (left > 0 ? '（あと' + left + '日）' : '（本日）'),
+        note: s.access || ''
+      };
+    });
+
+    /* ② data/upcoming.js ＝住所や時期がまだ固まっていない予定店舗（詳細ページなし） */
+    var fromList = (window.GH_UPCOMING || []).map(function (u) {
+      return { name: '<strong>' + esc(u.name) + '</strong>', area: u.area, expected: u.expected, note: u.note };
+    });
+
+    var rows = fromSpots.concat(fromList);
+    if (!rows.length) return;
+    tbody.innerHTML = rows.map(function (u) {
       return '<tr>' +
-        '<td><strong>' + esc(u.name) + '</strong></td>' +
+        '<td>' + u.name + '</td>' +
         '<td>' + esc(u.area || '—') + '</td>' +
         '<td>' + esc(u.expected || '時期未定') + '</td>' +
         '<td style="font-size:12px;color:var(--gh-muted)">' + esc(u.note || '') + '</td>' +
@@ -513,7 +557,7 @@
       var url = '/spot/' + encodeURIComponent(s.id) + '.html' + '#board';
       return '<tr' + (rank === 1 ? ' class="gh-table__row--top"' : '') + '>' +
                '<td><span class="gh-rank' + rankCls(rank) + '">' + rank + '</span></td>' +
-               '<td><a href="' + url + '" class="gh-table__link">' + esc(s.name) + '</a></td>' +
+               '<td><a href="' + url + '" class="gh-table__link">' + esc(s.name) + '</a>' + openBadge(s) + '</td>' +
                '<td>' + esc(s.area) + '</td>' +
                '<td class="gh-num">' + machinesText(s.machines) + '</td>' +
                '<td><a href="' + url + '" class="gh-btn gh-btn--xs">見る</a></td>' +
@@ -666,6 +710,10 @@
     var badges = qs('spotBadges');
     if (badges) {
       badges.innerHTML =
+        (isPreOpen(store)
+          ? '<span class="gh-badge gh-badge--lg gh-badge--soon">' +
+              esc(openDateText(store.opensOn, false)) + ' オープン予定</span>'
+          : '') +
         '<a class="gh-badge gh-badge--lg" style="text-decoration:none" ' +
           'href="/stores.html?brand=' + encodeURIComponent(store.brand) + '" ' +
           'title="' + esc(store.brand) + 'の店舗一覧を見る">' + esc(store.brand) + '</a>' +
@@ -680,14 +728,19 @@
 
     /* 見出し数値（株価の位置＝設置台数） */
     setText('spotMachines', machinesText(store.machines));
-    setText('spotHours', store.hours ? '営業 ' + store.hours : '営業時間はお問い合わせ');
+    setText('spotHours', store.hours
+      ? (isPreOpen(store) ? 'オープン後 ' + store.hours : '営業 ' + store.hours)
+      : '営業時間はお問い合わせ');
 
-    /* メトリクス */
+    /* メトリクス。オープン前は台数がまだ分からないので、先頭の枠を開業日に差し替える */
     var metrics = qs('spotMetrics');
     if (metrics) {
       metrics.innerHTML =
-        metric('設置台数', machinesText(store.machines), 'ガチャマシン', true) +
-        metric('営業時間', store.hours || '—', '定休日は店舗にご確認ください') +
+        (isPreOpen(store)
+          ? metric('オープン予定', openDateText(store.opensOn, false),
+              'あと' + daysLeft(store.opensOn) + '日', true)
+          : metric('設置台数', machinesText(store.machines), 'ガチャマシン', true)) +
+        metric('営業時間', store.hours || '—', isPreOpen(store) ? 'オープン後の予定' : '定休日は店舗にご確認ください') +
         metric('エリア', store.area || '—', store.pref || '') +
         metric('ブランド', store.brand || '—', '公式店舗');
     }
@@ -696,6 +749,9 @@
     var infoBody = qs('spotInfoBody');
     if (infoBody) {
       infoBody.innerHTML =
+        (isPreOpen(store)
+          ? '<tr><th>オープン予定日</th><td><strong>' + esc(openDateText(store.opensOn, true)) + '</strong></td></tr>'
+          : '') +
         row('ブランド', store.brand) +
         row('住所', (store.zip ? '〒' + store.zip + '　' : '') + store.address) +
         row('電話番号', store.tel ? '<a href="tel:' + esc(String(store.tel).replace(/[^0-9+]/g, '')) + '">' + esc(store.tel) + '</a>' : '', true) +
@@ -840,7 +896,7 @@
         '<thead><tr><th>店舗名</th><th>エリア</th><th>設置台数</th><th>営業時間</th></tr></thead><tbody>' +
         hits.map(function (s) {
           return '<tr>' +
-            '<td><a class="gh-table__link" href="/spot/' + encodeURIComponent(s.id) + '.html' + '">' + esc(s.name) + '</a>' +
+            '<td><a class="gh-table__link" href="/spot/' + encodeURIComponent(s.id) + '.html' + '">' + esc(s.name) + '</a>' + openBadge(s) +
               '<small class="gh-store-brand">' + esc(s.brand) + '</small></td>' +
             '<td>' + esc(s.area) + '</td>' +
             '<td>' + machinesText(s.machines) + '</td>' +
@@ -879,7 +935,7 @@
         '<thead><tr><th>店舗名</th><th>エリア</th><th>設置台数</th><th>営業時間</th></tr></thead><tbody>' +
         bHits.map(function (s) {
           return '<tr>' +
-            '<td><a class="gh-table__link" href="/spot/' + encodeURIComponent(s.id) + '.html' + '">' + esc(s.name) + '</a>' +
+            '<td><a class="gh-table__link" href="/spot/' + encodeURIComponent(s.id) + '.html' + '">' + esc(s.name) + '</a>' + openBadge(s) +
               '<small class="gh-store-brand">' + esc(s.brand) + '</small></td>' +
             '<td>' + esc(s.area) + '</td>' +
             '<td>' + machinesText(s.machines) + '</td>' +
@@ -930,7 +986,7 @@
       arr.forEach(function (s, i) {
         html +=
           '<tr' + (i >= LIMIT ? ' hidden data-more="' + region + '"' : '') + '>' +
-            '<td><a class="gh-table__link" href="/spot/' + encodeURIComponent(s.id) + '.html' + '">' + esc(s.name) + '</a>' +
+            '<td><a class="gh-table__link" href="/spot/' + encodeURIComponent(s.id) + '.html' + '">' + esc(s.name) + '</a>' + openBadge(s) +
               '<small class="gh-store-brand">' + esc(s.brand) + '</small></td>' +
             '<td>' + esc(s.area) + '</td>' +
             '<td>' + machinesText(s.machines) + '</td>' +

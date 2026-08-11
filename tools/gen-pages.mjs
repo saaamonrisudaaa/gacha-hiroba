@@ -45,6 +45,26 @@ const esc = (s) => String(s == null ? '' : s)
 const machinesText = (n) => (n == null || n === '') ? '—' : '約' + Number(n).toLocaleString('ja-JP') + '台';
 const spotPath = (id) => '/spot/' + encodeURIComponent(id) + '.html';
 
+/* ── オープン予定（opensOn）の店舗 ──
+   まだ開いていない店舗を「営業中」と誤認させないための表示を組み立てる。
+   生成時点の判定なので、開業日を過ぎたぶんは script.js が
+   [data-gh-preopen] を見てクライアント側で取り除く（再生成待ちにしない）。 */
+const JST_TODAY = new Date(Date.now() + 9 * 3600 * 1000).toISOString().slice(0, 10);
+const WDAY = ['日', '月', '火', '水', '木', '金', '土'];
+const isPreOpen = (store) => !!(store.opensOn && store.opensOn > JST_TODAY);
+function openLabel(iso, long) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso);
+  if (!m) return iso;
+  if (!long) return Number(m[2]) + '/' + Number(m[3]);
+  /* 曜日はカレンダー日付そのものから出す（Date.UTC ならタイムゾーンでズレない） */
+  const w = WDAY[new Date(Date.UTC(+m[1], +m[2] - 1, +m[3])).getUTCDay()];
+  return Number(m[1]) + '年' + Number(m[2]) + '月' + Number(m[3]) + '日（' + w + '）';
+}
+function daysUntil(iso) {
+  return Math.round((new Date(iso + 'T00:00:00+09:00').getTime() -
+    new Date(JST_TODAY + 'T00:00:00+09:00').getTime()) / 86400000);
+}
+
 /* テンプレート中の一意なマーカーを置換する（見つからなければ即エラー＝壊れに気づける） */
 function swap(html, marker, replacement) {
   if (!html.includes(marker)) {
@@ -67,11 +87,18 @@ function row(th, td, rawTd) {
 
 function buildPage(store) {
   const pageUrl = ORIGIN + spotPath(store.id);
-  const pageTitle = store.name + '｜設置台数・営業時間・掲示板 | ガチャひろば';
-  const pageDesc = store.name + '（' + store.area + '）のガチャガチャ設置情報。' +
-    (store.machines ? '設置台数' + machinesText(store.machines) + '、' : '') +
-    (store.hours ? '営業時間 ' + store.hours + '。' : '') +
-    '住所・アクセス・地図・店舗ごとの掲示板で入荷情報や混雑状況をチェック。';
+  const soon = isPreOpen(store);
+  const pageTitle = soon
+    ? store.name + '｜' + openLabel(store.opensOn, true) + 'オープン予定・アクセス・掲示板 | ガチャひろば'
+    : store.name + '｜設置台数・営業時間・掲示板 | ガチャひろば';
+  const pageDesc = soon
+    ? store.name + '（' + store.area + '）は' + openLabel(store.opensOn, true) + 'オープン予定のガチャガチャ・カプセルトイ専門店です。' +
+      (store.hours ? '営業時間 ' + store.hours + '。' : '') +
+      '住所・アクセス・地図に加えて、オープン初日の混雑や入荷情報を掲示板で共有できます。'
+    : store.name + '（' + store.area + '）のガチャガチャ設置情報。' +
+      (store.machines ? '設置台数' + machinesText(store.machines) + '、' : '') +
+      (store.hours ? '営業時間 ' + store.hours + '。' : '') +
+      '住所・アクセス・地図・店舗ごとの掲示板で入荷情報や混雑状況をチェック。';
 
   let html = template;
 
@@ -94,7 +121,8 @@ function buildPage(store) {
   if (store.zip) ld.address.postalCode = store.zip;
   if (store.tel) ld.telephone = store.tel;
   if (store.lat != null && store.lon != null) ld.geo = { '@type': 'GeoCoordinates', latitude: store.lat, longitude: store.lon };
-  if (store.hours) ld.openingHours = store.hours;
+  /* 未開業の店舗に openingHours を出すと「いま営業中」と読まれるので付けない */
+  if (store.hours && !soon) ld.openingHours = store.hours;
   const crumbs = {
     '@context': 'https://schema.org', '@type': 'BreadcrumbList',
     itemListElement: [
@@ -117,7 +145,10 @@ function buildPage(store) {
   html = swap(html, '<h1 class="gh-quote__name" id="spotName">店舗名</h1>',
     '<h1 class="gh-quote__name" id="spotName">' + esc(store.name) + '</h1>');
   html = swap(html, '<span id="spotBadges"></span>',
-    '<span id="spotBadges"><a class="gh-badge gh-badge--lg" style="text-decoration:none" href="/stores.html?brand=' +
+    '<span id="spotBadges">' +
+    (soon ? '<span class="gh-badge gh-badge--lg gh-badge--soon" data-gh-preopen="' + store.opensOn + '">' +
+      esc(openLabel(store.opensOn, false)) + ' オープン予定</span>' : '') +
+    '<a class="gh-badge gh-badge--lg" style="text-decoration:none" href="/stores.html?brand=' +
     encodeURIComponent(store.brand) + '" title="' + esc(store.brand) + 'の店舗一覧を見る">' + esc(store.brand) + '</a>' +
     '<span class="gh-badge gh-badge--lg">' + esc(store.area) + '</span></span>');
   html = swap(html, '<div class="gh-quote__address" id="spotAddress"></div>',
@@ -127,11 +158,14 @@ function buildPage(store) {
   html = swap(html, '<strong class="gh-quote__rating-num" id="spotMachines">—</strong>',
     '<strong class="gh-quote__rating-num" id="spotMachines">' + esc(machinesText(store.machines)) + '</strong>');
   html = swap(html, '<span class="gh-quote__updated" id="spotHours"></span>',
-    '<span class="gh-quote__updated" id="spotHours">' + esc(store.hours ? '営業 ' + store.hours : '営業時間はお問い合わせ') + '</span>');
+    '<span class="gh-quote__updated" id="spotHours">' +
+    esc(store.hours ? (soon ? 'オープン後 ' + store.hours : '営業 ' + store.hours) : '営業時間はお問い合わせ') + '</span>');
   html = swap(html, '<div class="gh-metrics" id="spotMetrics"></div>',
     '<div class="gh-metrics" id="spotMetrics">' +
-    metric('設置台数', machinesText(store.machines), 'ガチャマシン', true) +
-    metric('営業時間', store.hours || '—', '定休日は店舗にご確認ください') +
+    (soon
+      ? metric('オープン予定', openLabel(store.opensOn, false), 'あと' + daysUntil(store.opensOn) + '日', true)
+      : metric('設置台数', machinesText(store.machines), 'ガチャマシン', true)) +
+    metric('営業時間', store.hours || '—', soon ? 'オープン後の予定' : '定休日は店舗にご確認ください') +
     metric('エリア', store.area || '—', store.pref || '') +
     metric('ブランド', store.brand || '—', '公式店舗') + '</div>');
 
@@ -142,12 +176,27 @@ function buildPage(store) {
     esc(store.pref) + 'の掲載店舗（' + samePref.length + '件）</a>';
   const brandLink = '<a href="/stores.html?brand=' + encodeURIComponent(store.brand) + '">' +
     esc(store.brand) + 'の店舗一覧</a>';
+  /* オープン前は、本文より先に「まだ開いていない」ことを伝える */
+  const preOpenNotice = soon
+    ? '<div class="gh-preopen" data-gh-preopen="' + store.opensOn + '">' +
+        '<strong class="gh-preopen__title">🎉 ' + esc(openLabel(store.opensOn, true)) + ' オープン予定</strong>' +
+        '<p class="gh-preopen__text">' + esc(store.name) + 'は<strong>まだオープンしていません</strong>（あと' + daysUntil(store.opensOn) + '日）。' +
+          '下記の営業時間・電話番号はオープン後の情報です。お出かけの際はご注意ください。' +
+          (store.sourceUrl ? ' 最新情報は<a href="' + esc(store.sourceUrl) + '" target="_blank" rel="noopener nofollow">店舗公式X</a>でも告知されています。' : '') +
+        '</p>' +
+        '<p class="gh-preopen__text">オープン初日の混雑や品揃えは、このページの掲示板で共有できます。行った人のレポートをお待ちしています。</p>' +
+      '</div>'
+    : '';
   const intro =
+    preOpenNotice +
     '<div class="gh-spot-intro">' +
     '<p>' +
-      esc(store.name) + 'は、' + esc(store.pref) + '（' + esc(store.area) + '）にあるガチャガチャ・カプセルトイの設置スポットです。' +
+      (soon
+        ? esc(store.name) + 'は、' + esc(store.pref) + '（' + esc(store.area) + '）に' + esc(openLabel(store.opensOn, true)) +
+          'オープン予定のガチャガチャ・カプセルトイ専門店です。'
+        : esc(store.name) + 'は、' + esc(store.pref) + '（' + esc(store.area) + '）にあるガチャガチャ・カプセルトイの設置スポットです。') +
       (store.machines ? 'ガチャマシンの設置台数は' + esc(machinesText(store.machines)) + '。' : '') +
-      (store.hours ? '営業時間は' + esc(store.hours) + '。' : '') +
+      (store.hours ? (soon ? 'オープン後の営業時間は' : '営業時間は') + esc(store.hours) + '。' : '') +
       (store.access ? 'アクセスは' + esc(store.access) + '。' : '') +
     '</p>' +
     (BRAND_NOTE[store.brand] ? '<p>' + esc(BRAND_NOTE[store.brand]) + '</p>' : '') +
@@ -166,6 +215,8 @@ function buildPage(store) {
   /* ── 詳細テーブル・地図・掲示板見出し・同エリア店舗 ── */
   html = swap(html, '<tbody id="spotInfoBody"></tbody>',
     '<tbody id="spotInfoBody">' +
+    (soon ? '<tr data-gh-preopen="' + store.opensOn + '"><th>オープン予定日</th><td><strong>' +
+      esc(openLabel(store.opensOn, true)) + '</strong></td></tr>' : '') +
     row('ブランド', store.brand) +
     row('住所', (store.zip ? '〒' + store.zip + '　' : '') + store.address) +
     row('電話番号', store.tel ? '<a href="tel:' + esc(String(store.tel).replace(/[^0-9+]/g, '')) + '">' + esc(store.tel) + '</a>' : '', true) +

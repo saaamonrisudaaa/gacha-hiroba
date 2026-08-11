@@ -92,6 +92,13 @@ function validateStore(store, label, requireProvenance) {
   if (store.closedAfter !== undefined && !isValidDate(store.closedAfter)) {
     errors.push(label + ': closedAfter は YYYY-MM-DD 形式にしてください');
   }
+  if (store.opensOn !== undefined) {
+    if (!isValidDate(store.opensOn)) {
+      errors.push(label + ': opensOn は YYYY-MM-DD 形式にしてください');
+    } else if (store.closedAfter !== undefined && store.opensOn > store.closedAfter) {
+      errors.push(label + ': opensOn が closedAfter より後になっています');
+    }
+  }
   if (store.verifiedAt !== undefined && !isValidDate(store.verifiedAt)) {
     errors.push(label + ': verifiedAt は YYYY-MM-DD 形式にしてください');
   }
