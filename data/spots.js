@@ -4139,6 +4139,24 @@ window.GH_SPOTS = [
     verifiedAt: '2026-08-07',
     lat: 35.1596, lon: 136.9053,
     access: 'タイトーステーション大須店内の遊べるガチャストア。深夜24時近くまで開いているので、大須で一番遅くまで回せる'
+  },
+
+  /* ── 2026-08-11 追加（新宿最大級のガチャポンフロア） ── */
+  {
+    id: 'metokyo-shinjuku',
+    brand: 'ME TOKYO',
+    name: 'ME TOKYO SHINJUKU',
+    region: 'kanto',
+    pref: '東京都',
+    area: '東京都・新宿',
+    address: '東京都新宿区新宿3-37-14',
+    tel: '03-6826-9722',
+    hours: '10:00〜翌1:00',
+    machines: 600,
+    sourceUrl: 'https://www.maruhan.co.jp/amusement/metokyoshinjuku/outline/',
+    verifiedAt: '2026-08-11',
+    lat: 35.6899, lon: 139.7022,
+    access: 'JR新宿駅 東南口から徒歩1分。B1が常設600面のガチャポン専用フロアで、新宿最大級。深夜1時まで開いているので仕事帰りや飲みの前後にも寄れる'
   }
 ];
 
