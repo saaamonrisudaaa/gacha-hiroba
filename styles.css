@@ -2664,6 +2664,14 @@ a.gh-rel:hover { background: #fffaf5; text-decoration: none; }
   background: var(--gh-accent, #e94560); color: #fff; font-size: 13px; font-weight: 800;
 }
 .gh-topbar__btn:hover { background: #c73550; }
+/* 検索語を思いつく前の人の入口。検索窓のすぐ下に置いて2択に見せる */
+.gh-topbar__near {
+  display: inline-flex; align-items: center; gap: 5px; margin-top: 8px;
+  font-size: 12.5px; font-weight: 800; color: var(--gh-link);
+  text-decoration: none; padding: 5px 11px 5px 9px;
+  border: 1px solid #bfdbfe; border-radius: 999px; background: #eff6ff;
+}
+.gh-topbar__near:hover { background: #dbeafe; text-decoration: none; }
 .gh-topbar__trend {
   display: flex; align-items: center; gap: 8px; margin-top: 9px;
   overflow-x: auto; scrollbar-width: none;
@@ -3192,3 +3200,123 @@ a.gh-hot--row:hover { background: #fffaf5; text-decoration: none; }
 .gh-preopen__text + .gh-preopen__text { margin-top: 6px; }
 .gh-preopen__text strong { font-weight: 800; }
 .gh-preopen__text a { color: #9a3412; font-weight: 700; }
+
+/* ===========================================================================
+   現在地から探す（map.html）
+   ★ 「押せば近くの店が出る」1アクションを最初に見せる。ページ内でいちばん
+      目立つブロックにして、他の絞り込みはその下に置く。
+   =========================================================================== */
+.gh-nearme {
+  background: linear-gradient(180deg, #eff6ff 0%, #fff 100%);
+  border: 1px solid #bfdbfe;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 14px;
+}
+.gh-nearme__main {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.gh-nearme__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 15px;
+  font-weight: 800;
+  padding: 11px 20px;
+}
+.gh-nearme__btn:disabled { opacity: .65; cursor: progress; }
+.gh-nearme__radius {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--gh-muted);
+}
+.gh-nearme__radius > span { white-space: nowrap; }
+.gh-nearme__radius .gh-select { font-size: 13px; }
+.gh-nearme__note {
+  margin: 9px 0 0;
+  font-size: 11px;
+  color: var(--gh-muted);
+}
+.gh-nearme__status {
+  margin: 9px 0 0;
+  font-size: 12px;
+  line-height: 1.6;
+  padding: 7px 10px;
+  border-radius: 5px;
+  background: #f3f4f6;
+  color: var(--gh-text);
+}
+.gh-nearme__status--ok { background: #ecfdf5; color: #065f46; }
+.gh-nearme__status--warn { background: #fffbeb; color: #92400e; }
+/* 取得後のまとめ文。件数だけは離れて見ても読めるサイズにする */
+.gh-nearme__result {
+  margin: 10px 0 0;
+  padding-top: 10px;
+  border-top: 1px dashed #bfdbfe;
+  font-size: 14px;
+  line-height: 1.7;
+  font-weight: 700;
+}
+.gh-nearme__num { font-size: 20px; color: var(--gh-accent); }
+
+/* 地図のピン。一覧の行と同じ番号を振って、目で往復できるようにする */
+.gh-pin-wrap { background: none; border: 0; }
+.gh-pin {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--gh-link);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .35);
+}
+.gh-pin--first { background: var(--gh-accent); width: 30px; height: 30px; font-size: 13px; }
+.gh-pin--soon { background: #ea580c; }
+
+/* 一覧の行：本体は詳細ページへのリンク、右端の「地図」だけ地図側を操作する */
+.gh-map-spot-row {
+  display: flex;
+  align-items: stretch;
+  border-bottom: 1px solid var(--gh-border);
+}
+.gh-map-spot-row:last-child { border-bottom: none; }
+.gh-map-spot-row .gh-map-spot { flex: 1; min-width: 0; border-bottom: none; }
+.gh-map-spot__pin {
+  flex-shrink: 0;
+  width: 52px;
+  border: 0;
+  border-left: 1px solid var(--gh-border);
+  background: #f9fafb;
+  color: var(--gh-link);
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.gh-map-spot__pin:hover { background: #eff6ff; }
+.gh-map-spot__pin:focus-visible { outline: 2px solid var(--gh-link); outline-offset: -2px; }
+
+/* 半径内に1件も無いときの行き止まり回避（いちばん近い店＋範囲を広げるボタン） */
+.gh-map-empty { padding: 18px 16px; }
+.gh-map-empty__title { margin: 0 0 6px; font-size: 13px; font-weight: 700; line-height: 1.6; }
+.gh-map-empty__text { margin: 0 0 10px; font-size: 12px; line-height: 1.7; color: var(--gh-muted); }
+
+@media (max-width: 640px) {
+  .gh-nearme { padding: 13px; }
+  .gh-nearme__main { flex-direction: column; align-items: stretch; }
+  .gh-nearme__btn { justify-content: center; width: 100%; padding: 13px 16px; }
+  .gh-nearme__radius { justify-content: space-between; }
+  .gh-nearme__radius .gh-select { flex: 1; margin-left: 8px; }
+  .gh-nearme__num { font-size: 18px; }
+}

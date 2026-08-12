@@ -63,54 +63,56 @@
     <div class="gh-container">
 
       <div class="gh-page-hero">
-        <h1 class="gh-page-hero__title">マップ検索</h1>
-        <p class="gh-page-hero__desc">現在地・駅名・エリア名から周辺のガチャガチャスポットを地図上で探せます。</p>
+        <h1 class="gh-page-hero__title">近くのガチャを探す</h1>
+        <p class="gh-page-hero__desc">現在地から近いガチャガチャスポットを、地図と一覧で距離順に表示します。駅名・エリア名での検索にも対応。</p>
       </div>
 
-      <!-- 検索フォーム -->
+      <!-- 現在地から探す（このページの主役）。押した瞬間に地図・一覧・件数が現在地基準に切り替わる -->
+      <section class="gh-nearme">
+        <div class="gh-nearme__main">
+          <button type="button" class="gh-btn gh-btn--primary gh-nearme__btn" data-gh-locate>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
+            現在地から探す
+          </button>
+          <label class="gh-nearme__radius">
+            <span>この範囲で</span>
+            <select class="gh-select" data-gh-radius aria-label="現在地からの検索範囲">
+              <option value="1">半径 1km（徒歩圏）</option>
+              <option value="0.5">半径 500m</option>
+              <option value="3">半径 3km</option>
+              <option value="5">半径 5km</option>
+              <option value="10">半径 10km</option>
+              <option value="0">範囲指定なし（近い順に20件）</option>
+            </select>
+          </label>
+        </div>
+        <p class="gh-nearme__note">位置情報は端末の中だけで使い、サーバーには送信・保存しません。</p>
+        <p class="gh-nearme__status" data-gh-locate-status role="status" aria-live="polite" hidden></p>
+        <p class="gh-nearme__result" data-gh-nearme-result hidden></p>
+      </section>
+
+      <!-- キーワード検索・絞り込み -->
       <section class="gh-section" style="margin-bottom:0">
         <div class="gh-map-search-bar">
           <form class="gh-map-search-form">
             <div class="gh-map-search-input-wrap">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--gh-muted);pointer-events:none"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-              <input class="gh-map-search-input" type="search" placeholder="駅名・スポット名・エリアで検索（例: 秋葉原駅）" aria-label="検索キーワード" />
+              <input class="gh-map-search-input" type="search" placeholder="駅名・スポット名・エリアで検索（例: 秋葉原）" aria-label="検索キーワード" />
             </div>
-            <button type="button" class="gh-btn gh-btn--primary" id="currentLocBtn">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
-              現在地
-            </button>
             <button type="submit" class="gh-btn gh-btn--primary">検索</button>
           </form>
 
-          <!-- フィルター -->
+          <!-- 絞り込み（都道府県の選択肢は data/spots.js から生成） -->
           <div class="gh-map-filters">
-            <select class="gh-select" style="width:auto;min-width:120px">
-              <option>都道府県</option>
-              <option>東京都</option>
-              <option>神奈川県</option>
-              <option>大阪府</option>
-              <option>愛知県</option>
-              <option>福岡県</option>
+            <select class="gh-select" style="width:auto;min-width:150px" data-gh-pref aria-label="都道府県で絞り込む">
+              <option value="">都道府県：すべて</option>
             </select>
-            <select class="gh-select" style="width:auto;min-width:130px">
-              <option>カテゴリー</option>
-              <option>アニメ・キャラ</option>
-              <option>フィギュア</option>
-              <option>ぬいぐるみ</option>
-              <option>食玩・お菓子</option>
-            </select>
-            <select class="gh-select" style="width:auto;min-width:110px">
-              <option>半径 500m</option>
-              <option>半径 1km</option>
-              <option>半径 3km</option>
-              <option>半径 5km</option>
-              <option>半径 10km</option>
-            </select>
-            <select class="gh-select" style="width:auto;min-width:120px">
-              <option>台数: すべて</option>
-              <option>10台以上</option>
-              <option>50台以上</option>
-              <option>100台以上</option>
+            <select class="gh-select" style="width:auto;min-width:150px" data-gh-min-machines aria-label="設置台数で絞り込む">
+              <option value="0">設置台数：すべて</option>
+              <option value="100">100台以上</option>
+              <option value="300">300台以上</option>
+              <option value="500">500台以上</option>
+              <option value="1000">1,000台以上</option>
             </select>
           </div>
         </div>
@@ -124,19 +126,18 @@
           <div id="osmMap" class="gh-osm-map" role="application" aria-label="ガチャスポットの地図（OpenStreetMap）"></div>
         </div>
 
-        <!-- リストパネル -->
+        <!-- リストパネル。番号は地図のピンと一致している -->
         <div class="gh-map-list">
           <div class="gh-map-list__header">
             <strong>周辺スポット</strong>
             <span class="gh-map-list__count">読み込み中…</span>
-            <button type="button" class="gh-btn gh-btn--primary gh-btn--sm" id="nearbySortBtn" style="font-size:11px;padding:4px 10px">📍 近い順</button>
           </div>
 
           <!-- 店舗リストは script.js が data/spots.js から実データで描画 -->
           <div data-gh-map-list></div>
 
           <div class="gh-map-list__footer">
-            <a href="area.html" class="gh-btn gh-btn--block">もっと見る</a>
+            <a href="area.html" class="gh-btn gh-btn--block">エリア別に全店舗を見る</a>
           </div>
         </div>
 

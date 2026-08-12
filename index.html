@@ -108,6 +108,11 @@
               <span>検索</span>
             </button>
           </form>
+          <!-- 検索語を思いつく前の人の入口。map.html?near=1 は開いた瞬間に現在地を取りにいく -->
+          <a class="gh-topbar__near" href="map.html?near=1">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
+            <span>いまいる場所の近くを探す</span>
+          </a>
           <div class="gh-topbar__trend gh-trend-sec" hidden>
             <span class="gh-topbar__trend-label">🔥 急上昇</span>
             <div class="gh-trend" data-gh-trending></div>
