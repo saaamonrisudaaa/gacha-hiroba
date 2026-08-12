@@ -3265,25 +3265,26 @@ a.gh-hot--row:hover { background: #fffaf5; text-decoration: none; }
 }
 .gh-nearme__num { font-size: 20px; color: var(--gh-accent); }
 
-/* 地図のピン。一覧の行と同じ番号を振って、目で往復できるようにする */
+/* 地図のピン。しずく型の先端が店舗の座標に刺さる（JS側で iconAnchor を下端に置く）。
+   中の数字は一覧の行番号と同じで、地図と一覧を目で往復できるようにしている。 */
 .gh-pin-wrap { background: none; border: 0; }
-.gh-pin {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  background: var(--gh-link);
-  color: #fff;
-  font-size: 12px;
-  font-weight: 800;
-  line-height: 1;
-  border: 2px solid #fff;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, .35);
+.gh-pin__svg {
+  display: block;
+  /* 地面に立っているように見せる影。ピンの輪郭に沿うので filter で付ける */
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, .3));
 }
-.gh-pin--first { background: var(--gh-accent); width: 30px; height: 30px; font-size: 13px; }
-.gh-pin--soon { background: #ea580c; }
+/* いちばん近い1件だけ、ひと目で分かるように軽く跳ねさせる（動きを嫌う設定は尊重する） */
+@media (prefers-reduced-motion: no-preference) {
+  .gh-pin-wrap--first .gh-pin__svg {
+    animation: gh-pin-drop .45s cubic-bezier(.2, .8, .3, 1) 1;
+    transform-origin: 50% 100%;
+  }
+}
+@keyframes gh-pin-drop {
+  0%   { transform: translateY(-10px) scale(.85); opacity: 0; }
+  60%  { transform: translateY(0) scale(1.06); opacity: 1; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
 
 /* 一覧の行：本体は詳細ページへのリンク、右端の「地図」だけ地図側を操作する */
 .gh-map-spot-row {

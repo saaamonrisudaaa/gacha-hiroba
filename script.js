@@ -694,6 +694,31 @@ renderRanking('national');
       '<a href="/spot/' + encodeURIComponent(s.id) + '.html">詳細と掲示板を見る →</a>';
   }
 
+  /* しずく型のピンを SVG で描く。先端（下の頂点）が店舗の座標に刺さるよう、
+     iconAnchor を [幅/2, 高さ] にしている（丸ピンのように中心に置くと、
+     見た目の位置が実際の座標より上にずれる）。中の数字は一覧の番号と同じ。 */
+  function pinIcon(label, variant, big) {
+    var w = big ? 34 : 28;
+    var h = big ? 48 : 40;
+    var fill = variant === 'soon' ? '#ea580c' : variant === 'first' ? '#e94560' : '#1d4ed8';
+    var svg =
+      '<svg class="gh-pin__svg" width="' + w + '" height="' + h + '" viewBox="0 0 28 40" ' +
+        'aria-hidden="true" focusable="false">' +
+        '<path d="M14 1a13 13 0 0 0-13 13c0 9.9 13 25 13 25s13-15.1 13-25A13 13 0 0 0 14 1z" ' +
+          'fill="' + fill + '" stroke="#fff" stroke-width="2"/>' +
+        '<text x="14" y="19" text-anchor="middle" fill="#fff" ' +
+          'font-size="' + (String(label).length > 2 ? 11 : 13) + '" font-weight="700" ' +
+          'font-family="system-ui, -apple-system, sans-serif">' + esc(label) + '</text>' +
+      '</svg>';
+    return L.divIcon({
+      className: 'gh-pin-wrap' + (big ? ' gh-pin-wrap--first' : ''),
+      html: svg,
+      iconSize: [w, h],
+      iconAnchor: [Math.round(w / 2), h],     /* 先端を座標に合わせる */
+      popupAnchor: [0, -h + 4]
+    });
+  }
+
   function drawSpots(rows) {
     if (!mapReady) return [];
     spotLayer.clearLayers();
@@ -701,14 +726,13 @@ renderRanking('national');
     var pts = [];
     rows.forEach(function (s, i) {
       var km = st.here ? distKm(st.here[0], st.here[1], s.lat, s.lon) : null;
-      /* 一覧と同じ番号を振ったピン。オープン予定の店は色を変える */
-      var icon = L.divIcon({
-        className: 'gh-pin-wrap',
-        html: '<span class="gh-pin' + (isPreOpen(s) ? ' gh-pin--soon' : '') +
-              (i === 0 ? ' gh-pin--first' : '') + '">' + (i + 1) + '</span>',
-        iconSize: [28, 28], iconAnchor: [14, 14], popupAnchor: [0, -16]
-      });
-      var m = L.marker([s.lat, s.lon], { icon: icon, title: s.name }).addTo(spotLayer);
+      var variant = isPreOpen(s) ? 'soon' : (i === 0 ? 'first' : '');
+      var m = L.marker([s.lat, s.lon], {
+        icon: pinIcon(i + 1, variant, i === 0),
+        title: s.name,
+        /* 近い順の上位を手前に重ねる（ピンが密集する繁華街で1番が隠れないように） */
+        zIndexOffset: Math.max(0, 1000 - i)
+      }).addTo(spotLayer);
       m.bindPopup(popupHtml(s, km));
       markerById[s.id] = m;
       pts.push([s.lat, s.lon]);
@@ -747,7 +771,9 @@ renderRanking('national');
         all.push([st.here[0] - d, st.here[1]]);
       }
     }
-    if (all.length > 1) map.fitBounds(all, { padding: [40, 40], maxZoom: 17 });
+    /* ピンは座標から上に伸びるので、上側の余白を厚めに取って頭が切れないようにする */
+    var fitOpts = { paddingTopLeft: [40, 56], paddingBottomRight: [40, 24], maxZoom: 17 };
+    if (all.length > 1) map.fitBounds(all, fitOpts);
     else if (all.length === 1) map.setView(all[0], 15);
     else map.setView([35.68, 139.76], 9);
   }
