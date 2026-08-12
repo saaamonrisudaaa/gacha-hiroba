@@ -120,60 +120,7 @@
         </div>
 
         <!-- ============================================================
-             ② ライブ状況（投稿数・本日の投稿・最終更新。60秒ごとに更新）
-             ============================================================ -->
-        <div class="gh-live" data-gh-live-status hidden></div>
-
-        <!-- ============================================================
-             ③ 最新の掲示板投稿（ユーザー投稿。トップの主役・自動更新）
-             ============================================================ -->
-        <section class="gh-section gh-sec--main gh-community-sec" hidden>
-          <div class="gh-section__header">
-            <h2 class="gh-section__title gh-section__title--lg">
-              <span class="gh-live-dot" aria-hidden="true"></span>いま広場で話されていること
-            </h2>
-            <a href="board.html" class="gh-section__more">もっと見る →</a>
-          </div>
-
-          <!-- 広場の顔ぶれ（直近に書き込んだ人）＋書き込み導線 -->
-          <div class="gh-plaza" data-gh-plaza hidden></div>
-
-          <div class="gh-post-list" data-gh-community-feed></div>
-
-          <!-- 投稿のお誘い（行き先はいちばん活発な板） -->
-          <div class="gh-invite" data-gh-invite hidden></div>
-
-          <a href="board.html" class="gh-post-list__more">掲示板をすべて見る（無料・登録不要）→</a>
-        </section>
-
-        <!-- ============================================================
-             ④ 最新画像（投稿に画像が含まれるときだけ出る）
-             ============================================================ -->
-        <section class="gh-section gh-sec--tight gh-photo-sec" hidden>
-          <div class="gh-section__header">
-            <h2 class="gh-section__title">
-              <span class="gh-live-dot" aria-hidden="true"></span>みんなが投稿した写真
-            </h2>
-            <a href="board.html" class="gh-section__more">掲示板へ →</a>
-          </div>
-          <div class="gh-photo-grid" data-gh-photos></div>
-        </section>
-
-        <!-- ============================================================
-             ⑤ 新着の口コミ（ユーザー投稿から抜粋）
-             ============================================================ -->
-        <section class="gh-section gh-sec--tight gh-review-sec" hidden>
-          <div class="gh-section__header">
-            <h2 class="gh-section__title">
-              <span class="gh-live-dot" aria-hidden="true"></span>新着の口コミ
-            </h2>
-            <a href="board.html" class="gh-section__more">すべて見る →</a>
-          </div>
-          <div class="gh-review-list" data-gh-recent-reviews></div>
-        </section>
-
-        <!-- ============================================================
-             ⑥ 今日話題の商品（発売情報 × 掲示板での言及数で並べ替え）
+             ② 今日話題の商品（発売情報 × 掲示板での言及数で並べ替え）
              ============================================================ -->
         <section class="gh-section gh-sec--tight gh-hot-sec" hidden>
           <div class="gh-section__header">
@@ -186,7 +133,7 @@
         </section>
 
         <!-- ============================================================
-             ⑦ 設置台数ランキング（上位ほど大きく表示）
+             ③ 設置台数ランキング（上位ほど大きく表示）
              ============================================================ -->
         <section class="gh-section gh-sec--tight">
           <div class="gh-section__header">
@@ -247,6 +194,59 @@
           公式サイトを1件ずつ確認しながら、毎日すこしずつ登録しています。
           <a href="contact.html">情報の間違い・未掲載店の連絡はこちら</a>
         </p>
+
+        <!-- ============================================================
+             ④ ライブ状況（投稿数・本日の投稿・最終更新。60秒ごとに更新）
+             ============================================================ -->
+        <div class="gh-live" data-gh-live-status hidden></div>
+
+        <!-- ============================================================
+             ⑤ 最新の掲示板投稿（ユーザー投稿・自動更新）
+             ============================================================ -->
+        <section class="gh-section gh-sec--main gh-community-sec" hidden>
+          <div class="gh-section__header">
+            <h2 class="gh-section__title gh-section__title--lg">
+              <span class="gh-live-dot" aria-hidden="true"></span>いま広場で話されていること
+            </h2>
+            <a href="board.html" class="gh-section__more">もっと見る →</a>
+          </div>
+
+          <!-- 広場の顔ぶれ（直近に書き込んだ人）＋書き込み導線 -->
+          <div class="gh-plaza" data-gh-plaza hidden></div>
+
+          <div class="gh-post-list" data-gh-community-feed></div>
+
+          <!-- 投稿のお誘い（行き先はいちばん活発な板） -->
+          <div class="gh-invite" data-gh-invite hidden></div>
+
+          <a href="board.html" class="gh-post-list__more">掲示板をすべて見る（無料・登録不要）→</a>
+        </section>
+
+        <!-- ============================================================
+             ⑥ 最新画像（投稿に画像が含まれるときだけ出る）
+             ============================================================ -->
+        <section class="gh-section gh-sec--tight gh-photo-sec" hidden>
+          <div class="gh-section__header">
+            <h2 class="gh-section__title">
+              <span class="gh-live-dot" aria-hidden="true"></span>みんなが投稿した写真
+            </h2>
+            <a href="board.html" class="gh-section__more">掲示板へ →</a>
+          </div>
+          <div class="gh-photo-grid" data-gh-photos></div>
+        </section>
+
+        <!-- ============================================================
+             ⑦ 新着の口コミ（ユーザー投稿から抜粋）
+             ============================================================ -->
+        <section class="gh-section gh-sec--tight gh-review-sec" hidden>
+          <div class="gh-section__header">
+            <h2 class="gh-section__title">
+              <span class="gh-live-dot" aria-hidden="true"></span>新着の口コミ
+            </h2>
+            <a href="board.html" class="gh-section__more">すべて見る →</a>
+          </div>
+          <div class="gh-review-list" data-gh-recent-reviews></div>
+        </section>
 
         <!-- News feed -->
         <section class="gh-section">
