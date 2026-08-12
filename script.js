@@ -534,7 +534,9 @@ renderRanking('national');
     radiusKm: 1,       /* 0 = 範囲指定なし（近い順に上位だけ） */
     pref: '',
     minMachines: 0,
-    query: ''
+    query: '',
+    viewportMode: false, /* true = 検索語・半径よりも、いま見えている地図範囲を優先 */
+    selectedId: ''     /* 地図で開いている店舗。一覧側の強調表示にも使う */
   };
 
   /* ── 絞り込み ───────────────────────────────────────────── */
@@ -542,7 +544,8 @@ renderRanking('national');
     var arr = ALL.filter(function (s) {
       if (st.pref && s.pref !== st.pref) return false;
       if (st.minMachines && !(Number(s.machines) >= st.minMachines)) return false;
-      if (st.query) {
+      /* 地図を自分で動かした後は、検索語を外して「見えている範囲」を優先する。 */
+      if (st.query && !st.viewportMode) {
         var terms = norm(st.query).split(/\s+/).filter(Boolean);
         var hay = norm([s.name, s.brand, s.area, s.pref, s.address, s.access]
           .map(function (f) { return f == null ? '' : String(f); }).join(' ') + ' ' + GENERIC);
@@ -554,6 +557,22 @@ renderRanking('national');
       }
       return true;
     });
+
+    /* 検索結果を入口に地図を広げたら、現在の表示範囲に入る全店舗を反映する。
+       都道府県・台数の明示的なセレクト条件だけはそのまま尊重する。 */
+    if (st.viewportMode && mapReady && map && typeof map.getBounds === 'function') {
+      var bounds = map.getBounds();
+      var inView = arr.filter(function (s) { return bounds.contains([s.lat, s.lon]); });
+      if (st.here) {
+        inView.sort(function (a, b) {
+          return distKm(st.here[0], st.here[1], a.lat, a.lon) -
+            distKm(st.here[0], st.here[1], b.lat, b.lon);
+        });
+      } else {
+        inView.sort(function (a, b) { return (b.machines || 0) - (a.machines || 0); });
+      }
+      return { rows: inView, total: inView.length, nearestOutside: null };
+    }
 
     /* 現在地なし：設置台数の多い順。ピンが多すぎると読めないので上限を掛ける */
     if (!st.here) {
@@ -588,11 +607,21 @@ renderRanking('national');
   }
 
   /* ── 一覧 ───────────────────────────────────────────────── */
+  function directionsUrl(s) {
+    /* 出発地をURLへ埋め込まない。Google マップ側が端末の現在地を使うため、
+       このサイトから位置情報を外部へ渡さずに経路画面を開ける。 */
+    return 'https://www.google.com/maps/dir/?api=1&destination=' +
+      encodeURIComponent(String(s.lat) + ',' + String(s.lon));
+  }
+
   function rowHtml(s, i) {
     var km = st.here ? distKm(st.here[0], st.here[1], s.lat, s.lon) : null;
     var walk = km == null ? '' : walkText(km);
-    return '<div class="gh-map-spot-row">' +
-      '<a href="/spot/' + encodeURIComponent(s.id) + '.html" class="gh-map-spot">' +
+    var selected = st.selectedId === s.id;
+    return '<div class="gh-map-spot-row' + (selected ? ' gh-map-spot-row--selected' : '') + '" ' +
+      'data-gh-spot-row="' + esc(s.id) + '">' +
+      '<a href="/spot/' + encodeURIComponent(s.id) + '.html" class="gh-map-spot' +
+        (selected ? ' gh-map-spot--selected' : '') + '"' + (selected ? ' aria-current="location"' : '') + '>' +
         '<div class="gh-map-spot__num' + (i === 0 ? ' gh-map-spot__num--1' : '') + '">' + (i + 1) + '</div>' +
         '<div class="gh-map-spot__info">' +
           '<strong class="gh-map-spot__name">' + esc(s.name) +
@@ -607,21 +636,29 @@ renderRanking('national');
           '</div>' +
         '</div>' +
       '</a>' +
-      (mapReady ? '<button type="button" class="gh-map-spot__pin" data-gh-focus="' + esc(s.id) + '" ' +
-        'aria-label="' + esc(s.name) + 'を地図で見る">地図</button>' : '') +
+      '<div class="gh-map-spot__actions">' +
+        (mapReady ? '<button type="button" class="gh-map-spot__pin" data-gh-focus="' + esc(s.id) + '" ' +
+          'aria-label="' + esc(s.name) + 'を地図で見る" aria-pressed="' + (selected ? 'true' : 'false') + '">地図</button>' : '') +
+        '<a class="gh-map-spot__route" href="' + esc(directionsUrl(s)) + '" target="_blank" rel="noopener" ' +
+          'aria-label="' + esc(s.name) + 'までの経路をGoogle マップで開く">経路</a>' +
+      '</div>' +
     '</div>';
   }
 
   function renderList(res) {
     if (!listBox) return;
     var count = document.querySelector('.gh-map-list__count');
+    var heading = document.querySelector('.gh-map-list__header strong');
+    if (heading) heading.textContent = st.viewportMode ? '地図内のスポット' : (st.query ? '検索結果' : '周辺スポット');
 
     if (!res.rows.length) {
       var near = res.nearestOutside;
       var wide = near ? suggestRadius(near.km) : null;
       listBox.innerHTML = '<div class="gh-map-empty">' +
         '<p class="gh-map-empty__title">' +
-          (st.here
+          (st.viewportMode
+            ? '現在の地図範囲内に、条件に合う店舗はありませんでした。'
+            : st.here
             ? '現在地から' + radiusText(st.radiusKm) + '以内に、条件に合う店舗はありませんでした。'
             : '条件に合う店舗が見つかりませんでした。') +
         '</p>' +
@@ -639,7 +676,9 @@ renderRanking('national');
     listBox.innerHTML = res.rows.map(rowHtml).join('');
     if (count) {
       var capped = res.total > res.rows.length ? '（全' + res.total + '件中）' : '';
-      count.textContent = st.here
+      count.textContent = st.viewportMode
+        ? '表示範囲 ' + res.rows.length + '件'
+        : st.here
         ? (st.radiusKm ? radiusText(st.radiusKm) + '以内 ' + res.rows.length + '件' : '近い順 ' + res.rows.length + '件' + capped)
         : '台数の多い順 ' + res.rows.length + '件' + capped;
     }
@@ -649,6 +688,15 @@ renderRanking('national');
   function renderSummary(res) {
     var box = document.querySelector('[data-gh-nearme-result]');
     if (!box) return;
+    if (st.viewportMode) {
+      if (st.here) {
+        box.innerHTML = '地図を動かしたため、現在地の半径ではなく<strong>表示範囲内</strong>の店舗を表示しています。半径表示に戻すには範囲を選び直してください。';
+        box.hidden = false;
+      } else {
+        box.hidden = true;
+      }
+      return;
+    }
     if (!st.here) { box.hidden = true; return; }
     var n = res.rows.length;
     var txt = st.radiusKm
@@ -691,7 +739,10 @@ renderRanking('national');
         (walkText(km) ? '（' + walkText(km) + '）' : '') + '</span><br>') +
       '<span style="color:#6b7280">' + esc(s.area) + '</span><br>' +
       '🎰 ' + machinesText(s.machines) + ' ・ 🕒 ' + esc(s.hours || '—') + '<br>' +
-      '<a href="/spot/' + encodeURIComponent(s.id) + '.html">詳細と掲示板を見る →</a>';
+      '<div class="gh-map-popup__actions">' +
+        '<a href="/spot/' + encodeURIComponent(s.id) + '.html">詳細・掲示板</a>' +
+        '<a href="' + esc(directionsUrl(s)) + '" target="_blank" rel="noopener">経路を見る ↗</a>' +
+      '</div>';
   }
 
   /* しずく型のピンを SVG で描く。先端（下の頂点）が店舗の座標に刺さるよう、
@@ -734,6 +785,8 @@ renderRanking('national');
         zIndexOffset: Math.max(0, 1000 - i)
       }).addTo(spotLayer);
       m.bindPopup(popupHtml(s, km));
+      /* ピンを選ぶと右の一覧でも同じ店舗を強調する。 */
+      m.on('click', function () { selectSpot(s.id, true); });
       markerById[s.id] = m;
       pts.push([s.lat, s.lon]);
     });
@@ -749,7 +802,7 @@ renderRanking('national');
       L.circle(st.here, { radius: st.acc, weight: 0, fillColor: '#1d4ed8', fillOpacity: .08, interactive: false })
         .addTo(meLayer);
     }
-    if (st.radiusKm) {
+    if (st.radiusKm && !st.viewportMode) {
       L.circle(st.here, {
         radius: st.radiusKm * 1000, color: '#1d4ed8', weight: 1.5, dashArray: '5,5',
         fillColor: '#1d4ed8', fillOpacity: .04, interactive: false
@@ -765,21 +818,26 @@ renderRanking('national');
     if (st.here) {
       all.push(st.here);
       /* 半径の円が画面に収まるよう、円の外周も範囲に入れる（約111km=1度で換算） */
-      if (st.radiusKm) {
+      if (st.radiusKm && !st.viewportMode) {
         var d = st.radiusKm / 111;
         all.push([st.here[0] + d, st.here[1]]);
         all.push([st.here[0] - d, st.here[1]]);
       }
     }
     /* ピンは座標から上に伸びるので、上側の余白を厚めに取って頭が切れないようにする */
-    var fitOpts = { paddingTopLeft: [40, 56], paddingBottomRight: [40, 24], maxZoom: 17 };
+    var fitOpts = { paddingTopLeft: [40, 56], paddingBottomRight: [40, 24], maxZoom: 17, animate: false };
+    suppressViewportRefresh = true;
     if (all.length > 1) map.fitBounds(all, fitOpts);
-    else if (all.length === 1) map.setView(all[0], 15);
-    else map.setView([35.68, 139.76], 9);
+    else if (all.length === 1) map.setView(all[0], 15, { animate: false });
+    else map.setView([35.68, 139.76], 9, { animate: false });
+    suppressViewportRefresh = false;
   }
 
   function render(opts) {
     var res = filtered();
+    if (st.selectedId && !res.rows.some(function (s) { return s.id === st.selectedId; })) {
+      st.selectedId = '';
+    }
     renderList(res);
     renderSummary(res);
     var pts = drawSpots(res.rows);
@@ -802,6 +860,7 @@ renderRanking('national');
       setStatus('このブラウザは位置情報に対応していません。駅名やエリア名での検索をお使いください。', 'warn');
       return;
     }
+    st.viewportMode = false;
     if (btn) { btn.disabled = true; btn.textContent = '現在地を取得中…'; }
     setStatus('現在地を取得しています…');
     navigator.geolocation.getCurrentPosition(
@@ -830,7 +889,26 @@ renderRanking('national');
   }
 
   /* ── 操作の配線 ─────────────────────────────────────────── */
+  var suppressViewportRefresh = false;
+  var ignoreNextMoveEnd = false;
   initMap();
+
+  /* 検索で移動したときは結果を維持し、利用者自身が地図を動かしたときだけ
+     「表示範囲の店舗」へ切り替える。 */
+  function activateViewportMode() {
+    if (!mapReady || suppressViewportRefresh) return;
+    if (ignoreNextMoveEnd) { ignoreNextMoveEnd = false; return; }
+    st.viewportMode = true;
+    st.query = '';
+    var mapInput = document.querySelector('.gh-map-search-input');
+    if (mapInput) mapInput.value = '';
+    render({ fit: false });
+  }
+  if (mapReady) {
+    map.on('moveend', activateViewportMode);
+    /* ポップアップが端で自動的に地図をずらした場合は、利用者の地図操作として扱わない。 */
+    map.on('autopanstart', function () { ignoreNextMoveEnd = true; });
+  }
 
   /* 都道府県セレクトは実データから作る（掲載の無い県を選べないようにする） */
   (function buildPrefSelect() {
@@ -851,16 +929,22 @@ renderRanking('national');
   if (radiusSel) {
     st.radiusKm = Number(radiusSel.value || 1);
     radiusSel.addEventListener('change', function () {
+      st.viewportMode = false;
       st.radiusKm = Number(radiusSel.value || 0);
       render();
     });
   }
   var prefSel = document.querySelector('[data-gh-pref]');
-  if (prefSel) prefSel.addEventListener('change', function () { st.pref = prefSel.value; render(); });
+  if (prefSel) prefSel.addEventListener('change', function () {
+    st.viewportMode = false;
+    st.pref = prefSel.value;
+    render();
+  });
 
   var machSel = document.querySelector('[data-gh-min-machines]');
   if (machSel) machSel.addEventListener('change', function () {
-    st.minMachines = Number(machSel.value || 0); render();
+    st.minMachines = Number(machSel.value || 0);
+    render({ fit: !st.viewportMode });
   });
 
   var form = document.querySelector('.gh-map-search-form');
@@ -868,6 +952,7 @@ renderRanking('national');
   if (form && input) {
     form.addEventListener('submit', function (e) {
       e.preventDefault();
+      st.viewportMode = false;
       st.query = input.value.trim();
       render();
     });
@@ -876,10 +961,46 @@ renderRanking('national');
   function focusSpot(id) {
     var m = markerById[id];
     if (!m || !mapReady) return;
-    map.setView(m.getLatLng(), Math.max(map.getZoom(), 16), { animate: true });
+    selectSpot(id, false);
+    suppressViewportRefresh = true;
+    map.setView(m.getLatLng(), Math.max(map.getZoom(), 16), { animate: false });
+    suppressViewportRefresh = false;
     m.openPopup();
     if (mapEl && mapEl.scrollIntoView) {
       try { mapEl.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (e) {}
+    }
+  }
+
+  function selectSpot(id, scrollList) {
+    st.selectedId = id || '';
+    if (!listBox) return;
+
+    var rows = listBox.querySelectorAll('[data-gh-spot-row]');
+    var selectedRow = null;
+    for (var i = 0; i < rows.length; i++) {
+      var active = rows[i].getAttribute('data-gh-spot-row') === st.selectedId;
+      rows[i].classList.toggle('gh-map-spot-row--selected', active);
+      var link = rows[i].querySelector('.gh-map-spot');
+      var pin = rows[i].querySelector('[data-gh-focus]');
+      if (link) {
+        link.classList.toggle('gh-map-spot--selected', active);
+        if (active) link.setAttribute('aria-current', 'location');
+        else link.removeAttribute('aria-current');
+      }
+      if (pin) pin.setAttribute('aria-pressed', active ? 'true' : 'false');
+      if (active) selectedRow = rows[i];
+    }
+
+    /* PCの一覧がスクロール領域になっている場合だけ、該当行を領域内へ移動する。
+       スマホではページ全体を勝手に下へ飛ばさない。 */
+    if (scrollList && selectedRow) {
+      var panel = selectedRow.closest('.gh-map-list');
+      if (panel && panel.scrollHeight > panel.clientHeight) {
+        var targetTop = panel.scrollTop + selectedRow.getBoundingClientRect().top -
+          panel.getBoundingClientRect().top - 48;
+        if (typeof panel.scrollTo === 'function') panel.scrollTo({ top: Math.max(0, targetTop), behavior: 'smooth' });
+        else panel.scrollTop = Math.max(0, targetTop);
+      }
     }
   }
 
@@ -891,6 +1012,7 @@ renderRanking('national');
       var widen = t.closest('[data-gh-widen]');
       if (widen) {
         e.preventDefault();
+        st.viewportMode = false;
         st.radiusKm = Number(widen.getAttribute('data-gh-widen') || 0);
         if (radiusSel) radiusSel.value = String(st.radiusKm);
         render();

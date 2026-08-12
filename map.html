@@ -118,6 +118,8 @@
         </div>
       </section>
 
+      <p class="gh-map-bounds-note">地図を移動・拡大縮小すると、表示範囲内の店舗へ自動で更新されます。</p>
+
       <!-- マップ + リスト -->
       <div class="gh-map-layout">
 
@@ -130,7 +132,7 @@
         <div class="gh-map-list">
           <div class="gh-map-list__header">
             <strong>周辺スポット</strong>
-            <span class="gh-map-list__count">読み込み中…</span>
+            <span class="gh-map-list__count" aria-live="polite">読み込み中…</span>
           </div>
 
           <!-- 店舗リストは script.js が data/spots.js から実データで描画 -->

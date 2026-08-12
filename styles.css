@@ -1431,6 +1431,12 @@ img { display: block; max-width: 100%; }
 }
 .gh-map-search-input:focus { border-color: var(--gh-link); }
 .gh-map-filters { display: flex; gap: 8px; flex-wrap: wrap; }
+.gh-map-bounds-note {
+  margin: -6px 0 10px;
+  color: var(--gh-muted);
+  font-size: 11px;
+  text-align: right;
+}
 
 .gh-map-layout {
   display: grid;
@@ -1552,6 +1558,7 @@ img { display: block; max-width: 100%; }
 .gh-map-spot:hover { background: #f9fafb; text-decoration: none; }
 .gh-map-spot--selected { background: #eff6ff; }
 .gh-map-spot--selected:hover { background: #dbeafe; }
+.gh-map-spot-row--selected .gh-map-spot { box-shadow: inset 3px 0 0 var(--gh-link); }
 .gh-map-spot__num {
   display: grid;
   place-items: center;
@@ -1569,7 +1576,7 @@ img { display: block; max-width: 100%; }
 .gh-map-spot__info { flex: 1; min-width: 0; }
 .gh-map-spot__name { display: block; font-size: 13px; font-weight: 700; margin-bottom: 2px; }
 .gh-map-spot__area { display: block; font-size: 11px; color: var(--gh-muted); margin-bottom: 4px; }
-.gh-map-spot__meta { display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--gh-muted); margin-bottom: 4px; }
+.gh-map-spot__meta { display: flex; align-items: center; flex-wrap: wrap; gap: 3px 8px; font-size: 11px; color: var(--gh-muted); margin-bottom: 4px; }
 .gh-map-spot__dist { font-size: 11px; font-weight: 700; color: var(--gh-link); flex-shrink: 0; white-space: nowrap; }
 
 /* ── Responsive: inner pages ── */
@@ -3286,7 +3293,7 @@ a.gh-hot--row:hover { background: #fffaf5; text-decoration: none; }
   100% { transform: translateY(0) scale(1); opacity: 1; }
 }
 
-/* 一覧の行：本体は詳細ページへのリンク、右端の「地図」だけ地図側を操作する */
+/* 一覧の行：本体は詳細ページ、右端から地図上の位置と経路へ進める */
 .gh-map-spot-row {
   display: flex;
   align-items: stretch;
@@ -3294,19 +3301,43 @@ a.gh-hot--row:hover { background: #fffaf5; text-decoration: none; }
 }
 .gh-map-spot-row:last-child { border-bottom: none; }
 .gh-map-spot-row .gh-map-spot { flex: 1; min-width: 0; border-bottom: none; }
-.gh-map-spot__pin {
+.gh-map-spot__actions {
   flex-shrink: 0;
-  width: 52px;
-  border: 0;
+  width: 56px;
+  display: flex;
+  flex-direction: column;
   border-left: 1px solid var(--gh-border);
   background: #f9fafb;
+}
+.gh-map-spot__pin,
+.gh-map-spot__route {
+  flex: 1;
+  min-height: 38px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  background: transparent;
   color: var(--gh-link);
   font-size: 11px;
   font-weight: 800;
   cursor: pointer;
+  text-decoration: none;
 }
-.gh-map-spot__pin:hover { background: #eff6ff; }
-.gh-map-spot__pin:focus-visible { outline: 2px solid var(--gh-link); outline-offset: -2px; }
+.gh-map-spot__pin { border-bottom: 1px solid var(--gh-border); }
+.gh-map-spot__pin:hover,
+.gh-map-spot__route:hover { background: #eff6ff; text-decoration: none; }
+.gh-map-spot__pin[aria-pressed="true"] { background: #dbeafe; }
+.gh-map-spot__pin:focus-visible,
+.gh-map-spot__route:focus-visible { outline: 2px solid var(--gh-link); outline-offset: -2px; }
+
+.gh-map-popup__actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 7px;
+  padding-top: 7px;
+  border-top: 1px solid #e5e7eb;
+}
+.gh-map-popup__actions a { white-space: nowrap; }
 
 /* 半径内に1件も無いときの行き止まり回避（いちばん近い店＋範囲を広げるボタン） */
 .gh-map-empty { padding: 18px 16px; }
