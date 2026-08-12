@@ -1,11 +1,11 @@
 /* ===========================================================================
    新作ガチャの発売情報
-   ★ トップページの「今日発売のガチャ」「今週の新作」に使われます。
-      date: 'YYYY-MM-DD'（発売日）。当日のものが「今日発売」として最上部に出ます。
-      当日分が無い日は、直近7日以内の新作を「今週の新作」として表示します。
-      どれも該当しない場合、セクション自体が自動的に非表示になります。
-   ★ 追加するときはこの配列に1件足すだけ。source は必ず一次情報（メーカー公式・
-      公式ニュースリリース）を入れてください。
+   ★ トップページの「今日話題の商品」と新着情報ページに使われます。
+      date: 'YYYY-MM-DD'（発売日または週単位告知の代表日）。トップページでは
+      掲示板での言及数と発売日の近さで最大7件、新着情報ページでは当日・直近・
+      発売予定の順で表示されます。古い項目は定時更新時に配列から整理します。
+   ★ source は必ず一次情報（メーカー公式・公式ニュースリリース）を入れてください。
+      公式画像は転載せず、商品名と確認できた事実だけを短く掲載します。
    ★ 任意フィールド
       label: バッジの表記を上書きする（例 '8月第2週 発売'）。ガシャポンは発売日が
              「○月第2週」のように週単位で告知されることが多く、日付を断定できない
@@ -14,82 +14,102 @@
    =========================================================================== */
 window.GH_RELEASES = [
   {
-    date: '2026-08-08',
-    label: '8/8 ガシャポンの日 限定',
-    title: 'HG ONE PIECE 01 SPECIAL EDITION',
-    maker: 'バンダイ（ガシャポン）',
-    price: '1回500円／全4種',
-    note: '1月発売「HG ONE PIECE 01」のSpecial Color ver.。全種メタリック塗装。全国のガシャポンバンダイオフィシャルショップ限定で先行販売。',
-    source: 'https://prtimes.jp/main/html/rd/p/000000515.000122810.html'
-  },
-  {
-    date: '2026-08-08',
-    label: '8/8 ガシャポンの日 限定',
-    title: 'めじるしアクセサリー サンリオキャラクターズ〜エモきゅん〜2',
+    date: '2026-08-10',
+    label: '8月第2週より順次',
+    title: 'サンリオキャラクターズ くだものめじるしアクセサリー',
     maker: 'バンダイ（ガシャポン）',
     price: '1回300円／全5種',
-    note: 'おめめうるうるの表情がエモかわいい、めじるしアクセサリー第2弾。',
-    source: 'https://prtimes.jp/main/html/rd/p/000000515.000122810.html'
+    note: 'サンリオキャラクターが、くだものの姿になっためじるしアクセサリー。',
+    source: 'https://gashapon.jp/products/detail.php?jan_code=4570118186683000'
   },
   {
-    date: '2026-08-08',
-    label: '8月第2週 発売',
-    title: 'POWER KNUCKLE byTOUMA × KAMEN RIDER VOL.2',
+    date: '2026-08-10',
+    label: '8月第2週より順次',
+    title: 'カードキャプターさくら ブリスターチャームコレクション',
     maker: 'バンダイ（ガシャポン）',
-    price: '1回1,000円／全4種',
-    note: '2号・カブト・電王・オーズの全4種。全高約11cmで、クリアパーツとメタリック彩色、肩と腕が回るギミック入り。',
-    source: 'https://news.mynavi.jp/article/20260805-4780188/'
+    price: '1回400円／全6種',
+    note: '作中の杖や鍵、ケロちゃんをパッケージ入りのミニチュアチャームで再現。',
+    source: 'https://gashapon.jp/products/detail.php?jan_code=4570118187123000'
   },
   {
-    date: '2026-08-08',
-    label: '8月第2週 発売',
-    title: 'ウルトラマンだにゃん2',
+    date: '2026-08-10',
+    label: '8月第2週より順次',
+    title: 'TVアニメ『ダンダダン』 つまんでつなげてますこっと',
     maker: 'バンダイ（ガシャポン）',
-    note: 'ウルトラマンとウルトラ怪獣になりきった猫のフィギュア。体はふわふわのフロッキー加工。',
-    source: 'https://news.mynavi.jp/article/20260805-4780188/'
+    price: '1回400円／全8種',
+    note: 'オカルン、モモ、ジジ、ターボババアを2種類の取り付け方で楽しめるマスコット。',
+    source: 'https://gashapon.jp/products/detail.php?jan_code=4570118196699000'
   },
   {
-    date: '2026-08-22',
-    label: '8月第4週 先行販売',
-    title: 'カーケシGP NISSANセレクション01／MAZDAセレクション01',
+    date: '2026-08-10',
+    label: '8月第2週より順次',
+    title: 'HGドラゴンボール06 GOKU EDITION2',
     maker: 'バンダイ（ガシャポン）',
-    price: '1回400円／NISSANは全24種',
-    note: '懐かしの「カーケシ」の新シリーズ。8月第4週からガシャポンバンダイオフィシャルショップで先行販売、9月より順次一般販売予定。',
-    source: 'https://prtimes.jp/main/html/rd/p/000000515.000122810.html'
+    price: '1回500円／全4種',
+    note: '「孫悟空」にフィーチャーしたHGドラゴンボール第6弾。',
+    source: 'https://gashapon.jp/products/detail.php?jan_code=4570118208408000'
   },
   {
-    date: '2026-08-03',
-    title: 'サンリオキャラクターズ いちご新聞コースター／めじるしアクセサリー ほか',
-    maker: 'バンダイ（ガシャポン）',
-    note: 'サンリオキャラクターズの新作全7シリーズ。ガシャポンバンダイオフィシャルショップで先行発売。',
-    source: 'https://www.sanrio.co.jp/news/goods/mx-bandai-gashapon-20260803/'
-  },
-  {
-    date: '2026-08-03',
-    title: '劇場版『チェンソーマン レゼ篇』 めじるしアクセサリー',
-    maker: 'バンダイ（ガシャポン）',
-    note: '8月の新作ラインナップの1つ。',
-    source: 'https://gashapon.jp/schedule/'
-  },
-  {
-    date: '2026-08-03',
+    date: '2026-08-10',
+    label: '8月第2週より順次',
     title: 'DEATH NOTE おくるみますこっとチャーム',
     maker: 'バンダイ（ガシャポン）',
-    note: '8月の新作ラインナップの1つ。',
-    source: 'https://gashapon.jp/schedule/'
+    price: '1回400円／全5種',
+    note: '夜神月、L、弥海砂、ニア、メロがおくるみに包まれたオリジナルデザイン。',
+    source: 'https://gashapon.jp/products/detail.php?jan_code=4570118219169000'
   },
   {
-    date: '2026-08-01',
-    title: 'どうぶつの森 つながリングチャーム',
+    date: '2026-08-10',
+    label: '8月第2週より順次',
+    title: '日曜劇場『VIVANT』 まちぼうけ',
     maker: 'バンダイ（ガシャポン）',
-    note: '8月1日出品分のラインナップから。',
-    source: 'https://gashapon.jp/schedule/'
+    price: '1回500円／全6種',
+    note: '乃木、野崎、薫、黒須、ノコル、ドラムが「まちぼうけ」シリーズに登場。',
+    source: 'https://gashapon.jp/products/detail.php?jan_code=4582769979637000'
   },
   {
-    date: '2026-08-01',
-    title: '銀河特急 ミルキー☆サブウェイ めじるしアクセサリー',
+    date: '2026-08-10',
+    label: '8月第2週より順次',
+    title: 'パワプロくん ゆれるんです。～セントラル・リーグ～',
     maker: 'バンダイ（ガシャポン）',
-    note: '8月1日出品分のラインナップから。',
-    source: 'https://gashapon.jp/schedule/'
+    price: '1回500円／全6種',
+    note: 'セ・リーグ6球団のパワプロくんを、頭が揺れるボブルヘッド風フィギュアで展開。',
+    source: 'https://gashapon.jp/products/detail.php?jan_code=4582769935862000'
+  },
+  {
+    date: '2026-08-10',
+    label: '8月第2週より順次',
+    title: 'にゃんこ大戦争 めじるしアクセサリー',
+    maker: 'バンダイ（ガシャポン）',
+    price: '1回300円／全6種',
+    note: 'ネコ、タンクネコ、金ネコ、ネコカンなどをめじるしアクセサリー化。',
+    source: 'https://gashapon.jp/products/detail.php?jan_code=4582770053852000'
+  },
+  {
+    date: '2026-08-10',
+    label: '8月第2週より順次',
+    title: 'Dr.MORICKY toymini series めじるしアクセサリー',
+    maker: 'バンダイ（ガシャポン）',
+    price: '1回300円／全5種',
+    note: 'イラストレーターDr.MORICKYによる、本商品のための描き下ろしデザイン。',
+    source: 'https://gashapon.jp/products/detail.php?jan_code=4582769832185000'
+  },
+  {
+    date: '2026-08-15',
+    label: '8月15日週 発売',
+    title: '宝箱 -The Treasure Box-',
+    maker: 'タカラトミーアーツ',
+    price: '1回300円／全8種',
+    note: 'ふたが開閉する宝箱のミニチュア。中身やギミックの異なる全8種。',
+    source: 'https://www.takaratomy-arts.co.jp/items/item.html?n=Y905742'
+  },
+  {
+    date: '2026-08-24',
+    label: '8月第4週より順次',
+    title: 'VIRUSWEETS figure collection ～Summer Festival～',
+    maker: 'バンダイ（ガシャポン）',
+    price: '1回400円／全6種',
+    note: 'かき氷、りんご飴、チョコバナナをモチーフにした、夏祭りスイーツのフィギュア。',
+    source: 'https://gashapon.jp/products/detail.php?jan_code=4582770027471000'
   }
 ];
