@@ -21,13 +21,12 @@
   <link rel="stylesheet" href="/styles.css" />
   <!-- 店舗データ → 描画 → 共有掲示板 → 共通JS（この順で読み込む） -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
-  <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"Store","name":"ガシャポンバンダイオフィシャルショップ エアポートウォーク名古屋店","url":"https://gacha-hiroba.com/spot/gashapon-bandai-airportwalk-nagoya.html","address":{"@type":"PostalAddress","streetAddress":"愛知県西春日井郡豊山町大字豊場林先1-8 エアポートウォーク名古屋 3F","addressRegion":"愛知県","addressCountry":"JP"},"description":"ガシャポンバンダイオフィシャルショップ エアポートウォーク名古屋店（愛知県・豊山）のガチャガチャ設置情報。設置台数約300台、営業時間 10:00〜21:30。住所・アクセス・地図・店舗ごとの掲示板で入荷情報や混雑状況をチェック。","geo":{"@type":"GeoCoordinates","latitude":35.2465,"longitude":136.9245},"openingHours":"10:00〜21:30"}</script>
-  <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"トップ","item":"https://gacha-hiroba.com/"},{"@type":"ListItem","position":2,"name":"店舗一覧","item":"https://gacha-hiroba.com/stores.html"},{"@type":"ListItem","position":3,"name":"ガシャポンバンダイオフィシャルショップ エアポートウォーク名古屋店","item":"https://gacha-hiroba.com/spot/gashapon-bandai-airportwalk-nagoya.html"}]}</script>
+  <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"Store","name":"ガシャポンバンダイオフィシャルショップ エアポートウォーク名古屋店","url":"https://gacha-hiroba.com/spot/gashapon-bandai-airportwalk-nagoya.html","address":{"@type":"PostalAddress","streetAddress":"愛知県西春日井郡豊山町大字豊場林先1-8 エアポートウォーク名古屋 3F","addressRegion":"愛知県","addressCountry":"JP"},"description":"ガシャポンバンダイオフィシャルショップ エアポートウォーク名古屋店（愛知県・豊山）のガチャガチャ設置情報。設置台数約300台、営業時間 10:00〜21:30。住所・アクセス・地図・店舗ごとの掲示板で入荷情報や混雑状況をチェック。","geo":{"@type":"GeoCoordinates","latitude":35.2465,"longitude":136.9245}}</script>
+  <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"トップ","item":"https://gacha-hiroba.com/"},{"@type":"ListItem","position":2,"name":"店舗一覧","item":"https://gacha-hiroba.com/stores.html"},{"@type":"ListItem","position":3,"name":"愛知県のガチャガチャ設置場所","item":"https://gacha-hiroba.com/area/aichi.html"},{"@type":"ListItem","position":4,"name":"ガシャポンバンダイオフィシャルショップ エアポートウォーク名古屋店","item":"https://gacha-hiroba.com/spot/gashapon-bandai-airportwalk-nagoya.html"}]}</script>
   <script>window.GH_SPOT_STATIC_ID="gashapon-bandai-airportwalk-nagoya";</script>
   <script src="/data/spots.js" defer></script>
   <script src="/spots-ui.js" defer></script>
   <script src="/data/ads.js" defer></script>
-  <script src="/data/board-seed.js" defer></script>
   <script src="/script.js" defer></script>
 </head>
 <body>
@@ -58,7 +57,7 @@
           <a href="/news.html">新着情報</a>
           <a href="/ranking.html">ランキング</a>
           <a href="/area.html">エリア別</a>
-          <a href="/category.html">カテゴリー別</a>
+          <a href="/category.html">ブランド別</a>
         </nav>
       </div>
     </div>
@@ -73,7 +72,7 @@
         <span aria-hidden="true">›</span>
         <a href="/stores.html">店舗一覧</a>
         <span aria-hidden="true">›</span>
-        <a href="/area.html" id="spotCrumbArea">愛知県</a>
+        <a href="/area/aichi.html" id="spotCrumbArea">愛知県</a>
         <span aria-hidden="true">›</span>
         <span aria-current="page" id="spotCrumbName">ガシャポンバンダイオフィシャルショップ エアポートウォーク名古屋店</span>
       </nav>
@@ -91,7 +90,7 @@
           <div class="gh-quote__head">
             <div class="gh-quote__title-row">
               <h1 class="gh-quote__name" id="spotName">ガシャポンバンダイオフィシャルショップ エアポートウォーク名古屋店</h1>
-              <span id="spotBadges"><a class="gh-badge gh-badge--lg" style="text-decoration:none" href="/stores.html?brand=%E3%82%AC%E3%82%B7%E3%83%A3%E3%83%9D%E3%83%B3%E3%83%90%E3%83%B3%E3%83%80%E3%82%A4%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%B7%E3%83%A7%E3%83%83%E3%83%97" title="ガシャポンバンダイオフィシャルショップの店舗一覧を見る">ガシャポンバンダイオフィシャルショップ</a><span class="gh-badge gh-badge--lg">愛知県・豊山</span></span>
+              <span id="spotBadges"><a class="gh-badge gh-badge--lg" style="text-decoration:none" href="/brand/gashapon-bandai-official-shop.html" title="ガシャポンバンダイオフィシャルショップの店舗一覧を見る">ガシャポンバンダイオフィシャルショップ</a><span class="gh-badge gh-badge--lg">愛知県・豊山</span></span>
             </div>
             <div class="gh-quote__address" id="spotAddress"><span>📍 愛知県西春日井郡豊山町大字豊場林先1-8 エアポートウォーク名古屋 3F</span><span class="gh-hero__divider">｜</span><span>🚉 エアポートウォーク名古屋 3F（県営名古屋空港となり）</span></div>
           </div>
@@ -106,7 +105,7 @@
         </div>
       </section>
 
-      <div class="gh-spot-intro"><p>ガシャポンバンダイオフィシャルショップ エアポートウォーク名古屋店は、愛知県（愛知県・豊山）にあるガチャガチャ・カプセルトイの設置スポットです。ガチャマシンの設置台数は約300台。営業時間は10:00〜21:30。アクセスはエアポートウォーク名古屋 3F（県営名古屋空港となり）。</p><p>ガシャポンバンダイオフィシャルショップは、バンダイ公式のガシャポン専門ショップです。書店や映画館などの併設型店舗も多く展開しています。</p><p>同じ地域のお店は<a href="/stores.html?pref=%E6%84%9B%E7%9F%A5%E7%9C%8C">愛知県の掲載店舗（23件）</a>、同じブランドのお店は<a href="/stores.html?brand=%E3%82%AC%E3%82%B7%E3%83%A3%E3%83%9D%E3%83%B3%E3%83%90%E3%83%B3%E3%83%80%E3%82%A4%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%B7%E3%83%A7%E3%83%83%E3%83%97">ガシャポンバンダイオフィシャルショップの店舗一覧</a>からも探せます。</p><p>掲載内容は公開情報をもとにしています。最新の入荷状況・混雑・在庫については、このページの掲示板タブで情報をチェック・共有できます。営業時間や設置台数は変更される場合があるため、お出かけ前に店舗の公式情報もあわせてご確認ください。</p></div>
+      <div class="gh-spot-intro"><p>ガシャポンバンダイオフィシャルショップ エアポートウォーク名古屋店は、愛知県（愛知県・豊山）にあるガチャガチャ・カプセルトイの設置スポットです。ガチャマシンの設置台数は約300台。営業時間は10:00〜21:30。アクセスはエアポートウォーク名古屋 3F（県営名古屋空港となり）。</p><p>ガシャポンバンダイオフィシャルショップは、バンダイ公式のガシャポン専門ショップです。書店や映画館などの併設型店舗も多く展開しています。</p><p>同じ地域のお店は<a href="/area/aichi.html">愛知県の掲載店舗（23件）</a>、同じブランドのお店は<a href="/brand/gashapon-bandai-official-shop.html">ガシャポンバンダイオフィシャルショップの店舗一覧</a>からも探せます。</p><p>掲載内容は公開情報をもとにしています。最新の入荷状況・混雑・在庫については、このページの掲示板タブで情報をチェック・共有できます。営業時間や設置台数は変更される場合があるため、お出かけ前に店舗の公式情報もあわせてご確認ください。</p></div>
       <div class="gh-detail-layout">
         <div class="gh-detail-content">
 
@@ -200,7 +199,7 @@
 
           <div class="gh-widget">
             <h3 class="gh-widget__title">同じエリアの店舗</h3>
-            <div class="gh-nearby" id="spotNearby"><a href="/spot/gashadepa-lalaport-nagoya-minato.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート ららぽーと名古屋みなとアクルス店</strong><small>愛知県・名古屋港 ・ 約380台</small></div></a><a href="/spot/gashadepa-surugaya-shizuoka-honten.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート 駿河屋本店 駿河屋ビル店</strong><small>静岡県・静岡 ・ —</small></div></a><a href="/spot/gashadepa-noritake-shinmachi.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート 則武新町店</strong><small>愛知県・名古屋駅 ・ —</small></div></a><a href="/spot/gashadepa-apina-nagoya-sakae.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート アピナ名古屋栄店</strong><small>愛知県・栄 ・ 約450台</small></div></a><a href="/spot/gashadepa-yoshizuya-taihei.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート ヨシヅヤ太平通り店</strong><small>愛知県・中川区 ・ —</small></div></a><a href="/spot/ggmori-nagoya-dome-mae.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 イオンモールナゴヤドーム前店</strong><small>愛知県・ナゴヤドーム前 ・ —</small></div></a></div>
+            <div class="gh-nearby" id="spotNearby"><a href="/spot/ggmori-nagoya-dome-mae.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 イオンモールナゴヤドーム前店</strong><small>愛知県・ナゴヤドーム前 ・ —</small></div></a><a href="/spot/ggmori-oasis21.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 オアシス21店</strong><small>愛知県・栄 ・ —</small></div></a><a href="/spot/dreamcapsule-nagoya-central-park.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ドリームカプセル 名古屋栄セントラルパーク店</strong><small>愛知県・栄 ・ 約500台</small></div></a><a href="/spot/gashadepa-apina-nagoya-sakae.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート アピナ名古屋栄店</strong><small>愛知県・栄 ・ 約450台</small></div></a><a href="/spot/cpla-sakaechika.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>#C-pla サカエチカ店</strong><small>愛知県・栄 ・ —</small></div></a><a href="/spot/gashadepa-noritake-shinmachi.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート 則武新町店</strong><small>愛知県・名古屋駅 ・ —</small></div></a></div>
           </div>
 
           <div class="gh-widget">

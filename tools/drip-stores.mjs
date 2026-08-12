@@ -4,7 +4,7 @@
 
    追加件数は常に4件。環境変数 DRIP_COUNT または queue の dripPerDay が
    4以外なら設定ミスとして中断する。
-   同日二重実行を除き、必要件数を満たせない場合は何も変更せず失敗する。
+   同日二重実行を除き、必要件数を満たせない場合は何も変更せず正常終了する。
    DRIP_DRY_RUN=1 なら選定結果だけを表示し、ファイルは変更しない。
 
    実行後は必ず `node tools/gen-sitemap.mjs` で sitemap を更新すること
@@ -65,8 +65,8 @@ const remaining = candidates.filter((it) => !picked.has(it.id));
 if (stale.length) console.log('drip-stores: 既掲載のためキューから削除: ' + stale.map((s) => s.id).join(', '));
 
 if (toAdd.length < drip) {
-  console.error('drip-stores: 追加可能な店舗が不足しています。変更しません（候補 ' + toAdd.length + ' 件 / 必要 ' + drip + ' 件 / キュー ' + queue.length + ' 件）。');
-  process.exit(1);
+  console.log('drip-stores: 追加可能な店舗が不足しているため、今回は変更しません（候補 ' + toAdd.length + ' 件 / 必要 ' + drip + ' 件 / キュー ' + queue.length + ' 件）。');
+  process.exit(0);
 }
 if (process.env.DRIP_DRY_RUN === '1') {
   console.log('drip-stores: dry-run / ' + toAdd.length + ' 件を追加予定 → ' + toAdd.map((e) => e.id + '（' + e.name + '）').join(' / '));

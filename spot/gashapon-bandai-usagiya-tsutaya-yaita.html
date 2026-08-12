@@ -22,12 +22,11 @@
   <!-- 店舗データ → 描画 → 共有掲示板 → 共通JS（この順で読み込む） -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
   <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"Store","name":"ガシャポンバンダイオフィシャルショップうさぎやTSUTAYA矢板店","url":"https://gacha-hiroba.com/spot/gashapon-bandai-usagiya-tsutaya-yaita.html","address":{"@type":"PostalAddress","streetAddress":"栃木県矢板市末広町20-1 2F","addressRegion":"栃木県","addressCountry":"JP"},"description":"ガシャポンバンダイオフィシャルショップうさぎやTSUTAYA矢板店（栃木県・矢板）のガチャガチャ設置情報。住所・アクセス・地図・店舗ごとの掲示板で入荷情報や混雑状況をチェック。","geo":{"@type":"GeoCoordinates","latitude":36.8054072,"longitude":139.9346475}}</script>
-  <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"トップ","item":"https://gacha-hiroba.com/"},{"@type":"ListItem","position":2,"name":"店舗一覧","item":"https://gacha-hiroba.com/stores.html"},{"@type":"ListItem","position":3,"name":"ガシャポンバンダイオフィシャルショップうさぎやTSUTAYA矢板店","item":"https://gacha-hiroba.com/spot/gashapon-bandai-usagiya-tsutaya-yaita.html"}]}</script>
+  <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"トップ","item":"https://gacha-hiroba.com/"},{"@type":"ListItem","position":2,"name":"店舗一覧","item":"https://gacha-hiroba.com/stores.html"},{"@type":"ListItem","position":3,"name":"栃木県のガチャガチャ設置場所","item":"https://gacha-hiroba.com/area/tochigi.html"},{"@type":"ListItem","position":4,"name":"ガシャポンバンダイオフィシャルショップうさぎやTSUTAYA矢板店","item":"https://gacha-hiroba.com/spot/gashapon-bandai-usagiya-tsutaya-yaita.html"}]}</script>
   <script>window.GH_SPOT_STATIC_ID="gashapon-bandai-usagiya-tsutaya-yaita";</script>
   <script src="/data/spots.js" defer></script>
   <script src="/spots-ui.js" defer></script>
   <script src="/data/ads.js" defer></script>
-  <script src="/data/board-seed.js" defer></script>
   <script src="/script.js" defer></script>
 </head>
 <body>
@@ -58,7 +57,7 @@
           <a href="/news.html">新着情報</a>
           <a href="/ranking.html">ランキング</a>
           <a href="/area.html">エリア別</a>
-          <a href="/category.html">カテゴリー別</a>
+          <a href="/category.html">ブランド別</a>
         </nav>
       </div>
     </div>
@@ -73,7 +72,7 @@
         <span aria-hidden="true">›</span>
         <a href="/stores.html">店舗一覧</a>
         <span aria-hidden="true">›</span>
-        <a href="/area.html" id="spotCrumbArea">栃木県</a>
+        <a href="/area/tochigi.html" id="spotCrumbArea">栃木県</a>
         <span aria-hidden="true">›</span>
         <span aria-current="page" id="spotCrumbName">ガシャポンバンダイオフィシャルショップうさぎやTSUTAYA矢板店</span>
       </nav>
@@ -91,7 +90,7 @@
           <div class="gh-quote__head">
             <div class="gh-quote__title-row">
               <h1 class="gh-quote__name" id="spotName">ガシャポンバンダイオフィシャルショップうさぎやTSUTAYA矢板店</h1>
-              <span id="spotBadges"><a class="gh-badge gh-badge--lg" style="text-decoration:none" href="/stores.html?brand=%E3%82%AC%E3%82%B7%E3%83%A3%E3%83%9D%E3%83%B3%E3%83%90%E3%83%B3%E3%83%80%E3%82%A4%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%B7%E3%83%A7%E3%83%83%E3%83%97" title="ガシャポンバンダイオフィシャルショップの店舗一覧を見る">ガシャポンバンダイオフィシャルショップ</a><span class="gh-badge gh-badge--lg">栃木県・矢板</span></span>
+              <span id="spotBadges"><a class="gh-badge gh-badge--lg" style="text-decoration:none" href="/brand/gashapon-bandai-official-shop.html" title="ガシャポンバンダイオフィシャルショップの店舗一覧を見る">ガシャポンバンダイオフィシャルショップ</a><span class="gh-badge gh-badge--lg">栃木県・矢板</span></span>
             </div>
             <div class="gh-quote__address" id="spotAddress"><span>📍 栃木県矢板市末広町20-1 2F</span></div>
           </div>
@@ -106,7 +105,7 @@
         </div>
       </section>
 
-      <div class="gh-spot-intro"><p>ガシャポンバンダイオフィシャルショップうさぎやTSUTAYA矢板店は、栃木県（栃木県・矢板）にあるガチャガチャ・カプセルトイの設置スポットです。</p><p>ガシャポンバンダイオフィシャルショップは、バンダイ公式のガシャポン専門ショップです。書店や映画館などの併設型店舗も多く展開しています。</p><p>同じ地域のお店は<a href="/stores.html?pref=%E6%A0%83%E6%9C%A8%E7%9C%8C">栃木県の掲載店舗（3件）</a>、同じブランドのお店は<a href="/stores.html?brand=%E3%82%AC%E3%82%B7%E3%83%A3%E3%83%9D%E3%83%B3%E3%83%90%E3%83%B3%E3%83%80%E3%82%A4%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%B7%E3%83%A7%E3%83%83%E3%83%97">ガシャポンバンダイオフィシャルショップの店舗一覧</a>からも探せます。</p><p>掲載内容は公開情報をもとにしています。最新の入荷状況・混雑・在庫については、このページの掲示板タブで情報をチェック・共有できます。営業時間や設置台数は変更される場合があるため、お出かけ前に店舗の公式情報もあわせてご確認ください。</p></div>
+      <div class="gh-spot-intro"><p>ガシャポンバンダイオフィシャルショップうさぎやTSUTAYA矢板店は、栃木県（栃木県・矢板）にあるガチャガチャ・カプセルトイの設置スポットです。</p><p>ガシャポンバンダイオフィシャルショップは、バンダイ公式のガシャポン専門ショップです。書店や映画館などの併設型店舗も多く展開しています。</p><p>同じ地域のお店は<a href="/area/tochigi.html">栃木県の掲載店舗（3件）</a>、同じブランドのお店は<a href="/brand/gashapon-bandai-official-shop.html">ガシャポンバンダイオフィシャルショップの店舗一覧</a>からも探せます。</p><p>掲載内容は公開情報をもとにしています。最新の入荷状況・混雑・在庫については、このページの掲示板タブで情報をチェック・共有できます。営業時間や設置台数は変更される場合があるため、お出かけ前に店舗の公式情報もあわせてご確認ください。</p></div>
       <div class="gh-detail-layout">
         <div class="gh-detail-content">
 
@@ -136,7 +135,7 @@
                 <h2 class="gh-section__title">詳細情報</h2>
               </div>
               <table class="gh-info-table gh-info-table--full">
-                <tbody id="spotInfoBody"><tr><th>ブランド</th><td>ガシャポンバンダイオフィシャルショップ</td></tr><tr><th>住所</th><td>栃木県矢板市末広町20-1 2F</td></tr><tr><th>設置台数</th><td>—</td></tr><tr><th>エリア</th><td>栃木県・矢板</td></tr></tbody>
+                <tbody id="spotInfoBody"><tr><th>ブランド</th><td>ガシャポンバンダイオフィシャルショップ</td></tr><tr><th>住所</th><td>栃木県矢板市末広町20-1 2F</td></tr><tr><th>設置台数</th><td>—</td></tr><tr><th>エリア</th><td>栃木県・矢板</td></tr><tr><th>公式情報</th><td><a class="gh-official-source" href="https://gashapon.jp/shop/shop.php?shop_code=S90000963" target="_blank" rel="noopener">掲載元を確認 ↗</a></td></tr><tr><th>情報確認日</th><td>2026-07-13</td></tr></tbody>
               </table>
               <p class="gh-detail-note">※掲載情報は参考です。最新の営業時間・在庫・設置状況は店舗または公式サイトでご確認ください。</p>
             </section>
@@ -200,7 +199,7 @@
 
           <div class="gh-widget">
             <h3 class="gh-widget__title">同じエリアの店舗</h3>
-            <div class="gh-nearby" id="spotNearby"><a href="/spot/ggmori-shinjuku-subnade.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 新宿サブナード店</strong><small>東京都・新宿 ・ 約1,050台</small></div></a><a href="/spot/ggmori-shinjuku-subnade-east.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 新宿サブナードEAST店</strong><small>東京都・新宿 ・ 約450台</small></div></a><a href="/spot/ggmori-olinas-kinshicho.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 オリナス錦糸町店</strong><small>東京都・錦糸町 ・ 約660台</small></div></a><a href="/spot/ggmori-jiyugaoka.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 自由が丘店</strong><small>東京都・自由が丘 ・ 約570台</small></div></a><a href="/spot/ggmori-seiyu-ogikubo.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 西友荻窪店</strong><small>東京都・荻窪 ・ 約470台</small></div></a><a href="/spot/ggmori-ikebukuro-sunshine-alta.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 池袋サンシャインシティアルタ店</strong><small>東京都・池袋 ・ 約1,240台</small></div></a></div>
+            <div class="gh-nearby" id="spotNearby"><a href="/spot/ggmori-megadonki-utsunomiya.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 MEGAドン・キホーテ宇都宮店</strong><small>栃木県・宇都宮 ・ 約1,220台</small></div></a><a href="/spot/gashadepa-utsunomiya.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート 宇都宮店</strong><small>栃木県・宇都宮 ・ 約530台</small></div></a><a href="/spot/ggmori-mito-opa.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 水戸オーパ店</strong><small>茨城県・水戸 ・ 約990台</small></div></a><a href="/spot/capsulepark-ati-koriyama.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>カプセルパーク アティ郡山店</strong><small>福島県・郡山駅 ・ —</small></div></a><a href="/spot/gashadepa-aeontown-koriyama.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート イオンタウン郡山店</strong><small>福島県・郡山 ・ —</small></div></a><a href="/spot/ggmori-aeonmall-takasaki.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 イオンモール高崎店</strong><small>群馬県・高崎 ・ 約510台</small></div></a></div>
           </div>
 
           <div class="gh-widget">

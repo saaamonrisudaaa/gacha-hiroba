@@ -22,12 +22,11 @@
   <!-- 店舗データ → 描画 → 共有掲示板 → 共通JS（この順で読み込む） -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
   <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"Store","name":"ケンエレスタンド JR新橋駅店","url":"https://gacha-hiroba.com/spot/kenele-stand-jr-shimbashi.html","address":{"@type":"PostalAddress","streetAddress":"東京都港区新橋2-17-14 JR新橋駅構内","addressRegion":"東京都","addressCountry":"JP"},"description":"ケンエレスタンド JR新橋駅店（東京都・新橋）のガチャガチャ設置情報。住所・アクセス・地図・店舗ごとの掲示板で入荷情報や混雑状況をチェック。","geo":{"@type":"GeoCoordinates","latitude":35.6664,"longitude":139.7583}}</script>
-  <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"トップ","item":"https://gacha-hiroba.com/"},{"@type":"ListItem","position":2,"name":"店舗一覧","item":"https://gacha-hiroba.com/stores.html"},{"@type":"ListItem","position":3,"name":"ケンエレスタンド JR新橋駅店","item":"https://gacha-hiroba.com/spot/kenele-stand-jr-shimbashi.html"}]}</script>
+  <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"トップ","item":"https://gacha-hiroba.com/"},{"@type":"ListItem","position":2,"name":"店舗一覧","item":"https://gacha-hiroba.com/stores.html"},{"@type":"ListItem","position":3,"name":"東京都のガチャガチャ設置場所","item":"https://gacha-hiroba.com/area/tokyo.html"},{"@type":"ListItem","position":4,"name":"ケンエレスタンド JR新橋駅店","item":"https://gacha-hiroba.com/spot/kenele-stand-jr-shimbashi.html"}]}</script>
   <script>window.GH_SPOT_STATIC_ID="kenele-stand-jr-shimbashi";</script>
   <script src="/data/spots.js" defer></script>
   <script src="/spots-ui.js" defer></script>
   <script src="/data/ads.js" defer></script>
-  <script src="/data/board-seed.js" defer></script>
   <script src="/script.js" defer></script>
 </head>
 <body>
@@ -58,7 +57,7 @@
           <a href="/news.html">新着情報</a>
           <a href="/ranking.html">ランキング</a>
           <a href="/area.html">エリア別</a>
-          <a href="/category.html">カテゴリー別</a>
+          <a href="/category.html">ブランド別</a>
         </nav>
       </div>
     </div>
@@ -73,7 +72,7 @@
         <span aria-hidden="true">›</span>
         <a href="/stores.html">店舗一覧</a>
         <span aria-hidden="true">›</span>
-        <a href="/area.html" id="spotCrumbArea">東京都</a>
+        <a href="/area/tokyo.html" id="spotCrumbArea">東京都</a>
         <span aria-hidden="true">›</span>
         <span aria-current="page" id="spotCrumbName">ケンエレスタンド JR新橋駅店</span>
       </nav>
@@ -91,7 +90,7 @@
           <div class="gh-quote__head">
             <div class="gh-quote__title-row">
               <h1 class="gh-quote__name" id="spotName">ケンエレスタンド JR新橋駅店</h1>
-              <span id="spotBadges"><a class="gh-badge gh-badge--lg" style="text-decoration:none" href="/stores.html?brand=%E3%82%B1%E3%83%B3%E3%82%A8%E3%83%AC%E3%82%B9%E3%82%BF%E3%83%B3%E3%83%89" title="ケンエレスタンドの店舗一覧を見る">ケンエレスタンド</a><span class="gh-badge gh-badge--lg">東京都・新橋</span></span>
+              <span id="spotBadges"><a class="gh-badge gh-badge--lg" style="text-decoration:none" href="/brand/kenele-stand.html" title="ケンエレスタンドの店舗一覧を見る">ケンエレスタンド</a><span class="gh-badge gh-badge--lg">東京都・新橋</span></span>
             </div>
             <div class="gh-quote__address" id="spotAddress"><span>📍 東京都港区新橋2-17-14 JR新橋駅構内</span><span class="gh-hero__divider">｜</span><span>🚉 JR新橋駅構内（仕事帰りに回せる大人向けカプセルトイスタンド）</span></div>
           </div>
@@ -106,7 +105,7 @@
         </div>
       </section>
 
-      <div class="gh-spot-intro"><p>ケンエレスタンド JR新橋駅店は、東京都（東京都・新橋）にあるガチャガチャ・カプセルトイの設置スポットです。アクセスはJR新橋駅構内（仕事帰りに回せる大人向けカプセルトイスタンド）。</p><p>ケンエレスタンドは、ケンエレファントが展開する大人向けカプセルトイのショップです。駅構内などに出店しています。</p><p>同じ地域のお店は<a href="/stores.html?pref=%E6%9D%B1%E4%BA%AC%E9%83%BD">東京都の掲載店舗（117件）</a>、同じブランドのお店は<a href="/stores.html?brand=%E3%82%B1%E3%83%B3%E3%82%A8%E3%83%AC%E3%82%B9%E3%82%BF%E3%83%B3%E3%83%89">ケンエレスタンドの店舗一覧</a>からも探せます。</p><p>掲載内容は公開情報をもとにしています。最新の入荷状況・混雑・在庫については、このページの掲示板タブで情報をチェック・共有できます。営業時間や設置台数は変更される場合があるため、お出かけ前に店舗の公式情報もあわせてご確認ください。</p></div>
+      <div class="gh-spot-intro"><p>ケンエレスタンド JR新橋駅店は、東京都（東京都・新橋）にあるガチャガチャ・カプセルトイの設置スポットです。アクセスはJR新橋駅構内（仕事帰りに回せる大人向けカプセルトイスタンド）。</p><p>ケンエレスタンドは、ケンエレファントが展開する大人向けカプセルトイのショップです。駅構内などに出店しています。</p><p>同じ地域のお店は<a href="/area/tokyo.html">東京都の掲載店舗（117件）</a>、同じブランドのお店は<a href="/brand/kenele-stand.html">ケンエレスタンドの店舗一覧</a>からも探せます。</p><p>掲載内容は公開情報をもとにしています。最新の入荷状況・混雑・在庫については、このページの掲示板タブで情報をチェック・共有できます。営業時間や設置台数は変更される場合があるため、お出かけ前に店舗の公式情報もあわせてご確認ください。</p></div>
       <div class="gh-detail-layout">
         <div class="gh-detail-content">
 
@@ -200,7 +199,7 @@
 
           <div class="gh-widget">
             <h3 class="gh-widget__title">同じエリアの店舗</h3>
-            <div class="gh-nearby" id="spotNearby"><a href="/spot/ggmori-shinjuku-subnade.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 新宿サブナード店</strong><small>東京都・新宿 ・ 約1,050台</small></div></a><a href="/spot/ggmori-shinjuku-subnade-east.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 新宿サブナードEAST店</strong><small>東京都・新宿 ・ 約450台</small></div></a><a href="/spot/ggmori-olinas-kinshicho.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 オリナス錦糸町店</strong><small>東京都・錦糸町 ・ 約660台</small></div></a><a href="/spot/ggmori-jiyugaoka.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 自由が丘店</strong><small>東京都・自由が丘 ・ 約570台</small></div></a><a href="/spot/ggmori-seiyu-ogikubo.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 西友荻窪店</strong><small>東京都・荻窪 ・ 約470台</small></div></a><a href="/spot/ggmori-ikebukuro-sunshine-alta.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 池袋サンシャインシティアルタ店</strong><small>東京都・池袋 ・ 約1,240台</small></div></a></div>
+            <div class="gh-nearby" id="spotNearby"><a href="/spot/hakuhinkan-toypark-ginza.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>博品館TOY PARK 銀座本店（ガチャガチャコーナー）</strong><small>東京都・銀座 ・ —</small></div></a><a href="/spot/cpla-premium-marronniergate-ginza.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>#C-pla premium マロニエゲート銀座店</strong><small>東京都・銀座 ・ —</small></div></a><a href="/spot/dreamcapsule-yurakucho-marui.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ドリームカプセル 有楽町マルイ</strong><small>東京都・有楽町 ・ —</small></div></a><a href="/spot/tokyo-gashapon-street.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>TOKYO GASHAPON STREET 東京駅一番街店</strong><small>東京都・東京駅 ・ 約100台</small></div></a><a href="/spot/kenele-stand-gransta-yaekita.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ケンエレスタンド グランスタ八重北店</strong><small>東京都・東京駅 ・ —</small></div></a><a href="/spot/caprak-kanda.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>カプセル楽局 神田店</strong><small>東京都・神田 ・ —</small></div></a></div>
           </div>
 
           <div class="gh-widget">

@@ -21,13 +21,12 @@
   <link rel="stylesheet" href="/styles.css" />
   <!-- 店舗データ → 描画 → 共有掲示板 → 共通JS（この順で読み込む） -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
-  <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"Store","name":"gashacoco 松本シェーナ","url":"https://gacha-hiroba.com/spot/gashacoco-matsumoto-scena.html","address":{"@type":"PostalAddress","streetAddress":"長野県松本市中央1-10-30 松本シェーナ 3階","addressRegion":"長野県","addressCountry":"JP"},"description":"gashacoco 松本シェーナ（長野県・松本）のガチャガチャ設置情報。営業時間 10:00〜20:00。住所・アクセス・地図・店舗ごとの掲示板で入荷情報や混雑状況をチェック。","geo":{"@type":"GeoCoordinates","latitude":36.232,"longitude":137.968},"openingHours":"10:00〜20:00"}</script>
-  <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"トップ","item":"https://gacha-hiroba.com/"},{"@type":"ListItem","position":2,"name":"店舗一覧","item":"https://gacha-hiroba.com/stores.html"},{"@type":"ListItem","position":3,"name":"gashacoco 松本シェーナ","item":"https://gacha-hiroba.com/spot/gashacoco-matsumoto-scena.html"}]}</script>
+  <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"Store","name":"gashacoco 松本シェーナ","url":"https://gacha-hiroba.com/spot/gashacoco-matsumoto-scena.html","address":{"@type":"PostalAddress","streetAddress":"長野県松本市中央1-10-30 松本シェーナ 3階","addressRegion":"長野県","addressCountry":"JP"},"description":"gashacoco 松本シェーナ（長野県・松本）のガチャガチャ設置情報。営業時間 10:00〜20:00。住所・アクセス・地図・店舗ごとの掲示板で入荷情報や混雑状況をチェック。","geo":{"@type":"GeoCoordinates","latitude":36.232,"longitude":137.968}}</script>
+  <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"トップ","item":"https://gacha-hiroba.com/"},{"@type":"ListItem","position":2,"name":"店舗一覧","item":"https://gacha-hiroba.com/stores.html"},{"@type":"ListItem","position":3,"name":"長野県のガチャガチャ設置場所","item":"https://gacha-hiroba.com/area/nagano.html"},{"@type":"ListItem","position":4,"name":"gashacoco 松本シェーナ","item":"https://gacha-hiroba.com/spot/gashacoco-matsumoto-scena.html"}]}</script>
   <script>window.GH_SPOT_STATIC_ID="gashacoco-matsumoto-scena";</script>
   <script src="/data/spots.js" defer></script>
   <script src="/spots-ui.js" defer></script>
   <script src="/data/ads.js" defer></script>
-  <script src="/data/board-seed.js" defer></script>
   <script src="/script.js" defer></script>
 </head>
 <body>
@@ -58,7 +57,7 @@
           <a href="/news.html">新着情報</a>
           <a href="/ranking.html">ランキング</a>
           <a href="/area.html">エリア別</a>
-          <a href="/category.html">カテゴリー別</a>
+          <a href="/category.html">ブランド別</a>
         </nav>
       </div>
     </div>
@@ -73,7 +72,7 @@
         <span aria-hidden="true">›</span>
         <a href="/stores.html">店舗一覧</a>
         <span aria-hidden="true">›</span>
-        <a href="/area.html" id="spotCrumbArea">長野県</a>
+        <a href="/area/nagano.html" id="spotCrumbArea">長野県</a>
         <span aria-hidden="true">›</span>
         <span aria-current="page" id="spotCrumbName">gashacoco 松本シェーナ</span>
       </nav>
@@ -91,7 +90,7 @@
           <div class="gh-quote__head">
             <div class="gh-quote__title-row">
               <h1 class="gh-quote__name" id="spotName">gashacoco 松本シェーナ</h1>
-              <span id="spotBadges"><a class="gh-badge gh-badge--lg" style="text-decoration:none" href="/stores.html?brand=gashacoco%EF%BC%88%E3%82%AC%E3%82%B7%E3%83%A3%E3%82%B3%E3%82%B3%EF%BC%89" title="gashacoco（ガシャココ）の店舗一覧を見る">gashacoco（ガシャココ）</a><span class="gh-badge gh-badge--lg">長野県・松本</span></span>
+              <span id="spotBadges"><a class="gh-badge gh-badge--lg" style="text-decoration:none" href="/brand/gashacoco.html" title="gashacoco（ガシャココ）の店舗一覧を見る">gashacoco（ガシャココ）</a><span class="gh-badge gh-badge--lg">長野県・松本</span></span>
             </div>
             <div class="gh-quote__address" id="spotAddress"><span>📍 長野県松本市中央1-10-30 松本シェーナ 3階</span><span class="gh-hero__divider">｜</span><span>🚉 JR松本駅から徒歩約6分、松本PARCO跡地の商業施設「松本シェーナ」3階。2026年6月30日オープン</span></div>
           </div>
@@ -106,7 +105,7 @@
         </div>
       </section>
 
-      <div class="gh-spot-intro"><p>gashacoco 松本シェーナは、長野県（長野県・松本）にあるガチャガチャ・カプセルトイの設置スポットです。営業時間は10:00〜20:00。アクセスはJR松本駅から徒歩約6分、松本PARCO跡地の商業施設「松本シェーナ」3階。2026年6月30日オープン。</p><p>gashacoco（ガシャココ）は、駅ビルや商業施設を中心に展開するカプセルトイ専門店です。</p><p>同じ地域のお店は<a href="/stores.html?pref=%E9%95%B7%E9%87%8E%E7%9C%8C">長野県の掲載店舗（3件）</a>、同じブランドのお店は<a href="/stores.html?brand=gashacoco%EF%BC%88%E3%82%AC%E3%82%B7%E3%83%A3%E3%82%B3%E3%82%B3%EF%BC%89">gashacoco（ガシャココ）の店舗一覧</a>からも探せます。</p><p>掲載内容は公開情報をもとにしています。最新の入荷状況・混雑・在庫については、このページの掲示板タブで情報をチェック・共有できます。営業時間や設置台数は変更される場合があるため、お出かけ前に店舗の公式情報もあわせてご確認ください。</p></div>
+      <div class="gh-spot-intro"><p>gashacoco 松本シェーナは、長野県（長野県・松本）にあるガチャガチャ・カプセルトイの設置スポットです。営業時間は10:00〜20:00。アクセスはJR松本駅から徒歩約6分、松本PARCO跡地の商業施設「松本シェーナ」3階。2026年6月30日オープン。</p><p>gashacoco（ガシャココ）は、駅ビルや商業施設を中心に展開するカプセルトイ専門店です。</p><p>同じ地域のお店は<a href="/area/nagano.html">長野県の掲載店舗（3件）</a>、同じブランドのお店は<a href="/brand/gashacoco.html">gashacoco（ガシャココ）の店舗一覧</a>からも探せます。</p><p>掲載内容は公開情報をもとにしています。最新の入荷状況・混雑・在庫については、このページの掲示板タブで情報をチェック・共有できます。営業時間や設置台数は変更される場合があるため、お出かけ前に店舗の公式情報もあわせてご確認ください。</p></div>
       <div class="gh-detail-layout">
         <div class="gh-detail-content">
 
@@ -136,7 +135,7 @@
                 <h2 class="gh-section__title">詳細情報</h2>
               </div>
               <table class="gh-info-table gh-info-table--full">
-                <tbody id="spotInfoBody"><tr><th>ブランド</th><td>gashacoco（ガシャココ）</td></tr><tr><th>住所</th><td>長野県松本市中央1-10-30 松本シェーナ 3階</td></tr><tr><th>営業時間</th><td>10:00〜20:00</td></tr><tr><th>設置台数</th><td>—</td></tr><tr><th>アクセス</th><td>JR松本駅から徒歩約6分、松本PARCO跡地の商業施設「松本シェーナ」3階。2026年6月30日オープン</td></tr><tr><th>エリア</th><td>長野県・松本</td></tr></tbody>
+                <tbody id="spotInfoBody"><tr><th>ブランド</th><td>gashacoco（ガシャココ）</td></tr><tr><th>住所</th><td>長野県松本市中央1-10-30 松本シェーナ 3階</td></tr><tr><th>営業時間</th><td>10:00〜20:00</td></tr><tr><th>設置台数</th><td>—</td></tr><tr><th>アクセス</th><td>JR松本駅から徒歩約6分、松本PARCO跡地の商業施設「松本シェーナ」3階。2026年6月30日オープン</td></tr><tr><th>エリア</th><td>長野県・松本</td></tr><tr><th>公式情報</th><td><a class="gh-official-source" href="https://gashacoco.jp/shop-list/3237" target="_blank" rel="noopener">掲載元を確認 ↗</a></td></tr><tr><th>情報確認日</th><td>2026-08-04</td></tr></tbody>
               </table>
               <p class="gh-detail-note">※掲載情報は参考です。最新の営業時間・在庫・設置状況は店舗または公式サイトでご確認ください。</p>
             </section>
@@ -200,7 +199,7 @@
 
           <div class="gh-widget">
             <h3 class="gh-widget__title">同じエリアの店舗</h3>
-            <div class="gh-nearby" id="spotNearby"><a href="/spot/gashadepa-lalaport-nagoya-minato.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート ららぽーと名古屋みなとアクルス店</strong><small>愛知県・名古屋港 ・ 約380台</small></div></a><a href="/spot/gashadepa-surugaya-shizuoka-honten.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート 駿河屋本店 駿河屋ビル店</strong><small>静岡県・静岡 ・ —</small></div></a><a href="/spot/gashadepa-noritake-shinmachi.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート 則武新町店</strong><small>愛知県・名古屋駅 ・ —</small></div></a><a href="/spot/gashadepa-apina-nagoya-sakae.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート アピナ名古屋栄店</strong><small>愛知県・栄 ・ 約450台</small></div></a><a href="/spot/gashadepa-yoshizuya-taihei.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート ヨシヅヤ太平通り店</strong><small>愛知県・中川区 ・ —</small></div></a><a href="/spot/ggmori-nagoya-dome-mae.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 イオンモールナゴヤドーム前店</strong><small>愛知県・ナゴヤドーム前 ・ —</small></div></a></div>
+            <div class="gh-nearby" id="spotNearby"><a href="/spot/gashadepa-apina-nagano-ohashi.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート アピナ長野大橋店</strong><small>長野県・長野 ・ 約430台</small></div></a><a href="/spot/gashapon-bandai-tsutaya-nakano.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンバンダイオフィシャルショップ蔦屋書店 中野店</strong><small>長野県・中野 ・ —</small></div></a><a href="/spot/gashapon-bandai-fumotto-minami-alps.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンバンダイオフィシャルショップfumotto南アルプス店</strong><small>山梨県・南アルプス ・ —</small></div></a><a href="/spot/ggmori-aeon-kofu-showa.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 イオンモール甲府昭和店</strong><small>山梨県・甲府 ・ —</small></div></a><a href="/spot/ggmori-favore-toyama.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 ファボーレ富山店</strong><small>富山県・婦中 ・ —</small></div></a><a href="/spot/ggmori-takasaki-opa.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 高崎オーパ店</strong><small>群馬県・高崎 ・ 約570台</small></div></a></div>
           </div>
 
           <div class="gh-widget">

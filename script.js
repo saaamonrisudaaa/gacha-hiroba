@@ -16,6 +16,13 @@
   gtag('config', GA_ID);
 })();
 
+/* ── GA4 event helper ──
+   流入後に「検索→店舗詳細→経路」まで進めたかを判定するための最小イベント。 */
+function ghTrack(name, params) {
+  if (typeof window.gtag !== 'function') return;
+  window.gtag('event', name, params || {});
+}
+
 /* ── Hamburger menu ── */
 const hamburger = document.querySelector('.gh-hamburger');
 const navTabs   = document.querySelector('.gh-nav-tabs');
@@ -49,7 +56,10 @@ document.querySelectorAll('.gh-search').forEach(form => {
   } catch (e) {}
   form.addEventListener('submit', () => {
     const q = input.value.trim();
-    if (q) location.href = '/stores.html?q=' + encodeURIComponent(q);
+    if (q) {
+      ghTrack('search_submit', { search_term: q, search_location: 'header' });
+      location.href = '/stores.html?q=' + encodeURIComponent(q);
+    }
     else input.focus();
   });
 });
@@ -60,7 +70,10 @@ document.querySelectorAll('.gh-widget__form').forEach(form => {
   if (!sel) return;
   form.addEventListener('submit', () => {
     const pref = sel.value.trim();
-    if (pref) location.href = '/stores.html?pref=' + encodeURIComponent(pref);
+    if (pref) {
+      ghTrack('area_select', { area_name: pref, search_location: 'sidebar' });
+      location.href = window.GH_PREF_URL ? window.GH_PREF_URL(pref) : '/stores.html?pref=' + encodeURIComponent(pref);
+    }
     else sel.focus();
   });
 });
@@ -210,17 +223,6 @@ if (location.hash === '#board') {
       .replace(/&gt;&gt;(\d+)/g, '<a href="#res$1" class="gh-bbs__anchor">&gt;&gt;$1</a>')
       .replace(/\n/g, '<br>');
   }
-  /* シード投稿（data/board-seed.js）。実投稿より前の「古い投稿」として表示する */
-  function seedViews() {
-    const arr = (window.GH_BOARD_SEED || {})[SPOT] || [];
-    return arr.map((s, i) => ({
-      num: i + 1,
-      name: s.name || '名無しのガチャー',
-      date: s.date || '',
-      id: idHash(SPOT + '-seed-' + i),
-      body: s.body || ''
-    }));
-  }
   function makePost(p) {
     const post = document.createElement('article');
     post.className = 'gh-bbs__post';
@@ -304,11 +306,9 @@ if (location.hash === '#board') {
     sb.from('posts').select('*').eq('spot', SPOT).order('created_at', { ascending: true })
       .then(({ data, error }) => {
         if (error) throw error;
-        list.innerHTML = '';                              // サンプル投稿を消してDBの投稿を表示
-        const seeds = seedViews();                        // シード投稿を最古として先に描画
-        seeds.forEach(s => list.insertBefore(makePost(s), list.firstElementChild));
-        data.forEach((p, i) => list.insertBefore(makePost(toView(p, seeds.length + i + 1)), list.firstElementChild));
-        total = seeds.length + data.length;
+        list.innerHTML = '';
+        data.forEach((p, i) => list.insertBefore(makePost(toView(p, i + 1)), list.firstElementChild));
+        total = data.length;
         if (count) count.textContent = String(total);
         if (total === 0) {
           const empty = document.createElement('p');
@@ -326,10 +326,8 @@ if (location.hash === '#board') {
     const loadSaved = () => { try { return JSON.parse(localStorage.getItem(STORE_KEY)) || []; } catch (e) { return []; } };
     const persist   = a  => { try { localStorage.setItem(STORE_KEY, JSON.stringify(a)); } catch (e) {} };
 
-    const seeds = seedViews();                            // シード投稿を最古として先に描画
     const saved = loadSaved();
-    if (seeds.length || saved.length) { const e = document.getElementById('bbsEmpty'); if (e) e.remove(); }
-    seeds.forEach(s => list.insertBefore(makePost(s), list.firstElementChild));
+    if (saved.length) { const e = document.getElementById('bbsEmpty'); if (e) e.remove(); }
     saved.forEach(p => list.insertBefore(makePost(p), list.firstElementChild));
     if (count) count.textContent = String(list.querySelectorAll('.gh-bbs__post').length);
 
@@ -861,6 +859,7 @@ renderRanking('national');
       return;
     }
     st.viewportMode = false;
+    ghTrack('nearby_search', { map_context: 'current_location' });
     if (btn) { btn.disabled = true; btn.textContent = '現在地を取得中…'; }
     setStatus('現在地を取得しています…');
     navigator.geolocation.getCurrentPosition(
@@ -954,6 +953,7 @@ renderRanking('national');
       e.preventDefault();
       st.viewportMode = false;
       st.query = input.value.trim();
+      if (st.query) ghTrack('search_submit', { search_term: st.query, search_location: 'map' });
       render();
     });
   }
@@ -1034,6 +1034,28 @@ renderRanking('national');
     if (new URLSearchParams(location.search).get('near') === '1') locate();
   } catch (e) {}
 })();
+
+/* 主要な回遊リンクは遷移直前にイベントを送る。委譲で動的描画にも対応。 */
+document.addEventListener('click', function (event) {
+  var target = event.target && event.target.closest ? event.target.closest('a[href]') : null;
+  if (!target) return;
+  var href = target.getAttribute('href') || '';
+  if (/^\/spot\/[a-z0-9_-]+\.html(?:#.*)?$/i.test(href)) {
+    ghTrack('store_detail_click', { link_url: href });
+  } else if (/google\.com\/maps|openstreetmap\.org/.test(target.href || '')) {
+    ghTrack('route_click', { link_url: target.href });
+  } else if (/\/area\/[a-z0-9-]+\.html$/i.test(href)) {
+    ghTrack('area_page_click', { link_url: href });
+  } else if (/\/brand\/[a-z0-9-]+\.html$/i.test(href)) {
+    ghTrack('brand_page_click', { link_url: href });
+  } else if (/\/guide\/[a-z0-9-]+\.html$/i.test(href)) {
+    ghTrack('guide_page_click', { link_url: href });
+  } else if (/\/releases\/\d{4}-\d{2}\.html$/i.test(href)) {
+    ghTrack('release_hub_click', { link_url: href });
+  } else if (target.classList.contains('gh-official-source') || target.classList.contains('gh-rel__src')) {
+    ghTrack('official_source_click', { link_url: target.href });
+  }
+});
 
 /* ── 言語ヒントバナー：非日本語ブラウザに英語ガイドを案内（英語ページ以外） ── */
 (function () {
@@ -1224,7 +1246,7 @@ renderRanking('national');
       return !isNaN(d.getTime()) && d.toISOString().slice(0, 10) === todayJst;
     }).length;
     const boards = new Set(rows.map(p => p.spot)).size;
-    const total = (state.total == null ? rows.length : state.total + seedRows().length);
+    const total = state.total == null ? rows.length : state.total;
     statusBox.innerHTML =
       '<span class="gh-live__dot" aria-hidden="true"></span>' +
       '<span class="gh-live__label">みんなの投稿</span>' +
@@ -1389,6 +1411,7 @@ renderRanking('national');
   /* ── ③ 急上昇ワード（実投稿＋掲載データから算出。捏造しない） ── */
   function renderTrending(rows, counts) {
     if (!trendBox) return;
+    if (!rows.length) return;
     const score = {};
     const bump = (w, n) => { if (w && w.length >= 2) score[w] = (score[w] || 0) + n; };
     Object.keys(counts).forEach(spot => {
@@ -1553,7 +1576,7 @@ renderRanking('national');
         '</small>';
       const cls = 'gh-hot' + (lead ? ' gh-hot--lead' : ' gh-hot--row');
       return it.r.source
-        ? '<a class="' + cls + '" href="' + esc(it.r.source) + '" target="_blank" rel="noopener">' + inner + '</a>'
+        ? '<a class="' + cls + ' gh-official-source" href="' + esc(it.r.source) + '" target="_blank" rel="noopener">' + inner + '</a>'
         : '<div class="' + cls + '">' + inner + '</div>';
     };
     const shown = items.slice(0, 7);
@@ -1593,29 +1616,8 @@ renderRanking('national');
     activeBox.hidden = false;
   }
 
-  /* ── 各店舗ページの掲示板に常時表示しているシード投稿も同じフィードに載せる ── */
-  let seedCache = null;
-  function seedRows() {
-    if (seedCache) return seedCache;
-    const seed = window.GH_BOARD_SEED;
-    if (!seed) { seedCache = []; return seedCache; }
-    const out = [];
-    Object.keys(seed).forEach(spot => {
-      (seed[spot] || []).forEach((p, i) => {
-        const m = String(p.date || '').match(/^(\d{4})\/(\d{2})\/(\d{2}).*?(\d{2}):(\d{2}):(\d{2})$/);
-        if (!m) return;
-        const d = new Date(+m[1], +m[2] - 1, +m[3], +m[4], +m[5], +m[6]);
-        out.push({ id: spot + '-seed-' + i, spot: spot, name: p.name, body: p.body, created_at: d.toISOString() });
-      });
-    });
-    seedCache = out;
-    return seedCache;
-  }
-  const merge = rows => (Array.isArray(rows) ? rows : []).concat(seedRows())
-    .sort((a, b) => String(b.created_at).localeCompare(String(a.created_at)));
-
   function render(rows) {
-    if (!Array.isArray(rows) || !rows.length) return false;
+    rows = Array.isArray(rows) ? rows : [];
     const counts = {};
     rows.forEach(p => { counts[p.spot] = (counts[p.spot] || 0) + 1; });
     renderStatus(rows);
@@ -1653,14 +1655,16 @@ renderRanking('national');
         const fresh = (rows || []).filter(p => !state.seen.has(String(p.id)));
         state.newCount = state.first ? 0 : fresh.length;
         state.lastAt = new Date().toISOString();
-        render(merge(rows));
+        render(rows || []);
       })
       .catch(() => {
-        /* 取得できないときはシードだけで描画（初回のみ）。以降は現状維持。 */
-        if (state.first) { state.lastAt = new Date().toISOString(); render(merge([])); }
+        /* 投稿取得に失敗しても、発売情報など投稿に依存しない欄は表示する。 */
+        if (state.first) { state.lastAt = new Date().toISOString(); render([]); }
       });
   }
 
+  /* 発売情報は掲示板の取得結果を待たずに表示し、取得後に言及数だけ反映する。 */
+  renderHotItems([]);
   refresh();
 
   /* 経過時間は取得を待たずに進める（「○分前」が止まって見えないように） */

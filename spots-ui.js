@@ -77,6 +77,35 @@
     '群馬県': '♨️', '栃木県': '🍓', '茨城県': '🌰', '大阪府': '🏯', '愛知県': '🏭'
   };
 
+  /* 静的SEOページの正規URL。生成側の tools/seo-routes.mjs と同じ対応表。 */
+  var PREF_SLUG = {
+    '北海道':'hokkaido','青森県':'aomori','岩手県':'iwate','宮城県':'miyagi','秋田県':'akita','山形県':'yamagata','福島県':'fukushima',
+    '茨城県':'ibaraki','栃木県':'tochigi','群馬県':'gunma','埼玉県':'saitama','千葉県':'chiba','東京都':'tokyo','神奈川県':'kanagawa',
+    '新潟県':'niigata','富山県':'toyama','石川県':'ishikawa','福井県':'fukui','山梨県':'yamanashi','長野県':'nagano','岐阜県':'gifu',
+    '静岡県':'shizuoka','愛知県':'aichi','三重県':'mie','滋賀県':'shiga','京都府':'kyoto','大阪府':'osaka','兵庫県':'hyogo','奈良県':'nara',
+    '和歌山県':'wakayama','鳥取県':'tottori','島根県':'shimane','岡山県':'okayama','広島県':'hiroshima','山口県':'yamaguchi',
+    '徳島県':'tokushima','香川県':'kagawa','愛媛県':'ehime','高知県':'kochi','福岡県':'fukuoka','佐賀県':'saga','長崎県':'nagasaki',
+    '熊本県':'kumamoto','大分県':'oita','宮崎県':'miyazaki','鹿児島県':'kagoshima','沖縄県':'okinawa'
+  };
+  var BRAND_SLUG = {
+    'ガチャガチャの森':'gacha-no-mori','ガシャポンのデパート':'gashapon-department-store','#C-pla（シープラ）':'c-pla',
+    'カプセル楽局':'capsule-rakkyoku','ガシャポンバンダイオフィシャルショップ':'gashapon-bandai-official-shop',
+    'gashacoco（ガシャココ）':'gashacoco','ドリームカプセル':'dream-capsule','ガシャポン（バンダイ）':'gashapon-bandai',
+    'ヨドバシカメラ':'yodobashi-camera','ケンエレスタンド':'kenele-stand','CAPSULE LAB（カプコン）':'capsule-lab',
+    'ガチャステ':'gacha-station','がちゃ処':'gachadokoro','カプセルマルシェ':'capsule-marche','TOYS SPOT PALO':'toys-spot-palo',
+    'ガチャ王国':'gacha-okoku','カプセルパーク':'capsule-park'
+  };
+  function prefUrl(pref) { return PREF_SLUG[pref] ? '/area/' + PREF_SLUG[pref] + '.html' : '/area.html'; }
+  function brandUrl(brand) { return BRAND_SLUG[brand] ? '/brand/' + BRAND_SLUG[brand] + '.html' : '/stores.html?q=' + encodeURIComponent(brand); }
+  function guideUrl(slug) { return '/guide/' + encodeURIComponent(slug) + '.html'; }
+  function markNoindex() {
+    var meta = document.querySelector('meta[name="robots"]');
+    if (!meta) { meta = document.createElement('meta'); meta.name = 'robots'; document.head.appendChild(meta); }
+    meta.content = 'noindex,follow';
+  }
+  window.GH_PREF_URL = prefUrl;
+  window.GH_BRAND_URL = brandUrl;
+
   /* 都道府県ごとに集計（店舗数の多い順） */
   function prefGroups() {
     var g = {}, order = [];
@@ -106,6 +135,17 @@
   if (document.querySelector('[data-gh-new-spots]')) renderNewSpots();
   if (document.querySelector('[data-gh-releases]')) renderReleases();
   if (document.querySelector('[data-gh-tophero-chips]')) renderHeroChips();
+  if (document.querySelector('[data-gh-release-hub]')) wireReleaseHubLinks();
+
+  function wireReleaseHubLinks() {
+    var releases = window.GH_RELEASES || [];
+    var latest = releases.map(function (item) { return String(item.date || '').slice(0, 7); })
+      .filter(function (month) { return /^\d{4}-\d{2}$/.test(month); }).sort().pop();
+    if (!latest) return;
+    document.querySelectorAll('[data-gh-release-hub]').forEach(function (link) {
+      link.href = '/releases/' + latest + '.html';
+    });
+  }
 
 
   /* ------------------------------------------------------------------ */
@@ -123,7 +163,11 @@
     });
     var top = Object.keys(counts).sort(function (a, b) { return counts[b] - counts[a]; }).slice(0, 8);
     box.innerHTML = top.map(function (a) {
-      return '<a class="gh-tophero__chip" href="/stores.html?q=' + encodeURIComponent(a) + '">' +
+      var article = (window.GH_ARTICLES || []).find(function (item) {
+        return !item.ranking && item.type !== 'guide' && item.label === a;
+      });
+      var url = article ? guideUrl(article.slug) : '/stores.html?q=' + encodeURIComponent(a);
+      return '<a class="gh-tophero__chip" href="' + url + '">' +
         esc(a) + '<span>' + counts[a] + '</span></a>';
     }).join('') +
       '<a class="gh-tophero__chip gh-tophero__chip--map" href="/map.html">🗺️ 現在地から探す</a>';
@@ -133,7 +177,7 @@
   /* ------------------------------------------------------------------ */
   /* ブランドから探す（[data-gh-brand-nav]）                             */
   /*   実データのブランド別店舗数を多い順に表示し、実在する絞り込み      */
-  /*   ページ（stores.html?brand=）へリンクする。                        */
+  /*   ページ（/brand/<slug>.html）へリンクする。                        */
   /* ------------------------------------------------------------------ */
   function renderBrandNav() {
     var box = document.querySelector('[data-gh-brand-nav]');
@@ -150,7 +194,7 @@
       .sort(function (a, b) { return counts[b] - counts[a]; }).slice(0, 8);
     if (!brands.length) { box.innerHTML = ''; return; }
     box.innerHTML = brands.map(function (b) {
-      return '<a href="/stores.html?brand=' + encodeURIComponent(b) + '" class="gh-category-item">' +
+      return '<a href="' + brandUrl(b) + '" class="gh-category-item">' +
                '<span class="gh-category-item__icon">' + (ICON[b] || '🎰') + '</span>' +
                '<span>' + esc(b.replace(/（.*?）/g, '')) + '</span>' +
                '<span class="gh-category-item__count">' + counts[b] + '店</span>' +
@@ -257,9 +301,9 @@
   }
 
   /* ------------------------------------------------------------------ */
-  /* エリアまとめ記事（article.html?area=slug）                          */
+  /* エリアまとめ記事（/guide/<slug>.html）                              */
   /* ------------------------------------------------------------------ */
-  function articleUrl(a) { return '/article.html?area=' + encodeURIComponent(a.slug); }
+  function articleUrl(a) { return guideUrl(a.slug); }
   function articleStores(a) {
     return SPOTS.filter(function (s) { return a.areas.indexOf(s.area) !== -1; })
                 .sort(function (x, y) { return (y.machines || 0) - (x.machines || 0); });
@@ -285,6 +329,7 @@
     arts.forEach(function (a) { if (a.slug === slug) art = a; });
 
     if (!art) {
+      markNoindex();
       var box = qs('articleContent');
       if (box) {
         box.innerHTML =
@@ -294,8 +339,14 @@
       return;
     }
 
+    /* 旧クエリURLから静的な正規記事へ移行する。 */
+    if (/\/article\.html$/.test(location.pathname)) {
+      location.replace(guideUrl(art.slug));
+      return;
+    }
+
     var stores = resolveArticleStores(art);
-    var pageUrl = 'https://gacha-hiroba.com/article.html?area=' + encodeURIComponent(art.slug);
+    var pageUrl = 'https://gacha-hiroba.com' + guideUrl(art.slug);
     var desc = art.intro[0];
 
     /* head（SEO） */
@@ -630,6 +681,7 @@
     var store = id ? byId[id] : null;
 
     if (!store) {
+      markNoindex();
       var content = qs('spotContent');
       if (content) {
         content.innerHTML =
@@ -639,6 +691,12 @@
             '<a href="/stores.html">店舗一覧へ戻る →</a></p>' +
           '</div>';
       }
+      return;
+    }
+
+    /* 旧 /spot.html?id=... を静的な店舗URLへ集約する。 */
+    if (getParam('id') && !window.GH_SPOT_STATIC_ID) {
+      location.replace('/spot/' + encodeURIComponent(store.id) + '.html');
       return;
     }
 
@@ -687,7 +745,8 @@
       'itemListElement': [
         { '@type': 'ListItem', 'position': 1, 'name': 'トップ', 'item': 'https://gacha-hiroba.com/' },
         { '@type': 'ListItem', 'position': 2, 'name': '店舗一覧', 'item': 'https://gacha-hiroba.com/stores.html' },
-        { '@type': 'ListItem', 'position': 3, 'name': store.name, 'item': pageUrl }
+        { '@type': 'ListItem', 'position': 3, 'name': store.pref + 'のガチャガチャ設置場所', 'item': 'https://gacha-hiroba.com' + prefUrl(store.pref) },
+        { '@type': 'ListItem', 'position': 4, 'name': store.name, 'item': pageUrl }
       ]
     };
     /* 静的生成ページには焼き込み済み（data-gh-static）なので二重注入しない */
@@ -702,7 +761,7 @@
 
     /* パンくず */
     var crumbArea = qs('spotCrumbArea');
-    if (crumbArea) { crumbArea.textContent = store.pref || store.area; }
+    if (crumbArea) { crumbArea.textContent = store.pref || store.area; crumbArea.href = prefUrl(store.pref); }
     setText('spotCrumbName', store.name);
 
     /* ヒーロー */
@@ -715,7 +774,7 @@
               esc(openDateText(store.opensOn, false)) + ' オープン予定</span>'
           : '') +
         '<a class="gh-badge gh-badge--lg" style="text-decoration:none" ' +
-          'href="/stores.html?brand=' + encodeURIComponent(store.brand) + '" ' +
+          'href="' + brandUrl(store.brand) + '" ' +
           'title="' + esc(store.brand) + 'の店舗一覧を見る">' + esc(store.brand) + '</a>' +
         '<span class="gh-badge gh-badge--lg">' + esc(store.area) + '</span>';
     }
@@ -758,7 +817,11 @@
         row('営業時間', store.hours) +
         row('設置台数', machinesText(store.machines)) +
         row('アクセス', store.access) +
-        row('エリア', store.area);
+        row('エリア', store.area) +
+        row('公式情報', store.sourceUrl
+          ? '<a class="gh-official-source" href="' + esc(store.sourceUrl) + '" target="_blank" rel="noopener">掲載元を確認 ↗</a>'
+          : '', true) +
+        row('情報確認日', store.verifiedAt);
     }
 
     /* 地図 */
@@ -814,8 +877,18 @@
   function renderNearby(store) {
     var box = qs('spotNearby');
     if (!box) return;
-    var others = SPOTS.filter(function (s) {
-      return s.region === store.region && s.id !== store.id;
+    var dist = function (a, b) {
+      if (a.lat == null || a.lon == null || b.lat == null || b.lon == null) return Number.POSITIVE_INFINITY;
+      var rad = function (n) { return Number(n) * Math.PI / 180; };
+      var dLat = rad(b.lat - a.lat), dLon = rad(b.lon - a.lon);
+      var x = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(rad(a.lat)) * Math.cos(rad(b.lat)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      return 6371 * 2 * Math.atan2(Math.sqrt(x), Math.sqrt(1 - x));
+    };
+    var tier = function (s) { return s.area === store.area ? 0 : s.pref === store.pref ? 1 : 2; };
+    var others = SPOTS.filter(function (s) { return s.id !== store.id; }).sort(function (a, b) {
+      return (tier(a) - tier(b)) || (dist(store, a) - dist(store, b)) ||
+        String(a.name).localeCompare(String(b.name), 'ja');
     }).slice(0, 6);
 
     if (!others.length) {
@@ -839,10 +912,23 @@
     var box = qs('storeList');
     var pref = getParam('pref');
     var query = getParam('q');
+    var brand = getParam('brand');
+
+    /* 検索可能な旧絞り込みURLは、完全静的な正規ページへ集約する。 */
+    if (pref && PREF_SLUG[pref] && SPOTS.some(function (s) { return s.pref === pref; })) {
+      location.replace(prefUrl(pref));
+      return;
+    }
+    if (brand && BRAND_SLUG[brand] && SPOTS.some(function (s) { return s.brand === brand; })) {
+      location.replace(brandUrl(brand));
+      return;
+    }
 
     /* ── キーワード検索（?q=）: 店名・エリア・住所・ブランドを横断で部分一致。
           スペース区切りの複数キーワードは AND 検索（例:「浅草 ガチャ」）── */
     if (query) {
+      /* 自由入力の検索結果は無限に増えるため検索インデックスへ出さない。 */
+      markNoindex();
       var nq = normSearch(query);
       var terms = nq.split(/\s+/).filter(function (t) { return t.length > 0; });
       /* 「ガチャ」「カプセルトイ」等の一般語は全店舗が該当するため常にマッチ扱い */
@@ -875,7 +961,7 @@
       });
       if (arts.length) {
         artHtml = '<div class="gh-news-list" style="margin-bottom:16px">' + arts.map(function (a) {
-          return '<a href="/article.html?area=' + encodeURIComponent(a.slug) + '" class="gh-news-item">' +
+          return '<a href="' + guideUrl(a.slug) + '" class="gh-news-item">' +
                    '<span class="gh-badge gh-badge--new">まとめ記事</span>' +
                    '<span>' + esc(a.emoji + ' ' + a.title) + '</span></a>';
         }).join('') + '</div>';
@@ -907,8 +993,8 @@
     }
 
     /* ── ブランド別一覧（?brand=）: sitemap にも載る SEO 入口 ── */
-    var brand = getParam('brand');
     if (brand) {
+      if (!BRAND_SLUG[brand]) markNoindex();
       var bHits = SPOTS.filter(function (s) { return s.brand === brand; })
         .sort(function (a, b) { return (b.machines || 0) - (a.machines || 0); });
       var tabGroup3 = document.querySelector('.gh-tab-group');
@@ -918,11 +1004,12 @@
       var desc3 = document.querySelector('.gh-page-hero__desc');
       if (desc3) desc3.innerHTML = '「' + esc(brand) + '」の登録店舗 <strong id="storeCount">' + bHits.length + '</strong> 店舗を設置台数順に掲載しています。';
       document.title = brand + 'の店舗一覧（' + bHits.length + '店舗） | ガチャひろば';
-      var bUrl = 'https://gacha-hiroba.com/stores.html?brand=' + encodeURIComponent(brand);
+      var bUrl = 'https://gacha-hiroba.com' + brandUrl(brand);
       setAttr('link[rel="canonical"]', 'href', bUrl);
       setAttr('meta[property="og:url"]', 'content', bUrl);
       renderBrandChips(brand);
       if (!bHits.length) {
+        markNoindex();
         box.innerHTML =
           '<div class="gh-section" style="text-align:center;padding:34px 16px">' +
             '<p style="margin:0 0 6px;font-weight:700">「' + esc(brand) + '」の店舗は見つかりませんでした。</p>' +
@@ -954,10 +1041,11 @@
       var title = document.querySelector('.gh-page-hero__title');
       if (title) title.textContent = pref + 'の店舗';
       document.title = pref + 'の店舗一覧 | ガチャひろば';
-      var pUrl = 'https://gacha-hiroba.com/stores.html?pref=' + encodeURIComponent(pref);
+      var pUrl = 'https://gacha-hiroba.com' + prefUrl(pref);
       setAttr('link[rel="canonical"]', 'href', pUrl);
       setAttr('meta[property="og:url"]', 'content', pUrl);
       if (!source.length) {
+        markNoindex();
         box.innerHTML = '<p class="gh-widget__text">' + esc(pref) + 'の登録店舗は現在準備中です。' +
           '<a href="/stores.html">すべての店舗を見る →</a></p>';
         setText('storeCount', '0');
@@ -1030,7 +1118,7 @@
       '<div class="gh-brand-chips">' +
       (active ? '<a class="gh-tab" href="/stores.html">すべて</a>' : '') +
       brands.map(function (b) {
-        return '<a class="gh-tab' + (b === active ? ' active' : '') + '" href="/stores.html?brand=' + encodeURIComponent(b) + '">' +
+        return '<a class="gh-tab' + (b === active ? ' active' : '') + '" href="' + brandUrl(b) + '">' +
           esc(b) + '<span class="gh-brand-chips__count">' + counts[b] + '</span></a>';
       }).join('') + '</div>';
   }
@@ -1093,7 +1181,7 @@
       var limit = parseInt(box.getAttribute('data-gh-area-limit') || '0', 10);
       if (limit > 0) groups = groups.slice(0, limit);
       box.innerHTML = groups.map(function (g, i) {
-        var url = '/stores.html?pref=' + encodeURIComponent(g.pref);
+        var url = prefUrl(g.pref);
         if (variant === 'pref') {
           return '<a href="' + url + '" class="gh-pref-card' + (i === 0 ? ' gh-pref-card--top' : '') + '">' +
                    '<span class="gh-pref-card__name">' + esc(g.pref) + '</span>' +

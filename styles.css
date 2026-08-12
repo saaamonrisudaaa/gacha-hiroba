@@ -2633,6 +2633,27 @@ a.gh-rel:hover { background: #fffaf5; text-decoration: none; }
   .gh-prefindex__list { grid-template-columns: 1fr; }
 }
 
+/* ── 検索向け静的ランディング（/area/・/brand/） ── */
+.gh-landing-metrics { margin-bottom: 16px; }
+.gh-landing-lead {
+  margin: 0; color: var(--gh-muted, #6b7280); font-size: 13.5px; line-height: 1.9;
+}
+.gh-landing-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.gh-landing-links { display: flex; flex-wrap: wrap; gap: 8px; }
+.gh-landing-links > a {
+  display: inline-flex; align-items: center; gap: 5px; padding: 7px 10px;
+  border: 1px solid var(--gh-border, #e5e7eb); border-radius: 999px;
+  background: var(--gh-surface, #fff); font-size: 12.5px; font-weight: 700;
+}
+.gh-landing-links > a:hover { border-color: var(--gh-link, #1d4ed8); text-decoration: none; }
+.gh-landing-links > a span { color: var(--gh-muted, #6b7280); font-size: 11px; }
+.gh-landing-table td:first-child { min-width: 240px; }
+@media (max-width: 620px) {
+  .gh-landing-actions .gh-btn { flex: 1 1 100%; text-align: center; }
+  .gh-landing-table th:nth-child(4), .gh-landing-table td:nth-child(4) { display: none; }
+  .gh-landing-table td:first-child { min-width: 200px; }
+}
+
 /* =====================================================================
    トップページ 情報密度チューニング（2026-08 第2版）
    ねらい: LPっぽい大きな帯・説明文・均等カードをやめ、

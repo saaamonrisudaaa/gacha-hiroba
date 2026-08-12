@@ -97,41 +97,108 @@ const rows = (r) => (r.rows || []).map((row) => ({
 /* ── レポート本体 ── */
 const token = getAccessToken();
 
-/* 1) 日別（直近14日）: ユーザー・セッション・PV */
+const CURRENT = { startDate: '28daysAgo', endDate: 'yesterday' };
+const PREVIOUS = { startDate: '56daysAgo', endDate: '29daysAgo' };
+const reportMetrics = [{ name: 'activeUsers' }, { name: 'sessions' }, { name: 'screenPageViews' }, { name: 'engagedSessions' }];
+
+/* 1) 日別（直近28日）: ユーザー・セッション・PV */
 const daily = runReport(token, {
-  dateRanges: [{ startDate: '14daysAgo', endDate: 'today' }],
+  dateRanges: [CURRENT],
   dimensions: [{ name: 'date' }],
   metrics: [{ name: 'activeUsers' }, { name: 'sessions' }, { name: 'screenPageViews' }],
   orderBys: [{ dimension: { dimensionName: 'date' } }]
 });
 
-/* 2) 人気ページ（直近7日） */
+/* 2) 人気ページ（直近28日） */
 const pages = runReport(token, {
-  dateRanges: [{ startDate: '7daysAgo', endDate: 'today' }],
-  dimensions: [{ name: 'pagePath' }],
+  dateRanges: [CURRENT],
+  dimensions: [{ name: 'pagePathPlusQueryString' }],
   metrics: [{ name: 'screenPageViews' }, { name: 'activeUsers' }],
   orderBys: [{ metric: { metricName: 'screenPageViews' }, desc: true }],
   limit: 15
 });
 
-/* 3) 流入元（直近7日） */
-const sources = runReport(token, {
-  dateRanges: [{ startDate: '7daysAgo', endDate: 'today' }],
+/* 3) 直近28日 vs 前28日の全体比較 */
+const currentSummary = runReport(token, { dateRanges: [CURRENT], metrics: reportMetrics });
+const previousSummary = runReport(token, { dateRanges: [PREVIOUS], metrics: reportMetrics });
+
+/* 4) チャネル比較 */
+const channelBody = (dateRange) => ({
+  dateRanges: [dateRange],
   dimensions: [{ name: 'sessionDefaultChannelGroup' }],
-  metrics: [{ name: 'sessions' }, { name: 'activeUsers' }],
+  metrics: [{ name: 'sessions' }, { name: 'activeUsers' }, { name: 'engagedSessions' }],
   orderBys: [{ metric: { metricName: 'sessions' }, desc: true }]
 });
+const currentChannels = runReport(token, channelBody(CURRENT));
+const previousChannels = runReport(token, channelBody(PREVIOUS));
+
+/* 5) 自然検索のランディングページ比較 */
+const organicBody = (dateRange) => ({
+  dateRanges: [dateRange],
+  dimensions: [{ name: 'landingPagePlusQueryString' }],
+  metrics: [{ name: 'sessions' }, { name: 'activeUsers' }, { name: 'engagedSessions' }],
+  dimensionFilter: { filter: { fieldName: 'sessionDefaultChannelGroup', stringFilter: { matchType: 'EXACT', value: 'Organic Search' } } },
+  orderBys: [{ metric: { metricName: 'sessions' }, desc: true }],
+  limit: 30
+});
+const currentOrganic = runReport(token, organicBody(CURRENT));
+const previousOrganic = runReport(token, organicBody(PREVIOUS));
+
+const firstMetrics = (report) => rows(report)[0]?.mets.map(Number) || [];
+const pct = (current, previous) => previous
+  ? (((current - previous) / previous) * 100).toFixed(1) + '%'
+  : (current ? '新規' : '0.0%');
+const byDimension = (report) => new Map(rows(report).map((row) => [row.dims[0], row.mets.map(Number)]));
 
 console.log('════ ガチャひろば GA4レポート（プロパティ ' + PROP + '）════\n');
-console.log('── 日別推移（直近14日）──');
+const cur = firstMetrics(currentSummary);
+const prev = firstMetrics(previousSummary);
+console.log('── 全体比較（直近28日 vs 前28日）──');
+['ユーザー', 'セッション', 'PV', 'エンゲージドセッション'].forEach((label, i) => {
+  console.log(label.padEnd(12) + String(cur[i] || 0).padStart(8) + '  前期 ' + String(prev[i] || 0).padStart(8) + '  ' + pct(cur[i] || 0, prev[i] || 0));
+});
+
+console.log('\n── 日別推移（直近28日）──');
 console.log('日付        ユーザー  セッション  PV');
 rows(daily).forEach((r) => {
   const d = r.dims[0];
   console.log(d.slice(0, 4) + '-' + d.slice(4, 6) + '-' + d.slice(6, 8) + '   ' +
     String(r.mets[0]).padStart(6) + '   ' + String(r.mets[1]).padStart(8) + '  ' + String(r.mets[2]).padStart(5));
 });
-console.log('\n── 人気ページ TOP15（直近7日）──');
+console.log('\n── 人気ページ TOP15（直近28日）──');
 rows(pages).forEach((r, i) => console.log(String(i + 1).padStart(2) + '. ' + r.dims[0] + '  （PV ' + r.mets[0] + ' / ユーザー ' + r.mets[1] + '）'));
-console.log('\n── 流入チャネル（直近7日）──');
-rows(sources).forEach((r) => console.log('  ' + r.dims[0] + ': セッション ' + r.mets[0] + ' / ユーザー ' + r.mets[1]));
+console.log('\n── 流入チャネル（直近28日 vs 前28日）──');
+const curChannel = byDimension(currentChannels);
+const prevChannel = byDimension(previousChannels);
+for (const name of new Set([...curChannel.keys(), ...prevChannel.keys()])) {
+  const current = curChannel.get(name) || [0, 0, 0];
+  const previous = prevChannel.get(name) || [0, 0, 0];
+  console.log('  ' + name + ': セッション ' + current[0] + '（前期 ' + previous[0] + ' / ' + pct(current[0], previous[0]) + '）');
+}
+
+console.log('\n── 自然検索ランディング TOP30（直近28日 / 前28日比較）──');
+const curOrganic = byDimension(currentOrganic);
+const prevOrganic = byDimension(previousOrganic);
+let rank = 0;
+for (const [path, current] of curOrganic) {
+  const previous = prevOrganic.get(path) || [0, 0, 0];
+  console.log(String(++rank).padStart(2) + '. ' + path + '  セッション ' + current[0] + '（前期 ' + previous[0] + ' / ' + pct(current[0], previous[0]) + '）');
+}
+
+/* 今期0件まで落ちたページも含め、減少セッションの大きい順に出す。 */
+const organicDrops = [...new Set([...curOrganic.keys(), ...prevOrganic.keys()])]
+  .map((path) => {
+    const current = curOrganic.get(path) || [0, 0, 0];
+    const previous = prevOrganic.get(path) || [0, 0, 0];
+    return { path, current, previous, delta: current[0] - previous[0] };
+  })
+  .filter((row) => row.delta < 0)
+  .sort((a, b) => a.delta - b.delta)
+  .slice(0, 30);
+console.log('\n── 自然検索の流入減ページ TOP30（今期0件も含む）──');
+if (!organicDrops.length) console.log('  減少ページなし');
+organicDrops.forEach((row, index) => {
+  console.log(String(index + 1).padStart(2) + '. ' + row.path + '  セッション ' + row.current[0] +
+    '（前期 ' + row.previous[0] + ' / ' + pct(row.current[0], row.previous[0]) + ' / 差 ' + row.delta + '）');
+});
 console.log('\n（データ取得: GA4 Data API / analytics.readonly）');

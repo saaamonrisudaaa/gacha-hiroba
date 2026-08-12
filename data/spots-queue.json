@@ -1,5 +1,5 @@
 {
-  "note": "店舗追加キュー。GitHub Actions（.github/workflows/daily-stores.yml）が毎日キュー先頭から正確に dripPerDay 件を data/spots.js へ反映し、使った分を消し込みます。lastRunDate が当日(JST)なら二重実行を防ぐため何もしません。有効候補が4件未満なら部分追加せず失敗します。queue へは公式一次情報で営業中を確認した店舗だけを追記し、sourceUrl と verifiedAt を必ず保存してください。id・店名の重複は検証で拒否します。",
+  "note": "店舗追加キュー。GitHub Actions（.github/workflows/daily-stores.yml）が毎日キュー先頭から正確に dripPerDay 件を data/spots.js へ反映し、使った分を消し込みます。lastRunDate が当日(JST)なら二重実行を防ぐため何もしません。有効候補が4件未満なら部分追加せず正常終了します。queue へは公式一次情報で営業中を確認した店舗だけを追記し、sourceUrl と verifiedAt を必ず保存してください。id・店名の重複は検証で拒否します。",
   "dripPerDay": 4,
   "dailyMix": [
     "北海道",

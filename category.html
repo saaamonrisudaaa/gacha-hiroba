@@ -4,14 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="google-site-verification" content="YN5Q0DnCsIhwgitcXjcGqxlmfMec80Wl0uZskCNS11w" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="カテゴリーからガチャガチャスポットを探す。アニメ・フィギュア・ぬいぐるみ・食玩など種類別に検索。" />
-  <title>カテゴリー別スポット | ガチャひろば</title>
+  <meta name="description" content="ガチャガチャの森、ガシャポンのデパート、#C-plaなど、全国のガチャガチャ設置店をブランド別に探せます。" />
+  <title>ブランド別ガチャガチャ設置店 | ガチャひろば</title>
   <link rel="canonical" href="https://gacha-hiroba.com/category.html" />
   <meta property="og:site_name" content="ガチャひろば" />
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="ja_JP" />
-  <meta property="og:title" content="カテゴリー別スポット | ガチャひろば" />
-  <meta property="og:description" content="カテゴリーからガチャガチャスポットを探す。アニメ・フィギュア・ぬいぐるみ・食玩など種類別に検索。" />
+  <meta property="og:title" content="ブランド別ガチャガチャ設置店 | ガチャひろば" />
+  <meta property="og:description" content="ガチャガチャの森、ガシャポンのデパート、#C-plaなど、全国のガチャガチャ設置店をブランド別に探せます。" />
   <meta property="og:url" content="https://gacha-hiroba.com/category.html" />
   <meta property="og:image" content="https://gacha-hiroba.com/assets/ogp.png" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -19,6 +19,7 @@
      crossorigin="anonymous"></script>
   <link rel="icon" type="image/png" href="assets/mascot-icon.png" />
   <link rel="stylesheet" href="styles.css" />
+  <script src="data/spots.js" defer></script>
   <script src="data/ads.js" defer></script>
   <script src="script.js" defer></script>
 </head>
@@ -49,7 +50,7 @@
           <a href="news.html">新着情報</a>
           <a href="ranking.html">ランキング</a>
           <a href="area.html">エリア別</a>
-          <a href="category.html" class="active">カテゴリー別</a>
+          <a href="category.html" class="active">ブランド別</a>
         </nav>
       </div>
     </div>
@@ -57,293 +58,118 @@
 
   <main id="main" class="gh-main">
     <div class="gh-container">
-
       <div class="gh-page-hero">
-        <h1 class="gh-page-hero__title">カテゴリーから探す</h1>
-        <p class="gh-page-hero__desc">取り扱いジャンルからガチャガチャスポットを検索。お気に入りのカテゴリーを豊富に揃えた場所が見つかります。</p>
+        <h1 class="gh-page-hero__title">ブランドからガチャガチャ設置店を探す</h1>
+        <p class="gh-page-hero__desc">ガチャガチャ専門店や公式ショップをブランド別に検索できます。掲載数は店舗データから自動集計しています。</p>
       </div>
 
-      <!-- カテゴリーカード一覧 -->
-      <section class="gh-section">
+      <section class="gh-section" aria-labelledby="brandHeading">
         <div class="gh-section__header">
-          <h2 class="gh-section__title">人気カテゴリー</h2>
+          <h2 class="gh-section__title" id="brandHeading">主要ブランド</h2>
+          <a href="stores.html" class="gh-section__more"><span data-total-spots>313</span>店舗をすべて見る →</a>
         </div>
         <div class="gh-cat-grid">
-          <a href="stores.html" class="gh-cat-card gh-cat-card--featured">
-            <span class="gh-cat-card__icon">🎌</span>
-            <strong class="gh-cat-card__name">アニメ・キャラクター</strong>
-            <span class="gh-cat-card__count">8,241スポット</span>
-            <span class="gh-badge gh-badge--hot">人気No.1</span>
+          <a href="/brand/gacha-no-mori.html" class="gh-cat-card" data-brand="ガチャガチャの森">
+            <span class="gh-cat-card__icon" aria-hidden="true">🌳</span>
+            <strong class="gh-cat-card__name">ガチャガチャの森</strong>
+            <span class="gh-cat-card__count" data-brand-count>66店舗掲載</span>
           </a>
-          <a href="stores.html" class="gh-cat-card">
-            <span class="gh-cat-card__icon">🧸</span>
-            <strong class="gh-cat-card__name">ぬいぐるみ・人形</strong>
-            <span class="gh-cat-card__count">6,187スポット</span>
+          <a href="/brand/gashapon-department-store.html" class="gh-cat-card" data-brand="ガシャポンのデパート">
+            <span class="gh-cat-card__icon" aria-hidden="true">🏬</span>
+            <strong class="gh-cat-card__name">ガシャポンのデパート</strong>
+            <span class="gh-cat-card__count" data-brand-count>53店舗掲載</span>
           </a>
-          <a href="stores.html" class="gh-cat-card">
-            <span class="gh-cat-card__icon">🗿</span>
-            <strong class="gh-cat-card__name">フィギュア</strong>
-            <span class="gh-cat-card__count">5,932スポット</span>
+          <a href="/brand/c-pla.html" class="gh-cat-card" data-brand="#C-pla（シープラ）">
+            <span class="gh-cat-card__icon" aria-hidden="true">🟣</span>
+            <strong class="gh-cat-card__name">#C-pla（シープラ）</strong>
+            <span class="gh-cat-card__count" data-brand-count>45店舗掲載</span>
           </a>
-          <a href="stores.html" class="gh-cat-card">
-            <span class="gh-cat-card__icon">🍬</span>
-            <strong class="gh-cat-card__name">食玩・お菓子</strong>
-            <span class="gh-cat-card__count">4,218スポット</span>
+          <a href="/brand/capsule-rakkyoku.html" class="gh-cat-card" data-brand="カプセル楽局">
+            <span class="gh-cat-card__icon" aria-hidden="true">💊</span>
+            <strong class="gh-cat-card__name">カプセル楽局</strong>
+            <span class="gh-cat-card__count" data-brand-count>40店舗掲載</span>
           </a>
-          <a href="stores.html" class="gh-cat-card">
-            <span class="gh-cat-card__icon">⚽</span>
-            <strong class="gh-cat-card__name">スポーツ</strong>
-            <span class="gh-cat-card__count">2,341スポット</span>
+          <a href="/brand/gashapon-bandai-official-shop.html" class="gh-cat-card" data-brand="ガシャポンバンダイオフィシャルショップ">
+            <span class="gh-cat-card__icon" aria-hidden="true">🛍️</span>
+            <strong class="gh-cat-card__name">ガシャポンバンダイオフィシャルショップ</strong>
+            <span class="gh-cat-card__count" data-brand-count>29店舗掲載</span>
           </a>
-          <a href="stores.html" class="gh-cat-card">
-            <span class="gh-cat-card__icon">💍</span>
-            <strong class="gh-cat-card__name">アクセサリー</strong>
-            <span class="gh-cat-card__count">3,102スポット</span>
+          <a href="/brand/gashacoco.html" class="gh-cat-card" data-brand="gashacoco（ガシャココ）">
+            <span class="gh-cat-card__icon" aria-hidden="true">🔵</span>
+            <strong class="gh-cat-card__name">gashacoco（ガシャココ）</strong>
+            <span class="gh-cat-card__count" data-brand-count>16店舗掲載</span>
           </a>
-          <a href="stores.html" class="gh-cat-card">
-            <span class="gh-cat-card__icon">🎮</span>
-            <strong class="gh-cat-card__name">ゲーム・ホビー</strong>
-            <span class="gh-cat-card__count">1,876スポット</span>
+          <a href="/brand/dream-capsule.html" class="gh-cat-card" data-brand="ドリームカプセル">
+            <span class="gh-cat-card__icon" aria-hidden="true">🌈</span>
+            <strong class="gh-cat-card__name">ドリームカプセル</strong>
+            <span class="gh-cat-card__count" data-brand-count>15店舗掲載</span>
           </a>
-          <a href="stores.html" class="gh-cat-card">
-            <span class="gh-cat-card__icon">🧴</span>
-            <strong class="gh-cat-card__name">生活雑貨</strong>
-            <span class="gh-cat-card__count">1,543スポット</span>
+          <a href="/brand/gashapon-bandai.html" class="gh-cat-card" data-brand="ガシャポン（バンダイ）">
+            <span class="gh-cat-card__icon" aria-hidden="true">🔴</span>
+            <strong class="gh-cat-card__name">ガシャポン（バンダイ）</strong>
+            <span class="gh-cat-card__count" data-brand-count>4店舗掲載</span>
           </a>
-          <a href="stores.html" class="gh-cat-card">
-            <span class="gh-cat-card__icon">🌸</span>
-            <strong class="gh-cat-card__name">季節限定</strong>
-            <span class="gh-cat-card__count">987スポット</span>
-            <span class="gh-badge gh-badge--new">NEW</span>
+          <a href="/brand/yodobashi-camera.html" class="gh-cat-card" data-brand="ヨドバシカメラ">
+            <span class="gh-cat-card__icon" aria-hidden="true">📷</span>
+            <strong class="gh-cat-card__name">ヨドバシカメラ</strong>
+            <span class="gh-cat-card__count" data-brand-count>4店舗掲載</span>
           </a>
-          <a href="stores.html" class="gh-cat-card">
-            <span class="gh-cat-card__icon">🎲</span>
-            <strong class="gh-cat-card__name">ミニチュア</strong>
-            <span class="gh-cat-card__count">743スポット</span>
+          <a href="/brand/kenele-stand.html" class="gh-cat-card" data-brand="ケンエレスタンド">
+            <span class="gh-cat-card__icon" aria-hidden="true">🧩</span>
+            <strong class="gh-cat-card__name">ケンエレスタンド</strong>
+            <span class="gh-cat-card__count" data-brand-count>4店舗掲載</span>
           </a>
-          <a href="stores.html" class="gh-cat-card">
-            <span class="gh-cat-card__icon">🐾</span>
-            <strong class="gh-cat-card__name">動物・ペット</strong>
-            <span class="gh-cat-card__count">612スポット</span>
+          <a href="/brand/capsule-lab.html" class="gh-cat-card" data-brand="CAPSULE LAB（カプコン）">
+            <span class="gh-cat-card__icon" aria-hidden="true">🧪</span>
+            <strong class="gh-cat-card__name">CAPSULE LAB（カプコン）</strong>
+            <span class="gh-cat-card__count" data-brand-count>4店舗掲載</span>
           </a>
-          <a href="stores.html" class="gh-cat-card">
-            <span class="gh-cat-card__icon">👶</span>
-            <strong class="gh-cat-card__name">キッズ向け</strong>
-            <span class="gh-cat-card__count">1,204スポット</span>
+          <a href="/brand/gacha-station.html" class="gh-cat-card" data-brand="ガチャステ">
+            <span class="gh-cat-card__icon" aria-hidden="true">🚉</span>
+            <strong class="gh-cat-card__name">ガチャステ</strong>
+            <span class="gh-cat-card__count" data-brand-count>4店舗掲載</span>
+          </a>
+          <a href="/brand/gachadokoro.html" class="gh-cat-card" data-brand="がちゃ処">
+            <span class="gh-cat-card__icon" aria-hidden="true">⛩️</span>
+            <strong class="gh-cat-card__name">がちゃ処</strong>
+            <span class="gh-cat-card__count" data-brand-count>3店舗掲載</span>
+          </a>
+          <a href="/brand/capsule-marche.html" class="gh-cat-card" data-brand="カプセルマルシェ">
+            <span class="gh-cat-card__icon" aria-hidden="true">🧺</span>
+            <strong class="gh-cat-card__name">カプセルマルシェ</strong>
+            <span class="gh-cat-card__count" data-brand-count>2店舗掲載</span>
+          </a>
+          <a href="/brand/toys-spot-palo.html" class="gh-cat-card" data-brand="TOYS SPOT PALO">
+            <span class="gh-cat-card__icon" aria-hidden="true">🎠</span>
+            <strong class="gh-cat-card__name">TOYS SPOT PALO</strong>
+            <span class="gh-cat-card__count" data-brand-count>2店舗掲載</span>
+          </a>
+          <a href="/brand/gacha-okoku.html" class="gh-cat-card" data-brand="ガチャ王国">
+            <span class="gh-cat-card__icon" aria-hidden="true">👑</span>
+            <strong class="gh-cat-card__name">ガチャ王国</strong>
+            <span class="gh-cat-card__count" data-brand-count>2店舗掲載</span>
+          </a>
+          <a href="/brand/capsule-park.html" class="gh-cat-card" data-brand="カプセルパーク">
+            <span class="gh-cat-card__icon" aria-hidden="true">🎡</span>
+            <strong class="gh-cat-card__name">カプセルパーク</strong>
+            <span class="gh-cat-card__count" data-brand-count>2店舗掲載</span>
           </a>
         </div>
       </section>
 
-      <div class="gh-main__layout">
-        <div class="gh-main__content">
-
-          <!-- アニメ・キャラクター 詳細 -->
-          <section class="gh-section">
-            <div class="gh-section__header">
-              <h2 class="gh-section__title">🎌 アニメ・キャラクター スポット</h2>
-              <a href="stores.html" class="gh-section__more">すべて見る →</a>
-            </div>
-            <div class="gh-tab-group" style="margin-bottom:12px">
-              <button class="gh-tab active">すべて</button>
-              <button class="gh-tab">ジャンプ系</button>
-              <button class="gh-tab">マガジン系</button>
-              <button class="gh-tab">サンデー系</button>
-              <button class="gh-tab">深夜アニメ</button>
-            </div>
-            <div class="gh-table-wrap">
-              <table class="gh-table">
-                <thead>
-                  <tr>
-                    <th>スポット名</th>
-                    <th>エリア</th>
-                    <th class="gh-num">台数</th>
-                    <th class="gh-num">評価</th>
-                    <th class="gh-num">口コミ</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><a href="stores.html" class="gh-table__link">ヨドバシAkiba ガチャコーナー</a><span class="gh-badge gh-badge--hot">HOT</span></td>
-                    <td>東京・秋葉原</td>
-                    <td class="gh-num">200</td>
-                    <td class="gh-num"><span class="gh-rating">★ 4.9</span></td>
-                    <td class="gh-num">3,241</td>
-                    <td><a href="stores.html" class="gh-btn gh-btn--xs">詳細</a></td>
-                  </tr>
-                  <tr>
-                    <td><a href="stores.html" class="gh-table__link">アキバガチャ横丁</a><span class="gh-badge gh-badge--new">NEW</span></td>
-                    <td>東京・秋葉原</td>
-                    <td class="gh-num">120</td>
-                    <td class="gh-num"><span class="gh-rating">★ 4.8</span></td>
-                    <td class="gh-num">2,108</td>
-                    <td><a href="stores.html" class="gh-btn gh-btn--xs">詳細</a></td>
-                  </tr>
-                  <tr>
-                    <td><a href="stores.html" class="gh-table__link">なんばウォーク ガチャコーナー</a></td>
-                    <td>大阪・なんば</td>
-                    <td class="gh-num">85</td>
-                    <td class="gh-num"><span class="gh-rating">★ 4.7</span></td>
-                    <td class="gh-num">1,892</td>
-                    <td><a href="stores.html" class="gh-btn gh-btn--xs">詳細</a></td>
-                  </tr>
-                  <tr>
-                    <td><a href="stores.html" class="gh-table__link">大須ガチャガチャ通り</a></td>
-                    <td>愛知・名古屋</td>
-                    <td class="gh-num">64</td>
-                    <td class="gh-num"><span class="gh-rating">★ 4.5</span></td>
-                    <td class="gh-num">743</td>
-                    <td><a href="stores.html" class="gh-btn gh-btn--xs">詳細</a></td>
-                  </tr>
-                  <tr>
-                    <td><a href="stores.html" class="gh-table__link">池袋P'PARCO ガチャフロア</a></td>
-                    <td>東京・池袋</td>
-                    <td class="gh-num">78</td>
-                    <td class="gh-num"><span class="gh-rating">★ 4.7</span></td>
-                    <td class="gh-num">1,654</td>
-                    <td><a href="stores.html" class="gh-btn gh-btn--xs">詳細</a></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <a href="stores.html" class="gh-table__more">もっと見る</a>
-          </section>
-
-          <!-- フィギュア 詳細 -->
-          <section class="gh-section">
-            <div class="gh-section__header">
-              <h2 class="gh-section__title">🗿 フィギュア スポット</h2>
-              <a href="stores.html" class="gh-section__more">すべて見る →</a>
-            </div>
-            <div class="gh-spot-grid">
-              <a href="stores.html" class="gh-spot-card">
-                <div class="gh-spot-card__img">
-                  <div class="gh-spot-card__img-inner" style="background:linear-gradient(135deg,#dbeafe,#bfdbfe)">
-                    <span style="font-size:40px">🗿</span>
-                  </div>
-                </div>
-                <div class="gh-spot-card__body">
-                  <div class="gh-tags" style="margin-bottom:6px">
-                    <span>フィギュア</span><span>プレミアム</span>
-                  </div>
-                  <p class="gh-spot-card__name">ヨドバシAkiba フィギュアガチャ</p>
-                  <div class="gh-spot-card__meta">
-                    <span class="gh-rating">★ 4.9</span>
-                    <span style="color:var(--gh-muted);font-size:11px">200台</span>
-                  </div>
-                  <p class="gh-spot-card__desc">プレミアムフィギュアを豊富に揃える。希少コラボ品も定期入荷。</p>
-                </div>
-              </a>
-              <a href="stores.html" class="gh-spot-card">
-                <div class="gh-spot-card__img">
-                  <div class="gh-spot-card__img-inner" style="background:linear-gradient(135deg,#fce7f3,#fbcfe8)">
-                    <span style="font-size:40px">🗿</span>
-                  </div>
-                </div>
-                <div class="gh-spot-card__body">
-                  <div class="gh-tags" style="margin-bottom:6px">
-                    <span>フィギュア</span><span>限定</span>
-                  </div>
-                  <p class="gh-spot-card__name">池袋P'PARCO フィギュアコーナー</p>
-                  <div class="gh-spot-card__meta">
-                    <span class="gh-rating">★ 4.7</span>
-                    <span style="color:var(--gh-muted);font-size:11px">78台</span>
-                  </div>
-                  <p class="gh-spot-card__desc">池袋最大のフィギュアガチャスポット。コラボ限定品多数。</p>
-                </div>
-              </a>
-              <a href="stores.html" class="gh-spot-card">
-                <div class="gh-spot-card__img">
-                  <div class="gh-spot-card__img-inner" style="background:linear-gradient(135deg,#d1fae5,#a7f3d0)">
-                    <span style="font-size:40px">🗿</span>
-                  </div>
-                </div>
-                <div class="gh-spot-card__body">
-                  <div class="gh-tags" style="margin-bottom:6px">
-                    <span>フィギュア</span>
-                  </div>
-                  <p class="gh-spot-card__name">なんばウォーク フィギュアゾーン</p>
-                  <div class="gh-spot-card__meta">
-                    <span class="gh-rating">★ 4.7</span>
-                    <span style="color:var(--gh-muted);font-size:11px">85台</span>
-                  </div>
-                  <p class="gh-spot-card__desc">関西最大規模。関西限定品も取り揃え。</p>
-                </div>
-              </a>
-            </div>
-          </section>
-
+      <section class="gh-section">
+        <div class="gh-section__header">
+          <h2 class="gh-section__title">ほかの条件から探す</h2>
         </div>
-
-        <!-- Sidebar -->
-        <aside class="gh-sidebar">
-          <div class="gh-widget">
-            <h3 class="gh-widget__title">カテゴリー一覧</h3>
-            <ul class="gh-category-list">
-              <li><a href="category.html" class="gh-category-item">
-                <span class="gh-category-item__icon">🎌</span>
-                <span>アニメ・キャラクター</span>
-                <span class="gh-category-item__count">8,241</span>
-              </a></li>
-              <li><a href="category.html" class="gh-category-item">
-                <span class="gh-category-item__icon">🧸</span>
-                <span>ぬいぐるみ・人形</span>
-                <span class="gh-category-item__count">6,187</span>
-              </a></li>
-              <li><a href="category.html" class="gh-category-item">
-                <span class="gh-category-item__icon">🗿</span>
-                <span>フィギュア</span>
-                <span class="gh-category-item__count">5,932</span>
-              </a></li>
-              <li><a href="category.html" class="gh-category-item">
-                <span class="gh-category-item__icon">🍬</span>
-                <span>食玩・お菓子</span>
-                <span class="gh-category-item__count">4,218</span>
-              </a></li>
-              <li><a href="category.html" class="gh-category-item">
-                <span class="gh-category-item__icon">💍</span>
-                <span>アクセサリー</span>
-                <span class="gh-category-item__count">3,102</span>
-              </a></li>
-              <li><a href="category.html" class="gh-category-item">
-                <span class="gh-category-item__icon">⚽</span>
-                <span>スポーツ</span>
-                <span class="gh-category-item__count">2,341</span>
-              </a></li>
-              <li><a href="category.html" class="gh-category-item">
-                <span class="gh-category-item__icon">🎮</span>
-                <span>ゲーム・ホビー</span>
-                <span class="gh-category-item__count">1,876</span>
-              </a></li>
-              <li><a href="category.html" class="gh-category-item">
-                <span class="gh-category-item__icon">🧴</span>
-                <span>生活雑貨</span>
-                <span class="gh-category-item__count">1,543</span>
-              </a></li>
-            </ul>
+        <div class="gh-info-card" style="padding:16px">
+          <p style="margin:0 0 14px;color:var(--gh-muted);font-size:13px;line-height:1.8">ブランドが決まっていない場合は、現在地や都道府県、店名から検索できます。</p>
+          <div class="gh-app-btns">
+            <a href="map.html" class="gh-app-btn">現在地からマップで探す</a>
+            <a href="area.html" class="gh-app-btn">都道府県から探す</a>
+            <a href="stores.html" class="gh-app-btn">全<span data-total-spots>313</span>店舗を見る</a>
           </div>
-
-          <div class="gh-widget">
-            <h3 class="gh-widget__title">今週のトレンド</h3>
-            <ol class="gh-trending-list">
-              <li><a href="stores.html">【呪術廻戦】最新弾スポット</a></li>
-              <li><a href="stores.html">ワンピース 頂上決戦フィギュア</a></li>
-              <li><a href="stores.html">鬼滅の刃 ぬいぐるみシリーズ</a></li>
-              <li><a href="stores.html">ポケモン 食玩コレクション</a></li>
-              <li><a href="stores.html">推しの子 アクリルスタンド</a></li>
-            </ol>
-          </div>
-
-          <div class="gh-widget gh-widget--accent">
-            <h3 class="gh-widget__title">スポット登録</h3>
-            <p class="gh-widget__text">まだ登録されていないスポットを知っていますか？情報をシェアしよう！</p>
-            <div class="gh-app-btns">
-              <a href="board.html" class="gh-app-btn">📍 掲示板で情報を共有する</a>
-            </div>
-          </div>
-        </aside>
-      </div>
-
+        </div>
+      </section>
     </div>
   </main>
 
@@ -356,7 +182,7 @@
         </div>
         <div class="gh-footer__links">
           <div><strong>サービス</strong><a href="index.html">トップ</a><a href="ranking.html">ランキング</a><a href="news.html">新着情報</a><a href="map.html">マップ検索</a></div>
-          <div><strong>情報</strong><a href="article.html?area=guide-first-visit">ガチャとは</a><a href="board.html">クチコミを書く</a><a href="board.html">スポットを登録</a></div>
+          <div><strong>情報</strong><a href="guide/guide-first-visit.html">ガチャとは</a><a href="board.html">クチコミを書く</a><a href="board.html">スポットを登録</a></div>
           <div><strong>サポート</strong><a href="contact.html">お問い合わせ</a><a href="terms.html">利用規約</a><a href="privacy.html">プライバシー</a><a href="sitemap.html">サイトマップ</a><a href="english.html">English</a><a href="advertising.html">広告掲載</a></div>
         </div>
       </div>
@@ -366,5 +192,26 @@
       </div>
     </div>
   </footer>
+  <script>
+    window.addEventListener('DOMContentLoaded', function () {
+      var spots = Array.isArray(window.GH_SPOTS) ? window.GH_SPOTS : [];
+      if (!spots.length) return;
+
+      var counts = spots.reduce(function (result, spot) {
+        if (spot.brand) result[spot.brand] = (result[spot.brand] || 0) + 1;
+        return result;
+      }, {});
+
+      document.querySelectorAll('[data-brand]').forEach(function (card) {
+        var count = counts[card.dataset.brand] || 0;
+        var output = card.querySelector('[data-brand-count]');
+        if (output) output.textContent = count.toLocaleString('ja-JP') + '店舗掲載';
+      });
+
+      document.querySelectorAll('[data-total-spots]').forEach(function (output) {
+        output.textContent = spots.length.toLocaleString('ja-JP');
+      });
+    });
+  </script>
 </body>
 </html>

@@ -22,12 +22,11 @@
   <!-- 店舗データ → 描画 → 共有掲示板 → 共通JS（この順で読み込む） -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
   <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"Store","name":"#C-pla イオンモール大曲店","url":"https://gacha-hiroba.com/spot/cpla-aeon-omagari.html","address":{"@type":"PostalAddress","streetAddress":"秋田県大仙市和合坪立177 イオンモール大曲 2F","addressRegion":"秋田県","addressCountry":"JP"},"description":"#C-pla イオンモール大曲店（秋田県・大仙）のガチャガチャ設置情報。住所・アクセス・地図・店舗ごとの掲示板で入荷情報や混雑状況をチェック。","geo":{"@type":"GeoCoordinates","latitude":39.4373,"longitude":140.4936}}</script>
-  <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"トップ","item":"https://gacha-hiroba.com/"},{"@type":"ListItem","position":2,"name":"店舗一覧","item":"https://gacha-hiroba.com/stores.html"},{"@type":"ListItem","position":3,"name":"#C-pla イオンモール大曲店","item":"https://gacha-hiroba.com/spot/cpla-aeon-omagari.html"}]}</script>
+  <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"トップ","item":"https://gacha-hiroba.com/"},{"@type":"ListItem","position":2,"name":"店舗一覧","item":"https://gacha-hiroba.com/stores.html"},{"@type":"ListItem","position":3,"name":"秋田県のガチャガチャ設置場所","item":"https://gacha-hiroba.com/area/akita.html"},{"@type":"ListItem","position":4,"name":"#C-pla イオンモール大曲店","item":"https://gacha-hiroba.com/spot/cpla-aeon-omagari.html"}]}</script>
   <script>window.GH_SPOT_STATIC_ID="cpla-aeon-omagari";</script>
   <script src="/data/spots.js" defer></script>
   <script src="/spots-ui.js" defer></script>
   <script src="/data/ads.js" defer></script>
-  <script src="/data/board-seed.js" defer></script>
   <script src="/script.js" defer></script>
 </head>
 <body>
@@ -58,7 +57,7 @@
           <a href="/news.html">新着情報</a>
           <a href="/ranking.html">ランキング</a>
           <a href="/area.html">エリア別</a>
-          <a href="/category.html">カテゴリー別</a>
+          <a href="/category.html">ブランド別</a>
         </nav>
       </div>
     </div>
@@ -73,7 +72,7 @@
         <span aria-hidden="true">›</span>
         <a href="/stores.html">店舗一覧</a>
         <span aria-hidden="true">›</span>
-        <a href="/area.html" id="spotCrumbArea">秋田県</a>
+        <a href="/area/akita.html" id="spotCrumbArea">秋田県</a>
         <span aria-hidden="true">›</span>
         <span aria-current="page" id="spotCrumbName">#C-pla イオンモール大曲店</span>
       </nav>
@@ -91,7 +90,7 @@
           <div class="gh-quote__head">
             <div class="gh-quote__title-row">
               <h1 class="gh-quote__name" id="spotName">#C-pla イオンモール大曲店</h1>
-              <span id="spotBadges"><a class="gh-badge gh-badge--lg" style="text-decoration:none" href="/stores.html?brand=%23C-pla%EF%BC%88%E3%82%B7%E3%83%BC%E3%83%97%E3%83%A9%EF%BC%89" title="#C-pla（シープラ）の店舗一覧を見る">#C-pla（シープラ）</a><span class="gh-badge gh-badge--lg">秋田県・大仙</span></span>
+              <span id="spotBadges"><a class="gh-badge gh-badge--lg" style="text-decoration:none" href="/brand/c-pla.html" title="#C-pla（シープラ）の店舗一覧を見る">#C-pla（シープラ）</a><span class="gh-badge gh-badge--lg">秋田県・大仙</span></span>
             </div>
             <div class="gh-quote__address" id="spotAddress"><span>📍 秋田県大仙市和合坪立177 イオンモール大曲 2F</span><span class="gh-hero__divider">｜</span><span>🚉 イオンモール大曲2F（大曲駅からバス）</span></div>
           </div>
@@ -106,7 +105,7 @@
         </div>
       </section>
 
-      <div class="gh-spot-intro"><p>#C-pla イオンモール大曲店は、秋田県（秋田県・大仙）にあるガチャガチャ・カプセルトイの設置スポットです。アクセスはイオンモール大曲2F（大曲駅からバス）。</p><p>#C-pla（シープラ）は、トーシンが展開するカプセルトイ専門店です。商業施設内から路面店まで幅広く出店しています。</p><p>同じ地域のお店は<a href="/stores.html?pref=%E7%A7%8B%E7%94%B0%E7%9C%8C">秋田県の掲載店舗（3件）</a>、同じブランドのお店は<a href="/stores.html?brand=%23C-pla%EF%BC%88%E3%82%B7%E3%83%BC%E3%83%97%E3%83%A9%EF%BC%89">#C-pla（シープラ）の店舗一覧</a>からも探せます。</p><p>掲載内容は公開情報をもとにしています。最新の入荷状況・混雑・在庫については、このページの掲示板タブで情報をチェック・共有できます。営業時間や設置台数は変更される場合があるため、お出かけ前に店舗の公式情報もあわせてご確認ください。</p></div>
+      <div class="gh-spot-intro"><p>#C-pla イオンモール大曲店は、秋田県（秋田県・大仙）にあるガチャガチャ・カプセルトイの設置スポットです。アクセスはイオンモール大曲2F（大曲駅からバス）。</p><p>#C-pla（シープラ）は、トーシンが展開するカプセルトイ専門店です。商業施設内から路面店まで幅広く出店しています。</p><p>同じ地域のお店は<a href="/area/akita.html">秋田県の掲載店舗（3件）</a>、同じブランドのお店は<a href="/brand/c-pla.html">#C-pla（シープラ）の店舗一覧</a>からも探せます。</p><p>掲載内容は公開情報をもとにしています。最新の入荷状況・混雑・在庫については、このページの掲示板タブで情報をチェック・共有できます。営業時間や設置台数は変更される場合があるため、お出かけ前に店舗の公式情報もあわせてご確認ください。</p></div>
       <div class="gh-detail-layout">
         <div class="gh-detail-content">
 
@@ -200,7 +199,7 @@
 
           <div class="gh-widget">
             <h3 class="gh-widget__title">同じエリアの店舗</h3>
-            <div class="gh-nearby" id="spotNearby"><a href="/spot/gashadepa-sapporo-factory.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート サッポロファクトリー店</strong><small>北海道・札幌 ・ 約600台</small></div></a><a href="/spot/gashadepa-surugaya-higashisendai.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート 駿河屋フォレオ東仙台店</strong><small>宮城県・仙台 ・ 約530台</small></div></a><a href="/spot/ggmori-moyuk-sapporo.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 moyuk SAPPORO店</strong><small>北海道・札幌大通 ・ 約930台</small></div></a><a href="/spot/gashadepa-ario-sapporo.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート アリオ札幌店</strong><small>北海道・札幌 ・ —</small></div></a><a href="/spot/gashadepa-sapporo-tokyu.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート さっぽろ東急百貨店</strong><small>北海道・札幌駅 ・ —</small></div></a><a href="/spot/cpla-tanukikoji-4chome.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>#C-pla 狸小路4丁目店</strong><small>北海道・狸小路 ・ —</small></div></a></div>
+            <div class="gh-nearby" id="spotNearby"><a href="/spot/cpla-aeon-akita.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>#C-pla イオンモール秋田店</strong><small>秋田県・秋田 ・ —</small></div></a><a href="/spot/gashadepa-akita-opa.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート秋田OPA店</strong><small>秋田県・秋田 ・ —</small></div></a><a href="/spot/ggmori-aeon-morioka-minami.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 イオンモール盛岡南店</strong><small>岩手県・盛岡 ・ —</small></div></a><a href="/spot/capsulepark-kawatoku.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>カプセルパーク川徳店</strong><small>岩手県・盛岡 ・ —</small></div></a><a href="/spot/cpla-aeon-mikawa.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>#C-pla イオンモール三川店</strong><small>山形県・庄内 ・ —</small></div></a><a href="/spot/cpla-aeon-tendo.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>#C-pla イオンモール天童店</strong><small>山形県・天童 ・ —</small></div></a></div>
           </div>
 
           <div class="gh-widget">

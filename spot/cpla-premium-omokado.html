@@ -21,13 +21,12 @@
   <link rel="stylesheet" href="/styles.css" />
   <!-- 店舗データ → 描画 → 共有掲示板 → 共通JS（この順で読み込む） -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
-  <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"Store","name":"#C-pla premium 東急プラザ表参道オモカド店","url":"https://gacha-hiroba.com/spot/cpla-premium-omokado.html","address":{"@type":"PostalAddress","streetAddress":"東京都渋谷区神宮前4-30-3 東急プラザ表参道「オモカド」4F","addressRegion":"東京都","addressCountry":"JP","postalCode":"150-0001"},"description":"#C-pla premium 東急プラザ表参道オモカド店（東京都・表参道）のガチャガチャ設置情報。設置台数約1,164台、営業時間 11:00〜20:00。住所・アクセス・地図・店舗ごとの掲示板で入荷情報や混雑状況をチェック。","telephone":"070-3180-6839","geo":{"@type":"GeoCoordinates","latitude":35.6675,"longitude":139.706},"openingHours":"11:00〜20:00"}</script>
-  <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"トップ","item":"https://gacha-hiroba.com/"},{"@type":"ListItem","position":2,"name":"店舗一覧","item":"https://gacha-hiroba.com/stores.html"},{"@type":"ListItem","position":3,"name":"#C-pla premium 東急プラザ表参道オモカド店","item":"https://gacha-hiroba.com/spot/cpla-premium-omokado.html"}]}</script>
+  <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"Store","name":"#C-pla premium 東急プラザ表参道オモカド店","url":"https://gacha-hiroba.com/spot/cpla-premium-omokado.html","address":{"@type":"PostalAddress","streetAddress":"東京都渋谷区神宮前4-30-3 東急プラザ表参道「オモカド」4F","addressRegion":"東京都","addressCountry":"JP","postalCode":"150-0001"},"description":"#C-pla premium 東急プラザ表参道オモカド店（東京都・表参道）のガチャガチャ設置情報。設置台数約1,164台、営業時間 11:00〜20:00。住所・アクセス・地図・店舗ごとの掲示板で入荷情報や混雑状況をチェック。","telephone":"070-3180-6839","geo":{"@type":"GeoCoordinates","latitude":35.6675,"longitude":139.706}}</script>
+  <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"トップ","item":"https://gacha-hiroba.com/"},{"@type":"ListItem","position":2,"name":"店舗一覧","item":"https://gacha-hiroba.com/stores.html"},{"@type":"ListItem","position":3,"name":"東京都のガチャガチャ設置場所","item":"https://gacha-hiroba.com/area/tokyo.html"},{"@type":"ListItem","position":4,"name":"#C-pla premium 東急プラザ表参道オモカド店","item":"https://gacha-hiroba.com/spot/cpla-premium-omokado.html"}]}</script>
   <script>window.GH_SPOT_STATIC_ID="cpla-premium-omokado";</script>
   <script src="/data/spots.js" defer></script>
   <script src="/spots-ui.js" defer></script>
   <script src="/data/ads.js" defer></script>
-  <script src="/data/board-seed.js" defer></script>
   <script src="/script.js" defer></script>
 </head>
 <body>
@@ -58,7 +57,7 @@
           <a href="/news.html">新着情報</a>
           <a href="/ranking.html">ランキング</a>
           <a href="/area.html">エリア別</a>
-          <a href="/category.html">カテゴリー別</a>
+          <a href="/category.html">ブランド別</a>
         </nav>
       </div>
     </div>
@@ -73,7 +72,7 @@
         <span aria-hidden="true">›</span>
         <a href="/stores.html">店舗一覧</a>
         <span aria-hidden="true">›</span>
-        <a href="/area.html" id="spotCrumbArea">東京都</a>
+        <a href="/area/tokyo.html" id="spotCrumbArea">東京都</a>
         <span aria-hidden="true">›</span>
         <span aria-current="page" id="spotCrumbName">#C-pla premium 東急プラザ表参道オモカド店</span>
       </nav>
@@ -91,7 +90,7 @@
           <div class="gh-quote__head">
             <div class="gh-quote__title-row">
               <h1 class="gh-quote__name" id="spotName">#C-pla premium 東急プラザ表参道オモカド店</h1>
-              <span id="spotBadges"><a class="gh-badge gh-badge--lg" style="text-decoration:none" href="/stores.html?brand=%23C-pla%EF%BC%88%E3%82%B7%E3%83%BC%E3%83%97%E3%83%A9%EF%BC%89" title="#C-pla（シープラ）の店舗一覧を見る">#C-pla（シープラ）</a><span class="gh-badge gh-badge--lg">東京都・表参道</span></span>
+              <span id="spotBadges"><a class="gh-badge gh-badge--lg" style="text-decoration:none" href="/brand/c-pla.html" title="#C-pla（シープラ）の店舗一覧を見る">#C-pla（シープラ）</a><span class="gh-badge gh-badge--lg">東京都・表参道</span></span>
             </div>
             <div class="gh-quote__address" id="spotAddress"><span>📍 〒150-0001 東京都渋谷区神宮前4-30-3 東急プラザ表参道「オモカド」4F</span><span class="gh-hero__divider">｜</span><span>🚉 東急プラザ表参道オモカド 4F（表参道駅 A4出口すぐ・約1,164種）</span></div>
           </div>
@@ -106,7 +105,7 @@
         </div>
       </section>
 
-      <div class="gh-spot-intro"><p>#C-pla premium 東急プラザ表参道オモカド店は、東京都（東京都・表参道）にあるガチャガチャ・カプセルトイの設置スポットです。ガチャマシンの設置台数は約1,164台。営業時間は11:00〜20:00。アクセスは東急プラザ表参道オモカド 4F（表参道駅 A4出口すぐ・約1,164種）。</p><p>#C-pla（シープラ）は、トーシンが展開するカプセルトイ専門店です。商業施設内から路面店まで幅広く出店しています。</p><p>同じ地域のお店は<a href="/stores.html?pref=%E6%9D%B1%E4%BA%AC%E9%83%BD">東京都の掲載店舗（117件）</a>、同じブランドのお店は<a href="/stores.html?brand=%23C-pla%EF%BC%88%E3%82%B7%E3%83%BC%E3%83%97%E3%83%A9%EF%BC%89">#C-pla（シープラ）の店舗一覧</a>からも探せます。</p><p>掲載内容は公開情報をもとにしています。最新の入荷状況・混雑・在庫については、このページの掲示板タブで情報をチェック・共有できます。営業時間や設置台数は変更される場合があるため、お出かけ前に店舗の公式情報もあわせてご確認ください。</p></div>
+      <div class="gh-spot-intro"><p>#C-pla premium 東急プラザ表参道オモカド店は、東京都（東京都・表参道）にあるガチャガチャ・カプセルトイの設置スポットです。ガチャマシンの設置台数は約1,164台。営業時間は11:00〜20:00。アクセスは東急プラザ表参道オモカド 4F（表参道駅 A4出口すぐ・約1,164種）。</p><p>#C-pla（シープラ）は、トーシンが展開するカプセルトイ専門店です。商業施設内から路面店まで幅広く出店しています。</p><p>同じ地域のお店は<a href="/area/tokyo.html">東京都の掲載店舗（117件）</a>、同じブランドのお店は<a href="/brand/c-pla.html">#C-pla（シープラ）の店舗一覧</a>からも探せます。</p><p>掲載内容は公開情報をもとにしています。最新の入荷状況・混雑・在庫については、このページの掲示板タブで情報をチェック・共有できます。営業時間や設置台数は変更される場合があるため、お出かけ前に店舗の公式情報もあわせてご確認ください。</p></div>
       <div class="gh-detail-layout">
         <div class="gh-detail-content">
 
@@ -200,7 +199,7 @@
 
           <div class="gh-widget">
             <h3 class="gh-widget__title">同じエリアの店舗</h3>
-            <div class="gh-nearby" id="spotNearby"><a href="/spot/ggmori-shinjuku-subnade.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 新宿サブナード店</strong><small>東京都・新宿 ・ 約1,050台</small></div></a><a href="/spot/ggmori-shinjuku-subnade-east.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 新宿サブナードEAST店</strong><small>東京都・新宿 ・ 約450台</small></div></a><a href="/spot/ggmori-olinas-kinshicho.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 オリナス錦糸町店</strong><small>東京都・錦糸町 ・ 約660台</small></div></a><a href="/spot/ggmori-jiyugaoka.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 自由が丘店</strong><small>東京都・自由が丘 ・ 約570台</small></div></a><a href="/spot/ggmori-seiyu-ogikubo.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 西友荻窪店</strong><small>東京都・荻窪 ・ 約470台</small></div></a><a href="/spot/ggmori-ikebukuro-sunshine-alta.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 池袋サンシャインシティアルタ店</strong><small>東京都・池袋 ・ 約1,240台</small></div></a></div>
+            <div class="gh-nearby" id="spotNearby"><a href="/spot/kiddyland-harajuku.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>キデイランド原宿店（カプセルトイコーナー）</strong><small>東京都・原宿 ・ —</small></div></a><a href="/spot/capsulelab-harajuku-takeshita.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>カプセルラボ 原宿竹下通り店</strong><small>東京都・原宿 ・ —</small></div></a><a href="/spot/gachadokoro-harajuku.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>がちゃ処 原宿店</strong><small>東京都・原宿 ・ 約700台</small></div></a><a href="/spot/cpla-harajuku-takeshita.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>#C-pla+ 原宿竹下通り店</strong><small>東京都・原宿 ・ —</small></div></a><a href="/spot/dreamcapsule-magnet-shibuya.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ドリームカプセル MAGNET by SHIBUYA109店</strong><small>東京都・渋谷 ・ —</small></div></a><a href="/spot/palo-shibuya-a2.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>TOYS SPOT PALO 渋谷A2ビル店</strong><small>東京都・渋谷 ・ —</small></div></a></div>
           </div>
 
           <div class="gh-widget">

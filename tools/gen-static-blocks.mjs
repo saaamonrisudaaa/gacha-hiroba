@@ -11,6 +11,7 @@
    店舗を追加したら `node tools/gen-static-blocks.mjs` を実行する
    （daily-stores.yml では gen-pages / gen-sitemap と一緒に自動実行される）。 */
 import { readFileSync, writeFileSync } from 'node:fs';
+import { prefPath } from './seo-routes.mjs';
 
 const win = {};
 new Function('window', readFileSync(new URL('../data/spots.js', import.meta.url), 'utf8'))(win);
@@ -44,7 +45,7 @@ const regionBlocks = REGION_ORDER.filter(r => byRegion[r]).map(r => {
   const items = prefs.map(p => {
     const top = topOf(p);
     return '        <li class="gh-prefindex__item">' +
-      '<a href="/stores.html?pref=' + encodeURIComponent(p) + '">' + esc(p) + '</a>' +
+      '<a href="' + prefPath(p) + '">' + esc(p) + '</a>' +
       '<span class="gh-prefindex__count">' + byRegion[r][p] + '店</span>' +
       (top ? '<small class="gh-prefindex__top">' + esc(top.name) + '</small>' : '') +
       '</li>';
@@ -75,6 +76,21 @@ for (const rel of TARGETS) {
   if (!re.test(html)) { console.log('skip (マーカーなし):', rel); continue; }
   writeFileSync(url, html.replace(re, (_m, a, b) => a + block + '  ' + b));
   done++;
+}
+
+/* ブランド一覧の素HTML件数も更新し、JavaScript未実行時に古い数を残さない。 */
+try {
+  const categoryUrl = new URL('../category.html', import.meta.url);
+  let category = readFileSync(categoryUrl, 'utf8');
+  const brandCounts = {};
+  spots.forEach((s) => { brandCounts[s.brand] = (brandCounts[s.brand] || 0) + 1; });
+  category = category.replace(/(<span data-total-spots>)[^<]*(<\/span>)/g, '$1' + spots.length + '$2');
+  category = category.replace(/(<a[^>]*data-brand="([^"]+)"[\s\S]*?<span class="gh-cat-card__count" data-brand-count>)[^<]*(<\/span>)/g,
+    (_all, before, brand, after) => before + (brandCounts[brand] || 0) + '店舗掲載' + after);
+  writeFileSync(categoryUrl, category);
+  console.log('gen-static-blocks: category.html のブランド件数を更新しました');
+} catch (error) {
+  console.warn('gen-static-blocks: category.html の更新をスキップ:', error.message);
 }
 console.log('gen-static-blocks: ' + done + ' ページに都道府県インデックスを埋め込みました（' +
   prefCount + '都道府県 / ' + spots.length + '店舗）');

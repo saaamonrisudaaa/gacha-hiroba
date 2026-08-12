@@ -21,13 +21,12 @@
   <link rel="stylesheet" href="/styles.css" />
   <!-- 店舗データ → 描画 → 共有掲示板 → 共通JS（この順で読み込む） -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
-  <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"Store","name":"gashacoco 錦糸町駅前","url":"https://gacha-hiroba.com/spot/gashacoco-kinshicho-ekimae.html","address":{"@type":"PostalAddress","streetAddress":"東京都墨田区江東橋3-13-6 1・2F","addressRegion":"東京都","addressCountry":"JP"},"description":"gashacoco 錦糸町駅前（東京都・錦糸町）のガチャガチャ設置情報。営業時間 10:00〜21:00。住所・アクセス・地図・店舗ごとの掲示板で入荷情報や混雑状況をチェック。","telephone":"070-5558-2902","geo":{"@type":"GeoCoordinates","latitude":35.6953,"longitude":139.8127},"openingHours":"10:00〜21:00"}</script>
-  <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"トップ","item":"https://gacha-hiroba.com/"},{"@type":"ListItem","position":2,"name":"店舗一覧","item":"https://gacha-hiroba.com/stores.html"},{"@type":"ListItem","position":3,"name":"gashacoco 錦糸町駅前","item":"https://gacha-hiroba.com/spot/gashacoco-kinshicho-ekimae.html"}]}</script>
+  <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"Store","name":"gashacoco 錦糸町駅前","url":"https://gacha-hiroba.com/spot/gashacoco-kinshicho-ekimae.html","address":{"@type":"PostalAddress","streetAddress":"東京都墨田区江東橋3-13-6 1・2F","addressRegion":"東京都","addressCountry":"JP"},"description":"gashacoco 錦糸町駅前（東京都・錦糸町）のガチャガチャ設置情報。営業時間 10:00〜21:00。住所・アクセス・地図・店舗ごとの掲示板で入荷情報や混雑状況をチェック。","telephone":"070-5558-2902","geo":{"@type":"GeoCoordinates","latitude":35.6953,"longitude":139.8127}}</script>
+  <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"トップ","item":"https://gacha-hiroba.com/"},{"@type":"ListItem","position":2,"name":"店舗一覧","item":"https://gacha-hiroba.com/stores.html"},{"@type":"ListItem","position":3,"name":"東京都のガチャガチャ設置場所","item":"https://gacha-hiroba.com/area/tokyo.html"},{"@type":"ListItem","position":4,"name":"gashacoco 錦糸町駅前","item":"https://gacha-hiroba.com/spot/gashacoco-kinshicho-ekimae.html"}]}</script>
   <script>window.GH_SPOT_STATIC_ID="gashacoco-kinshicho-ekimae";</script>
   <script src="/data/spots.js" defer></script>
   <script src="/spots-ui.js" defer></script>
   <script src="/data/ads.js" defer></script>
-  <script src="/data/board-seed.js" defer></script>
   <script src="/script.js" defer></script>
 </head>
 <body>
@@ -58,7 +57,7 @@
           <a href="/news.html">新着情報</a>
           <a href="/ranking.html">ランキング</a>
           <a href="/area.html">エリア別</a>
-          <a href="/category.html">カテゴリー別</a>
+          <a href="/category.html">ブランド別</a>
         </nav>
       </div>
     </div>
@@ -73,7 +72,7 @@
         <span aria-hidden="true">›</span>
         <a href="/stores.html">店舗一覧</a>
         <span aria-hidden="true">›</span>
-        <a href="/area.html" id="spotCrumbArea">東京都</a>
+        <a href="/area/tokyo.html" id="spotCrumbArea">東京都</a>
         <span aria-hidden="true">›</span>
         <span aria-current="page" id="spotCrumbName">gashacoco 錦糸町駅前</span>
       </nav>
@@ -91,7 +90,7 @@
           <div class="gh-quote__head">
             <div class="gh-quote__title-row">
               <h1 class="gh-quote__name" id="spotName">gashacoco 錦糸町駅前</h1>
-              <span id="spotBadges"><a class="gh-badge gh-badge--lg" style="text-decoration:none" href="/stores.html?brand=gashacoco%EF%BC%88%E3%82%AC%E3%82%B7%E3%83%A3%E3%82%B3%E3%82%B3%EF%BC%89" title="gashacoco（ガシャココ）の店舗一覧を見る">gashacoco（ガシャココ）</a><span class="gh-badge gh-badge--lg">東京都・錦糸町</span></span>
+              <span id="spotBadges"><a class="gh-badge gh-badge--lg" style="text-decoration:none" href="/brand/gashacoco.html" title="gashacoco（ガシャココ）の店舗一覧を見る">gashacoco（ガシャココ）</a><span class="gh-badge gh-badge--lg">東京都・錦糸町</span></span>
             </div>
             <div class="gh-quote__address" id="spotAddress"><span>📍 東京都墨田区江東橋3-13-6 1・2F</span><span class="gh-hero__divider">｜</span><span>🚉 錦糸町駅南口から徒歩約2分・1/2Fの2フロア（2026年6月4日オープン）</span></div>
           </div>
@@ -106,7 +105,7 @@
         </div>
       </section>
 
-      <div class="gh-spot-intro"><p>gashacoco 錦糸町駅前は、東京都（東京都・錦糸町）にあるガチャガチャ・カプセルトイの設置スポットです。営業時間は10:00〜21:00。アクセスは錦糸町駅南口から徒歩約2分・1/2Fの2フロア（2026年6月4日オープン）。</p><p>gashacoco（ガシャココ）は、駅ビルや商業施設を中心に展開するカプセルトイ専門店です。</p><p>東京都・錦糸町エリアには、この店舗を含めて5件のガチャスポットを掲載しています。同じ地域のお店は<a href="/stores.html?pref=%E6%9D%B1%E4%BA%AC%E9%83%BD">東京都の掲載店舗（117件）</a>、同じブランドのお店は<a href="/stores.html?brand=gashacoco%EF%BC%88%E3%82%AC%E3%82%B7%E3%83%A3%E3%82%B3%E3%82%B3%EF%BC%89">gashacoco（ガシャココ）の店舗一覧</a>からも探せます。</p><p>掲載内容は公開情報をもとにしています。最新の入荷状況・混雑・在庫については、このページの掲示板タブで情報をチェック・共有できます。営業時間や設置台数は変更される場合があるため、お出かけ前に店舗の公式情報もあわせてご確認ください。</p></div>
+      <div class="gh-spot-intro"><p>gashacoco 錦糸町駅前は、東京都（東京都・錦糸町）にあるガチャガチャ・カプセルトイの設置スポットです。営業時間は10:00〜21:00。アクセスは錦糸町駅南口から徒歩約2分・1/2Fの2フロア（2026年6月4日オープン）。</p><p>gashacoco（ガシャココ）は、駅ビルや商業施設を中心に展開するカプセルトイ専門店です。</p><p>東京都・錦糸町エリアには、この店舗を含めて5件のガチャスポットを掲載しています。同じ地域のお店は<a href="/area/tokyo.html">東京都の掲載店舗（117件）</a>、同じブランドのお店は<a href="/brand/gashacoco.html">gashacoco（ガシャココ）の店舗一覧</a>からも探せます。</p><p>掲載内容は公開情報をもとにしています。最新の入荷状況・混雑・在庫については、このページの掲示板タブで情報をチェック・共有できます。営業時間や設置台数は変更される場合があるため、お出かけ前に店舗の公式情報もあわせてご確認ください。</p></div>
       <div class="gh-detail-layout">
         <div class="gh-detail-content">
 
@@ -136,7 +135,7 @@
                 <h2 class="gh-section__title">詳細情報</h2>
               </div>
               <table class="gh-info-table gh-info-table--full">
-                <tbody id="spotInfoBody"><tr><th>ブランド</th><td>gashacoco（ガシャココ）</td></tr><tr><th>住所</th><td>東京都墨田区江東橋3-13-6 1・2F</td></tr><tr><th>電話番号</th><td><a href="tel:07055582902">070-5558-2902</a></td></tr><tr><th>営業時間</th><td>10:00〜21:00</td></tr><tr><th>設置台数</th><td>—</td></tr><tr><th>アクセス</th><td>錦糸町駅南口から徒歩約2分・1/2Fの2フロア（2026年6月4日オープン）</td></tr><tr><th>エリア</th><td>東京都・錦糸町</td></tr></tbody>
+                <tbody id="spotInfoBody"><tr><th>ブランド</th><td>gashacoco（ガシャココ）</td></tr><tr><th>住所</th><td>東京都墨田区江東橋3-13-6 1・2F</td></tr><tr><th>電話番号</th><td><a href="tel:07055582902">070-5558-2902</a></td></tr><tr><th>営業時間</th><td>10:00〜21:00</td></tr><tr><th>設置台数</th><td>—</td></tr><tr><th>アクセス</th><td>錦糸町駅南口から徒歩約2分・1/2Fの2フロア（2026年6月4日オープン）</td></tr><tr><th>エリア</th><td>東京都・錦糸町</td></tr><tr><th>公式情報</th><td><a class="gh-official-source" href="https://gashacoco.jp/news/3925/" target="_blank" rel="noopener">掲載元を確認 ↗</a></td></tr><tr><th>情報確認日</th><td>2026-07-20</td></tr></tbody>
               </table>
               <p class="gh-detail-note">※掲載情報は参考です。最新の営業時間・在庫・設置状況は店舗または公式サイトでご確認ください。</p>
             </section>
@@ -200,7 +199,7 @@
 
           <div class="gh-widget">
             <h3 class="gh-widget__title">同じエリアの店舗</h3>
-            <div class="gh-nearby" id="spotNearby"><a href="/spot/ggmori-shinjuku-subnade.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 新宿サブナード店</strong><small>東京都・新宿 ・ 約1,050台</small></div></a><a href="/spot/ggmori-shinjuku-subnade-east.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 新宿サブナードEAST店</strong><small>東京都・新宿 ・ 約450台</small></div></a><a href="/spot/ggmori-olinas-kinshicho.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 オリナス錦糸町店</strong><small>東京都・錦糸町 ・ 約660台</small></div></a><a href="/spot/ggmori-jiyugaoka.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 自由が丘店</strong><small>東京都・自由が丘 ・ 約570台</small></div></a><a href="/spot/ggmori-seiyu-ogikubo.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 西友荻窪店</strong><small>東京都・荻窪 ・ 約470台</small></div></a><a href="/spot/ggmori-ikebukuro-sunshine-alta.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 池袋サンシャインシティアルタ店</strong><small>東京都・池袋 ・ 約1,240台</small></div></a></div>
+            <div class="gh-nearby" id="spotNearby"><a href="/spot/gashacoco-kinshicho-marui.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>gashacoco 錦糸町マルイ</strong><small>東京都・錦糸町 ・ —</small></div></a><a href="/spot/ggmori-kinshicho-parco.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 錦糸町PARCO店</strong><small>東京都・錦糸町 ・ —</small></div></a><a href="/spot/yodobashi-kinshicho-gacha.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ヨドバシカメラ マルチメディア錦糸町（ガチャガチャコーナー）</strong><small>東京都・錦糸町 ・ —</small></div></a><a href="/spot/ggmori-olinas-kinshicho.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 オリナス錦糸町店</strong><small>東京都・錦糸町 ・ 約660台</small></div></a><a href="/spot/gashacoco-kameido-clock.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>gashacoco カメイドクロック</strong><small>東京都・亀戸 ・ —</small></div></a><a href="/spot/gashadepa-ario-kitasuna.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート イトーヨーカドーアリオ北砂店</strong><small>東京都・北砂 ・ 約640台</small></div></a></div>
           </div>
 
           <div class="gh-widget">

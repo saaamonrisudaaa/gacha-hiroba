@@ -22,12 +22,11 @@
   <!-- 店舗データ → 描画 → 共有掲示板 → 共通JS（この順で読み込む） -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
   <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"Store","name":"カプセルマルシェ 亀有","url":"https://gacha-hiroba.com/spot/capsule-marche-kameari.html","address":{"@type":"PostalAddress","streetAddress":"東京都葛飾区亀有3-26-1 JR亀有駅 北口高架下","addressRegion":"東京都","addressCountry":"JP"},"description":"カプセルマルシェ 亀有（東京都・亀有）のガチャガチャ設置情報。住所・アクセス・地図・店舗ごとの掲示板で入荷情報や混雑状況をチェック。","geo":{"@type":"GeoCoordinates","latitude":35.7669,"longitude":139.848}}</script>
-  <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"トップ","item":"https://gacha-hiroba.com/"},{"@type":"ListItem","position":2,"name":"店舗一覧","item":"https://gacha-hiroba.com/stores.html"},{"@type":"ListItem","position":3,"name":"カプセルマルシェ 亀有","item":"https://gacha-hiroba.com/spot/capsule-marche-kameari.html"}]}</script>
+  <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"トップ","item":"https://gacha-hiroba.com/"},{"@type":"ListItem","position":2,"name":"店舗一覧","item":"https://gacha-hiroba.com/stores.html"},{"@type":"ListItem","position":3,"name":"東京都のガチャガチャ設置場所","item":"https://gacha-hiroba.com/area/tokyo.html"},{"@type":"ListItem","position":4,"name":"カプセルマルシェ 亀有","item":"https://gacha-hiroba.com/spot/capsule-marche-kameari.html"}]}</script>
   <script>window.GH_SPOT_STATIC_ID="capsule-marche-kameari";</script>
   <script src="/data/spots.js" defer></script>
   <script src="/spots-ui.js" defer></script>
   <script src="/data/ads.js" defer></script>
-  <script src="/data/board-seed.js" defer></script>
   <script src="/script.js" defer></script>
 </head>
 <body>
@@ -58,7 +57,7 @@
           <a href="/news.html">新着情報</a>
           <a href="/ranking.html">ランキング</a>
           <a href="/area.html">エリア別</a>
-          <a href="/category.html">カテゴリー別</a>
+          <a href="/category.html">ブランド別</a>
         </nav>
       </div>
     </div>
@@ -73,7 +72,7 @@
         <span aria-hidden="true">›</span>
         <a href="/stores.html">店舗一覧</a>
         <span aria-hidden="true">›</span>
-        <a href="/area.html" id="spotCrumbArea">東京都</a>
+        <a href="/area/tokyo.html" id="spotCrumbArea">東京都</a>
         <span aria-hidden="true">›</span>
         <span aria-current="page" id="spotCrumbName">カプセルマルシェ 亀有</span>
       </nav>
@@ -91,7 +90,7 @@
           <div class="gh-quote__head">
             <div class="gh-quote__title-row">
               <h1 class="gh-quote__name" id="spotName">カプセルマルシェ 亀有</h1>
-              <span id="spotBadges"><a class="gh-badge gh-badge--lg" style="text-decoration:none" href="/stores.html?brand=%E3%82%AB%E3%83%97%E3%82%BB%E3%83%AB%E3%83%9E%E3%83%AB%E3%82%B7%E3%82%A7" title="カプセルマルシェの店舗一覧を見る">カプセルマルシェ</a><span class="gh-badge gh-badge--lg">東京都・亀有</span></span>
+              <span id="spotBadges"><a class="gh-badge gh-badge--lg" style="text-decoration:none" href="/brand/capsule-marche.html" title="カプセルマルシェの店舗一覧を見る">カプセルマルシェ</a><span class="gh-badge gh-badge--lg">東京都・亀有</span></span>
             </div>
             <div class="gh-quote__address" id="spotAddress"><span>📍 東京都葛飾区亀有3-26-1 JR亀有駅 北口高架下</span><span class="gh-hero__divider">｜</span><span>🚉 JR亀有駅 北口左手・高架下の常設ガシャポンコーナー</span></div>
           </div>
@@ -106,7 +105,7 @@
         </div>
       </section>
 
-      <div class="gh-spot-intro"><p>カプセルマルシェ 亀有は、東京都（東京都・亀有）にあるガチャガチャ・カプセルトイの設置スポットです。アクセスはJR亀有駅 北口左手・高架下の常設ガシャポンコーナー。</p><p>東京都・亀有エリアには、この店舗を含めて3件のガチャスポットを掲載しています。同じ地域のお店は<a href="/stores.html?pref=%E6%9D%B1%E4%BA%AC%E9%83%BD">東京都の掲載店舗（117件）</a>、同じブランドのお店は<a href="/stores.html?brand=%E3%82%AB%E3%83%97%E3%82%BB%E3%83%AB%E3%83%9E%E3%83%AB%E3%82%B7%E3%82%A7">カプセルマルシェの店舗一覧</a>からも探せます。</p><p>掲載内容は公開情報をもとにしています。最新の入荷状況・混雑・在庫については、このページの掲示板タブで情報をチェック・共有できます。営業時間や設置台数は変更される場合があるため、お出かけ前に店舗の公式情報もあわせてご確認ください。</p></div>
+      <div class="gh-spot-intro"><p>カプセルマルシェ 亀有は、東京都（東京都・亀有）にあるガチャガチャ・カプセルトイの設置スポットです。アクセスはJR亀有駅 北口左手・高架下の常設ガシャポンコーナー。</p><p>東京都・亀有エリアには、この店舗を含めて3件のガチャスポットを掲載しています。同じ地域のお店は<a href="/area/tokyo.html">東京都の掲載店舗（117件）</a>、同じブランドのお店は<a href="/brand/capsule-marche.html">カプセルマルシェの店舗一覧</a>からも探せます。</p><p>掲載内容は公開情報をもとにしています。最新の入荷状況・混雑・在庫については、このページの掲示板タブで情報をチェック・共有できます。営業時間や設置台数は変更される場合があるため、お出かけ前に店舗の公式情報もあわせてご確認ください。</p></div>
       <div class="gh-detail-layout">
         <div class="gh-detail-content">
 
@@ -200,7 +199,7 @@
 
           <div class="gh-widget">
             <h3 class="gh-widget__title">同じエリアの店舗</h3>
-            <div class="gh-nearby" id="spotNearby"><a href="/spot/ggmori-shinjuku-subnade.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 新宿サブナード店</strong><small>東京都・新宿 ・ 約1,050台</small></div></a><a href="/spot/ggmori-shinjuku-subnade-east.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 新宿サブナードEAST店</strong><small>東京都・新宿 ・ 約450台</small></div></a><a href="/spot/ggmori-olinas-kinshicho.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 オリナス錦糸町店</strong><small>東京都・錦糸町 ・ 約660台</small></div></a><a href="/spot/ggmori-jiyugaoka.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 自由が丘店</strong><small>東京都・自由が丘 ・ 約570台</small></div></a><a href="/spot/ggmori-seiyu-ogikubo.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 西友荻窪店</strong><small>東京都・荻窪 ・ 約470台</small></div></a><a href="/spot/ggmori-ikebukuro-sunshine-alta.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 池袋サンシャインシティアルタ店</strong><small>東京都・池袋 ・ 約1,240台</small></div></a></div>
+            <div class="gh-nearby" id="spotNearby"><a href="/spot/caprak-kameari.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>カプセル楽局 亀有店</strong><small>東京都・亀有 ・ —</small></div></a><a href="/spot/gachaworld-ario-kameari.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャワールド アリオ亀有店</strong><small>東京都・亀有 ・ 約501台</small></div></a><a href="/spot/caprak-kitasenju-east.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>カプセル楽局 北千住東口店</strong><small>東京都・北千住 ・ 約500台</small></div></a><a href="/spot/gashacoco-kitasenju-marui.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>gashacoco 北千住マルイ</strong><small>東京都・北千住 ・ —</small></div></a><a href="/spot/itoyokado-koiwa-gacha.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>イトーヨーカドー 小岩店（ガチャガチャコーナー）</strong><small>東京都・小岩 ・ —</small></div></a><a href="/spot/capsule-marche-koiwa.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>カプセルマルシェ JR小岩駅</strong><small>東京都・小岩 ・ —</small></div></a></div>
           </div>
 
           <div class="gh-widget">

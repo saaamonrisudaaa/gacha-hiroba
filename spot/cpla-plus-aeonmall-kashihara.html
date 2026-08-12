@@ -22,12 +22,11 @@
   <!-- 店舗データ → 描画 → 共有掲示板 → 共通JS（この順で読み込む） -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
   <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"Store","name":"#C-pla+ イオンモール橿原店","url":"https://gacha-hiroba.com/spot/cpla-plus-aeonmall-kashihara.html","address":{"@type":"PostalAddress","streetAddress":"奈良県橿原市曲川町7-20-1 イオンモール橿原","addressRegion":"奈良県","addressCountry":"JP"},"description":"#C-pla+ イオンモール橿原店（奈良県・橿原）のガチャガチャ設置情報。住所・アクセス・地図・店舗ごとの掲示板で入荷情報や混雑状況をチェック。","geo":{"@type":"GeoCoordinates","latitude":34.5093,"longitude":135.7642}}</script>
-  <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"トップ","item":"https://gacha-hiroba.com/"},{"@type":"ListItem","position":2,"name":"店舗一覧","item":"https://gacha-hiroba.com/stores.html"},{"@type":"ListItem","position":3,"name":"#C-pla+ イオンモール橿原店","item":"https://gacha-hiroba.com/spot/cpla-plus-aeonmall-kashihara.html"}]}</script>
+  <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"トップ","item":"https://gacha-hiroba.com/"},{"@type":"ListItem","position":2,"name":"店舗一覧","item":"https://gacha-hiroba.com/stores.html"},{"@type":"ListItem","position":3,"name":"奈良県のガチャガチャ設置場所","item":"https://gacha-hiroba.com/area/nara.html"},{"@type":"ListItem","position":4,"name":"#C-pla+ イオンモール橿原店","item":"https://gacha-hiroba.com/spot/cpla-plus-aeonmall-kashihara.html"}]}</script>
   <script>window.GH_SPOT_STATIC_ID="cpla-plus-aeonmall-kashihara";</script>
   <script src="/data/spots.js" defer></script>
   <script src="/spots-ui.js" defer></script>
   <script src="/data/ads.js" defer></script>
-  <script src="/data/board-seed.js" defer></script>
   <script src="/script.js" defer></script>
 </head>
 <body>
@@ -58,7 +57,7 @@
           <a href="/news.html">新着情報</a>
           <a href="/ranking.html">ランキング</a>
           <a href="/area.html">エリア別</a>
-          <a href="/category.html">カテゴリー別</a>
+          <a href="/category.html">ブランド別</a>
         </nav>
       </div>
     </div>
@@ -73,7 +72,7 @@
         <span aria-hidden="true">›</span>
         <a href="/stores.html">店舗一覧</a>
         <span aria-hidden="true">›</span>
-        <a href="/area.html" id="spotCrumbArea">奈良県</a>
+        <a href="/area/nara.html" id="spotCrumbArea">奈良県</a>
         <span aria-hidden="true">›</span>
         <span aria-current="page" id="spotCrumbName">#C-pla+ イオンモール橿原店</span>
       </nav>
@@ -91,7 +90,7 @@
           <div class="gh-quote__head">
             <div class="gh-quote__title-row">
               <h1 class="gh-quote__name" id="spotName">#C-pla+ イオンモール橿原店</h1>
-              <span id="spotBadges"><a class="gh-badge gh-badge--lg" style="text-decoration:none" href="/stores.html?brand=%23C-pla%EF%BC%88%E3%82%B7%E3%83%BC%E3%83%97%E3%83%A9%EF%BC%89" title="#C-pla（シープラ）の店舗一覧を見る">#C-pla（シープラ）</a><span class="gh-badge gh-badge--lg">奈良県・橿原</span></span>
+              <span id="spotBadges"><a class="gh-badge gh-badge--lg" style="text-decoration:none" href="/brand/c-pla.html" title="#C-pla（シープラ）の店舗一覧を見る">#C-pla（シープラ）</a><span class="gh-badge gh-badge--lg">奈良県・橿原</span></span>
             </div>
             <div class="gh-quote__address" id="spotAddress"><span>📍 奈良県橿原市曲川町7-20-1 イオンモール橿原</span><span class="gh-hero__divider">｜</span><span>🚉 イオンモール橿原内（約900種類のラインナップ／近鉄大和八木駅からバス）</span></div>
           </div>
@@ -106,7 +105,7 @@
         </div>
       </section>
 
-      <div class="gh-spot-intro"><p>#C-pla+ イオンモール橿原店は、奈良県（奈良県・橿原）にあるガチャガチャ・カプセルトイの設置スポットです。アクセスはイオンモール橿原内（約900種類のラインナップ／近鉄大和八木駅からバス）。</p><p>#C-pla（シープラ）は、トーシンが展開するカプセルトイ専門店です。商業施設内から路面店まで幅広く出店しています。</p><p>同じ地域のお店は<a href="/stores.html?pref=%E5%A5%88%E8%89%AF%E7%9C%8C">奈良県の掲載店舗（2件）</a>、同じブランドのお店は<a href="/stores.html?brand=%23C-pla%EF%BC%88%E3%82%B7%E3%83%BC%E3%83%97%E3%83%A9%EF%BC%89">#C-pla（シープラ）の店舗一覧</a>からも探せます。</p><p>掲載内容は公開情報をもとにしています。最新の入荷状況・混雑・在庫については、このページの掲示板タブで情報をチェック・共有できます。営業時間や設置台数は変更される場合があるため、お出かけ前に店舗の公式情報もあわせてご確認ください。</p></div>
+      <div class="gh-spot-intro"><p>#C-pla+ イオンモール橿原店は、奈良県（奈良県・橿原）にあるガチャガチャ・カプセルトイの設置スポットです。アクセスはイオンモール橿原内（約900種類のラインナップ／近鉄大和八木駅からバス）。</p><p>#C-pla（シープラ）は、トーシンが展開するカプセルトイ専門店です。商業施設内から路面店まで幅広く出店しています。</p><p>同じ地域のお店は<a href="/area/nara.html">奈良県の掲載店舗（2件）</a>、同じブランドのお店は<a href="/brand/c-pla.html">#C-pla（シープラ）の店舗一覧</a>からも探せます。</p><p>掲載内容は公開情報をもとにしています。最新の入荷状況・混雑・在庫については、このページの掲示板タブで情報をチェック・共有できます。営業時間や設置台数は変更される場合があるため、お出かけ前に店舗の公式情報もあわせてご確認ください。</p></div>
       <div class="gh-detail-layout">
         <div class="gh-detail-content">
 
@@ -136,7 +135,7 @@
                 <h2 class="gh-section__title">詳細情報</h2>
               </div>
               <table class="gh-info-table gh-info-table--full">
-                <tbody id="spotInfoBody"><tr><th>ブランド</th><td>#C-pla（シープラ）</td></tr><tr><th>住所</th><td>奈良県橿原市曲川町7-20-1 イオンモール橿原</td></tr><tr><th>設置台数</th><td>—</td></tr><tr><th>アクセス</th><td>イオンモール橿原内（約900種類のラインナップ／近鉄大和八木駅からバス）</td></tr><tr><th>エリア</th><td>奈良県・橿原</td></tr></tbody>
+                <tbody id="spotInfoBody"><tr><th>ブランド</th><td>#C-pla（シープラ）</td></tr><tr><th>住所</th><td>奈良県橿原市曲川町7-20-1 イオンモール橿原</td></tr><tr><th>設置台数</th><td>—</td></tr><tr><th>アクセス</th><td>イオンモール橿原内（約900種類のラインナップ／近鉄大和八木駅からバス）</td></tr><tr><th>エリア</th><td>奈良県・橿原</td></tr><tr><th>公式情報</th><td><a class="gh-official-source" href="https://kashihara.aeonmall.jp/shop/a67d63be-9635-4d34-96dd-2f232ec9522e" target="_blank" rel="noopener">掲載元を確認 ↗</a></td></tr><tr><th>情報確認日</th><td>2026-07-31</td></tr></tbody>
               </table>
               <p class="gh-detail-note">※掲載情報は参考です。最新の営業時間・在庫・設置状況は店舗または公式サイトでご確認ください。</p>
             </section>
@@ -200,7 +199,7 @@
 
           <div class="gh-widget">
             <h3 class="gh-widget__title">同じエリアの店舗</h3>
-            <div class="gh-nearby" id="spotNearby"><a href="/spot/gashadepa-hepfive.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート HEP FIVE店</strong><small>大阪府・梅田 ・ —</small></div></a><a href="/spot/gashadepa-namba-parks.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート なんばパークス店</strong><small>大阪府・なんば ・ —</small></div></a><a href="/spot/gashadepa-aeonmall-kyoto.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート イオンモールKYOTO店</strong><small>京都府・京都駅 ・ —</small></div></a><a href="/spot/cpla-sannomiya-ekimae.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>#C-pla 三宮駅前店</strong><small>兵庫県・三宮 ・ —</small></div></a><a href="/spot/ggmori-umeda-chayamachi.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 梅田茶屋町店</strong><small>大阪府・梅田 ・ 約2,400台</small></div></a><a href="/spot/cpla-lucua-osaka.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>#C-pla ルクア大阪店</strong><small>大阪府・梅田 ・ —</small></div></a></div>
+            <div class="gh-nearby" id="spotNearby"><a href="/spot/ggmori-aeon-yamatokoriyama.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 イオンモール大和郡山店</strong><small>奈良県・大和郡山 ・ —</small></div></a><a href="/spot/gashadepa-iy-abeno.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート イトーヨーカドー あべの店</strong><small>大阪府・天王寺 ・ 約640台</small></div></a><a href="/spot/ggmori-aeon-sakai-teppocho.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 イオンモール堺鉄砲町店</strong><small>大阪府・堺 ・ —</small></div></a><a href="/spot/ggmori-aeon-shijonawate.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 イオンモール四條畷店</strong><small>大阪府・四條畷 ・ —</small></div></a><a href="/spot/gashadepa-namba-parks.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート なんばパークス店</strong><small>大阪府・なんば ・ —</small></div></a><a href="/spot/gashadepa-osaka-nihonbashi.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート 大阪日本橋店</strong><small>大阪府・日本橋 ・ —</small></div></a></div>
           </div>
 
           <div class="gh-widget">

@@ -1,5 +1,5 @@
 # 店舗の自動追加：毎日 data/spots-queue.json から数件を data/spots.js へ反映
-# - dripPerDay 件ずつ（既定4件）。4件未満なら変更せず失敗
+# - dripPerDay 件ずつ（既定4件）。4件未満なら変更せず正常終了
 # - 反映後に sitemap.xml / sitemap.html / feed.xml を再生成してコミット
 # - キューの補充（新しい店舗の調査・追記）は、セッション稼働中にまとめて行う
 # - GitHub Actions の cron は数分〜十数分遅れることがあります（自然なゆらぎとして許容）
@@ -29,38 +29,37 @@ jobs:
         with:
           node-version: 24
 
-      - name: Validate store queue
-        run: node tools/validate-stores.mjs
-
-      - name: Drip stores from queue
-        id: drip
-        run: |
-          node tools/drip-stores.mjs
-          if git diff --quiet -- data/spots.js data/spots-queue.json; then
-            echo "changed=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "changed=true" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Regenerate store pages / sitemap / feed
-        if: steps.drip.outputs.changed == 'true'
+      - name: Validate source data
         run: |
           node tools/validate-stores.mjs
+          node tools/validate-releases.mjs
+
+      - name: Drip stores from queue
+        run: |
+          node tools/drip-stores.mjs
+
+      - name: Regenerate static pages / sitemap / feed
+        run: |
+          node tools/validate-stores.mjs
+          node tools/validate-releases.mjs
           node tools/gen-pages.mjs
+          node tools/gen-article-pages.mjs
+          node tools/gen-release-pages.mjs
+          node tools/gen-landing-pages.mjs
           node tools/gen-static-blocks.mjs
           node tools/gen-sitemap.mjs
+          node tools/validate-seo.mjs
 
       - name: Commit changes
-        if: steps.drip.outputs.changed == 'true'
         run: |
-          git add -A data/spots.js data/spots-queue.json sitemap.xml sitemap.html feed.xml spot/ stores.html area.html
+          git add -A data/spots.js data/spots-queue.json sitemap.xml sitemap.html feed.xml spot/ area/ brand/ guide/ releases/ stores.html area.html category.html map.html
           if git diff --cached --quiet; then
             echo "変更なし。コミットしません。"
             exit 0
           fi
           git config user.name "gacha-hiroba-bot"
           git config user.email "actions@users.noreply.github.com"
-          git commit -m "stores: auto-add 4 from queue"
+          git commit -m "content: refresh static pages"
           for i in 1 2 3 4; do
             if ! git pull --rebase origin main; then
               git rebase --abort || true
@@ -69,10 +68,15 @@ jobs:
               continue
             fi
             node tools/validate-stores.mjs
+            node tools/validate-releases.mjs
             node tools/gen-pages.mjs
+            node tools/gen-article-pages.mjs
+            node tools/gen-release-pages.mjs
+            node tools/gen-landing-pages.mjs
             node tools/gen-static-blocks.mjs
             node tools/gen-sitemap.mjs
-            git add -A data/spots.js data/spots-queue.json sitemap.xml sitemap.html feed.xml spot/ stores.html area.html
+            node tools/validate-seo.mjs
+            git add -A data/spots.js data/spots-queue.json sitemap.xml sitemap.html feed.xml spot/ area/ brand/ guide/ releases/ stores.html area.html category.html map.html
             if ! git diff --cached --quiet; then
               git commit --amend --no-edit
             fi

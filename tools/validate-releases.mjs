@@ -13,11 +13,24 @@ try {
 }
 
 const releases = sandbox.window.GH_RELEASES;
+const checkedOn = sandbox.window.GH_RELEASES_CHECKED_ON;
 const errors = [];
 const allowedKeys = new Set(['date', 'label', 'title', 'maker', 'price', 'note', 'source']);
 const seenTitles = new Map();
 const seenSources = new Map();
 const normalize = value => String(value).normalize('NFKC').toLowerCase().replace(/\s+/g, '');
+const todayJst = new Date(Date.now() + 9 * 3600 * 1000).toISOString().slice(0, 10);
+
+if (!/^\d{4}-\d{2}-\d{2}$/.test(checkedOn || '')) {
+  errors.push('GH_RELEASES_CHECKED_ON は YYYY-MM-DD 形式で指定してください');
+} else {
+  const checkedDate = new Date(`${checkedOn}T00:00:00Z`);
+  if (Number.isNaN(checkedDate.getTime()) || checkedDate.toISOString().slice(0, 10) !== checkedOn) {
+    errors.push(`GH_RELEASES_CHECKED_ON が実在する日付ではありません（${checkedOn}）`);
+  } else if (checkedOn > todayJst) {
+    errors.push(`GH_RELEASES_CHECKED_ON が未来日です（${checkedOn}）`);
+  }
+}
 
 if (!Array.isArray(releases)) {
   errors.push('window.GH_RELEASES が配列ではありません');

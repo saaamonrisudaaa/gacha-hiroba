@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /location.html
 
 Sitemap: https://gacha-hiroba.com/sitemap.xml

@@ -60,7 +60,7 @@ if (!Number.isInteger(position) || position < 1 || position > BATCH_SIZE) {
 const pick = (arr, seed) => arr.length ? arr[((seed % arr.length) + arr.length) % arr.length] : null;
 const machinesText = n => '約' + Number(n).toLocaleString('ja-JP') + '台';
 const spotUrl = s => ORIGIN + '/spot/' + encodeURIComponent(s.id) + '.html';
-const articleUrl = a => ORIGIN + '/article.html?area=' + encodeURIComponent(a.slug);
+const articleUrl = a => ORIGIN + '/guide/' + encodeURIComponent(a.slug) + '.html';
 
 /* ---------- 投稿済みログ（過去にツイートした文面の再投稿を防ぐ） ---------- */
 const logPath = new URL('../data/x-posted-log.json', import.meta.url);

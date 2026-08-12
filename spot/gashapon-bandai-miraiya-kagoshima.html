@@ -22,12 +22,11 @@
   <!-- 店舗データ → 描画 → 共有掲示板 → 共通JS（この順で読み込む） -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
   <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"Store","name":"ガシャポンバンダイオフィシャルショップ 未来屋書店鹿児島店","url":"https://gacha-hiroba.com/spot/gashapon-bandai-miraiya-kagoshima.html","address":{"@type":"PostalAddress","streetAddress":"鹿児島県鹿児島市東開町7 イオンモール鹿児島（未来屋書店内）","addressRegion":"鹿児島県","addressCountry":"JP"},"description":"ガシャポンバンダイオフィシャルショップ 未来屋書店鹿児島店（鹿児島県・鹿児島）のガチャガチャ設置情報。住所・アクセス・地図・店舗ごとの掲示板で入荷情報や混雑状況をチェック。","geo":{"@type":"GeoCoordinates","latitude":31.5304,"longitude":130.532}}</script>
-  <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"トップ","item":"https://gacha-hiroba.com/"},{"@type":"ListItem","position":2,"name":"店舗一覧","item":"https://gacha-hiroba.com/stores.html"},{"@type":"ListItem","position":3,"name":"ガシャポンバンダイオフィシャルショップ 未来屋書店鹿児島店","item":"https://gacha-hiroba.com/spot/gashapon-bandai-miraiya-kagoshima.html"}]}</script>
+  <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"トップ","item":"https://gacha-hiroba.com/"},{"@type":"ListItem","position":2,"name":"店舗一覧","item":"https://gacha-hiroba.com/stores.html"},{"@type":"ListItem","position":3,"name":"鹿児島県のガチャガチャ設置場所","item":"https://gacha-hiroba.com/area/kagoshima.html"},{"@type":"ListItem","position":4,"name":"ガシャポンバンダイオフィシャルショップ 未来屋書店鹿児島店","item":"https://gacha-hiroba.com/spot/gashapon-bandai-miraiya-kagoshima.html"}]}</script>
   <script>window.GH_SPOT_STATIC_ID="gashapon-bandai-miraiya-kagoshima";</script>
   <script src="/data/spots.js" defer></script>
   <script src="/spots-ui.js" defer></script>
   <script src="/data/ads.js" defer></script>
-  <script src="/data/board-seed.js" defer></script>
   <script src="/script.js" defer></script>
 </head>
 <body>
@@ -58,7 +57,7 @@
           <a href="/news.html">新着情報</a>
           <a href="/ranking.html">ランキング</a>
           <a href="/area.html">エリア別</a>
-          <a href="/category.html">カテゴリー別</a>
+          <a href="/category.html">ブランド別</a>
         </nav>
       </div>
     </div>
@@ -73,7 +72,7 @@
         <span aria-hidden="true">›</span>
         <a href="/stores.html">店舗一覧</a>
         <span aria-hidden="true">›</span>
-        <a href="/area.html" id="spotCrumbArea">鹿児島県</a>
+        <a href="/area/kagoshima.html" id="spotCrumbArea">鹿児島県</a>
         <span aria-hidden="true">›</span>
         <span aria-current="page" id="spotCrumbName">ガシャポンバンダイオフィシャルショップ 未来屋書店鹿児島店</span>
       </nav>
@@ -91,7 +90,7 @@
           <div class="gh-quote__head">
             <div class="gh-quote__title-row">
               <h1 class="gh-quote__name" id="spotName">ガシャポンバンダイオフィシャルショップ 未来屋書店鹿児島店</h1>
-              <span id="spotBadges"><a class="gh-badge gh-badge--lg" style="text-decoration:none" href="/stores.html?brand=%E3%82%AC%E3%82%B7%E3%83%A3%E3%83%9D%E3%83%B3%E3%83%90%E3%83%B3%E3%83%80%E3%82%A4%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%B7%E3%83%A7%E3%83%83%E3%83%97" title="ガシャポンバンダイオフィシャルショップの店舗一覧を見る">ガシャポンバンダイオフィシャルショップ</a><span class="gh-badge gh-badge--lg">鹿児島県・鹿児島</span></span>
+              <span id="spotBadges"><a class="gh-badge gh-badge--lg" style="text-decoration:none" href="/brand/gashapon-bandai-official-shop.html" title="ガシャポンバンダイオフィシャルショップの店舗一覧を見る">ガシャポンバンダイオフィシャルショップ</a><span class="gh-badge gh-badge--lg">鹿児島県・鹿児島</span></span>
             </div>
             <div class="gh-quote__address" id="spotAddress"><span>📍 鹿児島県鹿児島市東開町7 イオンモール鹿児島（未来屋書店内）</span><span class="gh-hero__divider">｜</span><span>🚉 イオンモール鹿児島・未来屋書店内（書店×ガシャポン公式）</span></div>
           </div>
@@ -106,7 +105,7 @@
         </div>
       </section>
 
-      <div class="gh-spot-intro"><p>ガシャポンバンダイオフィシャルショップ 未来屋書店鹿児島店は、鹿児島県（鹿児島県・鹿児島）にあるガチャガチャ・カプセルトイの設置スポットです。アクセスはイオンモール鹿児島・未来屋書店内（書店×ガシャポン公式）。</p><p>ガシャポンバンダイオフィシャルショップは、バンダイ公式のガシャポン専門ショップです。書店や映画館などの併設型店舗も多く展開しています。</p><p>同じ地域のお店は<a href="/stores.html?pref=%E9%B9%BF%E5%85%90%E5%B3%B6%E7%9C%8C">鹿児島県の掲載店舗（2件）</a>、同じブランドのお店は<a href="/stores.html?brand=%E3%82%AC%E3%82%B7%E3%83%A3%E3%83%9D%E3%83%B3%E3%83%90%E3%83%B3%E3%83%80%E3%82%A4%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%B7%E3%83%A7%E3%83%83%E3%83%97">ガシャポンバンダイオフィシャルショップの店舗一覧</a>からも探せます。</p><p>掲載内容は公開情報をもとにしています。最新の入荷状況・混雑・在庫については、このページの掲示板タブで情報をチェック・共有できます。営業時間や設置台数は変更される場合があるため、お出かけ前に店舗の公式情報もあわせてご確認ください。</p></div>
+      <div class="gh-spot-intro"><p>ガシャポンバンダイオフィシャルショップ 未来屋書店鹿児島店は、鹿児島県（鹿児島県・鹿児島）にあるガチャガチャ・カプセルトイの設置スポットです。アクセスはイオンモール鹿児島・未来屋書店内（書店×ガシャポン公式）。</p><p>ガシャポンバンダイオフィシャルショップは、バンダイ公式のガシャポン専門ショップです。書店や映画館などの併設型店舗も多く展開しています。</p><p>同じ地域のお店は<a href="/area/kagoshima.html">鹿児島県の掲載店舗（2件）</a>、同じブランドのお店は<a href="/brand/gashapon-bandai-official-shop.html">ガシャポンバンダイオフィシャルショップの店舗一覧</a>からも探せます。</p><p>掲載内容は公開情報をもとにしています。最新の入荷状況・混雑・在庫については、このページの掲示板タブで情報をチェック・共有できます。営業時間や設置台数は変更される場合があるため、お出かけ前に店舗の公式情報もあわせてご確認ください。</p></div>
       <div class="gh-detail-layout">
         <div class="gh-detail-content">
 
@@ -200,7 +199,7 @@
 
           <div class="gh-widget">
             <h3 class="gh-widget__title">同じエリアの店舗</h3>
-            <div class="gh-nearby" id="spotNearby"><a href="/spot/gashadepa-canalcity-hakata.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート キャナルシティ博多店</strong><small>福岡県・博多 ・ 約2,200台</small></div></a><a href="/spot/gashadepa-hakata-bt.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート 博多バスターミナル店</strong><small>福岡県・博多駅 ・ 約800台</small></div></a><a href="/spot/gashadepa-surugaya-naha-okiei.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート 駿河屋 那覇沖映通り店</strong><small>沖縄県・那覇 ・ —</small></div></a><a href="/spot/ggmori-aeon-yahatahigashi.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 イオンモール八幡東店</strong><small>福岡県・北九州 ・ —</small></div></a><a href="/spot/ggmori-lalaport-fukuoka.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 ららぽーと福岡店</strong><small>福岡県・博多 ・ —</small></div></a><a href="/spot/dreamcapsule-hakata-marui.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ドリームカプセル 博多マルイ店</strong><small>福岡県・博多駅 ・ —</small></div></a></div>
+            <div class="gh-nearby" id="spotNearby"><a href="/spot/ggmori-centerrace-tenmonkan.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森センテラス天文館店</strong><small>鹿児島県・天文館 ・ —</small></div></a><a href="/spot/gashapon-bandai-tsutaya-miyazaki-takachiho-dori.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンバンダイオフィシャルショップ蔦屋書店 宮崎高千穂通り店</strong><small>宮崎県・宮崎 ・ —</small></div></a><a href="/spot/ggmori-aeon-miyazaki.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 イオンモール宮崎店</strong><small>宮崎県・宮崎 ・ —</small></div></a><a href="/spot/gashadepa-wondercity-minami-kumamoto.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート ワンダーシティ南熊本店</strong><small>熊本県・熊本 ・ —</small></div></a><a href="/spot/gashadepa-youmetown-sanpian.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート ゆめタウンサンピアン店</strong><small>熊本県・熊本 ・ —</small></div></a><a href="/spot/gashadepa-amuplaza-nagasaki.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート アミュプラザ長崎店</strong><small>長崎県・長崎駅 ・ —</small></div></a></div>
           </div>
 
           <div class="gh-widget">

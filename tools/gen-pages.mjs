@@ -7,6 +7,7 @@
    実行: node tools/gen-pages.mjs
    （店舗追加・削除のたびに実行。daily-stores ワークフローでも毎日実行される） */
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, unlinkSync } from 'node:fs';
+import { prefPath, brandPath } from './seo-routes.mjs';
 
 const ORIGIN = 'https://gacha-hiroba.com';
 const outDir = new URL('../spot/', import.meta.url);
@@ -44,6 +45,18 @@ const esc = (s) => String(s == null ? '' : s)
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const machinesText = (n) => (n == null || n === '') ? '—' : '約' + Number(n).toLocaleString('ja-JP') + '台';
 const spotPath = (id) => '/spot/' + encodeURIComponent(id) + '.html';
+const distanceKm = (a, b) => {
+  if (a.lat == null || a.lon == null || b.lat == null || b.lon == null) return Number.POSITIVE_INFINITY;
+  const rad = (n) => Number(n) * Math.PI / 180;
+  const dLat = rad(b.lat - a.lat), dLon = rad(b.lon - a.lon);
+  const x = Math.sin(dLat / 2) ** 2 + Math.cos(rad(a.lat)) * Math.cos(rad(b.lat)) * Math.sin(dLon / 2) ** 2;
+  return 6371 * 2 * Math.atan2(Math.sqrt(x), Math.sqrt(1 - x));
+};
+const nearbyFor = (store) => spots.filter((s) => s.id !== store.id).sort((a, b) => {
+  const tier = (s) => s.area === store.area ? 0 : s.pref === store.pref ? 1 : 2;
+  return (tier(a) - tier(b)) || (distanceKm(store, a) - distanceKm(store, b)) ||
+    String(a.name).localeCompare(String(b.name), 'ja');
+}).slice(0, 6);
 
 /* ── オープン予定（opensOn）の店舗 ──
    まだ開いていない店舗を「営業中」と誤認させないための表示を組み立てる。
@@ -102,6 +115,9 @@ function buildPage(store) {
 
   let html = template;
 
+  /* 旧クエリ用テンプレートの noindex は、正規の静的ページへ継承しない。 */
+  html = html.replace(/\s*<meta name="robots" content="noindex,follow" \/>/, '');
+
   /* ── head ── */
   html = swap(html, '<title>店舗詳細 | ガチャひろば</title>', '<title>' + esc(pageTitle) + '</title>');
   html = html
@@ -121,14 +137,15 @@ function buildPage(store) {
   if (store.zip) ld.address.postalCode = store.zip;
   if (store.tel) ld.telephone = store.tel;
   if (store.lat != null && store.lon != null) ld.geo = { '@type': 'GeoCoordinates', latitude: store.lat, longitude: store.lon };
-  /* 未開業の店舗に openingHours を出すと「いま営業中」と読まれるので付けない */
-  if (store.hours && !soon) ld.openingHours = store.hours;
+  /* 営業時間は店舗ごとに曜日・例外表記が異なるため、表示文字列を
+     schema.org の openingHours へ誤って転記せず、本文だけに掲載する。 */
   const crumbs = {
     '@context': 'https://schema.org', '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'トップ', item: ORIGIN + '/' },
       { '@type': 'ListItem', position: 2, name: '店舗一覧', item: ORIGIN + '/stores.html' },
-      { '@type': 'ListItem', position: 3, name: store.name, item: pageUrl }
+      { '@type': 'ListItem', position: 3, name: store.pref + 'のガチャガチャ設置場所', item: ORIGIN + prefPath(store.pref) },
+      { '@type': 'ListItem', position: 4, name: store.name, item: pageUrl }
     ]
   };
   const ldTags =
@@ -139,7 +156,7 @@ function buildPage(store) {
 
   /* ── パンくず・ヒーロー ── */
   html = swap(html, '<a href="/area.html" id="spotCrumbArea">エリア</a>',
-    '<a href="/area.html" id="spotCrumbArea">' + esc(store.pref || store.area) + '</a>');
+    '<a href="' + prefPath(store.pref) + '" id="spotCrumbArea">' + esc(store.pref || store.area) + '</a>');
   html = swap(html, '<span aria-current="page" id="spotCrumbName">店舗詳細</span>',
     '<span aria-current="page" id="spotCrumbName">' + esc(store.name) + '</span>');
   html = swap(html, '<h1 class="gh-quote__name" id="spotName">店舗名</h1>',
@@ -148,8 +165,8 @@ function buildPage(store) {
     '<span id="spotBadges">' +
     (soon ? '<span class="gh-badge gh-badge--lg gh-badge--soon" data-gh-preopen="' + store.opensOn + '">' +
       esc(openLabel(store.opensOn, false)) + ' オープン予定</span>' : '') +
-    '<a class="gh-badge gh-badge--lg" style="text-decoration:none" href="/stores.html?brand=' +
-    encodeURIComponent(store.brand) + '" title="' + esc(store.brand) + 'の店舗一覧を見る">' + esc(store.brand) + '</a>' +
+    '<a class="gh-badge gh-badge--lg" style="text-decoration:none" href="' + brandPath(store.brand) +
+    '" title="' + esc(store.brand) + 'の店舗一覧を見る">' + esc(store.brand) + '</a>' +
     '<span class="gh-badge gh-badge--lg">' + esc(store.area) + '</span></span>');
   html = swap(html, '<div class="gh-quote__address" id="spotAddress"></div>',
     '<div class="gh-quote__address" id="spotAddress"><span>📍 ' +
@@ -172,9 +189,9 @@ function buildPage(store) {
   /* ── 店舗紹介文（静的のみ。ユニークテキストで薄いページ化を防ぐ） ── */
   const samePref = spots.filter((x) => x.pref === store.pref);
   const sameArea = spots.filter((x) => x.area === store.area && x.id !== store.id);
-  const prefLink = '<a href="/stores.html?pref=' + encodeURIComponent(store.pref) + '">' +
+  const prefLink = '<a href="' + prefPath(store.pref) + '">' +
     esc(store.pref) + 'の掲載店舗（' + samePref.length + '件）</a>';
-  const brandLink = '<a href="/stores.html?brand=' + encodeURIComponent(store.brand) + '">' +
+  const brandLink = '<a href="' + brandPath(store.brand) + '">' +
     esc(store.brand) + 'の店舗一覧</a>';
   /* オープン前は、本文より先に「まだ開いていない」ことを伝える */
   const preOpenNotice = soon
@@ -182,7 +199,7 @@ function buildPage(store) {
         '<strong class="gh-preopen__title">🎉 ' + esc(openLabel(store.opensOn, true)) + ' オープン予定</strong>' +
         '<p class="gh-preopen__text">' + esc(store.name) + 'は<strong>まだオープンしていません</strong>（あと' + daysUntil(store.opensOn) + '日）。' +
           '下記の営業時間・電話番号はオープン後の情報です。お出かけの際はご注意ください。' +
-          (store.sourceUrl ? ' 最新情報は<a href="' + esc(store.sourceUrl) + '" target="_blank" rel="noopener nofollow">店舗公式X</a>でも告知されています。' : '') +
+          (store.sourceUrl ? ' 最新情報は<a class="gh-official-source" href="' + esc(store.sourceUrl) + '" target="_blank" rel="noopener">店舗の公式情報</a>でも告知されています。' : '') +
         '</p>' +
         '<p class="gh-preopen__text">オープン初日の混雑や品揃えは、このページの掲示板で共有できます。行った人のレポートをお待ちしています。</p>' +
       '</div>'
@@ -223,7 +240,11 @@ function buildPage(store) {
     row('営業時間', store.hours) +
     row('設置台数', machinesText(store.machines)) +
     row('アクセス', store.access) +
-    row('エリア', store.area) + '</tbody>');
+    row('エリア', store.area) +
+    row('公式情報', store.sourceUrl
+      ? '<a class="gh-official-source" href="' + esc(store.sourceUrl) + '" target="_blank" rel="noopener">掲載元を確認 ↗</a>'
+      : '', true) +
+    row('情報確認日', store.verifiedAt) + '</tbody>');
 
   let mapInner = '<div class="gh-section__header"><h2 class="gh-section__title">アクセスマップ</h2>';
   const osmSearch = 'https://www.openstreetmap.org/search?query=' + encodeURIComponent([store.name, store.address].filter(Boolean).join(' '));
@@ -249,7 +270,7 @@ function buildPage(store) {
   html = swap(html, '<h2 class="gh-bbs__title" id="bbsTitle">掲示板</h2>',
     '<h2 class="gh-bbs__title" id="bbsTitle">' + esc('【' + (store.area || store.pref || 'ガチャ') + '】' + store.name + ' 🎰') + '</h2>');
 
-  const nearby = spots.filter((s) => s.region === store.region && s.id !== store.id).slice(0, 6);
+  const nearby = nearbyFor(store);
   html = swap(html, '<div class="gh-nearby" id="spotNearby"></div>',
     '<div class="gh-nearby" id="spotNearby">' + nearby.map((s) =>
       '<a href="' + spotPath(s.id) + '" class="gh-nearby__item"><span class="gh-rank">🏬</span>' +

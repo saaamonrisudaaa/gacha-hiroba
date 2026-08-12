@@ -21,13 +21,12 @@
   <link rel="stylesheet" href="/styles.css" />
   <!-- 店舗データ → 描画 → 共有掲示板 → 共通JS（この順で読み込む） -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
-  <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"Store","name":"ガチャガチャの森 アスナル金山店","url":"https://gacha-hiroba.com/spot/gachagachanomori-asunal-kanayama.html","address":{"@type":"PostalAddress","streetAddress":"愛知県名古屋市中区金山1-17-1 アスナル金山 3F","addressRegion":"愛知県","addressCountry":"JP"},"description":"ガチャガチャの森 アスナル金山店（愛知県・金山）のガチャガチャ設置情報。設置台数約550台、営業時間 10:00〜21:00。住所・アクセス・地図・店舗ごとの掲示板で入荷情報や混雑状況をチェック。","telephone":"080-4759-5415","geo":{"@type":"GeoCoordinates","latitude":35.1432,"longitude":136.9006},"openingHours":"10:00〜21:00"}</script>
-  <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"トップ","item":"https://gacha-hiroba.com/"},{"@type":"ListItem","position":2,"name":"店舗一覧","item":"https://gacha-hiroba.com/stores.html"},{"@type":"ListItem","position":3,"name":"ガチャガチャの森 アスナル金山店","item":"https://gacha-hiroba.com/spot/gachagachanomori-asunal-kanayama.html"}]}</script>
+  <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"Store","name":"ガチャガチャの森 アスナル金山店","url":"https://gacha-hiroba.com/spot/gachagachanomori-asunal-kanayama.html","address":{"@type":"PostalAddress","streetAddress":"愛知県名古屋市中区金山1-17-1 アスナル金山 3F","addressRegion":"愛知県","addressCountry":"JP"},"description":"ガチャガチャの森 アスナル金山店（愛知県・金山）のガチャガチャ設置情報。設置台数約550台、営業時間 10:00〜21:00。住所・アクセス・地図・店舗ごとの掲示板で入荷情報や混雑状況をチェック。","telephone":"080-4759-5415","geo":{"@type":"GeoCoordinates","latitude":35.1432,"longitude":136.9006}}</script>
+  <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"トップ","item":"https://gacha-hiroba.com/"},{"@type":"ListItem","position":2,"name":"店舗一覧","item":"https://gacha-hiroba.com/stores.html"},{"@type":"ListItem","position":3,"name":"愛知県のガチャガチャ設置場所","item":"https://gacha-hiroba.com/area/aichi.html"},{"@type":"ListItem","position":4,"name":"ガチャガチャの森 アスナル金山店","item":"https://gacha-hiroba.com/spot/gachagachanomori-asunal-kanayama.html"}]}</script>
   <script>window.GH_SPOT_STATIC_ID="gachagachanomori-asunal-kanayama";</script>
   <script src="/data/spots.js" defer></script>
   <script src="/spots-ui.js" defer></script>
   <script src="/data/ads.js" defer></script>
-  <script src="/data/board-seed.js" defer></script>
   <script src="/script.js" defer></script>
 </head>
 <body>
@@ -58,7 +57,7 @@
           <a href="/news.html">新着情報</a>
           <a href="/ranking.html">ランキング</a>
           <a href="/area.html">エリア別</a>
-          <a href="/category.html">カテゴリー別</a>
+          <a href="/category.html">ブランド別</a>
         </nav>
       </div>
     </div>
@@ -73,7 +72,7 @@
         <span aria-hidden="true">›</span>
         <a href="/stores.html">店舗一覧</a>
         <span aria-hidden="true">›</span>
-        <a href="/area.html" id="spotCrumbArea">愛知県</a>
+        <a href="/area/aichi.html" id="spotCrumbArea">愛知県</a>
         <span aria-hidden="true">›</span>
         <span aria-current="page" id="spotCrumbName">ガチャガチャの森 アスナル金山店</span>
       </nav>
@@ -91,7 +90,7 @@
           <div class="gh-quote__head">
             <div class="gh-quote__title-row">
               <h1 class="gh-quote__name" id="spotName">ガチャガチャの森 アスナル金山店</h1>
-              <span id="spotBadges"><a class="gh-badge gh-badge--lg" style="text-decoration:none" href="/stores.html?brand=%E3%82%AC%E3%83%81%E3%83%A3%E3%82%AC%E3%83%81%E3%83%A3%E3%81%AE%E6%A3%AE" title="ガチャガチャの森の店舗一覧を見る">ガチャガチャの森</a><span class="gh-badge gh-badge--lg">愛知県・金山</span></span>
+              <span id="spotBadges"><a class="gh-badge gh-badge--lg" style="text-decoration:none" href="/brand/gacha-no-mori.html" title="ガチャガチャの森の店舗一覧を見る">ガチャガチャの森</a><span class="gh-badge gh-badge--lg">愛知県・金山</span></span>
             </div>
             <div class="gh-quote__address" id="spotAddress"><span>📍 愛知県名古屋市中区金山1-17-1 アスナル金山 3F</span><span class="gh-hero__divider">｜</span><span>🚉 JR・地下鉄・名鉄が集まる金山駅すぐのアスナル金山3F。約550台。乗り換えのついでに寄れる</span></div>
           </div>
@@ -106,7 +105,7 @@
         </div>
       </section>
 
-      <div class="gh-spot-intro"><p>ガチャガチャの森 アスナル金山店は、愛知県（愛知県・金山）にあるガチャガチャ・カプセルトイの設置スポットです。ガチャマシンの設置台数は約550台。営業時間は10:00〜21:00。アクセスはJR・地下鉄・名鉄が集まる金山駅すぐのアスナル金山3F。約550台。乗り換えのついでに寄れる。</p><p>ガチャガチャの森は、全国のショッピングモールや駅前を中心に展開するカプセルトイ専門店チェーンです。木をイメージした店内に多数のマシンが並びます。</p><p>同じ地域のお店は<a href="/stores.html?pref=%E6%84%9B%E7%9F%A5%E7%9C%8C">愛知県の掲載店舗（23件）</a>、同じブランドのお店は<a href="/stores.html?brand=%E3%82%AC%E3%83%81%E3%83%A3%E3%82%AC%E3%83%81%E3%83%A3%E3%81%AE%E6%A3%AE">ガチャガチャの森の店舗一覧</a>からも探せます。</p><p>掲載内容は公開情報をもとにしています。最新の入荷状況・混雑・在庫については、このページの掲示板タブで情報をチェック・共有できます。営業時間や設置台数は変更される場合があるため、お出かけ前に店舗の公式情報もあわせてご確認ください。</p></div>
+      <div class="gh-spot-intro"><p>ガチャガチャの森 アスナル金山店は、愛知県（愛知県・金山）にあるガチャガチャ・カプセルトイの設置スポットです。ガチャマシンの設置台数は約550台。営業時間は10:00〜21:00。アクセスはJR・地下鉄・名鉄が集まる金山駅すぐのアスナル金山3F。約550台。乗り換えのついでに寄れる。</p><p>ガチャガチャの森は、全国のショッピングモールや駅前を中心に展開するカプセルトイ専門店チェーンです。木をイメージした店内に多数のマシンが並びます。</p><p>同じ地域のお店は<a href="/area/aichi.html">愛知県の掲載店舗（23件）</a>、同じブランドのお店は<a href="/brand/gacha-no-mori.html">ガチャガチャの森の店舗一覧</a>からも探せます。</p><p>掲載内容は公開情報をもとにしています。最新の入荷状況・混雑・在庫については、このページの掲示板タブで情報をチェック・共有できます。営業時間や設置台数は変更される場合があるため、お出かけ前に店舗の公式情報もあわせてご確認ください。</p></div>
       <div class="gh-detail-layout">
         <div class="gh-detail-content">
 
@@ -136,7 +135,7 @@
                 <h2 class="gh-section__title">詳細情報</h2>
               </div>
               <table class="gh-info-table gh-info-table--full">
-                <tbody id="spotInfoBody"><tr><th>ブランド</th><td>ガチャガチャの森</td></tr><tr><th>住所</th><td>愛知県名古屋市中区金山1-17-1 アスナル金山 3F</td></tr><tr><th>電話番号</th><td><a href="tel:08047595415">080-4759-5415</a></td></tr><tr><th>営業時間</th><td>10:00〜21:00</td></tr><tr><th>設置台数</th><td>約550台</td></tr><tr><th>アクセス</th><td>JR・地下鉄・名鉄が集まる金山駅すぐのアスナル金山3F。約550台。乗り換えのついでに寄れる</td></tr><tr><th>エリア</th><td>愛知県・金山</td></tr></tbody>
+                <tbody id="spotInfoBody"><tr><th>ブランド</th><td>ガチャガチャの森</td></tr><tr><th>住所</th><td>愛知県名古屋市中区金山1-17-1 アスナル金山 3F</td></tr><tr><th>電話番号</th><td><a href="tel:08047595415">080-4759-5415</a></td></tr><tr><th>営業時間</th><td>10:00〜21:00</td></tr><tr><th>設置台数</th><td>約550台</td></tr><tr><th>アクセス</th><td>JR・地下鉄・名鉄が集まる金山駅すぐのアスナル金山3F。約550台。乗り換えのついでに寄れる</td></tr><tr><th>エリア</th><td>愛知県・金山</td></tr><tr><th>公式情報</th><td><a class="gh-official-source" href="https://gashapon.jp/shop/shop.php?shop_code=S90001005" target="_blank" rel="noopener">掲載元を確認 ↗</a></td></tr><tr><th>情報確認日</th><td>2026-08-07</td></tr></tbody>
               </table>
               <p class="gh-detail-note">※掲載情報は参考です。最新の営業時間・在庫・設置状況は店舗または公式サイトでご確認ください。</p>
             </section>
@@ -200,7 +199,7 @@
 
           <div class="gh-widget">
             <h3 class="gh-widget__title">同じエリアの店舗</h3>
-            <div class="gh-nearby" id="spotNearby"><a href="/spot/gashadepa-lalaport-nagoya-minato.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート ららぽーと名古屋みなとアクルス店</strong><small>愛知県・名古屋港 ・ 約380台</small></div></a><a href="/spot/gashadepa-surugaya-shizuoka-honten.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート 駿河屋本店 駿河屋ビル店</strong><small>静岡県・静岡 ・ —</small></div></a><a href="/spot/gashadepa-noritake-shinmachi.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート 則武新町店</strong><small>愛知県・名古屋駅 ・ —</small></div></a><a href="/spot/gashadepa-apina-nagoya-sakae.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート アピナ名古屋栄店</strong><small>愛知県・栄 ・ 約450台</small></div></a><a href="/spot/gashadepa-yoshizuya-taihei.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート ヨシヅヤ太平通り店</strong><small>愛知県・中川区 ・ —</small></div></a><a href="/spot/ggmori-nagoya-dome-mae.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 イオンモールナゴヤドーム前店</strong><small>愛知県・ナゴヤドーム前 ・ —</small></div></a></div>
+            <div class="gh-nearby" id="spotNearby"><a href="/spot/capsulehouse-osu.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>カプセルハウス 大須店</strong><small>愛知県・大須 ・ 約380台</small></div></a><a href="/spot/cpla-nagoya-osu-2.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>#C-pla 名古屋大須2号店</strong><small>愛知県・大須 ・ —</small></div></a><a href="/spot/cpla-nagoya-osu.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>#C-pla 名古屋大須店</strong><small>愛知県・大須 ・ —</small></div></a><a href="/spot/gachaste-osu.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャステ 大須店</strong><small>愛知県・大須 ・ —</small></div></a><a href="/spot/gashacoco-nagoya-zerogate.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>gashacoco 名古屋ゼロゲート</strong><small>愛知県・矢場町 ・ —</small></div></a><a href="/spot/dreamcapsule-main-labo-sakae.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ドリームカプセル Main Labo</strong><small>愛知県・栄 ・ —</small></div></a></div>
           </div>
 
           <div class="gh-widget">

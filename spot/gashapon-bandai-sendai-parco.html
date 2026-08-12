@@ -22,12 +22,11 @@
   <!-- 店舗データ → 描画 → 共有掲示板 → 共通JS（この順で読み込む） -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
   <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"Store","name":"ガシャポンバンダイオフィシャルショップ 仙台PARCO店","url":"https://gacha-hiroba.com/spot/gashapon-bandai-sendai-parco.html","address":{"@type":"PostalAddress","streetAddress":"宮城県仙台市青葉区中央1-2-3 仙台PARCO","addressRegion":"宮城県","addressCountry":"JP"},"description":"ガシャポンバンダイオフィシャルショップ 仙台PARCO店（宮城県・仙台駅）のガチャガチャ設置情報。設置台数約300台、住所・アクセス・地図・店舗ごとの掲示板で入荷情報や混雑状況をチェック。","geo":{"@type":"GeoCoordinates","latitude":38.261,"longitude":140.88}}</script>
-  <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"トップ","item":"https://gacha-hiroba.com/"},{"@type":"ListItem","position":2,"name":"店舗一覧","item":"https://gacha-hiroba.com/stores.html"},{"@type":"ListItem","position":3,"name":"ガシャポンバンダイオフィシャルショップ 仙台PARCO店","item":"https://gacha-hiroba.com/spot/gashapon-bandai-sendai-parco.html"}]}</script>
+  <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"トップ","item":"https://gacha-hiroba.com/"},{"@type":"ListItem","position":2,"name":"店舗一覧","item":"https://gacha-hiroba.com/stores.html"},{"@type":"ListItem","position":3,"name":"宮城県のガチャガチャ設置場所","item":"https://gacha-hiroba.com/area/miyagi.html"},{"@type":"ListItem","position":4,"name":"ガシャポンバンダイオフィシャルショップ 仙台PARCO店","item":"https://gacha-hiroba.com/spot/gashapon-bandai-sendai-parco.html"}]}</script>
   <script>window.GH_SPOT_STATIC_ID="gashapon-bandai-sendai-parco";</script>
   <script src="/data/spots.js" defer></script>
   <script src="/spots-ui.js" defer></script>
   <script src="/data/ads.js" defer></script>
-  <script src="/data/board-seed.js" defer></script>
   <script src="/script.js" defer></script>
 </head>
 <body>
@@ -58,7 +57,7 @@
           <a href="/news.html">新着情報</a>
           <a href="/ranking.html">ランキング</a>
           <a href="/area.html">エリア別</a>
-          <a href="/category.html">カテゴリー別</a>
+          <a href="/category.html">ブランド別</a>
         </nav>
       </div>
     </div>
@@ -73,7 +72,7 @@
         <span aria-hidden="true">›</span>
         <a href="/stores.html">店舗一覧</a>
         <span aria-hidden="true">›</span>
-        <a href="/area.html" id="spotCrumbArea">宮城県</a>
+        <a href="/area/miyagi.html" id="spotCrumbArea">宮城県</a>
         <span aria-hidden="true">›</span>
         <span aria-current="page" id="spotCrumbName">ガシャポンバンダイオフィシャルショップ 仙台PARCO店</span>
       </nav>
@@ -91,7 +90,7 @@
           <div class="gh-quote__head">
             <div class="gh-quote__title-row">
               <h1 class="gh-quote__name" id="spotName">ガシャポンバンダイオフィシャルショップ 仙台PARCO店</h1>
-              <span id="spotBadges"><a class="gh-badge gh-badge--lg" style="text-decoration:none" href="/stores.html?brand=%E3%82%AC%E3%82%B7%E3%83%A3%E3%83%9D%E3%83%B3%E3%83%90%E3%83%B3%E3%83%80%E3%82%A4%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%B7%E3%83%A7%E3%83%83%E3%83%97" title="ガシャポンバンダイオフィシャルショップの店舗一覧を見る">ガシャポンバンダイオフィシャルショップ</a><span class="gh-badge gh-badge--lg">宮城県・仙台駅</span></span>
+              <span id="spotBadges"><a class="gh-badge gh-badge--lg" style="text-decoration:none" href="/brand/gashapon-bandai-official-shop.html" title="ガシャポンバンダイオフィシャルショップの店舗一覧を見る">ガシャポンバンダイオフィシャルショップ</a><span class="gh-badge gh-badge--lg">宮城県・仙台駅</span></span>
             </div>
             <div class="gh-quote__address" id="spotAddress"><span>📍 宮城県仙台市青葉区中央1-2-3 仙台PARCO</span><span class="gh-hero__divider">｜</span><span>🚉 仙台PARCO内（仙台駅から徒歩約2分・バンダイ公式）</span></div>
           </div>
@@ -106,7 +105,7 @@
         </div>
       </section>
 
-      <div class="gh-spot-intro"><p>ガシャポンバンダイオフィシャルショップ 仙台PARCO店は、宮城県（宮城県・仙台駅）にあるガチャガチャ・カプセルトイの設置スポットです。ガチャマシンの設置台数は約300台。アクセスは仙台PARCO内（仙台駅から徒歩約2分・バンダイ公式）。</p><p>ガシャポンバンダイオフィシャルショップは、バンダイ公式のガシャポン専門ショップです。書店や映画館などの併設型店舗も多く展開しています。</p><p>宮城県・仙台駅エリアには、この店舗を含めて2件のガチャスポットを掲載しています。同じ地域のお店は<a href="/stores.html?pref=%E5%AE%AE%E5%9F%8E%E7%9C%8C">宮城県の掲載店舗（5件）</a>、同じブランドのお店は<a href="/stores.html?brand=%E3%82%AC%E3%82%B7%E3%83%A3%E3%83%9D%E3%83%B3%E3%83%90%E3%83%B3%E3%83%80%E3%82%A4%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%B7%E3%83%A7%E3%83%83%E3%83%97">ガシャポンバンダイオフィシャルショップの店舗一覧</a>からも探せます。</p><p>掲載内容は公開情報をもとにしています。最新の入荷状況・混雑・在庫については、このページの掲示板タブで情報をチェック・共有できます。営業時間や設置台数は変更される場合があるため、お出かけ前に店舗の公式情報もあわせてご確認ください。</p></div>
+      <div class="gh-spot-intro"><p>ガシャポンバンダイオフィシャルショップ 仙台PARCO店は、宮城県（宮城県・仙台駅）にあるガチャガチャ・カプセルトイの設置スポットです。ガチャマシンの設置台数は約300台。アクセスは仙台PARCO内（仙台駅から徒歩約2分・バンダイ公式）。</p><p>ガシャポンバンダイオフィシャルショップは、バンダイ公式のガシャポン専門ショップです。書店や映画館などの併設型店舗も多く展開しています。</p><p>宮城県・仙台駅エリアには、この店舗を含めて2件のガチャスポットを掲載しています。同じ地域のお店は<a href="/area/miyagi.html">宮城県の掲載店舗（5件）</a>、同じブランドのお店は<a href="/brand/gashapon-bandai-official-shop.html">ガシャポンバンダイオフィシャルショップの店舗一覧</a>からも探せます。</p><p>掲載内容は公開情報をもとにしています。最新の入荷状況・混雑・在庫については、このページの掲示板タブで情報をチェック・共有できます。営業時間や設置台数は変更される場合があるため、お出かけ前に店舗の公式情報もあわせてご確認ください。</p></div>
       <div class="gh-detail-layout">
         <div class="gh-detail-content">
 
@@ -200,7 +199,7 @@
 
           <div class="gh-widget">
             <h3 class="gh-widget__title">同じエリアの店舗</h3>
-            <div class="gh-nearby" id="spotNearby"><a href="/spot/gashadepa-sapporo-factory.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート サッポロファクトリー店</strong><small>北海道・札幌 ・ 約600台</small></div></a><a href="/spot/gashadepa-surugaya-higashisendai.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート 駿河屋フォレオ東仙台店</strong><small>宮城県・仙台 ・ 約530台</small></div></a><a href="/spot/ggmori-moyuk-sapporo.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 moyuk SAPPORO店</strong><small>北海道・札幌大通 ・ 約930台</small></div></a><a href="/spot/gashadepa-ario-sapporo.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート アリオ札幌店</strong><small>北海道・札幌 ・ —</small></div></a><a href="/spot/gashadepa-sapporo-tokyu.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート さっぽろ東急百貨店</strong><small>北海道・札幌駅 ・ —</small></div></a><a href="/spot/cpla-tanukikoji-4chome.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>#C-pla 狸小路4丁目店</strong><small>北海道・狸小路 ・ —</small></div></a></div>
+            <div class="gh-nearby" id="spotNearby"><a href="/spot/gashadepa-bivi-sendai.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート BiVi仙台駅東口店</strong><small>宮城県・仙台駅 ・ —</small></div></a><a href="/spot/cpla-sendai-chuo-dori.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>#C-pla 仙台中央通り店</strong><small>宮城県・仙台 ・ —</small></div></a><a href="/spot/cpla-themall-sendai-nagamachi.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>#C-pla ザ・モール仙台長町店</strong><small>宮城県・長町 ・ —</small></div></a><a href="/spot/gashadepa-surugaya-higashisendai.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート 駿河屋フォレオ東仙台店</strong><small>宮城県・仙台 ・ 約530台</small></div></a><a href="/spot/cpla-aeon-tendo.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>#C-pla イオンモール天童店</strong><small>山形県・天童 ・ —</small></div></a><a href="/spot/gashacoco-aeonmall-yamagata-minami.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャココイオンモール山形南</strong><small>山形県・山形 ・ —</small></div></a></div>
           </div>
 
           <div class="gh-widget">

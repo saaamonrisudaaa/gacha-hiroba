@@ -22,12 +22,11 @@
   <!-- 店舗データ → 描画 → 共有掲示板 → 共通JS（この順で読み込む） -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
   <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"Store","name":"ガチャガチャの森 イオンモール高岡店","url":"https://gacha-hiroba.com/spot/ggmori-aeon-takaoka.html","address":{"@type":"PostalAddress","streetAddress":"富山県高岡市下伏間江383 イオンモール高岡","addressRegion":"富山県","addressCountry":"JP"},"description":"ガチャガチャの森 イオンモール高岡店（富山県・高岡）のガチャガチャ設置情報。住所・アクセス・地図・店舗ごとの掲示板で入荷情報や混雑状況をチェック。","geo":{"@type":"GeoCoordinates","latitude":36.7266,"longitude":137.0121}}</script>
-  <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"トップ","item":"https://gacha-hiroba.com/"},{"@type":"ListItem","position":2,"name":"店舗一覧","item":"https://gacha-hiroba.com/stores.html"},{"@type":"ListItem","position":3,"name":"ガチャガチャの森 イオンモール高岡店","item":"https://gacha-hiroba.com/spot/ggmori-aeon-takaoka.html"}]}</script>
+  <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"トップ","item":"https://gacha-hiroba.com/"},{"@type":"ListItem","position":2,"name":"店舗一覧","item":"https://gacha-hiroba.com/stores.html"},{"@type":"ListItem","position":3,"name":"富山県のガチャガチャ設置場所","item":"https://gacha-hiroba.com/area/toyama.html"},{"@type":"ListItem","position":4,"name":"ガチャガチャの森 イオンモール高岡店","item":"https://gacha-hiroba.com/spot/ggmori-aeon-takaoka.html"}]}</script>
   <script>window.GH_SPOT_STATIC_ID="ggmori-aeon-takaoka";</script>
   <script src="/data/spots.js" defer></script>
   <script src="/spots-ui.js" defer></script>
   <script src="/data/ads.js" defer></script>
-  <script src="/data/board-seed.js" defer></script>
   <script src="/script.js" defer></script>
 </head>
 <body>
@@ -58,7 +57,7 @@
           <a href="/news.html">新着情報</a>
           <a href="/ranking.html">ランキング</a>
           <a href="/area.html">エリア別</a>
-          <a href="/category.html">カテゴリー別</a>
+          <a href="/category.html">ブランド別</a>
         </nav>
       </div>
     </div>
@@ -73,7 +72,7 @@
         <span aria-hidden="true">›</span>
         <a href="/stores.html">店舗一覧</a>
         <span aria-hidden="true">›</span>
-        <a href="/area.html" id="spotCrumbArea">富山県</a>
+        <a href="/area/toyama.html" id="spotCrumbArea">富山県</a>
         <span aria-hidden="true">›</span>
         <span aria-current="page" id="spotCrumbName">ガチャガチャの森 イオンモール高岡店</span>
       </nav>
@@ -91,7 +90,7 @@
           <div class="gh-quote__head">
             <div class="gh-quote__title-row">
               <h1 class="gh-quote__name" id="spotName">ガチャガチャの森 イオンモール高岡店</h1>
-              <span id="spotBadges"><a class="gh-badge gh-badge--lg" style="text-decoration:none" href="/stores.html?brand=%E3%82%AC%E3%83%81%E3%83%A3%E3%82%AC%E3%83%81%E3%83%A3%E3%81%AE%E6%A3%AE" title="ガチャガチャの森の店舗一覧を見る">ガチャガチャの森</a><span class="gh-badge gh-badge--lg">富山県・高岡</span></span>
+              <span id="spotBadges"><a class="gh-badge gh-badge--lg" style="text-decoration:none" href="/brand/gacha-no-mori.html" title="ガチャガチャの森の店舗一覧を見る">ガチャガチャの森</a><span class="gh-badge gh-badge--lg">富山県・高岡</span></span>
             </div>
             <div class="gh-quote__address" id="spotAddress"><span>📍 富山県高岡市下伏間江383 イオンモール高岡</span><span class="gh-hero__divider">｜</span><span>🚉 イオンモール高岡内（新高岡駅から徒歩圏）</span></div>
           </div>
@@ -106,7 +105,7 @@
         </div>
       </section>
 
-      <div class="gh-spot-intro"><p>ガチャガチャの森 イオンモール高岡店は、富山県（富山県・高岡）にあるガチャガチャ・カプセルトイの設置スポットです。アクセスはイオンモール高岡内（新高岡駅から徒歩圏）。</p><p>ガチャガチャの森は、全国のショッピングモールや駅前を中心に展開するカプセルトイ専門店チェーンです。木をイメージした店内に多数のマシンが並びます。</p><p>同じ地域のお店は<a href="/stores.html?pref=%E5%AF%8C%E5%B1%B1%E7%9C%8C">富山県の掲載店舗（2件）</a>、同じブランドのお店は<a href="/stores.html?brand=%E3%82%AC%E3%83%81%E3%83%A3%E3%82%AC%E3%83%81%E3%83%A3%E3%81%AE%E6%A3%AE">ガチャガチャの森の店舗一覧</a>からも探せます。</p><p>掲載内容は公開情報をもとにしています。最新の入荷状況・混雑・在庫については、このページの掲示板タブで情報をチェック・共有できます。営業時間や設置台数は変更される場合があるため、お出かけ前に店舗の公式情報もあわせてご確認ください。</p></div>
+      <div class="gh-spot-intro"><p>ガチャガチャの森 イオンモール高岡店は、富山県（富山県・高岡）にあるガチャガチャ・カプセルトイの設置スポットです。アクセスはイオンモール高岡内（新高岡駅から徒歩圏）。</p><p>ガチャガチャの森は、全国のショッピングモールや駅前を中心に展開するカプセルトイ専門店チェーンです。木をイメージした店内に多数のマシンが並びます。</p><p>同じ地域のお店は<a href="/area/toyama.html">富山県の掲載店舗（2件）</a>、同じブランドのお店は<a href="/brand/gacha-no-mori.html">ガチャガチャの森の店舗一覧</a>からも探せます。</p><p>掲載内容は公開情報をもとにしています。最新の入荷状況・混雑・在庫については、このページの掲示板タブで情報をチェック・共有できます。営業時間や設置台数は変更される場合があるため、お出かけ前に店舗の公式情報もあわせてご確認ください。</p></div>
       <div class="gh-detail-layout">
         <div class="gh-detail-content">
 
@@ -200,7 +199,7 @@
 
           <div class="gh-widget">
             <h3 class="gh-widget__title">同じエリアの店舗</h3>
-            <div class="gh-nearby" id="spotNearby"><a href="/spot/gashadepa-lalaport-nagoya-minato.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート ららぽーと名古屋みなとアクルス店</strong><small>愛知県・名古屋港 ・ 約380台</small></div></a><a href="/spot/gashadepa-surugaya-shizuoka-honten.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート 駿河屋本店 駿河屋ビル店</strong><small>静岡県・静岡 ・ —</small></div></a><a href="/spot/gashadepa-noritake-shinmachi.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート 則武新町店</strong><small>愛知県・名古屋駅 ・ —</small></div></a><a href="/spot/gashadepa-apina-nagoya-sakae.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート アピナ名古屋栄店</strong><small>愛知県・栄 ・ 約450台</small></div></a><a href="/spot/gashadepa-yoshizuya-taihei.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート ヨシヅヤ太平通り店</strong><small>愛知県・中川区 ・ —</small></div></a><a href="/spot/ggmori-nagoya-dome-mae.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 イオンモールナゴヤドーム前店</strong><small>愛知県・ナゴヤドーム前 ・ —</small></div></a></div>
+            <div class="gh-nearby" id="spotNearby"><a href="/spot/ggmori-favore-toyama.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 ファボーレ富山店</strong><small>富山県・婦中 ・ —</small></div></a><a href="/spot/gashapon-bandai-cinemasunshine-kahoku.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンバンダイオフィシャルショップシネマサンシャインかほく店</strong><small>石川県・かほく ・ —</small></div></a><a href="/spot/gashadepa-kanazawa-forus.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート 金沢フォーラス店</strong><small>石川県・金沢 ・ —</small></div></a><a href="/spot/gashacoco-matsumoto-scena.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>gashacoco 松本シェーナ</strong><small>長野県・松本 ・ —</small></div></a><a href="/spot/gashadepa-apina-nagano-ohashi.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート アピナ長野大橋店</strong><small>長野県・長野 ・ 約430台</small></div></a><a href="/spot/gashadepa-plant3-shimizu.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート PLANT-3 清水店</strong><small>福井県・福井 ・ 約710台</small></div></a></div>
           </div>
 
           <div class="gh-widget">

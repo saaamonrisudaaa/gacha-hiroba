@@ -21,13 +21,12 @@
   <link rel="stylesheet" href="/styles.css" />
   <!-- 店舗データ → 描画 → 共有掲示板 → 共通JS（この順で読み込む） -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
-  <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"Store","name":"カプセル楽局 池袋西口店","url":"https://gacha-hiroba.com/spot/caprak-ikebukuro-west.html","address":{"@type":"PostalAddress","streetAddress":"東京都豊島区西池袋1-16-3","addressRegion":"東京都","addressCountry":"JP","postalCode":"171-0021"},"description":"カプセル楽局 池袋西口店（東京都・池袋）のガチャガチャ設置情報。営業時間 10:00〜22:00。住所・アクセス・地図・店舗ごとの掲示板で入荷情報や混雑状況をチェック。","telephone":"03-6709-1354","geo":{"@type":"GeoCoordinates","latitude":35.731,"longitude":139.7085},"openingHours":"10:00〜22:00"}</script>
-  <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"トップ","item":"https://gacha-hiroba.com/"},{"@type":"ListItem","position":2,"name":"店舗一覧","item":"https://gacha-hiroba.com/stores.html"},{"@type":"ListItem","position":3,"name":"カプセル楽局 池袋西口店","item":"https://gacha-hiroba.com/spot/caprak-ikebukuro-west.html"}]}</script>
+  <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"Store","name":"カプセル楽局 池袋西口店","url":"https://gacha-hiroba.com/spot/caprak-ikebukuro-west.html","address":{"@type":"PostalAddress","streetAddress":"東京都豊島区西池袋1-16-3","addressRegion":"東京都","addressCountry":"JP","postalCode":"171-0021"},"description":"カプセル楽局 池袋西口店（東京都・池袋）のガチャガチャ設置情報。営業時間 10:00〜22:00。住所・アクセス・地図・店舗ごとの掲示板で入荷情報や混雑状況をチェック。","telephone":"03-6709-1354","geo":{"@type":"GeoCoordinates","latitude":35.731,"longitude":139.7085}}</script>
+  <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"トップ","item":"https://gacha-hiroba.com/"},{"@type":"ListItem","position":2,"name":"店舗一覧","item":"https://gacha-hiroba.com/stores.html"},{"@type":"ListItem","position":3,"name":"東京都のガチャガチャ設置場所","item":"https://gacha-hiroba.com/area/tokyo.html"},{"@type":"ListItem","position":4,"name":"カプセル楽局 池袋西口店","item":"https://gacha-hiroba.com/spot/caprak-ikebukuro-west.html"}]}</script>
   <script>window.GH_SPOT_STATIC_ID="caprak-ikebukuro-west";</script>
   <script src="/data/spots.js" defer></script>
   <script src="/spots-ui.js" defer></script>
   <script src="/data/ads.js" defer></script>
-  <script src="/data/board-seed.js" defer></script>
   <script src="/script.js" defer></script>
 </head>
 <body>
@@ -58,7 +57,7 @@
           <a href="/news.html">新着情報</a>
           <a href="/ranking.html">ランキング</a>
           <a href="/area.html">エリア別</a>
-          <a href="/category.html">カテゴリー別</a>
+          <a href="/category.html">ブランド別</a>
         </nav>
       </div>
     </div>
@@ -73,7 +72,7 @@
         <span aria-hidden="true">›</span>
         <a href="/stores.html">店舗一覧</a>
         <span aria-hidden="true">›</span>
-        <a href="/area.html" id="spotCrumbArea">東京都</a>
+        <a href="/area/tokyo.html" id="spotCrumbArea">東京都</a>
         <span aria-hidden="true">›</span>
         <span aria-current="page" id="spotCrumbName">カプセル楽局 池袋西口店</span>
       </nav>
@@ -91,7 +90,7 @@
           <div class="gh-quote__head">
             <div class="gh-quote__title-row">
               <h1 class="gh-quote__name" id="spotName">カプセル楽局 池袋西口店</h1>
-              <span id="spotBadges"><a class="gh-badge gh-badge--lg" style="text-decoration:none" href="/stores.html?brand=%E3%82%AB%E3%83%97%E3%82%BB%E3%83%AB%E6%A5%BD%E5%B1%80" title="カプセル楽局の店舗一覧を見る">カプセル楽局</a><span class="gh-badge gh-badge--lg">東京都・池袋</span></span>
+              <span id="spotBadges"><a class="gh-badge gh-badge--lg" style="text-decoration:none" href="/brand/capsule-rakkyoku.html" title="カプセル楽局の店舗一覧を見る">カプセル楽局</a><span class="gh-badge gh-badge--lg">東京都・池袋</span></span>
             </div>
             <div class="gh-quote__address" id="spotAddress"><span>📍 〒171-0021 東京都豊島区西池袋1-16-3</span><span class="gh-hero__divider">｜</span><span>🚉 池袋駅 西口 徒歩数分（ゲオ運営）</span></div>
           </div>
@@ -106,7 +105,7 @@
         </div>
       </section>
 
-      <div class="gh-spot-intro"><p>カプセル楽局 池袋西口店は、東京都（東京都・池袋）にあるガチャガチャ・カプセルトイの設置スポットです。営業時間は10:00〜22:00。アクセスは池袋駅 西口 徒歩数分（ゲオ運営）。</p><p>カプセル楽局は、ゲオグループが展開するカプセルトイ専門店です。駅前や商店街など、生活動線上の小型店を中心に出店しています。</p><p>東京都・池袋エリアには、この店舗を含めて8件のガチャスポットを掲載しています。同じ地域のお店は<a href="/stores.html?pref=%E6%9D%B1%E4%BA%AC%E9%83%BD">東京都の掲載店舗（117件）</a>、同じブランドのお店は<a href="/stores.html?brand=%E3%82%AB%E3%83%97%E3%82%BB%E3%83%AB%E6%A5%BD%E5%B1%80">カプセル楽局の店舗一覧</a>からも探せます。</p><p>掲載内容は公開情報をもとにしています。最新の入荷状況・混雑・在庫については、このページの掲示板タブで情報をチェック・共有できます。営業時間や設置台数は変更される場合があるため、お出かけ前に店舗の公式情報もあわせてご確認ください。</p></div>
+      <div class="gh-spot-intro"><p>カプセル楽局 池袋西口店は、東京都（東京都・池袋）にあるガチャガチャ・カプセルトイの設置スポットです。営業時間は10:00〜22:00。アクセスは池袋駅 西口 徒歩数分（ゲオ運営）。</p><p>カプセル楽局は、ゲオグループが展開するカプセルトイ専門店です。駅前や商店街など、生活動線上の小型店を中心に出店しています。</p><p>東京都・池袋エリアには、この店舗を含めて8件のガチャスポットを掲載しています。同じ地域のお店は<a href="/area/tokyo.html">東京都の掲載店舗（117件）</a>、同じブランドのお店は<a href="/brand/capsule-rakkyoku.html">カプセル楽局の店舗一覧</a>からも探せます。</p><p>掲載内容は公開情報をもとにしています。最新の入荷状況・混雑・在庫については、このページの掲示板タブで情報をチェック・共有できます。営業時間や設置台数は変更される場合があるため、お出かけ前に店舗の公式情報もあわせてご確認ください。</p></div>
       <div class="gh-detail-layout">
         <div class="gh-detail-content">
 
@@ -200,7 +199,7 @@
 
           <div class="gh-widget">
             <h3 class="gh-widget__title">同じエリアの店舗</h3>
-            <div class="gh-nearby" id="spotNearby"><a href="/spot/ggmori-shinjuku-subnade.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 新宿サブナード店</strong><small>東京都・新宿 ・ 約1,050台</small></div></a><a href="/spot/ggmori-shinjuku-subnade-east.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 新宿サブナードEAST店</strong><small>東京都・新宿 ・ 約450台</small></div></a><a href="/spot/ggmori-olinas-kinshicho.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 オリナス錦糸町店</strong><small>東京都・錦糸町 ・ 約660台</small></div></a><a href="/spot/ggmori-jiyugaoka.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 自由が丘店</strong><small>東京都・自由が丘 ・ 約570台</small></div></a><a href="/spot/ggmori-seiyu-ogikubo.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 西友荻窪店</strong><small>東京都・荻窪 ・ 約470台</small></div></a><a href="/spot/ggmori-ikebukuro-sunshine-alta.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 池袋サンシャインシティアルタ店</strong><small>東京都・池袋 ・ 約1,240台</small></div></a></div>
+            <div class="gh-nearby" id="spotNearby"><a href="/spot/gbo-namco-ikebukuro.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンバンダイオフィシャルショップ namco池袋店</strong><small>東京都・池袋 ・ —</small></div></a><a href="/spot/gashacoco-ikebukuro-sunshine-st.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>gashacoco 池袋サンシャイン通り</strong><small>東京都・池袋 ・ —</small></div></a><a href="/spot/gashacoco-ikebukuro.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>gashacoco（ガシャココ）池袋</strong><small>東京都・池袋 ・ 約1,500台</small></div></a><a href="/spot/caprak-ex-ikebukuro.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>カプセル楽局 EX池袋店</strong><small>東京都・池袋 ・ —</small></div></a><a href="/spot/yodobashi-ikebukuro-gacha-jungle.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ヨドバシカメラ マルチメディア池袋 ガチャガチャジャングル</strong><small>東京都・池袋 ・ 約3,000台</small></div></a><a href="/spot/ggmori-ikebukuro-sunshine-alta.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 池袋サンシャインシティアルタ店</strong><small>東京都・池袋 ・ 約1,240台</small></div></a></div>
           </div>
 
           <div class="gh-widget">

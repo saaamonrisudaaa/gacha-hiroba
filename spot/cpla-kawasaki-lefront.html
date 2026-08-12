@@ -21,13 +21,12 @@
   <link rel="stylesheet" href="/styles.css" />
   <!-- 店舗データ → 描画 → 共有掲示板 → 共通JS（この順で読み込む） -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
-  <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"Store","name":"#C-pla 川崎ルフロン店","url":"https://gacha-hiroba.com/spot/cpla-kawasaki-lefront.html","address":{"@type":"PostalAddress","streetAddress":"神奈川県川崎市川崎区日進町1-11 川崎ルフロン 5F","addressRegion":"神奈川県","addressCountry":"JP","postalCode":"210-0024"},"description":"#C-pla 川崎ルフロン店（神奈川県・川崎）のガチャガチャ設置情報。営業時間 10:00〜21:00。住所・アクセス・地図・店舗ごとの掲示板で入荷情報や混雑状況をチェック。","telephone":"090-2376-7062","geo":{"@type":"GeoCoordinates","latitude":35.529,"longitude":139.699},"openingHours":"10:00〜21:00"}</script>
-  <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"トップ","item":"https://gacha-hiroba.com/"},{"@type":"ListItem","position":2,"name":"店舗一覧","item":"https://gacha-hiroba.com/stores.html"},{"@type":"ListItem","position":3,"name":"#C-pla 川崎ルフロン店","item":"https://gacha-hiroba.com/spot/cpla-kawasaki-lefront.html"}]}</script>
+  <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"Store","name":"#C-pla 川崎ルフロン店","url":"https://gacha-hiroba.com/spot/cpla-kawasaki-lefront.html","address":{"@type":"PostalAddress","streetAddress":"神奈川県川崎市川崎区日進町1-11 川崎ルフロン 5F","addressRegion":"神奈川県","addressCountry":"JP","postalCode":"210-0024"},"description":"#C-pla 川崎ルフロン店（神奈川県・川崎）のガチャガチャ設置情報。営業時間 10:00〜21:00。住所・アクセス・地図・店舗ごとの掲示板で入荷情報や混雑状況をチェック。","telephone":"090-2376-7062","geo":{"@type":"GeoCoordinates","latitude":35.529,"longitude":139.699}}</script>
+  <script type="application/ld+json" data-gh-static>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"トップ","item":"https://gacha-hiroba.com/"},{"@type":"ListItem","position":2,"name":"店舗一覧","item":"https://gacha-hiroba.com/stores.html"},{"@type":"ListItem","position":3,"name":"神奈川県のガチャガチャ設置場所","item":"https://gacha-hiroba.com/area/kanagawa.html"},{"@type":"ListItem","position":4,"name":"#C-pla 川崎ルフロン店","item":"https://gacha-hiroba.com/spot/cpla-kawasaki-lefront.html"}]}</script>
   <script>window.GH_SPOT_STATIC_ID="cpla-kawasaki-lefront";</script>
   <script src="/data/spots.js" defer></script>
   <script src="/spots-ui.js" defer></script>
   <script src="/data/ads.js" defer></script>
-  <script src="/data/board-seed.js" defer></script>
   <script src="/script.js" defer></script>
 </head>
 <body>
@@ -58,7 +57,7 @@
           <a href="/news.html">新着情報</a>
           <a href="/ranking.html">ランキング</a>
           <a href="/area.html">エリア別</a>
-          <a href="/category.html">カテゴリー別</a>
+          <a href="/category.html">ブランド別</a>
         </nav>
       </div>
     </div>
@@ -73,7 +72,7 @@
         <span aria-hidden="true">›</span>
         <a href="/stores.html">店舗一覧</a>
         <span aria-hidden="true">›</span>
-        <a href="/area.html" id="spotCrumbArea">神奈川県</a>
+        <a href="/area/kanagawa.html" id="spotCrumbArea">神奈川県</a>
         <span aria-hidden="true">›</span>
         <span aria-current="page" id="spotCrumbName">#C-pla 川崎ルフロン店</span>
       </nav>
@@ -91,7 +90,7 @@
           <div class="gh-quote__head">
             <div class="gh-quote__title-row">
               <h1 class="gh-quote__name" id="spotName">#C-pla 川崎ルフロン店</h1>
-              <span id="spotBadges"><a class="gh-badge gh-badge--lg" style="text-decoration:none" href="/stores.html?brand=%23C-pla%EF%BC%88%E3%82%B7%E3%83%BC%E3%83%97%E3%83%A9%EF%BC%89" title="#C-pla（シープラ）の店舗一覧を見る">#C-pla（シープラ）</a><span class="gh-badge gh-badge--lg">神奈川県・川崎</span></span>
+              <span id="spotBadges"><a class="gh-badge gh-badge--lg" style="text-decoration:none" href="/brand/c-pla.html" title="#C-pla（シープラ）の店舗一覧を見る">#C-pla（シープラ）</a><span class="gh-badge gh-badge--lg">神奈川県・川崎</span></span>
             </div>
             <div class="gh-quote__address" id="spotAddress"><span>📍 〒210-0024 神奈川県川崎市川崎区日進町1-11 川崎ルフロン 5F</span><span class="gh-hero__divider">｜</span><span>🚉 川崎ルフロン 5F（川崎駅 東口 徒歩約3分）</span></div>
           </div>
@@ -106,7 +105,7 @@
         </div>
       </section>
 
-      <div class="gh-spot-intro"><p>#C-pla 川崎ルフロン店は、神奈川県（神奈川県・川崎）にあるガチャガチャ・カプセルトイの設置スポットです。営業時間は10:00〜21:00。アクセスは川崎ルフロン 5F（川崎駅 東口 徒歩約3分）。</p><p>#C-pla（シープラ）は、トーシンが展開するカプセルトイ専門店です。商業施設内から路面店まで幅広く出店しています。</p><p>神奈川県・川崎エリアには、この店舗を含めて2件のガチャスポットを掲載しています。同じ地域のお店は<a href="/stores.html?pref=%E7%A5%9E%E5%A5%88%E5%B7%9D%E7%9C%8C">神奈川県の掲載店舗（21件）</a>、同じブランドのお店は<a href="/stores.html?brand=%23C-pla%EF%BC%88%E3%82%B7%E3%83%BC%E3%83%97%E3%83%A9%EF%BC%89">#C-pla（シープラ）の店舗一覧</a>からも探せます。</p><p>掲載内容は公開情報をもとにしています。最新の入荷状況・混雑・在庫については、このページの掲示板タブで情報をチェック・共有できます。営業時間や設置台数は変更される場合があるため、お出かけ前に店舗の公式情報もあわせてご確認ください。</p></div>
+      <div class="gh-spot-intro"><p>#C-pla 川崎ルフロン店は、神奈川県（神奈川県・川崎）にあるガチャガチャ・カプセルトイの設置スポットです。営業時間は10:00〜21:00。アクセスは川崎ルフロン 5F（川崎駅 東口 徒歩約3分）。</p><p>#C-pla（シープラ）は、トーシンが展開するカプセルトイ専門店です。商業施設内から路面店まで幅広く出店しています。</p><p>神奈川県・川崎エリアには、この店舗を含めて2件のガチャスポットを掲載しています。同じ地域のお店は<a href="/area/kanagawa.html">神奈川県の掲載店舗（21件）</a>、同じブランドのお店は<a href="/brand/c-pla.html">#C-pla（シープラ）の店舗一覧</a>からも探せます。</p><p>掲載内容は公開情報をもとにしています。最新の入荷状況・混雑・在庫については、このページの掲示板タブで情報をチェック・共有できます。営業時間や設置台数は変更される場合があるため、お出かけ前に店舗の公式情報もあわせてご確認ください。</p></div>
       <div class="gh-detail-layout">
         <div class="gh-detail-content">
 
@@ -200,7 +199,7 @@
 
           <div class="gh-widget">
             <h3 class="gh-widget__title">同じエリアの店舗</h3>
-            <div class="gh-nearby" id="spotNearby"><a href="/spot/ggmori-shinjuku-subnade.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 新宿サブナード店</strong><small>東京都・新宿 ・ 約1,050台</small></div></a><a href="/spot/ggmori-shinjuku-subnade-east.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 新宿サブナードEAST店</strong><small>東京都・新宿 ・ 約450台</small></div></a><a href="/spot/ggmori-olinas-kinshicho.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 オリナス錦糸町店</strong><small>東京都・錦糸町 ・ 約660台</small></div></a><a href="/spot/ggmori-jiyugaoka.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 自由が丘店</strong><small>東京都・自由が丘 ・ 約570台</small></div></a><a href="/spot/ggmori-seiyu-ogikubo.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 西友荻窪店</strong><small>東京都・荻窪 ・ 約470台</small></div></a><a href="/spot/ggmori-ikebukuro-sunshine-alta.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャの森 池袋サンシャインシティアルタ店</strong><small>東京都・池袋 ・ 約1,240台</small></div></a></div>
+            <div class="gh-nearby" id="spotNearby"><a href="/spot/gashadepa-lazona-kawasaki.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート ラゾーナ川崎店</strong><small>神奈川県・川崎 ・ 約700台</small></div></a><a href="/spot/gashadepa-tressa-yokohama.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンのデパート トレッサ横浜店</strong><small>神奈川県・港北 ・ —</small></div></a><a href="/spot/gashapon-bos-surugaya-yokohama.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンバンダイオフィシャルショップ 駿河屋横浜店</strong><small>神奈川県・横浜駅 ・ —</small></div></a><a href="/spot/gachagacha-collection-yokohama-sky.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガチャガチャコレクション 横浜スカイビル</strong><small>神奈川県・横浜駅 ・ 約300台</small></div></a><a href="/spot/asobuild-yokohama-gacha.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>アソビル（ガチャガチャコーナー）</strong><small>神奈川県・横浜駅 ・ 約200台</small></div></a><a href="/spot/gashapon-bos-minatomirai-tokyu-square.html" class="gh-nearby__item"><span class="gh-rank">🏬</span><div><strong>ガシャポンバンダイオフィシャルショップ みなとみらい東急スクエア店</strong><small>神奈川県・みなとみらい ・ 約300台</small></div></a></div>
           </div>
 
           <div class="gh-widget">
