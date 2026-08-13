@@ -144,6 +144,19 @@ const organicBody = (dateRange) => ({
 const currentOrganic = runReport(token, organicBody(CURRENT));
 const previousOrganic = runReport(token, organicBody(PREVIOUS));
 
+/* 6) アフィリエイト導線（広告を50%以上・1秒表示した回数とクリック数） */
+const affiliateEvents = runReport(token, {
+  dateRanges: [CURRENT],
+  dimensions: [{ name: 'eventName' }],
+  metrics: [{ name: 'eventCount' }],
+  dimensionFilter: {
+    filter: {
+      fieldName: 'eventName',
+      inListFilter: { values: ['ad_impression', 'ad_click'] }
+    }
+  }
+});
+
 const firstMetrics = (report) => rows(report)[0]?.mets.map(Number) || [];
 const pct = (current, previous) => previous
   ? (((current - previous) / previous) * 100).toFixed(1) + '%'
@@ -201,4 +214,12 @@ organicDrops.forEach((row, index) => {
   console.log(String(index + 1).padStart(2) + '. ' + row.path + '  セッション ' + row.current[0] +
     '（前期 ' + row.previous[0] + ' / ' + pct(row.current[0], row.previous[0]) + ' / 差 ' + row.delta + '）');
 });
+
+const affiliateByEvent = byDimension(affiliateEvents);
+const impressions = affiliateByEvent.get('ad_impression')?.[0] || 0;
+const clicks = affiliateByEvent.get('ad_click')?.[0] || 0;
+const affiliateCtr = impressions ? ((clicks / impressions) * 100).toFixed(2) + '%' : '算出待ち';
+console.log('\n── アフィリエイト導線（直近28日）──');
+console.log('  表示 ' + impressions + ' / クリック ' + clicks + ' / CTR ' + affiliateCtr);
+console.log('  ※案件別の注文数は楽天管理画面で確認し、ad_click と照合してください。');
 console.log('\n（データ取得: GA4 Data API / analytics.readonly）');
