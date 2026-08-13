@@ -242,6 +242,7 @@ function buildPage(article) {
   <link rel="stylesheet" href="/styles.css" />
 ${structuredData}
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5458972550684006" crossorigin="anonymous"></script>
+  <script src="/data/ads.js" defer></script>
   <script src="/script.js" defer></script>
 </head>
 <body>
@@ -340,6 +341,7 @@ function validatePage(article, stores, html) {
     `<title>${esc(`${article.title} | ガチャひろば`)}</title>`,
     `<link rel="canonical" href="${expectedCanonical}" />`,
     `<h1 class="gh-article__title">${esc(`${article.emoji} ${article.title}`)}</h1>`,
+    '<script src="/data/ads.js" defer></script>',
     '<script src="/script.js" defer></script>',
     '</html>'
   ];
@@ -404,7 +406,9 @@ for (const article of articles) {
 }
 
 for (const file of readdirSync(outDir)) {
-  if (file.endsWith('.html') && !slugs.has(file.slice(0, -5))) {
+  /* 生成対象と同じ命名規則のファイルだけを整理する。
+     手元の比較用コピー（例: "name 2.html"）には触れない。 */
+  if (/^[a-z0-9-]+\.html$/.test(file) && !slugs.has(file.slice(0, -5))) {
     unlinkSync(new URL(file, outDir));
   }
 }

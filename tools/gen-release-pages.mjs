@@ -150,6 +150,7 @@ function buildPage(month, monthReleases) {
   const sorted = [...monthReleases].sort((a, b) =>
     a.date.localeCompare(b.date, 'ja') || a.title.localeCompare(b.title, 'ja')
   );
+  const hasSanrioRelease = sorted.some(release => /サンリオ/.test(release.title || ''));
   const count = sorted.length;
   const pagePath = '/releases/' + month + '.html';
   const pageUrl = ORIGIN + pagePath;
@@ -225,6 +226,7 @@ function buildPage(month, monthReleases) {
   <script type="application/ld+json">${safeJson(collection)}</script>
   <script type="application/ld+json">${safeJson(itemList)}</script>
   <script type="application/ld+json">${safeJson(breadcrumbs)}</script>
+  <script src="/data/ads.js" defer></script>
   <script src="/script.js" defer></script>
 </head>
 <body>
@@ -259,6 +261,13 @@ function buildPage(month, monthReleases) {
             <p class="gh-rel-note">発売時期・価格・種類数はメーカー公式情報にもとづきます。店舗や地域により入荷日・取り扱い・在庫状況が異なる場合があります。</p>
           </section>
 
+          ${hasSanrioRelease ? `<section class="gh-section gh-commerce-sec" hidden aria-labelledby="release-shop-title">
+            <div class="gh-section__header">
+              <h2 class="gh-section__title" id="release-shop-title">サンリオの新作が気になった方へ</h2>
+            </div>
+            <div data-gh-commerce="releaseArchive"></div>
+          </section>` : ''}
+
           <a class="gh-store-cta" href="/map.html">
             <span class="gh-store-cta__icon" aria-hidden="true">🗺️</span>
             <span class="gh-store-cta__body"><strong>近くのガチャ設置場所をマップで探す</strong><small>現在地や表示中のエリアから、取り扱い店舗候補を見つけられます。</small></span>
@@ -283,7 +292,7 @@ function buildPage(month, monthReleases) {
           </div>
           <div class="gh-widget">
             <h2 class="gh-widget__title">情報について</h2>
-            <p class="gh-widget__text">商品リンクは各メーカーの公式ページです。画像を転載せず、公式発表で確認できた事実を掲載しています。</p>
+            <p class="gh-widget__text">発売情報の出典リンクは各メーカーの公式ページです。PR表示のリンクには楽天アフィリエイトを利用しています。</p>
           </div>
         </aside>
       </div>
