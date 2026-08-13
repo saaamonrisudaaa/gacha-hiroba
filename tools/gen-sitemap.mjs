@@ -55,7 +55,7 @@ add('/ranking.html', spotsModified);
 add('/board.html', spotsModified);
 add('/area.html', spotsModified);
 add('/map.html', spotsModified);
-add('/news.html', latest([articlesModified, releasesModified]));
+add('/news.html', latest([spotsModified, articlesModified, releasesModified]));
 add('/category.html', spotsModified);
 add('/terms.html');
 add('/privacy.html');
