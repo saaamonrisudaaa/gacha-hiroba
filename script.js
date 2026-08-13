@@ -1845,169 +1845,246 @@ document.addEventListener('click', e => {
   ).join('');
 })();
 
-/* ── Affiliate ad slots (data/ads.js → サイドバー広告枠) ──
-   data/ads.js の products にアフィリエイトリンクを入れると、各ページの
-   .gh-ad 枠に自動でカード表示。未設定なら既存のプレースホルダーのまま。 */
+/* ── Affiliate modules (data/ads.js → 文脈別広告・サイドバー) ── */
 (function () {
   const cfg = window.GH_ADS;
-  if (!cfg) return;                                    // ads.js を読み込んだページのみ
-  const esc = s => { const d = document.createElement('div'); d.textContent = (s == null ? '' : String(s)); return d.innerHTML; };
-  const hrefOf = htmlStr => { const d = document.createElement('div'); d.innerHTML = htmlStr; const a = d.querySelector('a'); return a ? a.getAttribute('href') : ''; };
-  const RK_HEADS = ['🛒 楽天市場', '🎁 楽天市場でチェック', '🔎 楽天市場で探す'];
-  const discHtml = cfg.disclosure ? '<p class="gh-affil__disc">' + esc(cfg.disclosure) + '</p>' : '';
+  if (!cfg) return;
 
-  /* ── 横長「楽天市場でチェック」セクション（featured を [data-gh-featured] に描画） ── */
-  const featBox = document.querySelector('[data-gh-featured]');
-  if (featBox) {
-    const featAll = (cfg.featured || []).filter(Boolean);
-    /* 表示は featuredMax 件まで。開始位置を日替わりでずらして、
-       件数を絞っても全商品が順番に露出するようにする。 */
-    const featMax = Number(cfg.featuredMax) > 0 ? Number(cfg.featuredMax) : featAll.length;
-    let feat = featAll;
-    if (featAll.length > featMax) {
-      const day = Math.floor((Date.now() + 9 * 3600 * 1000) / 86400000);
-      const start = day % featAll.length;
-      feat = featAll.concat(featAll).slice(start, start + featMax);
+  const esc = value => {
+    const node = document.createElement('div');
+    node.textContent = value == null ? '' : String(value);
+    return node.innerHTML;
+  };
+  const campaigns = cfg.campaigns || {};
+  const discHtml = cfg.disclosure
+    ? '<p class="gh-affil__disc">' + esc(cfg.disclosure) + '</p>'
+    : '';
+  const isMobile = () => window.matchMedia && window.matchMedia('(max-width: 600px)').matches;
+  const creativeFor = (campaign, mode) => {
+    if (mode === 'sidebar') return campaign.sidebarCreative || campaign.mobileCreative || campaign.desktopCreative || 'sidebar';
+    return isMobile()
+      ? (campaign.mobileCreative || campaign.desktopCreative || 'mobile')
+      : (campaign.desktopCreative || campaign.mobileCreative || 'desktop');
+  };
+  const trackingAttrs = (campaign, placement, mode) =>
+    ' data-ad-track="unit"' +
+    ' data-ad-id="' + esc(campaign.id || '') + '"' +
+    ' data-ad-placement="' + esc(placement) + '"' +
+    ' data-ad-creative="' + esc(creativeFor(campaign, mode)) + '"' +
+    ' data-ad-creative-desktop="' + esc(campaign.desktopCreative || '') + '"' +
+    ' data-ad-creative-mobile="' + esc(campaign.mobileCreative || '') + '"';
+  const campaignPicture = (campaign, mode) => {
+    const fallback = mode === 'sidebar'
+      ? (campaign.sidebarImage || campaign.mobileImage || campaign.desktopImage)
+      : (campaign.desktopImage || campaign.mobileImage);
+    if (!fallback) return '';
+    if (mode === 'sidebar') {
+      return '<img src="' + esc(fallback) + '" alt="' + esc(campaign.imageAlt || campaign.title) + '" loading="lazy" />';
     }
-    if (feat.length) {
-      featBox.innerHTML = feat.map(h => '<div class="gh-featured__item">' + h + '</div>').join('') + discHtml;
-      const sec = featBox.closest('.gh-featured-sec');
-      if (sec) sec.hidden = false;
-    }
-  }
+    return '<picture>' +
+      (campaign.mobileImage ? '<source media="(max-width: 600px)" srcset="' + esc(campaign.mobileImage) + '" />' : '') +
+      '<img src="' + esc(fallback) + '" alt="' + esc(campaign.imageAlt || campaign.title) + '" loading="lazy" />' +
+    '</picture>';
+  };
+  const campaignCard = (campaign, placement) => {
+    const imageLabel = (campaign.shop || campaign.title) + 'の商品ページを開く';
+    return '<article class="gh-commerce__card"' + trackingAttrs(campaign, placement, 'context') + '>' +
+      '<div class="gh-commerce__media">' +
+        '<a href="' + esc(campaign.url) + '" target="_blank" rel="nofollow sponsored noopener" aria-label="' + esc(imageLabel) + '" data-ad-cta="image">' +
+          campaignPicture(campaign, 'context') +
+          '<span class="gh-commerce__image-fallback">画像を読み込めませんでした</span>' +
+        '</a>' +
+      '</div>' +
+      '<div class="gh-commerce__body">' +
+        '<div class="gh-commerce__meta"><span class="gh-affil__pr">PR</span><span>' + esc(campaign.shop || '楽天市場') + '</span></div>' +
+        (campaign.eyebrow ? '<p class="gh-commerce__eyebrow">' + esc(campaign.eyebrow) + '</p>' : '') +
+        '<h3 class="gh-commerce__title">' + esc(campaign.title) + '</h3>' +
+        (campaign.description ? '<p class="gh-commerce__desc">' + esc(campaign.description) + '</p>' : '') +
+        (campaign.price ? '<p class="gh-commerce__price">' + esc(campaign.price) + '</p>' : '') +
+        '<a class="gh-commerce__cta" href="' + esc(campaign.ctaUrl || campaign.url) + '" target="_blank" rel="nofollow sponsored noopener" data-ad-cta="' + esc(campaign.cta || '商品詳細を見る') + '">' +
+          esc(campaign.cta || '商品詳細を見る') + '<span aria-hidden="true">→</span>' +
+        '</a>' +
+        (campaign.note ? '<small class="gh-commerce__note">' + esc(campaign.note) + '</small>' : '') +
+      '</div>' +
+    '</article>';
+  };
 
-  /* ── ガチャ関連グッズユニット（[data-gh-gacha-goods] に描画。本命の文脈広告） ── */
+  /* ページごとの閲覧目的に合わせた固定枠。日替わり表示にはしない。 */
+  document.querySelectorAll('[data-gh-commerce]').forEach(box => {
+    const placement = box.dataset.ghCommerce;
+    const campaignKeys = (cfg.placements && cfg.placements[placement]) || [];
+    const selected = campaignKeys.map(key => campaigns[key]).filter(Boolean);
+    if (!selected.length) return;
+    box.innerHTML = '<div class="gh-commerce">' +
+      selected.map(campaign => campaignCard(campaign, placement)).join('') +
+      '</div>' + discHtml;
+    const section = box.closest('.gh-commerce-sec');
+    if (section) section.hidden = false;
+  });
+
+  /* ガチャ関連グッズ。各リンクを個別に計測する。 */
   document.querySelectorAll('[data-gh-gacha-goods]').forEach(box => {
     const goods = (cfg.gachaGoods || []).filter(g => g && g.url && g.title);
     if (!goods.length) return;
-    box.innerHTML =
-      '<div class="gh-goods">' +
-      goods.map(g =>
-        '<a class="gh-goods__card" href="' + esc(g.url) + '" target="_blank" rel="nofollow sponsored noopener" data-ad-unit="goods">' +
-          '<span class="gh-goods__emoji" aria-hidden="true">' + esc(g.emoji || '🎁') + '</span>' +
-          '<span class="gh-goods__body">' +
-            '<strong class="gh-goods__title">' + esc(g.title) + '</strong>' +
-            '<small class="gh-goods__note">' + esc(g.note || '') + '</small>' +
-          '</span>' +
-          '<span class="gh-goods__arrow" aria-hidden="true">▶</span>' +
-        '</a>').join('') +
-      '</div>' + discHtml;
-    const sec = box.closest('.gh-goods-sec');
-    if (sec) sec.hidden = false;
+    box.innerHTML = '<div class="gh-goods">' + goods.map(g =>
+      '<a class="gh-goods__card" href="' + esc(g.url) + '" target="_blank" rel="nofollow sponsored noopener"' +
+        ' data-ad-track="unit" data-ad-id="' + esc(g.id || 'rk_goods') + '" data-ad-placement="goods" data-ad-creative="text_card" data-ad-cta="' + esc(g.title) + '">' +
+        '<span class="gh-goods__emoji" aria-hidden="true">' + esc(g.emoji || '🎁') + '</span>' +
+        '<span class="gh-goods__body"><strong class="gh-goods__title">' + esc(g.title) + '</strong>' +
+        '<small class="gh-goods__note">' + esc(g.note || '') + '</small></span>' +
+        '<span class="gh-goods__arrow" aria-hidden="true">▶</span>' +
+      '</a>').join('') + '</div>' + discHtml;
+    const section = box.closest('.gh-goods-sec');
+    if (section) {
+      const heading = section.querySelector('.gh-section__title');
+      if (heading && cfg.gachaGoodsHeading) {
+        heading.innerHTML = esc(cfg.gachaGoodsHeading) + ' <span class="gh-affil__pr">PR</span>';
+      }
+      section.hidden = false;
+    }
   });
 
-  /* ── 下からスライドインするPRバナー（自前描画＝広告ブロッカーでも表示。閉じる可） ── */
-  const bar = cfg.bottomBar;
-  let barClosed = false;
-  try { barClosed = sessionStorage.getItem('gh-bottombar-closed') === '1'; } catch (e) {}
-  /* banners があれば画像バナーを1つランダムに表示。無ければ従来のテキスト表示。 */
-  const barBanners = (bar && Array.isArray(bar.banners) ? bar.banners : [])
-    .filter(b => b && b.url && b.img);
-  const barPick = barBanners.length ? barBanners[Math.floor(Math.random() * barBanners.length)] : null;
-  if (bar && (barPick || bar.url) && !barClosed) {
-    const el = document.createElement('div');
-    el.className = 'gh-bottombar' + (barPick ? ' gh-bottombar--banner' : '');
-    el.setAttribute('role', 'complementary');
-    el.setAttribute('aria-label', '広告');
-    const eyebrow =
-      '<span class="gh-bottombar__eyebrow">' +
-        '<span class="gh-bottombar__pr">PR</span>' +
-        (bar.label ? '<span class="gh-bottombar__label">' + esc(bar.label) + '</span>' : '') +
-      '</span>';
-    const close = '<button type="button" class="gh-bottombar__close" aria-label="広告を閉じる">×</button>';
-    if (barPick) {
-      el.innerHTML =
-        eyebrow +
-        '<a class="gh-bottombar__banner" href="' + esc(barPick.url) + '" target="_blank" rel="nofollow sponsored noopener">' +
-          '<img src="' + esc(barPick.img) + '" alt="' + esc(bar.label || '広告') + '" loading="lazy" />' +
-        '</a>' +
-        close;
-    } else {
-      el.innerHTML =
-        '<span class="gh-bottombar__icon" aria-hidden="true">' + esc(bar.emoji || '🛒') + '</span>' +
-        '<span class="gh-bottombar__body">' +
-          eyebrow +
-          '<strong class="gh-bottombar__text">' + esc(bar.text || '') + '</strong>' +
-          (bar.sub ? '<small class="gh-bottombar__sub">' + esc(bar.sub) + '</small>' : '') +
-        '</span>' +
-        '<a class="gh-bottombar__cta" href="' + esc(bar.url) + '" target="_blank" rel="nofollow sponsored noopener">' +
-          esc(bar.cta || '見てみる') + '<span aria-hidden="true">→</span></a>' +
-        close;
-    }
-    document.body.appendChild(el);
-    /* バナー画像が読めない場合（広告ブロッカー・配信停止など）は、
-       中身のない枠を出しっぱなしにしないでバナーごと消す。 */
-    const barImg = el.querySelector('.gh-bottombar__banner img');
-    if (barImg) barImg.addEventListener('error', () => el.remove());
-    setTimeout(() => { if (el.isConnected) el.classList.add('is-open'); }, 900);
-    el.querySelector('.gh-bottombar__close').addEventListener('click', () => {
-      el.classList.remove('is-open');
-      try { sessionStorage.setItem('gh-bottombar-closed', '1'); } catch (e) {}
-      setTimeout(() => el.remove(), 400);
-    });
-  }
+  document.querySelectorAll('.gh-commerce__media img').forEach(img => {
+    const markUnavailable = () => {
+      const media = img.closest('.gh-commerce__media');
+      if (media) media.classList.add('is-unavailable');
+    };
+    img.addEventListener('error', markUnavailable);
+    if (img.complete && !img.naturalWidth) markUnavailable();
+  });
 
-  /* ── サイドバー広告枠（.gh-ad を products で埋める） ── */
+  /* サイドバーは関連商品2件＋サンリオ公式ショップ1件に限定する。 */
   const slots = document.querySelectorAll('.gh-ad');
-  if (!slots.length) return;
+  /* 本文に文脈広告があるページでは、同じ画面のサイドバー広告を重ねない。 */
+  if (document.querySelector('.gh-commerce__card')) {
+    slots.forEach(slot => { slot.hidden = true; });
+    return;
+  }
+  const products = (cfg.products || []).map(product => {
+    if (!product || !product.campaignId) return product;
+    const campaign = campaigns[product.campaignId];
+    return campaign ? { ...campaign, campaignId: product.campaignId } : null;
+  }).filter(product => product && product.url && product.title);
+  if (!slots.length || !products.length) return;
 
-  const products = (cfg.products || []).filter(p => p && (p.html || (p.url && p.title)));
-  if (!products.length) return;                        // 未設定ならプレースホルダー維持
+  const max = cfg.maxPerSlot || 3;
+  const day = Math.floor((Date.now() + 9 * 3600 * 1000) / 86400000);
+  const sidebarCampaignIds = new Set(products.map(product => product.id).filter(Boolean));
+  const goodsAll = (cfg.gachaGoods || []).filter(g =>
+    g && g.url && g.title && !sidebarCampaignIds.has(g.id));
+  const goodsStart = goodsAll.length ? day % goodsAll.length : 0;
+  const rotatedGoods = goodsAll.slice(goodsStart).concat(goodsAll.slice(0, goodsStart)).slice(0, 2);
+  const sidebarItems = rotatedGoods.concat(products).slice(0, max);
 
-  const max = cfg.maxPerSlot || 4;
-  // ガチャ関連グッズを常に先頭へ（日替わり2件）。残り枠は汎用バナーのローテーション
-  const day = Math.floor(Date.now() / 86400000);
-  const goodsAll = (cfg.gachaGoods || []).filter(g => g && g.url && g.title);
-  const gStart = goodsAll.length ? day % goodsAll.length : 0;
-  const goodsRotated = goodsAll.slice(gStart).concat(goodsAll.slice(0, gStart)).slice(0, 2);
-  const start = products.length ? day % products.length : 0;
-  const rotated = goodsRotated.concat(products.slice(start).concat(products.slice(0, start)));
-
-  const card = (p, i) => {
-    // バナーHTML（楽天の画像リンク等）→ 見出し＋枠付き画像＋CTAボタンのカードにして目立たせる
-    if (p.html) {
-      const href = hrefOf(p.html);
-      return '<div class="gh-affil__rk">' +
-               '<div class="gh-affil__rk-head">' +
-                 '<span class="gh-affil__rk-shop">' + esc(RK_HEADS[i % RK_HEADS.length]) + '</span>' +
-                 '<span class="gh-affil__pr">PR</span>' +
-               '</div>' +
-               '<div class="gh-affil__banner">' + p.html + '</div>' +
-               (href ? '<a class="gh-affil__cta" href="' + esc(href) + '" target="_blank" rel="nofollow sponsored noopener">楽天市場で見る&nbsp;▶</a>' : '') +
-             '</div>';
+  const sidebarCard = item => {
+    if (item.campaignId) {
+      return '<article class="gh-affil__rk"' + trackingAttrs(item, 'sidebar', 'sidebar') + '>' +
+        '<div class="gh-affil__rk-head"><span class="gh-affil__rk-shop">' + esc(item.shop || '楽天市場') + '</span><span class="gh-affil__pr">PR</span></div>' +
+        '<a class="gh-affil__banner" href="' + esc(item.url) + '" target="_blank" rel="nofollow sponsored noopener" aria-label="' + esc((item.shop || item.title) + 'を開く') + '" data-ad-cta="image">' +
+          campaignPicture(item, 'sidebar') +
+        '</a>' +
+        '<div class="gh-affil__rk-copy"><strong>' + esc(item.title) + '</strong><small>' + esc(item.note || '') + '</small></div>' +
+        '<a class="gh-affil__cta" href="' + esc(item.ctaUrl || item.url) + '" target="_blank" rel="nofollow sponsored noopener" data-ad-cta="' + esc(item.cta || '商品詳細を見る') + '">' + esc(item.cta || '商品詳細を見る') + '&nbsp;▶</a>' +
+      '</article>';
     }
-    const media = p.img
-      ? '<img class="gh-affil__img" src="' + esc(p.img) + '" alt="" loading="lazy" />'
-      : '<span class="gh-affil__emoji" aria-hidden="true">' + esc(p.emoji || '🛍️') + '</span>';
-    return '<a class="gh-affil__card" href="' + esc(p.url) + '" target="_blank" rel="sponsored nofollow noopener">' +
-             '<span class="gh-affil__badge">' + esc(p.badge || 'PR') + '</span>' + media +
-             '<span class="gh-affil__text">' +
-               '<strong class="gh-affil__title">' + esc(p.title) + '</strong>' +
-               (p.note ? '<small class="gh-affil__note">' + esc(p.note) + '</small>' : '') +
-             '</span>' +
-           '</a>';
+    return '<a class="gh-affil__card" href="' + esc(item.url) + '" target="_blank" rel="nofollow sponsored noopener"' +
+      ' data-ad-track="unit" data-ad-id="' + esc(item.id || 'rk_goods') + '" data-ad-placement="sidebar" data-ad-creative="text_card" data-ad-cta="' + esc(item.title) + '">' +
+      '<span class="gh-affil__badge">PR</span><span class="gh-affil__emoji" aria-hidden="true">' + esc(item.emoji || '🛍️') + '</span>' +
+      '<span class="gh-affil__text"><strong class="gh-affil__title">' + esc(item.title) + '</strong>' +
+      (item.note ? '<small class="gh-affil__note">' + esc(item.note) + '</small>' : '') + '</span></a>';
   };
 
-  const html = '<div class="gh-affil">' + rotated.slice(0, max).map(card).join('') + '</div>' + discHtml;
-
+  const sidebarHtml = '<div class="gh-affil">' + sidebarItems.map(sidebarCard).join('') + '</div>' + discHtml;
   slots.forEach(slot => {
     const body = slot.querySelector('.gh-ad__body') || slot;
-    body.innerHTML = html;
+    body.innerHTML = sidebarHtml;
     slot.classList.add('gh-ad--filled');
+  });
+
+  document.querySelectorAll('.gh-affil__banner img').forEach(img => {
+    const markUnavailable = () => {
+      const media = img.closest('.gh-affil__banner');
+      if (media) media.classList.add('is-unavailable');
+    };
+    img.addEventListener('error', markUnavailable);
+    if (img.complete && !img.naturalWidth) markUnavailable();
   });
 })();
 
-/* ── 広告クリック計測（GA4: ad_click）。rel=sponsored のリンクを対象 ── */
-document.addEventListener('click', e => {
-  const a = e.target.closest && e.target.closest('a[rel~="sponsored"]');
-  if (!a || typeof window.gtag !== 'function') return;
-  const unit = a.dataset.adUnit
-    || (a.closest('.gh-goods') ? 'goods'
-      : a.closest('.gh-bottombar') ? 'bottombar'
-      : a.closest('.gh-affil') ? 'sidebar'
-      : a.closest('.gh-featured') ? 'featured' : 'other');
-  try { window.gtag('event', 'ad_click', { ad_unit: unit, link_url: (a.href || '').slice(0, 180) }); } catch (err) {}
-}, true);
+/* ── 広告計測：広告別の表示数・クリック数をGA4へ送る ── */
+(function () {
+  const activeCreative = node => {
+    const unit = node.closest('[data-ad-track="unit"]') || node;
+    if (window.matchMedia && window.matchMedia('(max-width: 600px)').matches) {
+      return unit.dataset.adCreativeMobile || unit.dataset.adCreative || 'unknown';
+    }
+    return unit.dataset.adCreativeDesktop || unit.dataset.adCreative || 'unknown';
+  };
+  const metaFor = node => {
+    const unit = node.closest('[data-ad-track="unit"]') || node;
+    return {
+      unit,
+      adId: unit.dataset.adId || 'unknown',
+      placement: unit.dataset.adPlacement || 'other',
+      creative: activeCreative(unit)
+    };
+  };
+
+  document.addEventListener('click', event => {
+    const link = event.target.closest && event.target.closest('a[rel~="sponsored"]');
+    if (!link || typeof window.gtag !== 'function') return;
+    const meta = metaFor(link);
+    try {
+      window.gtag('event', 'ad_click', {
+        ad_unit: meta.placement,
+        ad_id: meta.adId,
+        ad_placement: meta.placement,
+        ad_creative: meta.creative,
+        cta_label: (link.dataset.adCta || link.textContent || 'link').trim().slice(0, 80),
+        page_path: (location.pathname || '/').slice(0, 120),
+        link_url: (link.href || '').slice(0, 180)
+      });
+    } catch (error) {}
+  }, true);
+
+  if (!('IntersectionObserver' in window) || typeof window.gtag !== 'function') return;
+  const seen = new Set();
+  const timers = new WeakMap();
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      const target = entry.target;
+      const currentTimer = timers.get(target);
+      if (!entry.isIntersecting || entry.intersectionRatio < 0.5) {
+        if (currentTimer) clearTimeout(currentTimer);
+        timers.delete(target);
+        return;
+      }
+      if (currentTimer) return;
+      const timer = setTimeout(() => {
+        const meta = metaFor(target);
+        const key = meta.adId + '|' + meta.placement;
+        if (seen.has(key)) {
+          observer.unobserve(target);
+          return;
+        }
+        seen.add(key);
+        observer.unobserve(target);
+        try {
+          window.gtag('event', 'ad_impression', {
+            ad_unit: meta.placement,
+            ad_id: meta.adId,
+            ad_placement: meta.placement,
+            ad_creative: meta.creative,
+            page_path: (location.pathname || '/').slice(0, 120)
+          });
+        } catch (error) {}
+      }, 1000);
+      timers.set(target, timer);
+    });
+  }, { threshold: [0.5] });
+
+  document.querySelectorAll('[data-ad-track="unit"]').forEach(target => observer.observe(target));
+})();
 
 
 /* ===========================================================================

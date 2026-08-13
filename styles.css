@@ -2103,6 +2103,135 @@ img { display: block; max-width: 100%; }
 .gh-affil__banner a { display: inline-block; }
 .gh-affil__banner img { max-width: 100%; height: auto; }
 
+/* 閲覧目的に合わせて本文中へ出す購入導線 */
+.gh-commerce { display: grid; gap: 16px; }
+.gh-commerce__card {
+  display: grid;
+  grid-template-columns: minmax(190px, 34%) minmax(0, 1fr);
+  overflow: hidden;
+  border: 1px solid #ead7d7;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #fffafa 0%, #fff 48%, #fffdf7 100%);
+  box-shadow: 0 8px 24px rgba(89, 35, 45, .08);
+}
+.gh-commerce__media {
+  display: flex;
+  min-height: 210px;
+  border-right: 1px solid #f1e4e4;
+  background: rgba(255,255,255,.78);
+}
+.gh-commerce__media > a {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+}
+.gh-commerce__media picture { display: block; width: 100%; text-align: center; }
+.gh-commerce__media img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  max-height: 260px;
+  height: auto;
+  margin: 0 auto;
+  object-fit: contain;
+}
+.gh-commerce__image-fallback {
+  display: none;
+  color: var(--gh-muted);
+  font-size: 12px;
+  text-align: center;
+}
+.gh-commerce__media.is-unavailable picture { display: none; }
+.gh-commerce__media.is-unavailable .gh-commerce__image-fallback { display: block; }
+.gh-commerce__body {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 24px;
+}
+.gh-commerce__meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  color: #8a3c4a;
+  font-size: 12px;
+  font-weight: 800;
+}
+.gh-commerce__eyebrow {
+  margin: 0 0 4px;
+  color: #b45309;
+  font-size: 12px;
+  font-weight: 800;
+}
+.gh-commerce__title {
+  margin: 0;
+  color: var(--gh-text);
+  font-size: clamp(18px, 2.4vw, 24px);
+  line-height: 1.4;
+}
+.gh-commerce__desc {
+  margin: 9px 0 0;
+  color: #475569;
+  font-size: 14px;
+  line-height: 1.75;
+}
+.gh-commerce__price {
+  margin: 10px 0 0;
+  color: #7f1d1d;
+  font-size: 13px;
+  font-weight: 800;
+}
+.gh-commerce__cta {
+  display: inline-flex;
+  min-height: 46px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 16px;
+  padding: 11px 20px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #d9092f, #b70020);
+  box-shadow: 0 4px 0 rgba(101, 0, 17, .16);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.4;
+  text-align: center;
+}
+.gh-commerce__cta:hover { filter: brightness(1.06); text-decoration: none; }
+.gh-commerce__cta:active { transform: translateY(1px); }
+.gh-commerce__cta:focus-visible,
+.gh-commerce__media a:focus-visible { outline: 3px solid #2563eb; outline-offset: 3px; }
+.gh-commerce__note {
+  display: block;
+  margin-top: 9px;
+  color: var(--gh-muted);
+  font-size: 11px;
+  line-height: 1.6;
+}
+.gh-commerce-sec > .gh-affil__disc,
+.gh-commerce + .gh-affil__disc { margin-top: 10px; }
+
+@media (max-width: 600px) {
+  .gh-commerce__card { grid-template-columns: minmax(0, 1fr); }
+  .gh-commerce__media {
+    min-height: 150px;
+    border-right: 0;
+    border-bottom: 1px solid #f1e4e4;
+  }
+  .gh-commerce__media > a { padding: 16px; }
+  .gh-commerce__media img { max-height: 220px; }
+  .gh-commerce__body { padding: 18px; }
+  .gh-commerce__title { font-size: 19px; }
+  .gh-commerce__cta { width: 100%; min-height: 48px; padding-inline: 14px; }
+}
+
 /* クリックされやすい楽天カード（見出し＋枠付き画像＋CTAボタン） */
 .gh-affil__rk {
   border: 1px solid var(--gh-border);
@@ -2135,6 +2264,24 @@ img { display: block; max-width: 100%; }
 .gh-affil__rk .gh-affil__banner { padding: 12px 10px 4px; }
 .gh-affil__rk .gh-affil__banner a { border-radius: 8px; padding: 4px; transition: background .15s ease; }
 .gh-affil__rk .gh-affil__banner a:hover { background: #fafafa; }
+.gh-affil__rk > .gh-affil__banner {
+  display: flex;
+  min-height: 72px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0;
+}
+.gh-affil__rk > .gh-affil__banner:hover { background: #fafafa; }
+.gh-affil__rk > .gh-affil__banner img { display: block; max-width: 100%; height: auto; }
+.gh-affil__rk > .gh-affil__banner.is-unavailable::after {
+  content: '画像を読み込めませんでした';
+  color: var(--gh-muted);
+  font-size: 11px;
+}
+.gh-affil__rk > .gh-affil__banner.is-unavailable img { display: none; }
+.gh-affil__rk-copy { display: flex; flex-direction: column; gap: 4px; padding: 8px 10px 0; }
+.gh-affil__rk-copy strong { color: var(--gh-text); font-size: 12.5px; line-height: 1.45; }
+.gh-affil__rk-copy small { color: var(--gh-muted); font-size: 10.5px; line-height: 1.5; }
 .gh-affil__cta {
   display: block;
   margin: 8px 10px 12px;
@@ -2212,7 +2359,8 @@ img { display: block; max-width: 100%; }
 
 /* ── 掲示板タブ表示中（gh-board-mode）：スレッドに集中 ── */
 @media (max-width: 768px) {
-  body.gh-board-mode .gh-featured-sec { display: none; }   /* モバイルでは商品カードも隠してスレを主役に */
+  body.gh-board-mode .gh-featured-sec,
+  body.gh-board-mode .gh-commerce-sec { display: none; }   /* モバイルでは商品カードも隠してスレを主役に */
 }
 
 /* 「楽天市場でチェック」セクション（picttext のリッチ商品カード） */

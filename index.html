@@ -131,6 +131,14 @@
           <div class="gh-hot-list" data-gh-hot-items></div>
         </section>
 
+        <!-- 話題商品と文脈が合う公式ショップだけを表示（data/ads.js） -->
+        <section class="gh-section gh-sec--tight gh-commerce-sec" hidden aria-labelledby="home-hot-shop-title">
+          <div class="gh-section__header">
+            <h2 class="gh-section__title" id="home-hot-shop-title">関連グッズを公式ショップで探す</h2>
+          </div>
+          <div data-gh-commerce="homeHot"></div>
+        </section>
+
         <!-- ============================================================
              ③ 設置台数ランキング（上位ほど大きく表示）
              ============================================================ -->
@@ -271,14 +279,6 @@
             <a href="area.html" class="gh-section__more">すべて見る →</a>
           </div>
           <div class="gh-area-grid" data-gh-area-cards="cards" data-gh-area-limit="12"></div>
-        </section>
-
-        <!-- 楽天市場でチェック（アフィリエイト / data/ads.js の featured を描画） -->
-        <section class="gh-section gh-featured-sec" hidden>
-          <div class="gh-section__header">
-            <h2 class="gh-section__title">🛒 楽天市場でチェック <span class="gh-affil__pr">PR</span></h2>
-          </div>
-          <div class="gh-featured" data-gh-featured></div>
         </section>
 
       </div>
