@@ -13,7 +13,7 @@
       price: 1回いくらか（例 '1回500円／全4種'）。分かる場合だけ入れる。
    =========================================================================== */
 /* 一次情報を実際に再確認した日。生成処理を走らせただけでは更新しないこと。 */
-window.GH_RELEASES_CHECKED_ON = '2026-08-12';
+window.GH_RELEASES_CHECKED_ON = '2026-08-13';
 
 window.GH_RELEASES = [
   {
@@ -105,6 +105,15 @@ window.GH_RELEASES = [
     price: '1回300円／全8種',
     note: 'ふたが開閉する宝箱のミニチュア。中身やギミックの異なる全8種。',
     source: 'https://www.takaratomy-arts.co.jp/items/item.html?n=Y905742'
+  },
+  {
+    date: '2026-08-17',
+    label: '8月第3週より順次',
+    title: 'サンリオキャラクターズ Solid & Cool style めじるしアクセサリー',
+    maker: 'バンダイ（ガシャポン）',
+    price: '1回300円／全5種',
+    note: 'サンリオキャラクターを、ビビッドな色使いとクールなポーズのストリートスタイルでデザイン。',
+    source: 'https://gashapon.jp/products/detail.php?jan_code=4570118186805000'
   },
   {
     date: '2026-08-24',
