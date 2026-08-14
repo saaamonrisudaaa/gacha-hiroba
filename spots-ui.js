@@ -7,7 +7,10 @@
 (function () {
   'use strict';
 
-  var SPOTS = window.GH_SPOTS || [];
+  var ALL_SPOTS = window.GH_SPOTS || [];
+  /* 再審査中の公開画面には、掲載根拠URLと確認日の両方がある店舗だけを出す。
+     確認待ちの候補は元データに保持し、確認完了後に自動で公開対象へ入る。 */
+  var SPOTS = ALL_SPOTS.filter(isVerified);
   var byId = {};
   SPOTS.forEach(function (s) { byId[s.id] = s; });
 
@@ -35,15 +38,13 @@
     if (n == null || n === '') return '—';
     return '約' + Number(n).toLocaleString('ja-JP') + '台';
   }
-  /* 一次情報URLと確認日の両方がある店舗だけを、集計・ランキングの
-     「確認済みデータ」として扱う。未確認値は検索用データとして残すが、
-     公表値ランキングや合計には混ぜない。 */
+  /* 掲載根拠URLと確認日の両方がある店舗だけを公開・集計対象にする。 */
   function isVerified(s) { return !!(s && s.sourceUrl && s.verifiedAt); }
   function verifiedMachinesText(s) {
-    return isVerified(s) ? machinesText(s.machines) : '一次情報未確認';
+    return isVerified(s) ? machinesText(s.machines) : '出典確認中';
   }
   function verifiedHoursText(s) {
-    return isVerified(s) ? (s.hours || '要確認') : '一次情報未確認';
+    return isVerified(s) ? (s.hours || '要確認') : '出典確認中';
   }
 
   /* ── オープン予定の店舗（data/spots.js の opensOn）──
@@ -87,7 +88,7 @@
     '群馬県': '♨️', '栃木県': '🍓', '茨城県': '🌰', '大阪府': '🏯', '愛知県': '🏭'
   };
 
-  /* 静的SEOページの正規URL。生成側の tools/seo-routes.mjs と同じ対応表。 */
+  /* 検索・店舗詳細は少数の動的画面へ集約する。 */
   var PREF_SLUG = {
     '北海道':'hokkaido','青森県':'aomori','岩手県':'iwate','宮城県':'miyagi','秋田県':'akita','山形県':'yamagata','福島県':'fukushima',
     '茨城県':'ibaraki','栃木県':'tochigi','群馬県':'gunma','埼玉県':'saitama','千葉県':'chiba','東京都':'tokyo','神奈川県':'kanagawa',
@@ -105,9 +106,10 @@
     'ガチャステ':'gacha-station','がちゃ処':'gachadokoro','カプセルマルシェ':'capsule-marche','TOYS SPOT PALO':'toys-spot-palo',
     'ガチャ王国':'gacha-okoku','カプセルパーク':'capsule-park'
   };
-  function prefUrl(pref) { return PREF_SLUG[pref] ? '/area/' + PREF_SLUG[pref] + '.html' : '/area.html'; }
-  function brandUrl(brand) { return BRAND_SLUG[brand] ? '/brand/' + BRAND_SLUG[brand] + '.html' : '/stores.html?q=' + encodeURIComponent(brand); }
+  function prefUrl(pref) { return '/stores.html?pref=' + encodeURIComponent(pref || ''); }
+  function brandUrl(brand) { return '/stores.html?brand=' + encodeURIComponent(brand || ''); }
   function guideUrl(slug) { return '/guide/' + encodeURIComponent(slug) + '.html'; }
+  function spotUrl(id) { return '/spot.html?id=' + encodeURIComponent(id || ''); }
   function markNoindex() {
     var meta = document.querySelector('meta[name="robots"]');
     if (!meta) { meta = document.createElement('meta'); meta.name = 'robots'; document.head.appendChild(meta); }
@@ -223,7 +225,7 @@
     if (!box) return;
     var latest = SPOTS.slice(-8).reverse();
     box.innerHTML = latest.map(function (s, i) {
-      return '<li><a href="/spot/' + encodeURIComponent(s.id) + '.html">' + esc(s.name) + '</a>' +
+      return '<li><a href="' + spotUrl(s.id) + '">' + esc(s.name) + '</a>' +
              (isPreOpen(s) ? openBadge(s) : (i === 0 ? '<span class="gh-badge gh-badge--hot">NEW</span>' : '')) +
              '<small class="gh-trending-list__area">' + esc(s.area) + '</small></li>';
     }).join('');
@@ -356,7 +358,7 @@
       if (revisionBox) {
         revisionBox.innerHTML =
           '<div class="gh-page-hero"><h1 class="gh-page-hero__title">この記事は確認作業中です</h1>' +
-          '<p class="gh-page-hero__desc">一次情報と本文を見直しているため、現在は公開を停止しています。' +
+          '<p class="gh-page-hero__desc">掲載根拠と本文を見直しているため、現在は公開を停止しています。' +
           '<a href="/news.html">確認済みのガイドを見る →</a></p></div>';
       }
       return;
@@ -392,7 +394,7 @@
       '@context': 'https://schema.org', '@type': 'ItemList',
       'itemListElement': stores.map(function (s, i) {
         return { '@type': 'ListItem', 'position': i + 1, 'name': s.name,
-                 'url': 'https://gacha-hiroba.com/spot/' + encodeURIComponent(s.id) + '.html' };
+                 'url': 'https://gacha-hiroba.com' + spotUrl(s.id) };
       })
     };
     var crumbs = {
@@ -439,7 +441,7 @@
         wrap.innerHTML =
           '<table class="gh-table"><thead><tr><th>店舗名</th><th class="gh-num">設置台数</th><th>営業時間</th><th></th></tr></thead><tbody>' +
           stores.map(function (s) {
-            var url = '/spot/' + encodeURIComponent(s.id) + '.html';
+            var url = spotUrl(s.id);
             return '<tr><td><a class="gh-table__link" href="' + url + '">' + esc(s.name) + '</a></td>' +
                    '<td class="gh-num">' + machinesText(s.machines) + '</td>' +
                    '<td>' + esc(s.hours || '—') + '</td>' +
@@ -454,7 +456,7 @@
       var box2 = qs('articleStores');
       if (box2) {
         box2.innerHTML = stores.map(function (s, i) {
-          var url = '/spot/' + encodeURIComponent(s.id) + '.html';
+          var url = spotUrl(s.id);
           return '<section class="gh-article-store">' +
             '<h3 class="gh-article-store__name">' + (i + 1) + '. <a href="' + url + '">' + esc(s.name) + '</a></h3>' +
             '<table class="gh-info-table gh-info-table--full"><tbody>' +
@@ -556,7 +558,7 @@
         var areaJp = (s.area || '').split('・')[1] || '';
         return '<tr>' +
           '<td>' + (i + 1) + '</td>' +
-          '<td><a class="gh-table__link" href="/spot/' + encodeURIComponent(s.id) + '.html' + '">' + esc(s.name) + '</a>' + openBadge(s) + '</td>' +
+          '<td><a class="gh-table__link" href="' + spotUrl(s.id) + '">' + esc(s.name) + '</a>' + openBadge(s) + '</td>' +
           '<td>' + esc(PREF_EN[s.pref] || s.pref) + (areaJp ? '<small class="gh-store-brand">' + esc(areaJp) + '</small>' : '') + '</td>' +
           '<td class="gh-num">' + Number(s.machines).toLocaleString('en-US') + '</td>' +
           '<td>' + esc(verifiedHoursText(s)) + '</td>' +
@@ -579,7 +581,7 @@
     }).map(function (s) {
       var left = daysLeft(s.opensOn);
       return {
-        name: '<a class="gh-table__link" href="/spot/' + encodeURIComponent(s.id) + '.html">' + esc(s.name) + '</a>',
+        name: '<a class="gh-table__link" href="' + spotUrl(s.id) + '">' + esc(s.name) + '</a>',
         area: s.area,
         expected: openDateText(s.opensOn, true) + (left > 0 ? '（あと' + left + '日）' : '（本日）'),
         note: s.access || ''
@@ -621,7 +623,7 @@
     setText('boardStatBoards', SPOTS.length + '板');
     setText('boardStatPrefs', Object.keys(prefs).length + '都道府県');
     setText('boardStatMachines', '約' + totalMachines.toLocaleString('ja-JP') + '台');
-    setText('boardStatMachinesNote', '一次情報確認済み' + confirmed.length + '店舗の合計');
+    setText('boardStatMachinesNote', '出典確認済み' + confirmed.length + '店舗の合計');
     if (sorted[0]) {
       setText('boardStatTop', sorted[0].name.replace('ガチャガチャの森 ', ''));
       setText('boardStatTopSub', verifiedMachinesText(sorted[0]) + '（確認済み台数）');
@@ -633,7 +635,7 @@
     var rankCls = function (r) { return r === 1 ? ' gh-rank--1' : r === 2 ? ' gh-rank--2' : r === 3 ? ' gh-rank--3' : ''; };
     tbody.innerHTML = sorted.map(function (s, i) {
       var rank = i + 1;
-      var url = '/spot/' + encodeURIComponent(s.id) + '.html' + '#board';
+      var url = spotUrl(s.id) + '#board';
       return '<tr' + (rank === 1 ? ' class="gh-table__row--top"' : '') + '>' +
                '<td><span class="gh-rank' + rankCls(rank) + '">' + rank + '</span></td>' +
                '<td><a href="' + url + '" class="gh-table__link">' + esc(s.name) + '</a>' + openBadge(s) + '</td>' +
@@ -666,7 +668,7 @@
     var side = document.querySelector('[data-gh-board-side]');
     if (side) {
       side.innerHTML = sorted.slice(0, 5).map(function (s) {
-        return '<li><a href="/spot/' + encodeURIComponent(s.id) + '.html' + '#board">' + esc(s.name) + '</a>' +
+        return '<li><a href="' + spotUrl(s.id) + '#board">' + esc(s.name) + '</a>' +
                '<span class="gh-category-item__count">' + verifiedMachinesText(s) + '</span></li>';
       }).join('');
     }
@@ -694,7 +696,7 @@
     var topStore = confirmed.slice().sort(function (a, b) { return (b.machines || 0) - (a.machines || 0); })[0];
     setText('statStores', SPOTS.length.toLocaleString('ja-JP') + '店舗');
     setText('statMachines', '約' + totalMachines.toLocaleString('ja-JP') + '台');
-    setText('statMachinesNote', '一次情報確認済み' + confirmed.length + '店舗の合計');
+    setText('statMachinesNote', '出典確認済み' + confirmed.length + '店舗の合計');
     setText('statPrefs', Object.keys(prefs).length + '都道府県');
     if (topStore) {
       setText('statTop', machinesText(topStore.machines));
@@ -706,7 +708,7 @@
   /* 店舗詳細（spot.html）                                               */
   /* ------------------------------------------------------------------ */
   function renderDetail() {
-    /* 静的生成ページ（/spot/<id>.html）は window.GH_SPOT_STATIC_ID を持つ */
+    /* 旧静的ページIDにも読み取り互換性を残す。 */
     var id = getParam('id') || window.GH_SPOT_STATIC_ID;
     var store = id ? byId[id] : null;
 
@@ -726,13 +728,8 @@
 
     /* 参照元URLと確認日のどちらかが欠ける個別ページは、閲覧機能を残しつつ
        検索インデックスから外す。生成HTML側と同じ品質ゲートをJS側でも担保する。 */
-    if (!isVerified(store)) markNoindex();
-
-    /* 旧 /spot.html?id=... を静的な店舗URLへ集約する。 */
-    if (getParam('id') && !window.GH_SPOT_STATIC_ID) {
-      location.replace('/spot/' + encodeURIComponent(store.id) + '.html');
-      return;
-    }
+    /* 店舗詳細は利用者向け機能として提供し、全件を検索対象外にする。 */
+    markNoindex();
 
     /* 掲示板（script.js）がこの店舗のスレッドを使うように、IDを先に公開 */
     window.GH_SPOT_ID = 'spot-' + store.id;
@@ -761,13 +758,13 @@
         (verified && store.hours ? '営業時間 ' + store.hours + '。' : '') +
         (verified
           ? '住所・アクセス・地図・店舗ごとの掲示板で入荷情報や混雑状況をチェック。'
-          : '掲載情報は一次情報の確認作業中で、検索エンジンの掲載対象から外しています。');
+          : '掲載情報は掲載根拠の確認作業中で、検索エンジンの掲載対象から外しています。');
     document.title = pageTitle;
     var metaDesc = document.querySelector('meta[name="description"]');
     if (metaDesc) metaDesc.setAttribute('content', pageDesc);
 
     /* SEO: canonical・OGPをこの店舗のURLに更新し、構造化データを追加 */
-    var pageUrl = 'https://gacha-hiroba.com/spot/' + encodeURIComponent(store.id) + '.html';
+    var pageUrl = 'https://gacha-hiroba.com/spot.html?id=' + encodeURIComponent(store.id);
     var setAttr = function (sel, attr, val) { var el = document.querySelector(sel); if (el) el.setAttribute(attr, val); };
     setAttr('link[rel="canonical"]', 'href', pageUrl);
     setAttr('meta[property="og:title"]', 'content', pageTitle);
@@ -831,7 +828,7 @@
           'title="' + esc(store.brand) + 'の店舗一覧を見る">' + esc(store.brand) + '</a>' +
         '<span class="gh-badge gh-badge--lg">' + esc(store.area) + '</span>' +
         '<span class="gh-badge gh-badge--lg">' +
-          (isVerified(store) ? '一次情報確認済み' : '一次情報を確認中') + '</span>';
+          (isVerified(store) ? '出典確認済み' : '掲載根拠を確認中') + '</span>';
     }
     var addr = qs('spotAddress');
     if (addr) {
@@ -844,7 +841,7 @@
     setText('spotMachines', verifiedMachinesText(store));
     setText('spotHours', isVerified(store)
       ? (store.hours ? (isPreOpen(store) ? 'オープン後 ' + store.hours : '営業 ' + store.hours) : '営業時間は公式情報をご確認ください')
-      : '営業時間は一次情報未確認');
+      : '営業時間は出典確認中');
 
     /* メトリクス。オープン前は台数がまだ分からないので、先頭の枠を開業日に差し替える */
     var metrics = qs('spotMetrics');
@@ -854,12 +851,12 @@
           ? metric('オープン予定', openDateText(store.opensOn, false),
               'あと' + daysLeft(store.opensOn) + '日', true)
           : metric('設置台数', verifiedMachinesText(store),
-              isVerified(store) ? '確認元を掲載しています' : '参考値は一次情報確認後に掲載', true)) +
+              isVerified(store) ? '確認元を掲載しています' : '参考値は掲載根拠の確認後に掲載', true)) +
         metric('営業時間', verifiedHoursText(store), isVerified(store)
           ? (isPreOpen(store) ? 'オープン後の予定' : '定休日は店舗にご確認ください')
           : '確認完了後に掲載') +
         metric('エリア', store.area || '—', store.pref || '') +
-        metric('ブランド', store.brand || '—', isVerified(store) ? '一次情報確認済み' : '確認中');
+        metric('ブランド', store.brand || '—', isVerified(store) ? '出典確認済み' : '確認中');
     }
 
     /* 詳細情報テーブル */
@@ -874,7 +871,7 @@
         row('電話番号', isVerified(store) && store.tel ? '<a href="tel:' + esc(String(store.tel).replace(/[^0-9+]/g, '')) + '">' + esc(store.tel) + '</a>' : '', true) +
         row('営業時間', verifiedHoursText(store)) +
         row('設置台数', verifiedMachinesText(store)) +
-        row('アクセス', isVerified(store) ? store.access : '一次情報未確認') +
+        row('アクセス', isVerified(store) ? store.access : '出典確認中') +
         row('エリア', store.area) +
         row('情報の確認元', store.sourceUrl
           ? '<a class="gh-official-source" href="' + esc(store.sourceUrl) + '" target="_blank" rel="noopener">確認元を開く ↗</a>'
@@ -950,12 +947,12 @@
     }).slice(0, 6);
 
     if (!others.length) {
-      box.innerHTML = '<p class="gh-widget__text">近隣の一次情報確認済み店舗は準備中です。' +
+      box.innerHTML = '<p class="gh-widget__text">近隣の出典確認済み店舗は準備中です。' +
         '<a href="/stores.html">店舗一覧を見る →</a></p>';
       return;
     }
     box.innerHTML = others.map(function (s) {
-      return '<a href="/spot/' + encodeURIComponent(s.id) + '.html' + '" class="gh-nearby__item">' +
+      return '<a href="' + spotUrl(s.id) + '" class="gh-nearby__item">' +
                '<span class="gh-rank">🏬</span>' +
                '<div><strong>' + esc(s.name) + '</strong>' +
                '<small>' + esc(s.area) + ' ・ ' + verifiedMachinesText(s) + '</small></div>' +
@@ -971,16 +968,6 @@
     var pref = getParam('pref');
     var query = getParam('q');
     var brand = getParam('brand');
-
-    /* 検索可能な旧絞り込みURLは、完全静的な正規ページへ集約する。 */
-    if (pref && PREF_SLUG[pref] && SPOTS.some(function (s) { return s.pref === pref; })) {
-      location.replace(prefUrl(pref));
-      return;
-    }
-    if (brand && BRAND_SLUG[brand] && SPOTS.some(function (s) { return s.brand === brand; })) {
-      location.replace(brandUrl(brand));
-      return;
-    }
 
     /* ── キーワード検索（?q=）: 店名・エリア・住所・ブランドを横断で部分一致。
           スペース区切りの複数キーワードは AND 検索（例:「浅草 ガチャ」）── */
@@ -1040,7 +1027,7 @@
         '<thead><tr><th>店舗名</th><th>エリア</th><th>設置台数</th><th>営業時間</th></tr></thead><tbody>' +
         hits.map(function (s) {
           return '<tr>' +
-            '<td><a class="gh-table__link" href="/spot/' + encodeURIComponent(s.id) + '.html' + '">' + esc(s.name) + '</a>' + openBadge(s) +
+            '<td><a class="gh-table__link" href="' + spotUrl(s.id) + '">' + esc(s.name) + '</a>' + openBadge(s) +
               '<small class="gh-store-brand">' + esc(s.brand) + '</small></td>' +
             '<td>' + esc(s.area) + '</td>' +
             '<td>' + verifiedMachinesText(s) + '</td>' +
@@ -1063,7 +1050,7 @@
       var title3 = document.querySelector('.gh-page-hero__title');
       if (title3) title3.textContent = brand + ' の店舗一覧';
       var desc3 = document.querySelector('.gh-page-hero__desc');
-      if (desc3) desc3.innerHTML = '「' + esc(brand) + '」の登録店舗 <strong id="storeCount">' + bHits.length + '</strong> 店舗を掲載。一次情報を確認できた店舗から案内しています。';
+      if (desc3) desc3.innerHTML = '「' + esc(brand) + '」の登録店舗 <strong id="storeCount">' + bHits.length + '</strong> 店舗を掲載。掲載根拠URLと確認日がある店舗から案内しています。';
       document.title = brand + 'の店舗一覧（' + bHits.length + '店舗） | ガチャひろば';
       var bUrl = 'https://gacha-hiroba.com' + brandUrl(brand);
       setAttr('link[rel="canonical"]', 'href', bUrl);
@@ -1083,7 +1070,7 @@
         '<thead><tr><th>店舗名</th><th>エリア</th><th>設置台数</th><th>営業時間</th></tr></thead><tbody>' +
         bHits.map(function (s) {
           return '<tr>' +
-            '<td><a class="gh-table__link" href="/spot/' + encodeURIComponent(s.id) + '.html' + '">' + esc(s.name) + '</a>' + openBadge(s) +
+            '<td><a class="gh-table__link" href="' + spotUrl(s.id) + '">' + esc(s.name) + '</a>' + openBadge(s) +
               '<small class="gh-store-brand">' + esc(s.brand) + '</small></td>' +
             '<td>' + esc(s.area) + '</td>' +
             '<td>' + verifiedMachinesText(s) + '</td>' +
@@ -1135,7 +1122,7 @@
       arr.forEach(function (s, i) {
         html +=
           '<tr' + (i >= LIMIT ? ' hidden data-more="' + region + '"' : '') + '>' +
-            '<td><a class="gh-table__link" href="/spot/' + encodeURIComponent(s.id) + '.html' + '">' + esc(s.name) + '</a>' + openBadge(s) +
+            '<td><a class="gh-table__link" href="' + spotUrl(s.id) + '">' + esc(s.name) + '</a>' + openBadge(s) +
               '<small class="gh-store-brand">' + esc(s.brand) + '</small></td>' +
             '<td>' + esc(s.area) + '</td>' +
             '<td>' + verifiedMachinesText(s) + '</td>' +
@@ -1196,7 +1183,7 @@
     var grads = ['gh-spot-card__img--akiba', 'gh-spot-card__img--osaka', 'gh-spot-card__img--nagoya'];
     box.innerHTML = top.map(function (s, i) {
       var badge = i === 0 ? '<span class="gh-spot-card__badge gh-badge--hot">台数1位</span>' : '';
-      return '<a href="/spot/' + encodeURIComponent(s.id) + '.html' + '" class="gh-spot-card' + (i === 0 ? ' gh-spot-card--lg' : '') + '">' +
+      return '<a href="' + spotUrl(s.id) + '" class="gh-spot-card' + (i === 0 ? ' gh-spot-card--lg' : '') + '">' +
                '<div class="gh-spot-card__img ' + grads[i % grads.length] + '">' + badge + '</div>' +
                '<div class="gh-spot-card__body">' +
                  '<span class="gh-spot-card__area">' + esc(s.area) + '</span>' +
@@ -1222,7 +1209,7 @@
     var item = function (s, i) {
       var cls = 'gh-ticker-item' + (i === 0 ? ' gh-ticker-item--hot' : '');
       var tag = i === 0 ? ' <em>台数1位</em>' : '';
-      return '<a href="/spot/' + encodeURIComponent(s.id) + '.html' + '" class="' + cls + '">' +
+      return '<a href="' + spotUrl(s.id) + '" class="' + cls + '">' +
                esc(s.name.replace('ガチャガチャの森 ', '')) +
                ' <span class="gh-ticker-item__star">' + machinesText(s.machines) + '</span>' + tag + '</a>';
     };
@@ -1251,7 +1238,7 @@
                    '<span class="gh-pref-card__count">' + g.count + '店舗</span>' +
                    (g.top ? '<div class="gh-pref-card__top"><small>確認済み設置台数トップ</small>' +
                      '<strong>' + esc(g.top.name) + '（' + machinesText(g.top.machines) + '）</strong></div>' :
-                     '<div class="gh-pref-card__top"><small>設置台数</small><strong>一次情報を確認中</strong></div>') +
+                     '<div class="gh-pref-card__top"><small>設置台数</small><strong>掲載根拠を確認中</strong></div>') +
                  '</a>';
         }
         return '<a href="' + url + '" class="gh-area-card">' +

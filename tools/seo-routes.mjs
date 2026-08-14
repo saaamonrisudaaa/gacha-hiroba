@@ -34,8 +34,9 @@ export const BRAND_SLUG = Object.freeze({
   'カプセルパーク': 'capsule-park'
 });
 
-export const prefPath = (pref) => PREF_SLUG[pref] ? '/area/' + PREF_SLUG[pref] + '.html' : '/area.html';
-export const brandPath = (brand) => BRAND_SLUG[brand]
-  ? '/brand/' + BRAND_SLUG[brand] + '.html'
-  : '/stores.html?q=' + encodeURIComponent(brand);
+/* 店舗・地域・ブランドの一覧は、再審査中に似た静的ページを大量公開しない。
+   利用者向け機能は noindex の検索画面へ集約し、独自ガイドだけを検索対象にする。 */
+export const spotPath = (id, hash = '') => '/spot.html?id=' + encodeURIComponent(id) + hash;
+export const prefPath = (pref) => '/stores.html?pref=' + encodeURIComponent(pref || '');
+export const brandPath = (brand) => '/stores.html?brand=' + encodeURIComponent(brand || '');
 export const guidePath = (slug) => '/guide/' + encodeURIComponent(slug) + '.html';

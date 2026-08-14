@@ -9,7 +9,7 @@
    の間。店舗・記事・発売情報を更新したら `node tools/gen-static-blocks.mjs` を実行する
    （daily-stores.yml では gen-pages / gen-sitemap と一緒に自動実行される）。 */
 import { readFileSync, writeFileSync } from 'node:fs';
-import { guidePath, prefPath } from './seo-routes.mjs';
+import { guidePath, prefPath, spotPath } from './seo-routes.mjs';
 
 const win = {};
 for (const rel of ['../data/spots.js', '../data/articles.js', '../data/releases.js']) {
@@ -30,9 +30,10 @@ const esc = s => String(s)
 
 const machinesText = n => (n == null || n === '') ? '—' : '約' + Number(n).toLocaleString('ja-JP') + '台';
 const isVerified = s => !!(s && s.sourceUrl && s.verifiedAt);
+const publicSpots = spots.filter(isVerified);
 const todayJst = new Date(Date.now() + 9 * 3600 * 1000).toISOString().slice(0, 10);
 const isOpen = s => !(s.opensOn && s.opensOn > todayJst);
-const storePath = (s, board = false) => '/spot/' + encodeURIComponent(s.id) + '.html' + (board ? '#board' : '');
+const storePath = (s, board = false) => spotPath(s.id, board ? '#board' : '');
 
 /* マーカーと同じ字下げを保って差し替える。既存JSが置換する data-* コンテナ自体は残す。 */
 function fillMarker(html, name, content) {
@@ -72,16 +73,16 @@ function updateMarkedPage(rel, blocks, mutate) {
 
 /* 地方 → 都道府県 → 件数 */
 const byRegion = {};
-spots.forEach(s => {
+publicSpots.forEach(s => {
   (byRegion[s.region] ||= {})[s.pref] = (byRegion[s.region][s.pref] || 0) + 1;
 });
 
 /* 各都道府県の代表店（設置台数が最も多い店）を1件添えると、リンク先の中身が想像できる */
-const topOf = pref => spots
-  .filter(s => s.pref === pref && isVerified(s) && s.machines != null)
+const topOf = pref => publicSpots
+  .filter(s => s.pref === pref && s.machines != null)
   .sort((a, b) => (b.machines || 0) - (a.machines || 0))[0];
 
-const prefCount = new Set(spots.map(s => s.pref)).size;
+const prefCount = new Set(publicSpots.map(s => s.pref)).size;
 
 const regionBlocks = REGION_ORDER.filter(r => byRegion[r]).map(r => {
   const prefs = Object.keys(byRegion[r]).sort((a, b) => byRegion[r][b] - byRegion[r][a]);
@@ -103,10 +104,10 @@ const regionBlocks = REGION_ORDER.filter(r => byRegion[r]).map(r => {
 const block =
   '\n  <div class="gh-prefindex">\n' +
   '    <p class="gh-prefindex__lead">' +
-  '「ガチャひろば」では、全国' + prefCount + '都道府県・' + spots.length + '店舗のガチャガチャ設置スポットを掲載しています。' +
+  '「ガチャひろば」では、掲載根拠URLと確認日のある全国' + prefCount + '都道府県・' + publicSpots.length + '店舗を公開しています。' +
   'ガチャガチャの森・ガシャポンのデパート・#C-pla・カプセル楽局などの専門店に加え、' +
-  '家電量販店や商業施設の設置コーナーも対象です。一次情報URLと確認日がそろう店舗では、住所・アクセス・営業時間・' +
-  '確認できた設置台数を確認元とともに案内します。確認前の情報は検索対象から外し、個別ページに確認状況を表示します。' +
+  '家電量販店や商業施設の設置コーナーも対象です。掲載根拠URLと確認日がそろう店舗では、住所・アクセス・営業時間・' +
+  '確認できた設置台数を参照先とともに案内します。確認待ちの候補は公開検索から外し、根拠を確認できてから追加します。' +
   '下記の都道府県から探すか、ページ上部の検索ボックスに駅名・エリア名・店名を入力してください。</p>\n' +
   regionBlocks + '\n  </div>\n';
 
@@ -153,7 +154,10 @@ function articleStoreCount(article) {
 }
 
 function articleLinks(limit = 0) {
-  const indexable = articles.filter(a => a.type === 'guide');
+  const indexable = articles.filter(a => a.type === 'guide').slice().sort((a, b) =>
+    (Number(b.featured || 0) - Number(a.featured || 0)) ||
+    String(b.updated || '').localeCompare(String(a.updated || '')) ||
+    String(a.title || '').localeCompare(String(b.title || ''), 'ja'));
   const list = limit > 0 ? indexable.slice(0, limit) : indexable;
   return list.map(a => {
     const badge = a.ranking ? 'ランキング' : a.type === 'guide' ? 'ガイド' : 'まとめ';
@@ -170,8 +174,8 @@ const PREF_ICON = {
   '東京都': '🗼', '神奈川県': '⚓', '埼玉県': '🌸', '千葉県': '🌊',
   '群馬県': '♨️', '栃木県': '🍓', '茨城県': '🌰', '大阪府': '🏯', '愛知県': '🏭'
 };
-const prefGroups = [...new Set(spots.map(s => s.pref))].map(pref => {
-  const list = spots.filter(s => s.pref === pref).sort((a, b) => (b.machines || 0) - (a.machines || 0));
+const prefGroups = [...new Set(publicSpots.map(s => s.pref))].map(pref => {
+  const list = publicSpots.filter(s => s.pref === pref).sort((a, b) => (b.machines || 0) - (a.machines || 0));
   return { pref, count: list.length };
 }).sort((a, b) => b.count - a.count || a.pref.localeCompare(b.pref, 'ja'));
 const areaLinks = prefGroups.slice(0, 12).map(g =>
@@ -253,9 +257,9 @@ staticDone += updateMarkedPage('../index.html', {
   'HOME-AREAS': areaLinks
 }, html => {
   const totalMachines = ranked.reduce((n, s) => n + (Number(s.machines) || 0), 0);
-  html = replaceElementText(html, 'statStores', spots.length.toLocaleString('ja-JP') + '店舗');
+  html = replaceElementText(html, 'statStores', publicSpots.length.toLocaleString('ja-JP') + '店舗');
   html = replaceElementText(html, 'statMachines', '約' + totalMachines.toLocaleString('ja-JP') + '台');
-  html = replaceElementText(html, 'statMachinesNote', '一次情報確認済み' + ranked.length + '店舗の合計');
+  html = replaceElementText(html, 'statMachinesNote', '台数を確認できた' + ranked.length + '店舗の合計');
   html = replaceElementText(html, 'statPrefs', prefCount + '都道府県');
   if (ranked[0]) {
     html = replaceElementText(html, 'statTop', machinesText(ranked[0].machines));
@@ -274,10 +278,10 @@ staticDone += updateMarkedPage('../board.html', {
   'BOARD-SIDE': boardSide
 }, html => {
   const totalMachines = ranked.reduce((n, s) => n + (Number(s.machines) || 0), 0);
-  html = replaceElementText(html, 'boardStatBoards', spots.length + '板');
+  html = replaceElementText(html, 'boardStatBoards', publicSpots.length + '板');
   html = replaceElementText(html, 'boardStatPrefs', prefCount + '都道府県');
   html = replaceElementText(html, 'boardStatMachines', '約' + totalMachines.toLocaleString('ja-JP') + '台');
-  html = replaceElementText(html, 'boardStatMachinesNote', '一次情報確認済み' + ranked.length + '店舗の合計');
+  html = replaceElementText(html, 'boardStatMachinesNote', '台数を確認できた' + ranked.length + '店舗の合計');
   if (ranked[0]) {
     html = replaceElementText(html, 'boardStatTop', ranked[0].name);
     html = replaceElementText(html, 'boardStatTopSub', machinesText(ranked[0].machines) + '（台数1位）');
@@ -290,8 +294,12 @@ try {
   const categoryUrl = new URL('../category.html', import.meta.url);
   let category = readFileSync(categoryUrl, 'utf8');
   const brandCounts = {};
-  spots.forEach((s) => { brandCounts[s.brand] = (brandCounts[s.brand] || 0) + 1; });
-  category = category.replace(/(<span data-total-spots>)[^<]*(<\/span>)/g, '$1' + spots.length + '$2');
+  publicSpots.forEach((s) => { brandCounts[s.brand] = (brandCounts[s.brand] || 0) + 1; });
+  category = category.replace(/(<span data-total-spots>)[^<]*(<\/span>)/g, '$1' + publicSpots.length + '$2');
+  category = category.replace(/<a([^>]*data-brand="([^"]+)"[^>]*)>/g, (_all, attrs, brand) => {
+    const cleanAttrs = attrs.replace(/\s+hidden(?:="")?/g, '');
+    return '<a' + cleanAttrs + ((brandCounts[brand] || 0) > 0 ? '' : ' hidden') + '>';
+  });
   category = category.replace(/(<a[^>]*data-brand="([^"]+)"[\s\S]*?<span class="gh-cat-card__count" data-brand-count>)[^<]*(<\/span>)/g,
     (_all, before, brand, after) => before + (brandCounts[brand] || 0) + '店舗掲載' + after);
   writeFileSync(categoryUrl, category);
@@ -299,6 +307,35 @@ try {
 } catch (error) {
   console.warn('gen-static-blocks: category.html の更新をスキップ:', error.message);
 }
+
+/* 方法ページの監査件数も元データと同期する。詳細な欠損率は監査レポートで生成する。 */
+try {
+  const methodologyUrl = new URL('../methodology.html', import.meta.url);
+  let methodology = readFileSync(methodologyUrl, 'utf8');
+  const verifiedCount = spots.filter(isVerified).length;
+  const pendingCount = spots.length - verifiedCount;
+  const percent = (value) => spots.length ? (value / spots.length * 100).toFixed(1) + '%' : '0.0%';
+  for (const [id, value] of [
+    ['methodTotal', spots.length], ['methodVerified', verifiedCount], ['methodPending', pendingCount],
+    ['methodVerifiedRate', percent(verifiedCount)], ['methodPendingRate', percent(pendingCount)],
+    ['methodTotalTable', spots.length], ['methodVerifiedTable', verifiedCount], ['methodPendingTable', pendingCount]
+  ]) methodology = replaceElementText(methodology, id, String(value));
+  writeFileSync(methodologyUrl, methodology);
+  console.log('gen-static-blocks: methodology.html の監査件数を更新しました');
+} catch (error) {
+  console.warn('gen-static-blocks: methodology.html の更新をスキップ:', error.message);
+}
+
+/* 英語入口のJS未実行時も、公開対象だけの件数を表示する。 */
+try {
+  const englishUrl = new URL('../english.html', import.meta.url);
+  let english = readFileSync(englishUrl, 'utf8');
+  english = replaceElementText(english, 'enStatStores', String(publicSpots.length));
+  writeFileSync(englishUrl, english);
+  console.log('gen-static-blocks: english.html の公開店舗件数を更新しました');
+} catch (error) {
+  console.warn('gen-static-blocks: english.html の更新をスキップ:', error.message);
+}
 console.log('gen-static-blocks: ' + done + ' ページに都道府県インデックスを埋め込みました（' +
-  prefCount + '都道府県 / ' + spots.length + '店舗）');
+  prefCount + '都道府県 / 公開' + publicSpots.length + '店舗）');
 console.log('gen-static-blocks: 一覧4ページの静的フォールバックを更新しました（' + staticDone + 'ブロック）');

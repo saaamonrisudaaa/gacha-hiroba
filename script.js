@@ -74,6 +74,9 @@ function ghTrack(name, params) {
   if (typeof window.gtag !== 'function') return;
   window.gtag('event', name, params || {});
 }
+function ghSpotUrl(id, hash) {
+  return '/spot.html?id=' + encodeURIComponent(id || '') + (hash || '');
+}
 
 /* ── Hamburger menu ── */
 const hamburger = document.querySelector('.gh-hamburger');
@@ -159,7 +162,7 @@ function getGhSupaClient() {
   return ghSupaClient;
 }
 
-/* ── Ranking: 一次情報を確認できた設置台数だけで描画 ──
+/* ── Ranking: 掲載根拠URLと確認日がある設置台数だけで描画 ──
    閲覧数や広告の有無は順位に使わず、確認元URL・確認日・台数がそろう店舗だけを対象にする。 */
 function renderRanking(key) {
   const tbody = document.querySelector('#rankingTable tbody');
@@ -207,7 +210,7 @@ function renderRanking(key) {
 
   tbody.innerHTML = shown.map((s, i) => {
     const rank = i + 1;
-    const url = '/spot/' + encodeURIComponent(s.id) + '.html';
+    const url = ghSpotUrl(s.id);
     return `
     <tr class="${rank === 1 ? 'gh-table__row--top' : ''}">
       <td><span class="gh-rank ${rankCls(rank)}">${rank}</span></td>
@@ -537,7 +540,9 @@ renderRanking('national');
   var machinesText = function (n) {
     return (n == null || n === '') ? '—' : '約' + Number(n).toLocaleString('ja-JP') + '台';
   };
-  var ALL = (window.GH_SPOTS || []).filter(function (s) { return s.lat != null && s.lon != null; });
+  var ALL = (window.GH_SPOTS || []).filter(function (s) {
+    return isVerified(s) && s.lat != null && s.lon != null;
+  });
 
   var NEAR_LIMIT = 20;        /* 「範囲指定なし」で出す件数 */
   var FAR_LIMIT = 60;         /* 現在地なしのとき、地図に出すピンの上限 */
@@ -682,7 +687,7 @@ renderRanking('national');
     var selected = st.selectedId === s.id;
     return '<div class="gh-map-spot-row' + (selected ? ' gh-map-spot-row--selected' : '') + '" ' +
       'data-gh-spot-row="' + esc(s.id) + '">' +
-      '<a href="/spot/' + encodeURIComponent(s.id) + '.html" class="gh-map-spot' +
+      '<a href="' + ghSpotUrl(s.id) + '" class="gh-map-spot' +
         (selected ? ' gh-map-spot--selected' : '') + '"' + (selected ? ' aria-current="location"' : '') + '>' +
         '<div class="gh-map-spot__num' + (i === 0 ? ' gh-map-spot__num--1' : '') + '">' + (i + 1) + '</div>' +
         '<div class="gh-map-spot__info">' +
@@ -725,7 +730,7 @@ renderRanking('national');
             : '条件に合う店舗が見つかりませんでした。') +
         '</p>' +
         (near
-          ? '<p class="gh-map-empty__text">いちばん近いのは <a href="/spot/' + encodeURIComponent(near.s.id) + '.html">' +
+          ? '<p class="gh-map-empty__text">いちばん近いのは <a href="' + ghSpotUrl(near.s.id) + '">' +
               esc(near.s.name) + '</a>（<strong>' + distText(near.km) + '</strong>・' + esc(near.s.area) + '）です。</p>' +
             '<button type="button" class="gh-btn gh-btn--primary gh-btn--sm" data-gh-widen="' + wide + '">' +
               (wide ? '半径' + radiusText(wide) + 'まで広げて表示' : '範囲をはずして近い順に表示') + '</button>'
@@ -767,7 +772,7 @@ renderRanking('national');
     if (n) {
       var top = res.rows[0];
       var km = distKm(st.here[0], st.here[1], top.lat, top.lon);
-      txt += '。いちばん近いのは <a href="/spot/' + encodeURIComponent(top.id) + '.html">' + esc(top.name) +
+      txt += '。いちばん近いのは <a href="' + ghSpotUrl(top.id) + '">' + esc(top.name) +
              '</a>（' + distText(km) + (walkText(km) ? '・' + walkText(km) : '') + '）';
     }
     box.innerHTML = txt;
@@ -802,7 +807,7 @@ renderRanking('national');
       '<span style="color:#6b7280">' + esc(s.area) + '</span><br>' +
       '🎰 ' + mapMachines(s) + ' ・ 🕒 ' + esc(mapHours(s)) + '<br>' +
       '<div class="gh-map-popup__actions">' +
-        '<a href="/spot/' + encodeURIComponent(s.id) + '.html">詳細・掲示板</a>' +
+        '<a href="' + ghSpotUrl(s.id) + '">詳細・掲示板</a>' +
         '<a href="' + esc(directionsUrl(s)) + '" target="_blank" rel="noopener">経路を見る ↗</a>' +
       '</div>';
   }
@@ -1178,7 +1183,7 @@ document.addEventListener('click', function (event) {
   const LIMIT   = 100;
 
   const esc = s => { const d = document.createElement('div'); d.textContent = (s == null ? '' : String(s)); return d.innerHTML; };
-  const spots = () => window.GH_SPOTS || [];
+  const spots = () => (window.GH_SPOTS || []).filter(s => !!(s && s.sourceUrl && s.verifiedAt));
 
   const ago = iso => {
     const m = Math.floor((Date.now() - new Date(iso).getTime()) / 60000);
@@ -1211,8 +1216,8 @@ document.addEventListener('click', function (event) {
     const sid = String(spot || '').replace(/^spot-/, '');
     return spots().find(s => s.id === sid) || null;
   };
-  const boardHref = store => (store ? '/spot/' + encodeURIComponent(store.id) + '.html#board' : '/board.html');
-  const spotHref  = store => (store ? '/spot/' + encodeURIComponent(store.id) + '.html' : '/board.html');
+  const boardHref = store => (store ? ghSpotUrl(store.id, '#board') : '/board.html');
+  const spotHref  = store => (store ? ghSpotUrl(store.id) : '/board.html');
 
   /* 投稿に紐づく画像URL（将来 image_url 列が増えても、本文中のURLでも拾える） */
   const IMG_RE = /https?:\/\/[^\s"'<>]+?\.(?:jpg|jpeg|png|gif|webp)(?:\?[^\s"'<>]*)?/ig;
@@ -1923,251 +1928,6 @@ document.addEventListener('click', e => {
   ).join('');
 })();
 
-/* ── Affiliate modules (data/ads.js → 文脈別広告・サイドバー) ── */
-(function () {
-  const cfg = window.GH_ADS;
-  if (!cfg) return;
-
-  const esc = value => {
-    const node = document.createElement('div');
-    node.textContent = value == null ? '' : String(value);
-    return node.innerHTML;
-  };
-  const campaigns = cfg.campaigns || {};
-  const discHtml = cfg.disclosure
-    ? '<p class="gh-affil__disc">' + esc(cfg.disclosure) + '</p>'
-    : '';
-  const isMobile = () => window.matchMedia && window.matchMedia('(max-width: 600px)').matches;
-  const creativeFor = (campaign, mode) => {
-    if (mode === 'sidebar') return campaign.sidebarCreative || campaign.mobileCreative || campaign.desktopCreative || 'sidebar';
-    return isMobile()
-      ? (campaign.mobileCreative || campaign.desktopCreative || 'mobile')
-      : (campaign.desktopCreative || campaign.mobileCreative || 'desktop');
-  };
-  const trackingAttrs = (campaign, placement, mode) =>
-    ' data-ad-track="unit"' +
-    ' data-ad-id="' + esc(campaign.id || '') + '"' +
-    ' data-ad-placement="' + esc(placement) + '"' +
-    ' data-ad-creative="' + esc(creativeFor(campaign, mode)) + '"' +
-    ' data-ad-creative-desktop="' + esc(campaign.desktopCreative || '') + '"' +
-    ' data-ad-creative-mobile="' + esc(campaign.mobileCreative || '') + '"';
-  const campaignPicture = (campaign, mode) => {
-    const fallback = mode === 'sidebar'
-      ? (campaign.sidebarImage || campaign.mobileImage || campaign.desktopImage)
-      : (campaign.desktopImage || campaign.mobileImage);
-    if (!fallback) return '';
-    if (mode === 'sidebar') {
-      return '<img src="' + esc(fallback) + '" alt="' + esc(campaign.imageAlt || campaign.title) + '" loading="lazy" />';
-    }
-    return '<picture>' +
-      (campaign.mobileImage ? '<source media="(max-width: 600px)" srcset="' + esc(campaign.mobileImage) + '" />' : '') +
-      '<img src="' + esc(fallback) + '" alt="' + esc(campaign.imageAlt || campaign.title) + '" loading="lazy" />' +
-    '</picture>';
-  };
-  const campaignCard = (campaign, placement) => {
-    const imageLabel = (campaign.shop || campaign.title) + 'の商品ページを開く';
-    return '<article class="gh-commerce__card"' + trackingAttrs(campaign, placement, 'context') + '>' +
-      '<div class="gh-commerce__media">' +
-        '<a href="' + esc(campaign.url) + '" target="_blank" rel="nofollow sponsored noopener" aria-label="' + esc(imageLabel) + '" data-ad-cta="image">' +
-          campaignPicture(campaign, 'context') +
-          '<span class="gh-commerce__image-fallback">画像を読み込めませんでした</span>' +
-        '</a>' +
-      '</div>' +
-      '<div class="gh-commerce__body">' +
-        '<div class="gh-commerce__meta"><span class="gh-affil__pr">PR</span><span>' + esc(campaign.shop || '楽天市場') + '</span></div>' +
-        (campaign.eyebrow ? '<p class="gh-commerce__eyebrow">' + esc(campaign.eyebrow) + '</p>' : '') +
-        '<h3 class="gh-commerce__title">' + esc(campaign.title) + '</h3>' +
-        (campaign.description ? '<p class="gh-commerce__desc">' + esc(campaign.description) + '</p>' : '') +
-        (campaign.price ? '<p class="gh-commerce__price">' + esc(campaign.price) + '</p>' : '') +
-        '<a class="gh-commerce__cta" href="' + esc(campaign.ctaUrl || campaign.url) + '" target="_blank" rel="nofollow sponsored noopener" data-ad-cta="' + esc(campaign.cta || '商品詳細を見る') + '">' +
-          esc(campaign.cta || '商品詳細を見る') + '<span aria-hidden="true">→</span>' +
-        '</a>' +
-        (campaign.note ? '<small class="gh-commerce__note">' + esc(campaign.note) + '</small>' : '') +
-      '</div>' +
-    '</article>';
-  };
-
-  /* ページごとの閲覧目的に合わせた固定枠。日替わり表示にはしない。 */
-  document.querySelectorAll('[data-gh-commerce]').forEach(box => {
-    const placement = box.dataset.ghCommerce;
-    const campaignKeys = (cfg.placements && cfg.placements[placement]) || [];
-    const selected = campaignKeys.map(key => campaigns[key]).filter(Boolean);
-    if (!selected.length) return;
-    box.innerHTML = '<div class="gh-commerce">' +
-      selected.map(campaign => campaignCard(campaign, placement)).join('') +
-      '</div>' + discHtml;
-    const section = box.closest('.gh-commerce-sec');
-    if (section) section.hidden = false;
-  });
-
-  /* ガチャ関連グッズ。各リンクを個別に計測する。 */
-  document.querySelectorAll('[data-gh-gacha-goods]').forEach(box => {
-    const goods = (cfg.gachaGoods || []).filter(g => g && g.url && g.title);
-    if (!goods.length) return;
-    box.innerHTML = '<div class="gh-goods">' + goods.map(g =>
-      '<a class="gh-goods__card" href="' + esc(g.url) + '" target="_blank" rel="nofollow sponsored noopener"' +
-        ' data-ad-track="unit" data-ad-id="' + esc(g.id || 'rk_goods') + '" data-ad-placement="goods" data-ad-creative="text_card" data-ad-cta="' + esc(g.title) + '">' +
-        '<span class="gh-goods__emoji" aria-hidden="true">' + esc(g.emoji || '🎁') + '</span>' +
-        '<span class="gh-goods__body"><strong class="gh-goods__title">' + esc(g.title) + '</strong>' +
-        '<small class="gh-goods__note">' + esc(g.note || '') + '</small></span>' +
-        '<span class="gh-goods__arrow" aria-hidden="true">▶</span>' +
-      '</a>').join('') + '</div>' + discHtml;
-    const section = box.closest('.gh-goods-sec');
-    if (section) {
-      const heading = section.querySelector('.gh-section__title');
-      if (heading && cfg.gachaGoodsHeading) {
-        heading.innerHTML = esc(cfg.gachaGoodsHeading) + ' <span class="gh-affil__pr">PR</span>';
-      }
-      section.hidden = false;
-    }
-  });
-
-  document.querySelectorAll('.gh-commerce__media img').forEach(img => {
-    const markUnavailable = () => {
-      const media = img.closest('.gh-commerce__media');
-      if (media) media.classList.add('is-unavailable');
-    };
-    img.addEventListener('error', markUnavailable);
-    if (img.complete && !img.naturalWidth) markUnavailable();
-  });
-
-  /* 未設定の広告枠は仮表示を残さず、商品を描画できた枠だけ表示する。 */
-  const slots = document.querySelectorAll('.gh-ad');
-  slots.forEach(slot => {
-    slot.hidden = true;
-    slot.classList.remove('gh-ad--filled');
-  });
-  /* 本文に文脈広告があるページでは、同じ画面のサイドバー広告を重ねない。 */
-  if (document.querySelector('.gh-commerce__card')) {
-    slots.forEach(slot => { slot.hidden = true; });
-    return;
-  }
-  const products = (cfg.products || []).map(product => {
-    if (!product || !product.campaignId) return product;
-    const campaign = campaigns[product.campaignId];
-    return campaign ? { ...campaign, campaignId: product.campaignId } : null;
-  }).filter(product => product && product.url && product.title);
-  if (!slots.length || !products.length) return;
-
-  const max = cfg.maxPerSlot || 3;
-  const day = Math.floor((Date.now() + 9 * 3600 * 1000) / 86400000);
-  const sidebarCampaignIds = new Set(products.map(product => product.id).filter(Boolean));
-  const goodsAll = (cfg.gachaGoods || []).filter(g =>
-    g && g.url && g.title && !sidebarCampaignIds.has(g.id));
-  const goodsStart = goodsAll.length ? day % goodsAll.length : 0;
-  const rotatedGoods = goodsAll.slice(goodsStart).concat(goodsAll.slice(0, goodsStart)).slice(0, 2);
-  const sidebarItems = rotatedGoods.concat(products).slice(0, max);
-
-  const sidebarCard = item => {
-    if (item.campaignId) {
-      return '<article class="gh-affil__rk"' + trackingAttrs(item, 'sidebar', 'sidebar') + '>' +
-        '<div class="gh-affil__rk-head"><span class="gh-affil__rk-shop">' + esc(item.shop || '楽天市場') + '</span><span class="gh-affil__pr">PR</span></div>' +
-        '<a class="gh-affil__banner" href="' + esc(item.url) + '" target="_blank" rel="nofollow sponsored noopener" aria-label="' + esc((item.shop || item.title) + 'を開く') + '" data-ad-cta="image">' +
-          campaignPicture(item, 'sidebar') +
-        '</a>' +
-        '<div class="gh-affil__rk-copy"><strong>' + esc(item.title) + '</strong><small>' + esc(item.note || '') + '</small></div>' +
-        '<a class="gh-affil__cta" href="' + esc(item.ctaUrl || item.url) + '" target="_blank" rel="nofollow sponsored noopener" data-ad-cta="' + esc(item.cta || '商品詳細を見る') + '">' + esc(item.cta || '商品詳細を見る') + '&nbsp;▶</a>' +
-      '</article>';
-    }
-    return '<a class="gh-affil__card" href="' + esc(item.url) + '" target="_blank" rel="nofollow sponsored noopener"' +
-      ' data-ad-track="unit" data-ad-id="' + esc(item.id || 'rk_goods') + '" data-ad-placement="sidebar" data-ad-creative="text_card" data-ad-cta="' + esc(item.title) + '">' +
-      '<span class="gh-affil__badge">PR</span><span class="gh-affil__emoji" aria-hidden="true">' + esc(item.emoji || '🛍️') + '</span>' +
-      '<span class="gh-affil__text"><strong class="gh-affil__title">' + esc(item.title) + '</strong>' +
-      (item.note ? '<small class="gh-affil__note">' + esc(item.note) + '</small>' : '') + '</span></a>';
-  };
-
-  const sidebarHtml = '<div class="gh-affil">' + sidebarItems.map(sidebarCard).join('') + '</div>' + discHtml;
-  slots.forEach(slot => {
-    const body = slot.querySelector('.gh-ad__body') || slot;
-    body.innerHTML = sidebarHtml;
-    slot.classList.add('gh-ad--filled');
-    slot.hidden = false;
-  });
-
-  document.querySelectorAll('.gh-affil__banner img').forEach(img => {
-    const markUnavailable = () => {
-      const media = img.closest('.gh-affil__banner');
-      if (media) media.classList.add('is-unavailable');
-    };
-    img.addEventListener('error', markUnavailable);
-    if (img.complete && !img.naturalWidth) markUnavailable();
-  });
-})();
-
-/* ── 広告計測：広告別の表示数・クリック数をGA4へ送る ── */
-(function () {
-  const activeCreative = node => {
-    const unit = node.closest('[data-ad-track="unit"]') || node;
-    if (window.matchMedia && window.matchMedia('(max-width: 600px)').matches) {
-      return unit.dataset.adCreativeMobile || unit.dataset.adCreative || 'unknown';
-    }
-    return unit.dataset.adCreativeDesktop || unit.dataset.adCreative || 'unknown';
-  };
-  const metaFor = node => {
-    const unit = node.closest('[data-ad-track="unit"]') || node;
-    return {
-      unit,
-      adId: unit.dataset.adId || 'unknown',
-      placement: unit.dataset.adPlacement || 'other',
-      creative: activeCreative(unit)
-    };
-  };
-
-  document.addEventListener('click', event => {
-    const link = event.target.closest && event.target.closest('a[rel~="sponsored"]');
-    if (!link || typeof window.gtag !== 'function') return;
-    const meta = metaFor(link);
-    try {
-      window.gtag('event', 'ad_click', {
-        ad_unit: meta.placement,
-        ad_id: meta.adId,
-        ad_placement: meta.placement,
-        ad_creative: meta.creative,
-        cta_label: (link.dataset.adCta || link.textContent || 'link').trim().slice(0, 80),
-        page_path: (location.pathname || '/').slice(0, 120),
-        link_url: (link.href || '').slice(0, 180)
-      });
-    } catch (error) {}
-  }, true);
-
-  if (!('IntersectionObserver' in window) || typeof window.gtag !== 'function') return;
-  const seen = new Set();
-  const timers = new WeakMap();
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      const target = entry.target;
-      const currentTimer = timers.get(target);
-      if (!entry.isIntersecting || entry.intersectionRatio < 0.5) {
-        if (currentTimer) clearTimeout(currentTimer);
-        timers.delete(target);
-        return;
-      }
-      if (currentTimer) return;
-      const timer = setTimeout(() => {
-        const meta = metaFor(target);
-        const key = meta.adId + '|' + meta.placement;
-        if (seen.has(key)) {
-          observer.unobserve(target);
-          return;
-        }
-        seen.add(key);
-        observer.unobserve(target);
-        try {
-          window.gtag('event', 'ad_impression', {
-            ad_unit: meta.placement,
-            ad_id: meta.adId,
-            ad_placement: meta.placement,
-            ad_creative: meta.creative,
-            page_path: (location.pathname || '/').slice(0, 120)
-          });
-        } catch (error) {}
-      }, 1000);
-      timers.set(target, timer);
-    });
-  }, { threshold: [0.5] });
-
-  document.querySelectorAll('[data-ad-track="unit"]').forEach(target => observer.observe(target));
-})();
 
 
 /* ===========================================================================

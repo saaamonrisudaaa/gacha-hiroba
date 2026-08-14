@@ -1883,8 +1883,6 @@ img { display: block; max-width: 100%; }
   .gh-bbs__form-row input,
   .gh-bbs__textarea { font-size: 16px; }
 
-  /* モバイルでは楽天の商品カードは2枚までに抑えて縦長を軽減 */
-  .gh-featured__item:nth-of-type(n+3) { display: none; }
 }
 
 /* ============================================================
@@ -2023,388 +2021,6 @@ img { display: block; max-width: 100%; }
 .gh-prose th { background: #f9fafb; white-space: nowrap; }
 @media (max-width: 768px) { .gh-legal { padding: 20px 16px; } }
 
-/* ============================================================
-   AD SLOTS (clearly labelled per 景表法 / stealth-marketing rules)
-   ============================================================ */
-.gh-ad:not(.gh-ad--filled) { display: none; }
-.gh-ad {
-  position: relative;
-  border: 1px dashed #cbd5e1;
-  border-radius: var(--gh-radius);
-  background: #fafafa;
-  padding: 22px 12px 16px;
-  text-align: center;
-  overflow: hidden;
-}
-.gh-ad__label {
-  position: absolute;
-  top: 6px;
-  left: 8px;
-  font-size: 10px;
-  font-weight: 700;
-  color: var(--gh-muted);
-  background: #fff;
-  border: 1px solid var(--gh-border);
-  padding: 1px 7px;
-  border-radius: 4px;
-  letter-spacing: .04em;
-}
-.gh-ad__body {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  min-height: 70px;
-  color: var(--gh-muted);
-  font-size: 12px;
-}
-.gh-ad__body strong { font-size: 13px; font-weight: 700; color: #94a3b8; }
-.gh-ad--banner .gh-ad__body { min-height: 90px; }
-.gh-ad--inline { margin: 20px 0; }
-
-/* アフィリエイト広告（data/ads.js で設定されたときに表示） */
-.gh-ad--filled { text-align: left; padding-top: 26px; background: #fff; border-style: solid; }
-.gh-ad--filled .gh-ad__body { display: block; min-height: 0; color: inherit; }
-.gh-affil { display: flex; flex-direction: column; gap: 10px; }
-.gh-affil__card {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 11px 12px;
-  border: 1px solid var(--gh-border);
-  border-radius: var(--gh-radius);
-  background: #fff;
-  color: var(--gh-text);
-  transition: background .15s ease, border-color .15s ease;
-}
-.gh-affil__card:hover { background: var(--gh-new-bg); border-color: #c7d2fe; text-decoration: none; }
-.gh-affil__badge {
-  position: absolute;
-  top: -8px;
-  left: 8px;
-  font-size: 9px;
-  font-weight: 800;
-  letter-spacing: .04em;
-  color: #b45309;
-  background: #fef3c7;
-  border: 1px solid #fde68a;
-  padding: 1px 6px;
-  border-radius: 4px;
-}
-.gh-affil__emoji { font-size: 26px; line-height: 1; width: 40px; text-align: center; flex-shrink: 0; }
-.gh-affil__img { width: 46px; height: 46px; object-fit: cover; border-radius: 6px; flex-shrink: 0; }
-.gh-affil__text { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
-.gh-affil__title { font-size: 12.5px; font-weight: 700; line-height: 1.4; }
-.gh-affil__note { font-size: 11px; color: var(--gh-muted); line-height: 1.4; }
-.gh-affil__disc { font-size: 10.5px; color: var(--gh-muted); line-height: 1.6; margin: 10px 0 0; }
-/* 画像バナー型のアフィリエイト（楽天の画像リンク等） */
-.gh-affil__banner { text-align: center; }
-.gh-affil__banner a { display: inline-block; }
-.gh-affil__banner img { max-width: 100%; height: auto; }
-
-/* 閲覧目的に合わせて本文中へ出す購入導線 */
-.gh-commerce { display: grid; gap: 16px; }
-.gh-commerce__card {
-  display: grid;
-  grid-template-columns: minmax(190px, 34%) minmax(0, 1fr);
-  overflow: hidden;
-  border: 1px solid #ead7d7;
-  border-radius: 16px;
-  background: linear-gradient(135deg, #fffafa 0%, #fff 48%, #fffdf7 100%);
-  box-shadow: 0 8px 24px rgba(89, 35, 45, .08);
-}
-.gh-commerce__media {
-  display: flex;
-  min-height: 210px;
-  border-right: 1px solid #f1e4e4;
-  background: rgba(255,255,255,.78);
-}
-.gh-commerce__media > a {
-  display: flex;
-  width: 100%;
-  min-width: 0;
-  align-items: center;
-  justify-content: center;
-  padding: 18px;
-}
-.gh-commerce__media picture { display: block; width: 100%; text-align: center; }
-.gh-commerce__media img {
-  display: block;
-  width: auto;
-  max-width: 100%;
-  max-height: 260px;
-  height: auto;
-  margin: 0 auto;
-  object-fit: contain;
-}
-.gh-commerce__image-fallback {
-  display: none;
-  color: var(--gh-muted);
-  font-size: 12px;
-  text-align: center;
-}
-.gh-commerce__media.is-unavailable picture { display: none; }
-.gh-commerce__media.is-unavailable .gh-commerce__image-fallback { display: block; }
-.gh-commerce__body {
-  display: flex;
-  min-width: 0;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  padding: 24px;
-}
-.gh-commerce__meta {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 10px;
-  color: #8a3c4a;
-  font-size: 12px;
-  font-weight: 800;
-}
-.gh-commerce__eyebrow {
-  margin: 0 0 4px;
-  color: #b45309;
-  font-size: 12px;
-  font-weight: 800;
-}
-.gh-commerce__title {
-  margin: 0;
-  color: var(--gh-text);
-  font-size: clamp(18px, 2.4vw, 24px);
-  line-height: 1.4;
-}
-.gh-commerce__desc {
-  margin: 9px 0 0;
-  color: #475569;
-  font-size: 14px;
-  line-height: 1.75;
-}
-.gh-commerce__price {
-  margin: 10px 0 0;
-  color: #7f1d1d;
-  font-size: 13px;
-  font-weight: 800;
-}
-.gh-commerce__cta {
-  display: inline-flex;
-  min-height: 46px;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 16px;
-  padding: 11px 20px;
-  border-radius: 999px;
-  background: linear-gradient(180deg, #d9092f, #b70020);
-  box-shadow: 0 4px 0 rgba(101, 0, 17, .16);
-  color: #fff;
-  font-size: 14px;
-  font-weight: 800;
-  line-height: 1.4;
-  text-align: center;
-}
-.gh-commerce__cta:hover { filter: brightness(1.06); text-decoration: none; }
-.gh-commerce__cta:active { transform: translateY(1px); }
-.gh-commerce__cta:focus-visible,
-.gh-commerce__media a:focus-visible { outline: 3px solid #2563eb; outline-offset: 3px; }
-.gh-commerce__note {
-  display: block;
-  margin-top: 9px;
-  color: var(--gh-muted);
-  font-size: 11px;
-  line-height: 1.6;
-}
-.gh-commerce-sec > .gh-affil__disc,
-.gh-commerce + .gh-affil__disc { margin-top: 10px; }
-
-@media (max-width: 600px) {
-  .gh-commerce__card { grid-template-columns: minmax(0, 1fr); }
-  .gh-commerce__media {
-    min-height: 150px;
-    border-right: 0;
-    border-bottom: 1px solid #f1e4e4;
-  }
-  .gh-commerce__media > a { padding: 16px; }
-  .gh-commerce__media img { max-height: 220px; }
-  .gh-commerce__body { padding: 18px; }
-  .gh-commerce__title { font-size: 19px; }
-  .gh-commerce__cta { width: 100%; min-height: 48px; padding-inline: 14px; }
-}
-
-/* クリックされやすい楽天カード（見出し＋枠付き画像＋CTAボタン） */
-.gh-affil__rk {
-  border: 1px solid var(--gh-border);
-  border-radius: 10px;
-  background: #fff;
-  overflow: hidden;
-  box-shadow: var(--gh-shadow);
-  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
-}
-.gh-affil__rk:hover { transform: translateY(-2px); box-shadow: var(--gh-shadow-md); border-color: #f3c0c0; }
-.gh-affil__rk-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8px 10px;
-  border-bottom: 1px solid #f1f5f9;
-  background: linear-gradient(90deg, #fff5f5, #ffffff);
-}
-.gh-affil__rk-shop { font-size: 12px; font-weight: 800; color: #bf0000; letter-spacing: .01em; }
-.gh-affil__pr {
-  font-size: 9px;
-  font-weight: 800;
-  color: #b45309;
-  background: #fef3c7;
-  border: 1px solid #fde68a;
-  padding: 1px 6px;
-  border-radius: 4px;
-  letter-spacing: .04em;
-}
-.gh-affil__rk .gh-affil__banner { padding: 12px 10px 4px; }
-.gh-affil__rk .gh-affil__banner a { border-radius: 8px; padding: 4px; transition: background .15s ease; }
-.gh-affil__rk .gh-affil__banner a:hover { background: #fafafa; }
-.gh-affil__rk > .gh-affil__banner {
-  display: flex;
-  min-height: 72px;
-  align-items: center;
-  justify-content: center;
-  border-radius: 0;
-}
-.gh-affil__rk > .gh-affil__banner:hover { background: #fafafa; }
-.gh-affil__rk > .gh-affil__banner img { display: block; max-width: 100%; height: auto; }
-.gh-affil__rk > .gh-affil__banner.is-unavailable::after {
-  content: '画像を読み込めませんでした';
-  color: var(--gh-muted);
-  font-size: 11px;
-}
-.gh-affil__rk > .gh-affil__banner.is-unavailable img { display: none; }
-.gh-affil__rk-copy { display: flex; flex-direction: column; gap: 4px; padding: 8px 10px 0; }
-.gh-affil__rk-copy strong { color: var(--gh-text); font-size: 12.5px; line-height: 1.45; }
-.gh-affil__rk-copy small { color: var(--gh-muted); font-size: 10.5px; line-height: 1.5; }
-.gh-affil__cta {
-  display: block;
-  margin: 8px 10px 12px;
-  padding: 10px 12px;
-  border-radius: 8px;
-  background: linear-gradient(180deg, #e94560, #d63052);
-  color: #fff;
-  font-weight: 800;
-  font-size: 13px;
-  text-align: center;
-  letter-spacing: .02em;
-  box-shadow: 0 2px 0 rgba(0,0,0,.08);
-  transition: filter .15s ease, transform .05s ease;
-}
-.gh-affil__cta:hover { filter: brightness(1.06); text-decoration: none; }
-.gh-affil__cta:active { transform: translateY(1px); }
-
-/* ── 下からスライドインするPRバナー ── */
-.gh-bottombar {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 95;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 14px;
-  padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
-  background: #fff;
-  border-top: 1px solid var(--gh-border);
-  box-shadow: 0 -4px 16px rgba(0,0,0,.12);
-  transform: translateY(110%);
-  transition: transform .35s ease;
-}
-.gh-bottombar.is-open { transform: translateY(0); }
-.gh-bottombar .gh-affil__pr { position: static; flex-shrink: 0; }
-.gh-bottombar__emoji { font-size: 22px; line-height: 1; flex-shrink: 0; }
-.gh-bottombar__text {
-  flex: 1;
-  min-width: 0;
-  font-size: 12.5px;
-  font-weight: 700;
-  line-height: 1.4;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-.gh-bottombar__cta {
-  flex-shrink: 0;
-  padding: 9px 14px;
-  border-radius: 999px;
-  background: linear-gradient(180deg, #e94560, #d63052);
-  color: #fff;
-  font-weight: 800;
-  font-size: 12.5px;
-  white-space: nowrap;
-  box-shadow: 0 2px 0 rgba(0,0,0,.08);
-}
-.gh-bottombar__cta:hover { filter: brightness(1.06); text-decoration: none; }
-.gh-bottombar__close {
-  flex-shrink: 0;
-  width: 30px;
-  height: 30px;
-  border: 1px solid var(--gh-border);
-  border-radius: 50%;
-  background: #f9fafb;
-  color: var(--gh-muted);
-  font-size: 16px;
-  line-height: 1;
-  cursor: pointer;
-}
-.gh-bottombar__close:hover { background: #f3f4f6; color: var(--gh-text); }
-
-/* ── 掲示板タブ表示中（gh-board-mode）：スレッドに集中 ── */
-@media (max-width: 768px) {
-  body.gh-board-mode .gh-featured-sec,
-  body.gh-board-mode .gh-commerce-sec { display: none; }   /* モバイルでは商品カードも隠してスレを主役に */
-}
-
-/* 「楽天市場でチェック」セクション（picttext のリッチ商品カード） */
-.gh-featured-sec .gh-section__title { display: flex; align-items: center; gap: 8px; }
-.gh-featured { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; }
-.gh-featured__item {
-  width: 100%;
-  max-width: 504px;
-  overflow: hidden;
-  border-radius: 12px;
-}
-/* 楽天の固定幅(504px/240px/248px)を打ち消してレスポンシブ化 */
-.gh-featured__item table { width: 100% !important; border-collapse: collapse; }
-.gh-featured__item td { width: auto !important; vertical-align: top; }
-.gh-featured__item div[style*="504px"] { width: auto !important; max-width: 100% !important; box-sizing: border-box; }
-.gh-featured__item img { max-width: 100%; height: auto; }
-
-/* HTMLに直接埋め込むウィジェット広告（楽天スライド等） */
-.gh-promo {
-  position: relative;
-  border: 1px dashed #cbd5e1;
-  border-radius: var(--gh-radius);
-  background: #fafafa;
-  padding: 26px 12px 14px;
-  margin-bottom: 20px;
-  text-align: center;
-  overflow-x: auto;
-}
-.gh-promo__label {
-  position: absolute;
-  top: 6px;
-  left: 8px;
-  font-size: 10px;
-  font-weight: 700;
-  color: var(--gh-muted);
-  background: #fff;
-  border: 1px solid var(--gh-border);
-  padding: 1px 7px;
-  border-radius: 4px;
-  letter-spacing: .04em;
-}
-.gh-promo__widget { display: inline-block; min-height: 160px; }
-.gh-promo .gh-affil__disc { text-align: left; }
 
 /* ============================================================
    BULLETIN BOARD HUB (board.html, Yahoo Finance /cm style)
@@ -2497,30 +2113,6 @@ img.gh-logo__icon {
   padding: 0;
   border: 1.5px solid rgba(255, 255, 255, 0.85);
   box-sizing: border-box;
-}
-
-/* ── ガチャグッズユニット（文脈広告カード） ── */
-.gh-goods { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-.gh-goods__card {
-  display: flex; align-items: center; gap: 10px;
-  padding: 12px 14px; min-height: 52px;
-  background: var(--gh-card, #fff);
-  border: 1.5px solid var(--gh-border, #e5e2f0);
-  border-radius: 12px; text-decoration: none; color: inherit;
-  transition: border-color .15s, transform .15s, box-shadow .15s;
-}
-.gh-goods__card:hover {
-  border-color: var(--gh-accent, #e0245e);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 14px rgba(0,0,0,.08);
-}
-.gh-goods__emoji { font-size: 26px; flex: 0 0 auto; }
-.gh-goods__body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.gh-goods__title { font-size: 14px; font-weight: 700; line-height: 1.35; }
-.gh-goods__note { font-size: 11.5px; color: var(--gh-muted, #888); line-height: 1.4; }
-.gh-goods__arrow { margin-left: auto; color: var(--gh-accent, #e0245e); font-size: 12px; flex: 0 0 auto; }
-@media (max-width: 700px) {
-  .gh-goods { grid-template-columns: 1fr; }
 }
 
 /* 新着掲載店舗リストのエリア表記 */
@@ -2947,156 +2539,6 @@ a.gh-rel--row:hover { background: #fffaf5; }
 .gh-byline img { flex: 0 0 auto; border-radius: 50%; }
 .gh-byline a { color: var(--gh-link, #1d4ed8); font-weight: 700; }
 
-/* =====================================================================
-   下部PRバナー（楽天トラベル）— 全幅の白い帯をやめ、浮いたカードに刷新
-   ===================================================================== */
-.gh-bottombar {
-  position: fixed;
-  left: 50%;
-  right: auto;
-  bottom: 16px;
-  z-index: 95;
-  width: min(680px, calc(100% - 24px));
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 14px;
-  padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
-  border: 1px solid rgba(255, 255, 255, .1);
-  border-radius: 14px;
-  background:
-    radial-gradient(120% 160% at 88% 12%, rgba(233, 69, 96, .38) 0%, rgba(233, 69, 96, 0) 58%),
-    linear-gradient(118deg, #10152c 0%, #1e2550 52%, #2c2360 100%);
-  color: #fff;
-  box-shadow: 0 14px 34px rgba(12, 16, 38, .34), 0 2px 6px rgba(12, 16, 38, .22);
-  transform: translate(-50%, calc(100% + 28px));
-  transition: transform .42s cubic-bezier(.2, .8, .25, 1), opacity .3s ease;
-  opacity: 0;
-}
-.gh-bottombar.is-open { transform: translate(-50%, 0); opacity: 1; }
-
-.gh-bottombar__icon {
-  flex: 0 0 auto;
-  width: 40px; height: 40px;
-  display: flex; align-items: center; justify-content: center;
-  border-radius: 11px;
-  background: rgba(255, 255, 255, .1);
-  border: 1px solid rgba(255, 255, 255, .14);
-  font-size: 20px; line-height: 1;
-}
-.gh-bottombar__body { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
-.gh-bottombar__eyebrow { display: flex; align-items: center; gap: 6px; }
-.gh-bottombar__pr {
-  font-size: 9.5px; font-weight: 800; letter-spacing: .04em;
-  padding: 1px 5px; border-radius: 3px;
-  background: rgba(255, 255, 255, .16); color: rgba(255, 255, 255, .82);
-}
-.gh-bottombar__label {
-  font-size: 10.5px; font-weight: 800; letter-spacing: .04em;
-  color: #ff9db0;
-}
-.gh-bottombar__text {
-  font-size: 14px; font-weight: 800; line-height: 1.45; color: #fff;
-  display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;
-}
-.gh-bottombar__sub {
-  font-size: 11.5px; line-height: 1.45; color: rgba(255, 255, 255, .66);
-  display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;
-}
-.gh-bottombar__cta {
-  flex: 0 0 auto;
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 10px 17px;
-  border-radius: 999px;
-  background: linear-gradient(180deg, #ff5b78 0%, #e0143c 100%);
-  color: #fff; font-weight: 800; font-size: 13px; white-space: nowrap;
-  text-decoration: none;
-  box-shadow: 0 4px 14px rgba(224, 20, 60, .42);
-}
-.gh-bottombar__cta:hover { filter: brightness(1.07); text-decoration: none; transform: translateY(-1px); }
-.gh-bottombar__cta span { transition: transform .2s ease; }
-.gh-bottombar__cta:hover span { transform: translateX(2px); }
-.gh-bottombar__close {
-  flex: 0 0 auto;
-  width: 26px; height: 26px;
-  border: 1px solid rgba(255, 255, 255, .16);
-  border-radius: 50%;
-  background: rgba(255, 255, 255, .06);
-  color: rgba(255, 255, 255, .6);
-  font-size: 14px; line-height: 1; cursor: pointer;
-}
-.gh-bottombar__close:hover { background: rgba(255, 255, 255, .14); color: #fff; }
-
-@media (max-width: 600px) {
-  .gh-bottombar { bottom: 10px; gap: 10px; padding: 11px 12px; border-radius: 13px; }
-  .gh-bottombar__icon { width: 34px; height: 34px; font-size: 17px; border-radius: 9px; }
-  .gh-bottombar__text { font-size: 13px; }
-  .gh-bottombar__sub { display: none; }
-  .gh-bottombar__cta { padding: 9px 13px; font-size: 12px; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .gh-bottombar { transition: opacity .2s ease; }
-  .gh-bottombar__cta:hover { transform: none; }
-}
-
-/* ── 下部PRバナー：画像バナー版（楽天アフィリエイトの pict バナーを載せる） ──
-      バナー画像そのものが主役なので、カードは白基調・枠を最小限にする。
-      バナーのサイズが何であっても崩れないよう、高さ上限だけを決めて縦横比は保つ。 */
-.gh-bottombar--banner {
-  gap: 10px;
-  padding: 8px 10px;
-  padding-bottom: calc(8px + env(safe-area-inset-bottom, 0px));
-  /* 幅は基本形（min(680px, 100%-24px)）のまま確定値にしておく。
-     width:auto にすると画像側の max-width:100% と循環して画像が潰れるため。
-     バナーはこの中で中央寄せし、はみ出す場合だけ縮小する。 */
-  background: rgba(255, 255, 255, .96);
-  backdrop-filter: blur(6px);
-  border: 1px solid var(--gh-border, #e5e7eb);
-  box-shadow: 0 12px 30px rgba(15, 20, 40, .18), 0 2px 6px rgba(15, 20, 40, .1);
-  color: var(--gh-text, #111);
-}
-.gh-bottombar--banner .gh-bottombar__eyebrow {
-  flex: 0 0 auto; flex-direction: column; align-items: flex-start; gap: 2px;
-}
-.gh-bottombar--banner .gh-bottombar__pr {
-  background: #f3f4f6; color: var(--gh-muted, #6b7280);
-}
-.gh-bottombar--banner .gh-bottombar__label {
-  color: #bf0000; font-size: 10px; white-space: nowrap;
-}
-.gh-bottombar__banner {
-  flex: 0 1 auto; min-width: 0; margin-inline: auto;
-  display: block; line-height: 0;
-  border-radius: 6px; overflow: hidden;
-}
-.gh-bottombar__banner img {
-  display: block; width: auto; height: auto;
-  max-width: 100%; max-height: 80px;
-}
-.gh-bottombar--banner .gh-bottombar__close {
-  border-color: var(--gh-border, #e5e7eb);
-  background: #f9fafb;
-  color: var(--gh-muted, #6b7280);
-}
-.gh-bottombar--banner .gh-bottombar__close:hover { background: #f3f4f6; color: var(--gh-text, #111); }
-
-/* スマホでは横一列だとバナーが潰れて読めないので、
-   ラベル行を上、バナーを下の2段組にして横幅をバナーに全振りする。 */
-@media (max-width: 600px) {
-  .gh-bottombar--banner {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    grid-template-areas: "eyebrow close" "banner banner";
-    gap: 5px 8px;
-    padding: 7px 9px 9px;
-  }
-  .gh-bottombar--banner .gh-bottombar__eyebrow {
-    grid-area: eyebrow; flex-direction: row; align-items: center; gap: 6px;
-  }
-  .gh-bottombar--banner .gh-bottombar__close { grid-area: close; width: 22px; height: 22px; font-size: 12px; }
-  .gh-bottombar__banner { grid-area: banner; margin-inline: 0; }
-  .gh-bottombar__banner img { max-height: 72px; }
-}
 
 /* =====================================================================
    ライブ更新まわり（2026-08 第3版）
@@ -3545,7 +2987,7 @@ a.gh-hot--row:hover { background: #fffaf5; text-decoration: none; }
 .gh-consent__text { display: grid; gap: 4px; line-height: 1.55; }
 .gh-consent__text strong { font-size: 15px; }
 .gh-consent__text span { font-size: 13px; }
-.gh-consent__text a { color: var(--gh-primary); text-decoration: underline; }
+.gh-consent__text a { color: var(--gh-link); text-decoration: underline; }
 .gh-consent__actions { display: flex; flex: 0 0 auto; gap: 8px; }
 .gh-footer__consent {
   display: block;
@@ -3562,4 +3004,62 @@ a.gh-hot--row:hover { background: #fffaf5; text-decoration: none; }
   .gh-consent { align-items: stretch; flex-direction: column; gap: 12px; }
   .gh-consent__actions { width: 100%; }
   .gh-consent__actions .gh-btn { flex: 1; }
+}
+
+/* ── 独自データ監査・予算プランナー ─────────────────────────────── */
+.gh-audit { margin-top: 30px; }
+.gh-audit__metrics { margin-bottom: 14px; }
+.gh-audit__columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+.gh-audit__columns h3 { margin: 0 0 8px; font-size: 15px; }
+.gh-source-list { display: grid; gap: 10px; margin: 12px 0 24px; padding: 0; list-style: none; }
+.gh-source-list li { display: grid; gap: 3px; padding: 12px 14px; border: 1px solid var(--gh-border); border-radius: 10px; }
+.gh-source-list span { color: var(--gh-muted); font-size: 12px; line-height: 1.6; }
+
+.gh-tool {
+  margin: 26px 0 30px;
+  padding: 20px;
+  border: 2px solid #bfdbfe;
+  border-radius: 14px;
+  background: #f8fbff;
+}
+.gh-tool__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.gh-tool__head .gh-article__h2 { margin-top: 0; }
+.gh-tool__form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin: 16px 0;
+}
+.gh-tool__form label { display: grid; gap: 6px; color: #334155; font-size: 13px; font-weight: 700; }
+.gh-tool__form input {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: #fff;
+  color: #0f172a;
+  font: inherit;
+}
+.gh-tool__form input:focus { border-color: var(--gh-link); outline: 3px solid rgba(37, 99, 235, .14); }
+.gh-tool__form .gh-btn { align-self: end; min-height: 44px; }
+.gh-tool__result { padding: 16px; border-radius: 10px; background: #fff; box-shadow: 0 1px 3px rgba(15, 23, 42, .08); }
+.gh-tool__result h3 { margin: 0 0 10px; }
+.gh-tool__result p { margin: 0; line-height: 1.7; }
+.gh-tool__result dl { display: grid; gap: 0; margin: 0; }
+.gh-tool__result dl div { display: flex; justify-content: space-between; gap: 16px; padding: 9px 0; border-bottom: 1px solid var(--gh-border); }
+.gh-tool__result dl div:last-child { border-bottom: 0; }
+.gh-tool__result dt { color: var(--gh-muted); }
+.gh-tool__result dd { margin: 0; font-weight: 800; text-align: right; }
+.gh-tool__warning { margin-top: 10px !important; color: #9a3412; font-size: 13px; }
+
+@media (max-width: 768px) {
+  .gh-audit__columns,
+  .gh-tool__form { grid-template-columns: 1fr; }
+  .gh-tool { padding: 16px; }
+  .gh-tool__head { align-items: flex-start; flex-direction: column; }
 }

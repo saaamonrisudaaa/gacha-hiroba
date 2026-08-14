@@ -31,6 +31,10 @@ jobs:
 
       - name: Validate source data
         run: |
+          if git ls-files | grep -E ' [0-9]+\.(html|mjs)$'; then
+            echo "複製ファイル名（例: 2.html）は公開対象にできません" >&2
+            exit 1
+          fi
           node tools/validate-stores.mjs
           node tools/validate-releases.mjs
 
@@ -52,7 +56,7 @@ jobs:
 
       - name: Commit changes
         run: |
-          git add -A data/spots.js data/spots-queue.json sitemap.xml sitemap.html feed.xml spot/ area/ brand/ guide/ releases/ stores.html area.html category.html map.html
+          git add -A data/spots.js data/spots-queue.json sitemap.xml sitemap.html feed.xml spot/ area/ brand/ guide/ releases/ stores.html area.html category.html map.html index.html ranking.html news.html board.html methodology.html english.html
           if git diff --cached --quiet; then
             echo "変更なし。コミットしません。"
             exit 0
@@ -76,7 +80,7 @@ jobs:
             node tools/gen-static-blocks.mjs
             node tools/gen-sitemap.mjs
             node tools/validate-seo.mjs
-            git add -A data/spots.js data/spots-queue.json sitemap.xml sitemap.html feed.xml spot/ area/ brand/ guide/ releases/ stores.html area.html category.html map.html
+            git add -A data/spots.js data/spots-queue.json sitemap.xml sitemap.html feed.xml spot/ area/ brand/ guide/ releases/ stores.html area.html category.html map.html index.html ranking.html news.html board.html methodology.html english.html
             if ! git diff --cached --quiet; then
               git commit --amend --no-edit
             fi

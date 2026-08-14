@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="google-site-verification" content="YN5Q0DnCsIhwgitcXjcGqxlmfMec80Wl0uZskCNS11w" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <meta name="description" content="ガチャひろばが保有する店舗データについて、「何件あるか」だけでなく、掲載根拠URLと確認日がどこまでそろっているか、営業時間・設置台数・アクセスなど各項目をどの程度確認できているかを集計しました。ページ内の数値は data/spots.js から生成時に再計算しています。" />
+  <title>ガチャ店舗データ監査レポート｜確認状況・欠損率・台数分布を公開 | ガチャひろば</title>
+  <link rel="canonical" href="https://gacha-hiroba.com/guide/store-data-report.html" />
+  <meta property="og:site_name" content="ガチャひろば" />
+  <meta property="og:type" content="article" />
+  <meta property="og:locale" content="ja_JP" />
+  <meta property="og:title" content="ガチャ店舗データ監査レポート｜確認状況・欠損率・台数分布を公開 | ガチャひろば" />
+  <meta property="og:description" content="ガチャひろばが保有する店舗データについて、「何件あるか」だけでなく、掲載根拠URLと確認日がどこまでそろっているか、営業時間・設置台数・アクセスなど各項目をどの程度確認できているかを集計しました。ページ内の数値は data/spots.js から生成時に再計算しています。" />
+  <meta property="og:url" content="https://gacha-hiroba.com/guide/store-data-report.html" />
+  <meta property="og:image" content="https://gacha-hiroba.com/assets/ogp.png" />
+  <meta property="article:published_time" content="2026-08-14" />
+  <meta property="article:modified_time" content="2026-08-14" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="ガチャ店舗データ監査レポート｜確認状況・欠損率・台数分布を公開 | ガチャひろば" />
+  <meta name="twitter:description" content="ガチャひろばが保有する店舗データについて、「何件あるか」だけでなく、掲載根拠URLと確認日がどこまでそろっているか、営業時間・設置台数・アクセスなど各項目をどの程度確認できているかを集計しました。ページ内の数値は data/spots.js から生成時に再計算しています。" />
+  <meta name="twitter:image" content="https://gacha-hiroba.com/assets/ogp.png" />
+  <link rel="icon" type="image/png" href="/assets/mascot-icon.png" />
+  <link rel="stylesheet" href="/styles.css" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","@id":"https://gacha-hiroba.com/guide/store-data-report.html#article","headline":"ガチャ店舗データ監査レポート｜確認状況・欠損率・台数分布を公開","description":"ガチャひろばが保有する店舗データについて、「何件あるか」だけでなく、掲載根拠URLと確認日がどこまでそろっているか、営業時間・設置台数・アクセスなど各項目をどの程度確認できているかを集計しました。ページ内の数値は data/spots.js から生成時に再計算しています。","image":"https://gacha-hiroba.com/assets/ogp.png","datePublished":"2026-08-14","dateModified":"2026-08-14","inLanguage":"ja","mainEntityOfPage":{"@type":"WebPage","@id":"https://gacha-hiroba.com/guide/store-data-report.html"},"author":{"@type":"Organization","name":"ガチャひろば","url":"https://gacha-hiroba.com/"},"publisher":{"@type":"Organization","name":"ガチャひろば","url":"https://gacha-hiroba.com/","logo":{"@type":"ImageObject","url":"https://gacha-hiroba.com/assets/mascot-icon.png"}}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"トップ","item":"https://gacha-hiroba.com/"},{"@type":"ListItem","position":2,"name":"新着情報・特集記事","item":"https://gacha-hiroba.com/news.html"},{"@type":"ListItem","position":3,"name":"ガチャ店舗データ監査レポート｜確認状況・欠損率・台数分布を公開","item":"https://gacha-hiroba.com/guide/store-data-report.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"レポートの数値は手入力ですか？","acceptedAnswer":{"@type":"Answer","text":"本文の集計表は data/spots.js の店舗データからページ生成時に再計算します。説明文や集計条件は運営者が作成し、数値と条件が食い違わないよう公開前に検証します。"}},{"@type":"Question","name":"出典確認済みなら現在も営業していますか？","acceptedAnswer":{"@type":"Answer","text":"確認日に参照先を確認できたという意味で、現在の営業を保証しません。休館、移転、短縮営業などがあるため、来店前に店舗・施設の最新案内をご確認ください。"}},{"@type":"Question","name":"台数の合計を市場規模として使えますか？","acceptedAnswer":{"@type":"Answer","text":"使えません。掲載対象は当サイトが確認できた一部の店舗で、参照元の「台・面・種類」の定義も完全には統一されていません。合計は当サイト内の確認状況を把握する参考値です。"}}]}</script>
+  <script src="/script.js" defer></script>
+</head>
+<body>
+  <header class="gh-header">
+    <div class="gh-header__top">
+      <div class="gh-container gh-header__inner">
+        <a class="gh-logo" href="/index.html" aria-label="ガチャひろば トップへ">
+          <img class="gh-logo__icon" src="/assets/mascot-icon.png" alt="ガチャひろばのマスコット" width="34" height="34" />
+          <span class="gh-logo__text">ガチャ<em>ひろば</em></span>
+        </a>
+        <form class="gh-search" role="search">
+          <input class="gh-search__input" type="search" placeholder="エリア・駅名・店名で検索" aria-label="ガチャ場所を検索" />
+          <button class="gh-search__btn" type="submit" aria-label="検索">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          </button>
+        </form>
+        <button class="gh-hamburger" aria-label="メニューを開く" aria-expanded="false"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+    <div class="gh-subnav">
+      <div class="gh-container">
+        <nav class="gh-nav-tabs" aria-label="メインナビゲーション">
+          <a href="/index.html">トップ</a>
+          <a href="/board.html">掲示板</a>
+          <a href="/news.html" class="active">新着情報</a>
+          <a href="/ranking.html">ランキング</a>
+          <a href="/area.html">エリア別</a>
+          <a href="/category.html">ブランド別</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="gh-main">
+    <div class="gh-container">
+      <nav class="gh-breadcrumb" aria-label="パンくずリスト">
+        <a href="/index.html">トップ</a><span aria-hidden="true">›</span>
+        <a href="/news.html">特集記事</a><span aria-hidden="true">›</span>
+        <span aria-current="page">ガチャ店舗データ監査レポート｜確認状況・欠損率・台数分布を公開</span>
+      </nav>
+
+      <div class="gh-main__layout">
+        <div class="gh-main__content">
+          <article class="gh-section gh-article">
+            <h1 class="gh-article__title">📈 ガチャ店舗データ監査レポート｜確認状況・欠損率・台数分布を公開</h1>
+            <div class="gh-article__meta">最終更新：<time datetime="2026-08-14">2026-08-14</time>　・　保存版ガイド</div>
+            <p class="gh-detail-note">作成・確認：<a href="/about.html">ガチャひろば運営者（個人運営）</a> ／ <a href="/methodology.html">記事・データの作成方法</a></p>
+            <div class="gh-article__intro">
+              <p>ガチャひろばが保有する店舗データについて、「何件あるか」だけでなく、掲載根拠URLと確認日がどこまでそろっているか、営業時間・設置台数・アクセスなど各項目をどの程度確認できているかを集計しました。ページ内の数値は data/spots.js から生成時に再計算しています。</p>
+              <p>このレポートの目的は、店舗数を大きく見せることではありません。公開対象と確認待ちの管理候補を分け、ランキングや検索結果を使う前にデータの限界を判断できるようにすることです。公開の店舗検索・地図には掲載根拠URLと確認日の両方がある記録だけを表示します。</p>
+            </div>
+            <section class="gh-audit" aria-labelledby="audit-summary">
+              <h2 class="gh-article__h2" id="audit-summary">集計結果（2026-08-14集計）</h2>
+              <div class="gh-metrics gh-audit__metrics">
+                <div class="gh-metric gh-metric--primary"><span class="gh-metric__label">管理候補を含む全記録</span><strong class="gh-metric__value">371件</strong><span class="gh-metric__sub">確認待ちの候補を含む</span></div>
+                <div class="gh-metric"><span class="gh-metric__label">公開対象</span><strong class="gh-metric__value">135件</strong><span class="gh-metric__sub">根拠URL・確認日あり</span></div>
+                <div class="gh-metric"><span class="gh-metric__label">確認待ち・非公開</span><strong class="gh-metric__value">236件</strong><span class="gh-metric__sub">推測値は公開しない</span></div>
+                <div class="gh-metric"><span class="gh-metric__label">公開対象の範囲</span><strong class="gh-metric__value">44都道府県</strong><span class="gh-metric__sub">16ブランド</span></div>
+              </div>
+              <p class="gh-detail-note">判定条件：掲載根拠URL（sourceUrl）と確認日（verifiedAt）が両方ある記録だけを公開対象にします。参照先には公式ページ以外も含むため、「一次情報」とは一律に表現しません。最新の根拠確認日は2026-08-13です。<a href="/methodology.html">登録・確認基準の詳細</a></p>
+            </section>
+
+            <section class="gh-audit" aria-labelledby="audit-fields">
+              <h2 class="gh-article__h2" id="audit-fields">公開対象135件の項目別確認状況</h2>
+              <div class="gh-table-wrap"><table class="gh-table"><thead><tr><th scope="col">項目</th><th class="gh-num" scope="col">確認できた件数</th><th class="gh-num" scope="col">公開対象内の充足率</th><th class="gh-num" scope="col">未確認・未掲載</th></tr></thead><tbody>
+                <tr><td>営業時間</td><td class="gh-num">97件</td><td class="gh-num">71.9%</td><td class="gh-num">38件</td></tr>
+                <tr><td>設置台数</td><td class="gh-num">78件</td><td class="gh-num">57.8%</td><td class="gh-num">57件</td></tr>
+                <tr><td>アクセス</td><td class="gh-num">107件</td><td class="gh-num">79.3%</td><td class="gh-num">28件</td></tr>
+                <tr><td>電話番号</td><td class="gh-num">78件</td><td class="gh-num">57.8%</td><td class="gh-num">57件</td></tr>
+                <tr><td>郵便番号</td><td class="gh-num">63件</td><td class="gh-num">46.7%</td><td class="gh-num">72件</td></tr>
+              </tbody></table></div>
+              <p class="gh-detail-note">母数は公開対象135件です。未確認・未掲載は「なし」や「0」を意味せず、参照先で確認できない、または当サイトでまだ確認していない項目です。</p>
+            </section>
+
+            <section class="gh-audit" aria-labelledby="audit-machines">
+              <h2 class="gh-article__h2" id="audit-machines">公表設置台数の分布</h2>
+              <div class="gh-summary-bar">
+                <div class="gh-summary-card"><span class="gh-summary-card__label">集計対象</span><strong class="gh-summary-card__value">78件</strong><span class="gh-summary-card__change">数値を確認できた記録</span></div>
+                <div class="gh-summary-card"><span class="gh-summary-card__label">中央値</span><strong class="gh-summary-card__value">300</strong><span class="gh-summary-card__change">並べた中央の値</span></div>
+                <div class="gh-summary-card"><span class="gh-summary-card__label">中央50%の範囲</span><strong class="gh-summary-card__value">300〜490</strong><span class="gh-summary-card__change">第1〜第3四分位</span></div>
+                <div class="gh-summary-card"><span class="gh-summary-card__label">最小〜最大</span><strong class="gh-summary-card__value">170〜1,050</strong><span class="gh-summary-card__change">掲載値の範囲</span></div>
+              </div>
+              <div class="gh-table-wrap"><table class="gh-table"><thead><tr><th>台数帯</th><th class="gh-num">件数</th><th class="gh-num">台数記載内の割合</th></tr></thead><tbody>
+                <tr><td>299以下</td><td class="gh-num">15件</td><td class="gh-num">19.2%</td></tr>
+                <tr><td>300〜499</td><td class="gh-num">44件</td><td class="gh-num">56.4%</td></tr>
+                <tr><td>500〜699</td><td class="gh-num">10件</td><td class="gh-num">12.8%</td></tr>
+                <tr><td>700〜899</td><td class="gh-num">6件</td><td class="gh-num">7.7%</td></tr>
+                <tr><td>900以上</td><td class="gh-num">3件</td><td class="gh-num">3.8%</td></tr>
+              </tbody></table></div>
+              <p class="gh-detail-note">参照元の「台・面・種類」は定義が完全には統一されていません。合計を市場規模や在庫数として利用できず、個別商品の在庫や人気も表しません。四分位は数値を小さい順に並べ、位置が整数でない場合は隣り合う2値を線形補間して整数へ丸めています。</p>
+            </section>
+
+            <section class="gh-audit" aria-labelledby="audit-coverage">
+              <h2 class="gh-article__h2" id="audit-coverage">出典確認済みデータの掲載構成</h2>
+              <div class="gh-audit__columns">
+                <div><h3>都道府県（上位10）</h3><div class="gh-table-wrap"><table class="gh-table"><thead><tr><th>都道府県</th><th class="gh-num">件数</th></tr></thead><tbody><tr><td>愛知県</td><td class="gh-num">16件</td></tr><tr><td>東京都</td><td class="gh-num">7件</td></tr><tr><td>神奈川県</td><td class="gh-num">6件</td></tr><tr><td>山口県</td><td class="gh-num">5件</td></tr><tr><td>北海道</td><td class="gh-num">4件</td></tr><tr><td>茨城県</td><td class="gh-num">3件</td></tr><tr><td>岡山県</td><td class="gh-num">3件</td></tr><tr><td>沖縄県</td><td class="gh-num">3件</td></tr><tr><td>岩手県</td><td class="gh-num">3件</td></tr><tr><td>岐阜県</td><td class="gh-num">3件</td></tr></tbody></table></div></div>
+                <div><h3>ブランド（上位10）</h3><div class="gh-table-wrap"><table class="gh-table"><thead><tr><th>ブランド</th><th class="gh-num">件数</th></tr></thead><tbody><tr><td>ガシャポンバンダイオフィシャルショップ</td><td class="gh-num">67件</td></tr><tr><td>ガシャポンのデパート</td><td class="gh-num">15件</td></tr><tr><td>#C-pla（シープラ）</td><td class="gh-num">14件</td></tr><tr><td>ガチャガチャの森</td><td class="gh-num">13件</td></tr><tr><td>gashacoco（ガシャココ）</td><td class="gh-num">7件</td></tr><tr><td>ドリームカプセル</td><td class="gh-num">7件</td></tr><tr><td>CAPSULE LAB（カプコン）</td><td class="gh-num">2件</td></tr><tr><td>カプセル楽局</td><td class="gh-num">2件</td></tr><tr><td>ME TOKYO</td><td class="gh-num">1件</td></tr><tr><td>アソビル</td><td class="gh-num">1件</td></tr></tbody></table></div></div>
+              </div>
+              <p class="gh-detail-note">この件数は当サイトの掲載カバー構成であり、実店舗数、市場シェア、人気順位ではありません。</p>
+            </section>
+
+            <section class="gh-audit" aria-labelledby="audit-sources">
+              <h2 class="gh-article__h2" id="audit-sources">最近の確認記録と参照先</h2>
+              <div class="gh-table-wrap"><table class="gh-table"><thead><tr><th>店舗</th><th>都道府県</th><th>確認日</th><th>掲載根拠</th></tr></thead><tbody>
+                <tr><td><a href="/spot.html?id=cpla-kyoto-family">#C-pla 京都ファミリー店</a></td><td>京都府</td><td>2026-08-13</td><td><a class="gh-official-source" href="https://kyotofamily.com/guide/service/c-pla/" target="_blank" rel="noopener noreferrer">参照先を開く ↗</a></td></tr>
+                <tr><td><a href="/spot.html?id=cpla-nagasaki-hamacross411">#C-pla 長崎ハマクロス411店</a></td><td>長崎県</td><td>2026-08-13</td><td><a class="gh-official-source" href="https://www.hamacross411.jp/shops/cpla" target="_blank" rel="noopener noreferrer">参照先を開く ↗</a></td></tr>
+                <tr><td><a href="/spot.html?id=gashadepa-alplaza-uji-higashi">ガシャポンのデパート アルプラザ宇治東店</a></td><td>京都府</td><td>2026-08-13</td><td><a class="gh-official-source" href="https://bandainamco-am.co.jp/others/capsule-toy-store/store/uji/" target="_blank" rel="noopener noreferrer">参照先を開く ↗</a></td></tr>
+                <tr><td><a href="/spot.html?id=gashadepa-edion-jr-amagasaki">ガシャポンのデパート エディオンJR尼崎駅店</a></td><td>兵庫県</td><td>2026-08-13</td><td><a class="gh-official-source" href="https://bandainamco-am.co.jp/others/capsule-toy-store/store/edion_amagasaki/" target="_blank" rel="noopener noreferrer">参照先を開く ↗</a></td></tr>
+                <tr><td><a href="/spot.html?id=gashadepa-fairmall-fukui-owada">ガシャポンのデパート フェアモール福井大和田店</a></td><td>福井県</td><td>2026-08-13</td><td><a class="gh-official-source" href="https://bandainamco-am.co.jp/others/capsule-toy-store/store/fukui-owada/" target="_blank" rel="noopener noreferrer">参照先を開く ↗</a></td></tr>
+                <tr><td><a href="/spot.html?id=gashadepa-raspa-nishiyamato">ガシャポンのデパート ラスパ西大和店</a></td><td>奈良県</td><td>2026-08-13</td><td><a class="gh-official-source" href="https://bandainamco-am.co.jp/others/capsule-toy-store/store/nishiyamato/" target="_blank" rel="noopener noreferrer">参照先を開く ↗</a></td></tr>
+                <tr><td><a href="/spot.html?id=gashadepa-miyakocity">ガシャポンのデパート 宮交シティ店</a></td><td>宮崎県</td><td>2026-08-13</td><td><a class="gh-official-source" href="https://bandainamco-am.co.jp/others/capsule-toy-store/store/miyakocity/" target="_blank" rel="noopener noreferrer">参照先を開く ↗</a></td></tr>
+                <tr><td><a href="/spot.html?id=gashadepa-hiroshima-kamiyacho">ガシャポンのデパート 広島紙屋町店</a></td><td>広島県</td><td>2026-08-13</td><td><a class="gh-official-source" href="https://bandainamco-am.co.jp/others/capsule-toy-store/store/hiroshima-kamiyacho/" target="_blank" rel="noopener noreferrer">参照先を開く ↗</a></td></tr>
+                <tr><td><a href="/spot.html?id=gashapon-bandai-bookoff-maebashi-lirika">ガシャポンバンダイオフィシャルショップBOOKOFF 17号前橋リリカ店</a></td><td>群馬県</td><td>2026-08-13</td><td><a class="gh-official-source" href="https://bandainamco-am.co.jp/others/gashapon-bandai-officialshop/store/17_maebashi/" target="_blank" rel="noopener noreferrer">参照先を開く ↗</a></td></tr>
+                <tr><td><a href="/spot.html?id=gashapon-bandai-bookoff-kofu-kugawa">ガシャポンバンダイオフィシャルショップBOOKOFF 甲府貢川店</a></td><td>山梨県</td><td>2026-08-13</td><td><a class="gh-official-source" href="https://bandainamco-am.co.jp/others/gashapon-bandai-officialshop/store/kofukugawa/" target="_blank" rel="noopener noreferrer">参照先を開く ↗</a></td></tr>
+              </tbody></table></div>
+              <p class="gh-detail-note">訂正は<a href="/contact.html">お問い合わせ</a>から、店舗名・該当URL・確認できる根拠を添えてお送りください。</p>
+            </section><div class="gh-article__intro">
+              <h2 class="gh-article-h2">1. 「出典確認済み」の判定条件</h2>
+              <p>このレポートでは、店舗データに掲載根拠となるURLと、そのページを確認した日付の両方が登録されているものを「出典確認済み」と数えます。URLは店舗・ブランド・商業施設の公式ページを優先していますが、開業情報などの確認にプレスリリースや報道ページを参照した記録も含みます。そのため、すべてを一律に一次情報とは呼びません。</p>
+              <p>出典確認済みであっても、現在の営業、当日の営業時間、商品の在庫、売り場の位置まで保証するものではありません。確認日はサイト運営者が参照先を確認した日であり、現地訪問日や在庫確認日ではありません。来店判断に影響する項目は、リンク先の最新情報も確認してください。</p>
+              <h2 class="gh-article-h2">2. 欠けている項目も集計する理由</h2>
+              <p>同じ「出典確認済み」でも、営業時間は確認できたが電話番号は掲載されていない、住所とアクセスは確認できたが設置台数の公表がない、といった違いがあります。未掲載の項目を推測で埋めず、空欄のまま集計することで、利用者はどこまでを根拠付きで使えるか判断できます。</p>
+              <p>項目の充足率は店舗の良し悪しを示す点数ではありません。店舗や施設が公表している情報量、参照時点、当サイト側の確認作業の進み方を示すものです。欠損率が高い項目ほど、ランキングや比較に使う際は対象店舗が限られることに注意が必要です。</p>
+              <h2 class="gh-article-h2">3. 設置台数の分布で分かること・分からないこと</h2>
+              <p>台数帯の分布は、当サイトが根拠URLと確認日を登録し、さらに数値を確認できた店舗だけを対象にします。中央値や四分位は、極端に大きい店舗だけで全体像が決まらないように、掲載値の中央付近を把握するために計算しています。台数がない店舗を0台として扱うことはありません。</p>
+              <p>参照元では「台」「面」「種類」など異なる表現が使われ、集計対象の売り場範囲も完全には統一されていません。このため、合計値を業界全体の市場規模や在庫数として解釈できません。また、台数が多いことは、特定商品の在庫、品ぞろえの質、混雑の少なさ、利用者満足度を意味しません。</p>
+              <h2 class="gh-article-h2">4. 都道府県・ブランド別の数は掲載構成</h2>
+              <p>都道府県別・ブランド別の表は、出典確認済みデータがどこに偏っているかを見るためのものです。数が多い地域やブランドが、実際の店舗数でも市場シェアでも多いとは限りません。未確認の候補を除き、当サイトの確認作業が到達した範囲だけを表示します。</p>
+              <p>地域間を比較するときは、登録総数ではなく出典確認済み件数と確認率を一緒に見ます。掲載が少ない地域は「店舗が少ない」のではなく「当サイトで確認できた記録が少ない」可能性があります。訂正や公式ページの情報提供は、確認範囲を広げる手掛かりになります。</p>
+              <h2 class="gh-article-h2">5. 集計の更新と訂正方法</h2>
+              <p>店舗データを追加・訂正したときは、この固定URLのレポートを再生成します。月別・地域別に同じレポートを量産せず、同じ条件で変化を追える1ページに集約します。更新日は本文の内容または元データが実際に変わったときだけ変更します。</p>
+              <p>閉店、移転、リンク切れ、数値の対象範囲の違いを見つけた場合は、お問い合わせページから店舗名、該当URL、確認できる根拠を送れます。運営者が参照先を確認したうえで修正し、確認できない内容を推測で反映しません。詳しい登録基準は「データ作成・確認方法」で公開しています。</p>
+            </div>
+            <div class="gh-article__tips">
+              <h2 class="gh-article__h2">実用メモ（確認のコツ）</h2>
+              <ul><li>管理候補の総数と、公開対象の出典確認済み件数を分けて見る。</li><li>未掲載項目を0や「なし」と解釈しない。</li><li>台数は規模の目安で、在庫・人気・満足度の指標ではない。</li><li>地域・ブランド別件数は市場シェアではなく、当サイトの掲載構成。</li></ul>
+            </div>
+            <div>
+              <h2 class="gh-article__h2">❓ よくある質問</h2>
+              <details class="gh-faq"><summary class="gh-faq__q">レポートの数値は手入力ですか？</summary><p class="gh-faq__a">本文の集計表は data/spots.js の店舗データからページ生成時に再計算します。説明文や集計条件は運営者が作成し、数値と条件が食い違わないよう公開前に検証します。</p></details>
+              <details class="gh-faq"><summary class="gh-faq__q">出典確認済みなら現在も営業していますか？</summary><p class="gh-faq__a">確認日に参照先を確認できたという意味で、現在の営業を保証しません。休館、移転、短縮営業などがあるため、来店前に店舗・施設の最新案内をご確認ください。</p></details>
+              <details class="gh-faq"><summary class="gh-faq__q">台数の合計を市場規模として使えますか？</summary><p class="gh-faq__a">使えません。掲載対象は当サイトが確認できた一部の店舗で、参照元の「台・面・種類」の定義も完全には統一されていません。合計は当サイト内の確認状況を把握する参考値です。</p></details>
+            </div>
+            <p class="gh-detail-note">※本記事はガチャひろば運営者が、ガチャを探すときに役立つ手順や判断基準を独自に整理したものです。内容の訂正・改善提案はお問い合わせからお寄せください。<a href="/methodology.html">データ確認方法を見る</a></p>
+          </article>
+        </div>
+
+        <aside class="gh-sidebar">
+          <div class="gh-widget">
+            <h2 class="gh-widget__title">関連記事</h2>
+            <ul class="gh-category-list">
+              <li><a href="/guide/gacha-budget-planner.html" class="gh-category-item"><span class="gh-category-item__icon">🧮</span><span>予算プランナー</span></a></li>
+              <li><a href="/guide/guide-release-restock-search.html" class="gh-category-item"><span class="gh-category-item__icon">🔎</span><span>新作・再入荷の探し方</span></a></li>
+              <li><a href="/guide/guide-find-new.html" class="gh-category-item"><span class="gh-category-item__icon">💡</span><span>新作の探し方</span></a></li>
+              <li><a href="/guide/guide-store-checklist.html" class="gh-category-item"><span class="gh-category-item__icon">✅</span><span>店舗選びチェックリスト</span></a></li>
+              <li><a href="/guide/guide-data-reading.html" class="gh-category-item"><span class="gh-category-item__icon">📊</span><span>データの読み方</span></a></li>
+              <li><a href="/guide/guide-capsule-storage.html" class="gh-category-item"><span class="gh-category-item__icon">🗂️</span><span>保管・整理ガイド</span></a></li>
+              <li><a href="/guide/guide-first-visit.html" class="gh-category-item"><span class="gh-category-item__icon">📖</span><span>はじめてガイド</span></a></li>
+            </ul>
+          </div>
+          <div class="gh-widget gh-widget--accent">
+            <h2 class="gh-widget__title">店舗を探す</h2>
+            <p class="gh-widget__text">全国の登録店舗を一覧・マップ・ランキングから絞り込めます。来店前は確認元の最新情報もご覧ください。</p>
+            <div class="gh-app-btns">
+              <a href="/stores.html" class="gh-app-btn">🏬 店舗一覧を見る</a>
+              <a href="/ranking.html" class="gh-app-btn">📊 ランキングを見る</a>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <footer class="gh-footer">
+    <div class="gh-container">
+      <div class="gh-footer__main">
+        <div class="gh-footer__brand">
+          <a class="gh-logo" href="/index.html"><img class="gh-logo__icon" src="/assets/mascot-icon.png" alt="ガチャひろばのマスコット" width="34" height="34" /><span class="gh-logo__text">ガチャ<em>ひろば</em></span></a>
+          <p>全国のガチャガチャ設置場所情報を掲載。<br />あなたのガチャライフをサポートします。</p>
+        </div>
+        <div class="gh-footer__links">
+          <div><strong>サービス</strong><a href="/index.html">トップ</a><a href="/stores.html">店舗一覧</a><a href="/ranking.html">ランキング</a><a href="/map.html">マップ検索</a></div>
+          <div><strong>情報</strong><a href="/guide/store-data-report.html">データ監査レポート</a><a href="/guide/gacha-budget-planner.html">予算プランナー</a><a href="/news.html">独自ガイド</a><a href="/about.html">運営情報・編集方針</a><a href="/methodology.html">データ確認方法</a></div>
+          <div><strong>サポート</strong><a href="/contact.html">お問い合わせ</a><a href="/terms.html">利用規約</a><a href="/privacy.html">プライバシー</a><a href="/sitemap.html">サイトマップ</a><a href="/english.html">English</a><a href="/advertising.html">広告掲載</a></div>
+        </div>
+      </div>
+      <div class="gh-footer__bottom"><span>© 2026 ガチャひろば (gacha-hiroba.com)</span><span>Powered by ガチャひろば</span></div>
+    </div>
+  </footer>
+</body>
+</html>

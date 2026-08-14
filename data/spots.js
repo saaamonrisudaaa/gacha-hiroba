@@ -3471,8 +3471,6 @@ window.GH_SPOTS = [
     address: '東京都北区赤羽2-1-18',
     tel: '03-5939-6057',
     hours: '10:00〜22:00',
-    sourceUrl: 'https://map.yahoo.co.jp/v3/place/58I9SCLuMQA',
-    verifiedAt: '2026-07-20',
     lat: 35.7794, lon: 139.7205,
     access: '赤羽スズラン通り商店街（LaLaガーデン）内・赤羽駅東口から徒歩約3分'
   },

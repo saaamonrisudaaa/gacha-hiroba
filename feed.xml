@@ -3,9 +3,30 @@
 <channel>
   <title>ガチャひろば｜新着・特集記事</title>
   <link>https://gacha-hiroba.com/</link>
-  <description>全国のガチャガチャ設置場所・専門店情報。エリア別まとめ・ランキング・ガイド記事の更新情報を配信します。</description>
+  <description>ガチャひろば運営者が作成した実用ガイドと店舗データ監査レポートの更新情報を配信します。</description>
   <language>ja</language>
   <lastBuildDate>Fri, 14 Aug 2026 00:00:00 GMT</lastBuildDate>
+  <item>
+    <title>ガチャ店舗データ監査レポート｜確認状況・欠損率・台数分布を公開</title>
+    <link>https://gacha-hiroba.com/guide/store-data-report.html</link>
+    <guid isPermaLink="true">https://gacha-hiroba.com/guide/store-data-report.html</guid>
+    <pubDate>Fri, 14 Aug 2026 00:00:00 GMT</pubDate>
+    <description>ガチャひろばが保有する店舗データについて、「何件あるか」だけでなく、掲載根拠URLと確認日がどこまでそろっているか、営業時間・設置台数・アクセスなど各項目をどの程度確認できているかを集計しました。ページ内の数値は data/spots.js から生成時に再計算しています。</description>
+  </item>
+  <item>
+    <title>ガチャ予算プランナー｜回せる回数・残額をその場で計算</title>
+    <link>https://gacha-hiroba.com/guide/gacha-budget-planner.html</link>
+    <guid isPermaLink="true">https://gacha-hiroba.com/guide/gacha-budget-planner.html</guid>
+    <pubDate>Fri, 14 Aug 2026 00:00:00 GMT</pubDate>
+    <description>ガチャを回す前に、使ってよい予算、残しておく金額、1回の価格を入力すると、最大で何回回せるかと残額を計算できます。計算はこのブラウザ内だけで行い、入力内容を送信・保存しません。</description>
+  </item>
+  <item>
+    <title>ガチャガチャの新作・設置場所の探し方｜確認順が分かる5つの手順</title>
+    <link>https://gacha-hiroba.com/guide/guide-find-new.html</link>
+    <guid isPermaLink="true">https://gacha-hiroba.com/guide/guide-find-new.html</guid>
+    <pubDate>Fri, 14 Aug 2026 00:00:00 GMT</pubDate>
+    <description>「SNSで見たあのガチャ、どこで回せるの？」——カプセルトイは発売時期、取扱店、現在庫が別々に更新されるため、1つの投稿だけで来店先を決めると空振りになりがちです。このページでは、商品を特定してから探すのを終えるまでを5段階に分けます。</description>
+  </item>
   <item>
     <title>ガチャガチャ店舗の選び方｜出発前に確認する5つのチェック項目</title>
     <link>https://gacha-hiroba.com/guide/guide-store-checklist.html</link>
@@ -32,7 +53,7 @@
     <link>https://gacha-hiroba.com/guide/guide-data-reading.html</link>
     <guid isPermaLink="true">https://gacha-hiroba.com/guide/guide-data-reading.html</guid>
     <pubDate>Fri, 14 Aug 2026 00:00:00 GMT</pubDate>
-    <description>ガチャひろばには、運営者が一次情報を確認して整理した項目と、確認作業中の項目、利用者が投稿した情報があります。この3つは確かさと更新方法が異なるため、同じものとして扱わないことが大切です。</description>
+    <description>ガチャひろばには、運営者が掲載根拠URLと確認日を記録した項目と、確認作業中の項目、利用者が投稿した情報があります。この3つは確かさと更新方法が異なるため、同じものとして扱わないことが大切です。</description>
   </item>
   <item>
     <title>はじめてのガチャガチャ専門店ガイド｜回し方・両替・予算の目安【保存版】</title>
@@ -40,13 +61,6 @@
     <guid isPermaLink="true">https://gacha-hiroba.com/guide/guide-first-visit.html</guid>
     <pubDate>Fri, 03 Jul 2026 00:00:00 GMT</pubDate>
     <description>数百〜数千台のマシンが並ぶガチャガチャ専門店。はじめて行くと「小銭が足りない」「どこから見ればいいの？」と戸惑いがちです。このページでは、専門店デビューの前に知っておきたい基本をまとめました。</description>
-  </item>
-  <item>
-    <title>ガチャガチャの新作・設置場所の探し方｜目当ての商品に出会う3つの方法【保存版】</title>
-    <link>https://gacha-hiroba.com/guide/guide-find-new.html</link>
-    <guid isPermaLink="true">https://gacha-hiroba.com/guide/guide-find-new.html</guid>
-    <pubDate>Fri, 03 Jul 2026 00:00:00 GMT</pubDate>
-    <description>「SNSで見たあのガチャ、どこで回せるの？」——カプセルトイは発売日や設置店舗が分かりにくく、目当ての商品に出会うには少しコツがいります。このページでは、新作情報と設置場所を効率よく探す3つの方法を紹介します。</description>
   </item>
 </channel>
 </rss>

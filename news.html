@@ -63,11 +63,20 @@
 
       <div class="gh-page-hero">
         <h1 class="gh-page-hero__title">新着情報・特集記事</h1>
-        <p class="gh-page-hero__desc">エリア別のガチャガチャまとめ記事と、サイトの更新情報をお届けします。店舗データが増えると各記事も自動で最新になります。</p>
+        <p class="gh-page-hero__desc">運営者が作成した実用ガイド、店舗データの独自集計、メーカー公式発表を確認した新作情報をまとめています。</p>
       </div>
 
       <div class="gh-main__layout">
         <div class="gh-main__content">
+
+          <section class="gh-section">
+            <div class="gh-section__header"><h2 class="gh-section__title">まず使える2つのコンテンツ</h2></div>
+            <div class="gh-prose">
+              <p><strong>店舗データ監査レポート</strong>では、登録件数だけでなく、掲載根拠URL・確認日がある件数、営業時間や台数の欠損率、設置台数の分布を元データから再計算して公開します。</p>
+              <p><strong>ガチャ予算プランナー</strong>では、残しておく金額と1回の価格から最大回数・残額を端末内だけで計算できます。コンプリート確率は予測せず、決めた上限を守るための道具です。</p>
+            </div>
+            <div class="gh-landing-actions"><a class="gh-btn gh-btn--primary" href="guide/store-data-report.html">📈 データ監査レポート</a><a class="gh-btn" href="guide/gacha-budget-planner.html">🧮 予算を計算する</a></div>
+          </section>
 
           <!-- 新作ガチャの発売情報（data/releases.js から描画・該当が無ければ非表示） -->
           <section class="gh-section gh-release-sec">
@@ -82,12 +91,12 @@
               <!-- GH:NEWS-RELEASES:START -->
                 <a class="gh-rel gh-rel--lead" href="https://www.takaratomy-arts.co.jp/items/item.html?n=Y905742" target="_blank" rel="noopener"><span class="gh-rel__badge gh-rel__badge--soon">8月15日週 発売</span><strong class="gh-rel__title">宝箱 -The Treasure Box-</strong><small class="gh-rel__meta">タカラトミーアーツ<span class="gh-rel__price">1回300円／全8種</span><span class="gh-rel__note">ふたが開閉する宝箱のミニチュア。中身やギミックの異なる全8種。</span></small></a>
                 <div class="gh-rel-rest">
+                  <a class="gh-rel gh-rel--row" href="https://www.takaratomy-arts.co.jp/items/item.html?n=Y908187" target="_blank" rel="noopener"><span class="gh-rel__badge gh-rel__badge--soon">8月15日週 発売</span><strong class="gh-rel__title">PEANUTS I LIKE... Color Face Pouch</strong><small class="gh-rel__meta">タカラトミーアーツ<span class="gh-rel__price">1回500円／全6種</span></small></a>
                   <a class="gh-rel gh-rel--row" href="https://gashapon.jp/products/detail.php?jan_code=4570118186805000" target="_blank" rel="noopener"><span class="gh-rel__badge gh-rel__badge--soon">8月第3週より順次</span><strong class="gh-rel__title">サンリオキャラクターズ Solid &amp; Cool style めじるしアクセサリー</strong><small class="gh-rel__meta">バンダイ（ガシャポン）<span class="gh-rel__price">1回300円／全5種</span></small></a>
                   <a class="gh-rel gh-rel--row" href="https://gashapon.jp/products/detail.php?jan_code=4582770027471000" target="_blank" rel="noopener"><span class="gh-rel__badge gh-rel__badge--soon">8月第4週より順次</span><strong class="gh-rel__title">VIRUSWEETS figure collection ～Summer Festival～</strong><small class="gh-rel__meta">バンダイ（ガシャポン）<span class="gh-rel__price">1回400円／全6種</span></small></a>
                   <a class="gh-rel gh-rel--row" href="https://gashapon.jp/products/detail.php?jan_code=4570118186683000" target="_blank" rel="noopener"><span class="gh-rel__badge">8月第2週より順次</span><strong class="gh-rel__title">サンリオキャラクターズ くだものめじるしアクセサリー</strong><small class="gh-rel__meta">バンダイ（ガシャポン）<span class="gh-rel__price">1回300円／全5種</span></small></a>
                   <a class="gh-rel gh-rel--row" href="https://gashapon.jp/products/detail.php?jan_code=4570118187123000" target="_blank" rel="noopener"><span class="gh-rel__badge">8月第2週より順次</span><strong class="gh-rel__title">カードキャプターさくら ブリスターチャームコレクション</strong><small class="gh-rel__meta">バンダイ（ガシャポン）<span class="gh-rel__price">1回400円／全6種</span></small></a>
                   <a class="gh-rel gh-rel--row" href="https://gashapon.jp/products/detail.php?jan_code=4570118196699000" target="_blank" rel="noopener"><span class="gh-rel__badge">8月第2週より順次</span><strong class="gh-rel__title">TVアニメ『ダンダダン』 つまんでつなげてますこっと</strong><small class="gh-rel__meta">バンダイ（ガシャポン）<span class="gh-rel__price">1回400円／全8種</span></small></a>
-                  <a class="gh-rel gh-rel--row" href="https://gashapon.jp/products/detail.php?jan_code=4570118208408000" target="_blank" rel="noopener"><span class="gh-rel__badge">8月第2週より順次</span><strong class="gh-rel__title">HGドラゴンボール06 GOKU EDITION2</strong><small class="gh-rel__meta">バンダイ（ガシャポン）<span class="gh-rel__price">1回500円／全4種</span></small></a>
                 </div>
               <!-- GH:NEWS-RELEASES:END -->
             </div>
@@ -108,20 +117,22 @@
             </div>
           </section>
 
-          <!-- エリア別まとめ記事（実データ） -->
+          <!-- 運営者が構成・確認した独自ガイド -->
           <section class="gh-section">
             <div class="gh-section__header">
-              <h2 class="gh-section__title">エリア別ガチャガチャまとめ</h2>
-              <span style="font-size:12px;color:var(--gh-muted);font-weight:600">実店舗データから自動更新</span>
+              <h2 class="gh-section__title">実用ガイド・独自調査</h2>
+              <span style="font-size:12px;color:var(--gh-muted);font-weight:600">作成者・更新日・方法を明記</span>
             </div>
             <div class="gh-news-list" data-gh-article-list>
               <!-- GH:NEWS-ARTICLES:START -->
-                <a href="/guide/guide-first-visit.html" class="gh-news-item"><time class="gh-news-item__date">2026-07-03</time><span class="gh-badge gh-badge--new">ガイド</span><span>📖 はじめてのガチャガチャ専門店ガイド｜回し方・両替・予算の目安【保存版】</span></a>
-                <a href="/guide/guide-find-new.html" class="gh-news-item"><time class="gh-news-item__date">2026-07-03</time><span class="gh-badge gh-badge--new">ガイド</span><span>💡 ガチャガチャの新作・設置場所の探し方｜目当ての商品に出会う3つの方法【保存版】</span></a>
-                <a href="/guide/guide-store-checklist.html" class="gh-news-item"><time class="gh-news-item__date">2026-08-14</time><span class="gh-badge gh-badge--new">ガイド</span><span>✅ ガチャガチャ店舗の選び方｜出発前に確認する5つのチェック項目</span></a>
+                <a href="/guide/store-data-report.html" class="gh-news-item"><time class="gh-news-item__date">2026-08-14</time><span class="gh-badge gh-badge--new">ガイド</span><span>📈 ガチャ店舗データ監査レポート｜確認状況・欠損率・台数分布を公開</span></a>
+                <a href="/guide/gacha-budget-planner.html" class="gh-news-item"><time class="gh-news-item__date">2026-08-14</time><span class="gh-badge gh-badge--new">ガイド</span><span>🧮 ガチャ予算プランナー｜回せる回数・残額をその場で計算</span></a>
                 <a href="/guide/guide-release-restock-search.html" class="gh-news-item"><time class="gh-news-item__date">2026-08-14</time><span class="gh-badge gh-badge--new">ガイド</span><span>🔎 ガチャガチャの新作・再入荷を探す手順｜情報を見分ける実践ガイド</span></a>
-                <a href="/guide/guide-capsule-storage.html" class="gh-news-item"><time class="gh-news-item__date">2026-08-14</time><span class="gh-badge gh-badge--new">ガイド</span><span>🗂️ カプセルトイの保管・整理方法｜小物・説明書・空カプセルを迷子にしない</span></a>
+                <a href="/guide/guide-find-new.html" class="gh-news-item"><time class="gh-news-item__date">2026-08-14</time><span class="gh-badge gh-badge--new">ガイド</span><span>💡 ガチャガチャの新作・設置場所の探し方｜確認順が分かる5つの手順</span></a>
+                <a href="/guide/guide-store-checklist.html" class="gh-news-item"><time class="gh-news-item__date">2026-08-14</time><span class="gh-badge gh-badge--new">ガイド</span><span>✅ ガチャガチャ店舗の選び方｜出発前に確認する5つのチェック項目</span></a>
                 <a href="/guide/guide-data-reading.html" class="gh-news-item"><time class="gh-news-item__date">2026-08-14</time><span class="gh-badge gh-badge--new">ガイド</span><span>📊 ガチャひろばの店舗データの読み方｜確認日・台数・投稿の違い</span></a>
+                <a href="/guide/guide-capsule-storage.html" class="gh-news-item"><time class="gh-news-item__date">2026-08-14</time><span class="gh-badge gh-badge--new">ガイド</span><span>🗂️ カプセルトイの保管・整理方法｜小物・説明書・空カプセルを迷子にしない</span></a>
+                <a href="/guide/guide-first-visit.html" class="gh-news-item"><time class="gh-news-item__date">2026-07-03</time><span class="gh-badge gh-badge--new">ガイド</span><span>📖 はじめてのガチャガチャ専門店ガイド｜回し方・両替・予算の目安【保存版】</span></a>
               <!-- GH:NEWS-ARTICLES:END -->
             </div>
           </section>
@@ -140,7 +151,7 @@
               <a href="area.html" class="gh-news-item">
                 <time class="gh-news-item__date">2026/08/13</time>
                 <span class="gh-badge">更新</span>
-                <span>公式情報を確認した新しい店舗をさらに30件追加し、全国371店舗・47都道府県の掲載になりました。</span>
+                <span>調査候補をさらに30件追加しました。公開検索には、掲載根拠URLと確認日の両方を確認できた店舗だけを反映します。</span>
               </a>
               <a href="category.html" class="gh-news-item">
                 <time class="gh-news-item__date">2026/08/12</time>
@@ -150,7 +161,7 @@
               <a href="guide/guide-first-visit.html" class="gh-news-item">
                 <time class="gh-news-item__date">2026/08/12</time>
                 <span class="gh-badge">ガイド</span>
-                <span>エリア別まとめ・ランキング・初心者ガイドの全20記事を、直接読める専用ページとして公開しました。</span>
+                <span>店舗名・地域名だけを差し替えた記事を整理し、運営者が構成・確認した実用ガイドだけを公開対象にしました。</span>
               </a>
             </div>
           </section>

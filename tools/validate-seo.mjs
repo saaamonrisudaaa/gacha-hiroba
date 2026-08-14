@@ -3,7 +3,6 @@
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, relative, resolve } from 'node:path';
-import { PREF_SLUG, BRAND_SLUG } from './seo-routes.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const ORIGIN = 'https://gacha-hiroba.com';
@@ -17,11 +16,9 @@ new Function('window', readFileSync(join(root, 'data/spots.js'), 'utf8'))(win);
 new Function('window', readFileSync(join(root, 'data/articles.js'), 'utf8'))(win);
 const spots = win.GH_SPOTS || [];
 const articles = win.GH_ARTICLES || [];
-const spotById = new Map(spots.map((store) => [String(store.id), store]));
 const articleBySlug = new Map(articles.map((article) => [String(article.slug), article]));
-const prefBySlug = new Map(Object.entries(PREF_SLUG).map(([pref, slug]) => [slug, pref]));
-const brandBySlug = new Map(Object.entries(BRAND_SLUG).map(([brand, slug]) => [slug, brand]));
-const verifiedCountFor = (field, value) => spots.filter((store) => store[field] === value && isVerified(store)).length;
+const verifiedStores = spots.filter(isVerified);
+const pendingStores = spots.length - verifiedStores.length;
 
 /* 審査・信頼性に直結する固定ページと広告除外ページ。 */
 const requiredTrustPages = ['about.html', 'methodology.html', 'contact.html', 'privacy.html', 'terms.html', 'advertising.html'];
@@ -34,6 +31,35 @@ if (adsTxt !== 'google.com, pub-5458972550684006, DIRECT, f08c47fec0942fa0') {
 }
 const robotsTxt = readFileSync(join(root, 'robots.txt'), 'utf8');
 if (/Disallow:\s*\//i.test(robotsTxt)) fail('robots.txt: サイト全体がクロール拒否されています');
+if (existsSync(join(root, 'data/ads.js'))) fail('data/ads.js: 再審査中のアフィリエイト配信データが残っています');
+
+/* 使われていない広告コードも公開アセットへ戻さない。 */
+for (const name of ['script.js', 'styles.css']) {
+  const source = readFileSync(join(root, name), 'utf8');
+  if (/\bGH_ADS\b|(?:hb|hbb)\.afl\.rakuten\.co\.jp|\bgh-(?:affil|commerce|goods|bottombar|promo)(?:__|--|\b)|data-ad-track/i.test(source)) {
+    fail(name + ': 再審査中の広告・アフィリエイト実装が残っています');
+  }
+}
+
+const spotsUiSource = readFileSync(join(root, 'spots-ui.js'), 'utf8');
+if (/href\s*=\s*spotUrl\s*\(/.test(spotsUiSource)) {
+  fail('spots-ui.js: spotUrl() がHTML文字列へ正しく連結されていません');
+}
+if (!/ALL_SPOTS\.filter\(isVerified\)/.test(spotsUiSource)) {
+  fail('spots-ui.js: 確認待ち店舗が公開一覧・詳細へ混入する可能性があります');
+}
+const mainScriptSource = readFileSync(join(root, 'script.js'), 'utf8');
+if (!/return\s+isVerified\(s\)\s*&&\s*s\.lat\s*!=\s*null\s*&&\s*s\.lon\s*!=\s*null/.test(mainScriptSource)) {
+  fail('script.js: 確認待ち店舗が公開マップへ混入する可能性があります');
+}
+for (const store of verifiedStores) {
+  let host = '';
+  try { host = new URL(store.sourceUrl).hostname.toLowerCase(); }
+  catch { fail('data/spots.js: 掲載根拠URLが不正です (' + store.id + ')'); }
+  if (host === 'map.yahoo.co.jp' || host === 'www.openstreetmap.org' || host === 'maps.google.com') {
+    fail('data/spots.js: 地図だけを掲載根拠にした店舗があります (' + store.id + ')');
+  }
+}
 
 function filesIn(dir, suffix = '.html') {
   const abs = join(root, dir);
@@ -44,7 +70,6 @@ function filesIn(dir, suffix = '.html') {
 }
 
 const generated = [
-  ...filesIn('spot'), ...filesIn('area'), ...filesIn('brand'),
   ...filesIn('guide'), ...filesIn('releases')
 ];
 const titles = new Map();
@@ -52,19 +77,10 @@ const canonicals = new Set();
 const indexableCanonicals = new Set();
 
 function expectedIndexable(rel) {
-  const match = rel.match(/^\/(spot|area|brand|guide|releases)\/([^/]+)\.html$/);
+  const match = rel.match(/^\/(guide|releases)\/([^/]+)\.html$/);
   if (!match) return false;
   const [, type, rawSlug] = match;
   const slug = decodeURIComponent(rawSlug);
-  if (type === 'spot') return isVerified(spotById.get(slug));
-  if (type === 'area') {
-    const pref = prefBySlug.get(slug);
-    return Boolean(pref && verifiedCountFor('pref', pref) >= 5);
-  }
-  if (type === 'brand') {
-    const brand = brandBySlug.get(slug);
-    return Boolean(brand && verifiedCountFor('brand', brand) >= 5);
-  }
   if (type === 'guide') return articleBySlug.get(slug)?.type === 'guide';
   return false; // releases は再審査中 noindex
 }
@@ -83,35 +99,18 @@ for (const file of generated) {
   if (h1s !== 1) fail(rel + ': H1 が ' + h1s + '個です');
   const shouldIndex = expectedIndexable(rel);
   if (hasNoindex(html) === shouldIndex) {
-    fail(rel + ': 一次情報・ページ種別に対するrobots指定が不一致です');
+    fail(rel + ': ページ種別に対するrobots指定が不一致です');
   }
   if (shouldIndex && canonical) indexableCanonicals.add(canonical);
-
-  if (rel.startsWith('/spot/')) {
-    const id = decodeURIComponent(rel.slice('/spot/'.length, -'.html'.length));
-    const store = spotById.get(id);
-    if (!store) fail(rel + ': 店舗データに対応するIDがありません');
-    else if (isVerified(store)) {
-      if (!html.includes('一次情報確認済み') || !html.includes(store.sourceUrl) || !html.includes(store.verifiedAt)) {
-        fail(rel + ': 確認済み店舗の確認元・確認日表示が不足しています');
-      }
-    } else if (!html.includes('一次情報未確認・検索対象外')) {
-      fail(rel + ': 未確認店舗の検索対象外表示がありません');
-    }
-  }
   if (rel.startsWith('/guide/')) {
     const slug = decodeURIComponent(rel.slice('/guide/'.length, -'.html'.length));
     const article = articleBySlug.get(slug);
     const modified = html.match(/<meta property="article:modified_time" content="([^"]+)"/i)?.[1];
+    const expectedModified = article?.report === 'store-data-audit'
+      ? [article.updated, ...spots.filter(isVerified).map((store) => store.verifiedAt)].filter(Boolean).sort().at(-1)
+      : article?.updated;
     if (!article) fail(rel + ': 記事データに対応するslugがありません');
-    else if (modified !== article.updated) fail(rel + ': 記事更新日が article.updated と一致しません');
-    if (article?.ranking) {
-      for (const store of spots.filter((item) => item.machines != null && !isVerified(item))) {
-        if (html.includes('/spot/' + encodeURIComponent(store.id) + '.html')) {
-          fail(rel + ': ランキングに一次情報未確認店舗が含まれています (' + store.id + ')');
-        }
-      }
-    }
+    else if (modified !== expectedModified) fail(rel + ': 記事更新日が元データと一致しません');
   }
   const scripts = [...html.matchAll(/<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/gi)];
   if (!scripts.length) fail(rel + ': JSON-LD がありません');
@@ -138,7 +137,9 @@ for (const file of htmlFiles) {
     if (pattern.test(html)) fail(rel + ': 再審査中のHTMLに' + label + 'が残っています');
   }
   if (/data\/board-seed\.js/i.test(html)) fail('/' + relative(root, file) + ': 架空投稿のseedを読み込んでいます');
-  if (/stores\.html\?brand=/i.test(html)) fail('/' + relative(root, file) + ': 重複インデックス対象のbrand queryリンクがあります');
+  if (/href="\/(?:spot|area|brand)\/[^"?]+\.html/i.test(html)) {
+    fail('/' + relative(root, file) + ': 廃止した量産静的ページへのリンクがあります');
+  }
   for (const match of html.matchAll(/(?:href|src)="([^"]+)"/gi)) {
     const href = match[1];
     if (!href || /^(?:https?:|mailto:|tel:|data:|javascript:|#)/i.test(href)) continue;
@@ -150,7 +151,8 @@ for (const file of htmlFiles) {
   }
 }
 
-for (const name of ['board.html', 'map.html', 'ranking.html', 'stores.html', 'sitemap.html', 'english.html']) {
+for (const name of ['board.html', 'map.html', 'ranking.html', 'stores.html', 'spot.html', 'article.html',
+  'area.html', 'category.html', 'sitemap.html', 'english.html', 'location.html']) {
   const file = join(root, name);
   if (!existsSync(file) || !hasNoindex(readFileSync(file, 'utf8'))) {
     fail(name + ': 再審査中の検索対象外指定がありません');
@@ -162,12 +164,10 @@ if (existsSync(join(root, 'methodology.html')) && hasNoindex(readFileSync(join(r
 const methodologyHtml = existsSync(join(root, 'methodology.html'))
   ? readFileSync(join(root, 'methodology.html'), 'utf8')
   : '';
-const verifiedStores = spots.filter(isVerified);
-const pendingStores = spots.length - verifiedStores.length;
 for (const expected of [
-  '<tr><td>一次情報確認済み</td><td>' + verifiedStores.length + '件</td>',
-  '<tr><td>情報確認中</td><td>' + pendingStores + '件</td>',
-  '<tr><td>合計</td><td>' + spots.length + '件</td>'
+  'id="methodVerifiedTable">' + verifiedStores.length + '</span>件',
+  'id="methodPendingTable">' + pendingStores + '</span>件',
+  'id="methodTotalTable">' + spots.length + '</span>件'
 ]) {
   if (!methodologyHtml.includes(expected)) fail('methodology.html: 公開件数と店舗データが一致しません (' + expected + ')');
 }
@@ -198,23 +198,80 @@ for (const canonical of canonicals) {
     fail('sitemap.xml: 検索対象外の正規ページが掲載されています ' + canonical);
   }
 }
-for (const path of ['/', '/area.html', '/news.html', '/category.html', '/terms.html', '/privacy.html',
+for (const path of ['/', '/news.html', '/terms.html', '/privacy.html',
   '/advertising.html', '/contact.html', '/about.html', '/methodology.html']) {
   if (!locs.includes(ORIGIN + path)) fail('sitemap.xml: indexableな固定ページが未掲載 ' + path);
 }
-for (const path of ['/board.html', '/map.html', '/ranking.html', '/stores.html', '/sitemap.html', '/english.html']) {
+for (const path of ['/board.html', '/map.html', '/ranking.html', '/stores.html', '/spot.html',
+  '/article.html', '/area.html', '/category.html', '/sitemap.html', '/english.html', '/location.html']) {
   if (locs.includes(ORIGIN + path)) fail('sitemap.xml: 検索対象外の固定ページが掲載されています ' + path);
 }
-for (const store of spots) {
-  const canonical = ORIGIN + '/spot/' + encodeURIComponent(store.id) + '.html';
-  if (isVerified(store) !== locs.includes(canonical)) {
-    fail('sitemap.xml: 店舗の確認状況と掲載可否が不一致 ' + store.id);
+
+/* 似た店舗・地域ページを公開物へ戻さない。 */
+for (const dir of ['spot', 'area', 'brand']) {
+  const files = filesIn(dir);
+  if (files.length) fail(dir + '/: 量産静的HTMLが ' + files.length + '件残っています');
+}
+
+/* 記事データは独自ガイドだけとし、短い旧地域記事の再公開を防ぐ。 */
+for (const article of articles) {
+  if (article.type !== 'guide') fail('data/articles.js: 非公開の旧記事データが残っています (' + article.slug + ')');
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(article.published || '') ||
+      !/^\d{4}-\d{2}-\d{2}$/.test(article.updated || '') ||
+      article.published > article.updated) {
+    fail('data/articles.js: 公開日・更新日が不正です (' + article.slug + ')');
+  }
+  const length = [
+    ...(article.intro || []), ...(article.tips || []),
+    ...(article.sections || []).flatMap((section) => [section.h, ...(section.body || [])]),
+    ...(article.faq || []).flatMap((entry) => [entry.q, entry.a])
+  ].join('').length;
+  if (length < 1400) fail('data/articles.js: 独自本文が不足しています (' + article.slug + ': ' + length + '文字)');
+}
+for (const slug of ['store-data-report', 'gacha-budget-planner']) {
+  if (!articleBySlug.has(slug)) fail('data/articles.js: 必須の独自コンテンツがありません (' + slug + ')');
+}
+
+const indexHtmlForCounts = readFileSync(join(root, 'index.html'), 'utf8');
+const englishHtml = readFileSync(join(root, 'english.html'), 'utf8');
+const categoryHtml = readFileSync(join(root, 'category.html'), 'utf8');
+for (const [name, html, expected] of [
+  ['index.html', indexHtmlForCounts, 'id="statStores">' + verifiedStores.length.toLocaleString('ja-JP') + '店舗'],
+  ['english.html', englishHtml, 'id="enStatStores">' + verifiedStores.length + '</strong>'],
+  ['category.html', categoryHtml, '<span data-total-spots>' + verifiedStores.length + '</span>']
+]) {
+  if (!html.includes(expected)) fail(name + ': 公開店舗件数が確認済みデータと一致しません (' + expected + ')');
+}
+if (!/window\.GH_SPOTS[\s\S]{0,240}filter\(function \(spot\)[\s\S]{0,160}spot\.sourceUrl\s*&&\s*spot\.verifiedAt/.test(categoryHtml)) {
+  fail('category.html: 確認待ち店舗を動的集計から除外していません');
+}
+for (const match of categoryHtml.matchAll(/<a([^>]*data-brand="([^"]+)"[^>]*)>[\s\S]*?<span class="gh-cat-card__count" data-brand-count>(\d+)店舗掲載<\/span>[\s\S]*?<\/a>/g)) {
+  const count = Number(match[3]);
+  if (count === 0 && !/\shidden(?:="")?(?=\s|$)/.test(match[1])) {
+    fail('category.html: 0件ブランドが表示対象です (' + match[2] + ')');
+  }
+  if (count > 0 && /\shidden(?:="")?(?=\s|$)/.test(match[1])) {
+    fail('category.html: 掲載中ブランドが非表示です (' + match[2] + ')');
   }
 }
 
+const reportHtml = readFileSync(join(root, 'guide/store-data-report.html'), 'utf8');
+for (const required of ['確認待ち・非公開', '公開対象']) {
+  if (!reportHtml.includes(required)) fail('guide/store-data-report.html: 公開範囲の説明が不足しています (' + required + ')');
+}
+if (reportHtml.includes('検索機能の登録総数')) {
+  fail('guide/store-data-report.html: 確認待ち候補を公開登録数と誤認させる表現があります');
+}
+
+const notFoundHtml = readFileSync(join(root, '404.html'), 'utf8');
+for (const required of ['<base href="/"', '/spot.html?id=', '/stores.html?', "'pref='", "'brand='"]) {
+  if (!notFoundHtml.includes(required)) fail('404.html: 廃止URLの移転処理が不足しています (' + required + ')');
+}
+
 const sampleText = htmlFiles.map((file) => readFileSync(file, 'utf8')).join('\n');
-const indexHtml = readFileSync(join(root, 'index.html'), 'utf8');
-for (const required of ['about.html', 'ガチャひろばの情報づくり', 'google-adsense-account']) {
+const indexHtml = indexHtmlForCounts;
+for (const required of ['about.html', 'ガチャひろばの情報づくり', 'google-adsense-account',
+  'guide/store-data-report.html', 'guide/gacha-budget-planner.html']) {
   if (!indexHtml.includes(required)) fail('index.html: 信頼性情報が不足しています (' + required + ')');
 }
 const privacyHtml = readFileSync(join(root, 'privacy.html'), 'utf8');
@@ -226,7 +283,7 @@ for (const forbidden of ['8,241スポット', 'ヨドバシAkiba ガチャコー
 }
 if (existsSync(join(root, 'data/board-seed.js'))) fail('data/board-seed.js: 架空投稿データが公開対象に残っています');
 const legacyLocation = readFileSync(join(root, 'location.html'), 'utf8');
-if (!/http-equiv="refresh"[^>]+\/area\/tokyo\.html/i.test(legacyLocation) ||
+if (!/http-equiv="refresh"[^>]+\/stores\.html\?pref=/i.test(legacyLocation) ||
     !/name="robots" content="noindex,follow"/i.test(legacyLocation)) {
   fail('location.html: 旧サンプルページが安全な移転ページになっていません');
 }
