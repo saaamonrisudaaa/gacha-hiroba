@@ -64,24 +64,6 @@ window.GH_RELEASES = [
   {
     date: '2026-08-10',
     label: '8月第2週より順次',
-    title: 'DEATH NOTE おくるみますこっとチャーム',
-    maker: 'バンダイ（ガシャポン）',
-    price: '1回400円／全5種',
-    note: '夜神月、L、弥海砂、ニア、メロがおくるみに包まれたオリジナルデザイン。',
-    source: 'https://gashapon.jp/products/detail.php?jan_code=4570118219169000'
-  },
-  {
-    date: '2026-08-10',
-    label: '8月第2週より順次',
-    title: '日曜劇場『VIVANT』 まちぼうけ',
-    maker: 'バンダイ（ガシャポン）',
-    price: '1回500円／全6種',
-    note: '乃木、野崎、薫、黒須、ノコル、ドラムが「まちぼうけ」シリーズに登場。',
-    source: 'https://gashapon.jp/products/detail.php?jan_code=4582769979637000'
-  },
-  {
-    date: '2026-08-10',
-    label: '8月第2週より順次',
     title: 'にゃんこ大戦争 めじるしアクセサリー',
     maker: 'バンダイ（ガシャポン）',
     price: '1回300円／全6種',
@@ -98,6 +80,15 @@ window.GH_RELEASES = [
     source: 'https://www.takaratomy-arts.co.jp/items/item.html?n=Y906893'
   },
   {
+    date: '2026-08-10',
+    label: '8月10日週 発売',
+    title: 'トイ・ストーリー Hide&Seek かくれんぼフィギュア アンディのおもちゃ オールスターズ',
+    maker: 'タカラトミーアーツ',
+    price: '1回400円／全8種',
+    note: '帽子や双眼鏡などのおなじみアイテムで顔を隠した、全8種のかくれんぼフィギュア。',
+    source: 'https://www.takaratomy-arts.co.jp/items/item.html?n=Y909481'
+  },
+  {
     date: '2026-08-15',
     label: '8月15日週 発売',
     title: '宝箱 -The Treasure Box-',
@@ -105,6 +96,15 @@ window.GH_RELEASES = [
     price: '1回300円／全8種',
     note: 'ふたが開閉する宝箱のミニチュア。中身やギミックの異なる全8種。',
     source: 'https://www.takaratomy-arts.co.jp/items/item.html?n=Y905742'
+  },
+  {
+    date: '2026-08-15',
+    label: '8月15日週 発売',
+    title: 'PEANUTS I LIKE... Color Face Pouch',
+    maker: 'タカラトミーアーツ',
+    price: '1回500円／全6種',
+    note: '2026年テーマの表情とカラーを使った、カラビナ付きのスヌーピーフェイス型ポーチ。',
+    source: 'https://www.takaratomy-arts.co.jp/items/item.html?n=Y908187'
   },
   {
     date: '2026-08-17',
