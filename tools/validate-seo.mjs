@@ -9,10 +9,32 @@ const ORIGIN = 'https://gacha-hiroba.com';
 const errors = [];
 const fail = (message) => errors.push(message);
 
+/* 審査・信頼性に直結する固定ページと広告除外ページ。 */
+const requiredTrustPages = ['about.html', 'contact.html', 'privacy.html', 'terms.html', 'advertising.html'];
+requiredTrustPages.forEach((name) => {
+  if (!existsSync(join(root, name))) fail(name + ': 信頼性ページがありません');
+});
+const noAdSensePages = ['404.html', 'index.html', 'article.html', 'spot.html', 'map.html', 'board.html', 'english.html',
+  'sitemap.html', 'about.html', 'contact.html', 'privacy.html', 'terms.html', 'advertising.html'];
+noAdSensePages.forEach((name) => {
+  const file = join(root, name);
+  if (existsSync(file) && /pagead2\.googlesyndication\.com/i.test(readFileSync(file, 'utf8'))) {
+    fail(name + ': 広告を出さないページにAdSenseコードがあります');
+  }
+});
+const adsTxt = readFileSync(join(root, 'ads.txt'), 'utf8').trim();
+if (adsTxt !== 'google.com, pub-5458972550684006, DIRECT, f08c47fec0942fa0') {
+  fail('ads.txt: AdSenseの販売者情報が想定値と一致しません');
+}
+const robotsTxt = readFileSync(join(root, 'robots.txt'), 'utf8');
+if (/Disallow:\s*\//i.test(robotsTxt)) fail('robots.txt: サイト全体がクロール拒否されています');
+
 function filesIn(dir, suffix = '.html') {
   const abs = join(root, dir);
   if (!existsSync(abs)) return [];
-  return readdirSync(abs).filter((name) => name.endsWith(suffix)).sort().map((name) => join(abs, name));
+  return readdirSync(abs)
+    .filter((name) => name.endsWith(suffix) && !/ \d+\.html$/i.test(name))
+    .sort().map((name) => join(abs, name));
 }
 
 const generated = [
@@ -35,6 +57,9 @@ for (const file of generated) {
   else canonicals.add(canonical);
   if (h1s !== 1) fail(rel + ': H1 が ' + h1s + '個です');
   if (/name="robots" content="noindex/i.test(html)) fail(rel + ': 正規ページに noindex があります');
+  if (rel.startsWith('/spot/') && /pagead2\.googlesyndication\.com/i.test(html)) {
+    fail(rel + ': UGCを含む店舗ページにAdSenseコードがあります');
+  }
   const scripts = [...html.matchAll(/<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/gi)];
   if (!scripts.length) fail(rel + ': JSON-LD がありません');
   scripts.forEach((match, index) => {
@@ -80,6 +105,14 @@ for (const canonical of canonicals) {
 }
 
 const sampleText = htmlFiles.map((file) => readFileSync(file, 'utf8')).join('\n');
+const indexHtml = readFileSync(join(root, 'index.html'), 'utf8');
+for (const required of ['about.html', 'ガチャひろばの情報づくり', 'google-adsense-account']) {
+  if (!indexHtml.includes(required)) fail('index.html: 信頼性情報が不足しています (' + required + ')');
+}
+const privacyHtml = readFileSync(join(root, 'privacy.html'), 'utf8');
+for (const required of ['policies.google.com/technologies/partner-sites', 'Google Analytics 4', '楽天アフィリエイト', 'Supabase', 'data-gh-no-tracking']) {
+  if (!privacyHtml.includes(required)) fail('privacy.html: 実装に対応する開示が不足しています (' + required + ')');
+}
 for (const forbidden of ['8,241スポット', 'ヨドバシAkiba ガチャコーナー', 'アキバガチャ横丁', '梅田LOFT ガチャコーナー', '掲示板 3,241件', '月間訪問 24,580']) {
   if (sampleText.includes(forbidden)) fail('試作表示が残っています: ' + forbidden);
 }

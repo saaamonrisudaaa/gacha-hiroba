@@ -61,6 +61,7 @@ add('/terms.html');
 add('/privacy.html');
 add('/advertising.html');
 add('/contact.html');
+add('/about.html', '2026-08-13');
 add('/sitemap.html', latest([spotsModified, articlesModified, releasesModified]));
 add('/english.html', spotsModified);
 
@@ -137,8 +138,6 @@ const html = `<!doctype html>
   <meta name="description" content="ガチャひろばの全ページ一覧。掲載中の全ガチャガチャ店舗（${spots.length}店舗）とエリア別まとめ・ランキング・ガイド記事（${articles.length}本）へのリンク集です。" />
   <title>サイトマップ｜全${spots.length}店舗・全記事一覧 | ガチャひろば</title>
   <link rel="canonical" href="${ORIGIN}/sitemap.html" />
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5458972550684006"
-     crossorigin="anonymous"></script>
   <link rel="icon" type="image/png" href="assets/mascot-icon.png" />
   <link rel="stylesheet" href="styles.css" />
 </head>
@@ -168,7 +167,11 @@ const html = `<!doctype html>
           <li><a href="ranking.html">ランキング</a></li>
           <li><a href="board.html">掲示板</a></li>
           <li><a href="news.html">新着情報・特集記事</a></li>
+          <li><a href="about.html">運営情報・編集方針</a></li>
           <li><a href="contact.html">お問い合わせ</a></li>
+          <li><a href="privacy.html">プライバシーポリシー</a></li>
+          <li><a href="terms.html">利用規約</a></li>
+          <li><a href="advertising.html">広告・PRの掲載方針</a></li>
         </ul>
       </section>
       <section class="gh-section">

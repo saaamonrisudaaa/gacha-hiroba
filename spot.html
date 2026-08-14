@@ -16,8 +16,6 @@
   <meta property="og:url" content="https://gacha-hiroba.com/spot.html" />
   <meta property="og:image" content="https://gacha-hiroba.com/assets/ogp.png" />
   <meta name="twitter:card" content="summary_large_image" />
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5458972550684006"
-     crossorigin="anonymous"></script>
   <link rel="icon" type="image/png" href="assets/mascot-icon.png" />
   <link rel="stylesheet" href="styles.css" />
   <!-- 店舗データ → 描画 → 共有掲示板 → 共通JS（この順で読み込む） -->
@@ -137,14 +135,6 @@
               <p class="gh-detail-note">※掲載情報は参考です。最新の営業時間・在庫・設置状況は店舗または公式サイトでご確認ください。</p>
             </section>
 
-            <!-- ガチャ関連グッズ（文脈広告・data/ads.js の gachaGoods を描画） -->
-            <section class="gh-section gh-goods-sec" hidden>
-              <div class="gh-section__header">
-                <h2 class="gh-section__title">🎁 ガチャ好きに人気のアイテム <span class="gh-affil__pr">PR</span></h2>
-              </div>
-              <div data-gh-gacha-goods></div>
-            </section>
-
             <!-- アクセスマップ（OpenStreetMap） -->
             <section class="gh-section" id="spotMapSection"></section>
 
@@ -186,14 +176,6 @@
         <!-- Sidebar -->
         <aside class="gh-sidebar">
 
-          <div class="gh-ad" aria-label="広告">
-            <span class="gh-ad__label">広告</span>
-            <div class="gh-ad__body">
-              <strong>スポンサーリンク</strong>
-              <small>広告枠（レスポンシブ / 300×250）</small>
-            </div>
-          </div>
-
           <div class="gh-widget">
             <h3 class="gh-widget__title">同じエリアの店舗</h3>
             <div class="gh-nearby" id="spotNearby"></div>
@@ -209,10 +191,10 @@
           </div>
 
           <div class="gh-widget gh-widget--accent">
-            <h3 class="gh-widget__title">店舗を登録</h3>
-            <p class="gh-widget__text">まだ掲載されていないガチャ設置店を知っていますか？情報をシェアしよう！</p>
+            <h3 class="gh-widget__title">未掲載店舗を連絡</h3>
+            <p class="gh-widget__text">まだ掲載されていないガチャ設置店や、掲載情報の誤りをご連絡ください。</p>
             <div class="gh-app-btns">
-              <a href="stores.html" class="gh-app-btn">🏬 店舗一覧を見る</a>
+              <a href="contact.html" class="gh-app-btn">✉️ 情報提供の方法を見る</a>
             </div>
           </div>
 
@@ -238,7 +220,7 @@
         </div>
         <div class="gh-footer__links">
           <div><strong>サービス</strong><a href="index.html">トップ</a><a href="stores.html">店舗一覧</a><a href="ranking.html">ランキング</a><a href="map.html">マップ検索</a></div>
-          <div><strong>情報</strong><a href="board.html">掲示板</a><a href="news.html">新着情報</a><a href="area.html">エリア別</a></div>
+          <div><strong>情報</strong><a href="about.html">運営者・編集方針</a><a href="board.html">掲示板</a><a href="news.html">新着情報</a><a href="area.html">エリア別</a></div>
           <div><strong>サポート</strong><a href="contact.html">お問い合わせ</a><a href="terms.html">利用規約</a><a href="privacy.html">プライバシー</a><a href="sitemap.html">サイトマップ</a><a href="english.html">English</a><a href="advertising.html">広告掲載</a></div>
         </div>
       </div>

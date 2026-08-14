@@ -1,21 +1,23 @@
-/* 一覧系ページ（stores / area / map）に、都道府県インデックスを静的HTMLとして書き込む。
+/* JavaScript で強化する一覧ページに、実データ由来の初期HTMLを書き込む。
 
-   これらのページは店舗リストを JavaScript で描画しているため、素のHTMLがほぼ空だった。
-   クローラーや審査で「中身のないページ」に見えてしまうのと、47都道府県への内部リンクが
-   HTML上に存在しないのがもったいないので、ビルド時に実データから生成して埋め込む。
+   JSが無効・遅延・取得失敗でもページの主題が読め、主要な詳細ページへ移動できるようにする。
+   ブラウザでは従来どおり data-* 属性を見た spots-ui.js / script.js が同じコンテナを
+   最新状態へ置き換える。投稿本文やアクセス数など、ビルド時に確認できない値は作らない。
 
    埋め込み先は各HTMLの
-     <!-- GH:PREF-INDEX:START --> … <!-- GH:PREF-INDEX:END -->
-   の間。マーカーが無いページは黙ってスキップする。
-
-   店舗を追加したら `node tools/gen-static-blocks.mjs` を実行する
+     <!-- GH:<BLOCK>:START --> … <!-- GH:<BLOCK>:END -->
+   の間。店舗・記事・発売情報を更新したら `node tools/gen-static-blocks.mjs` を実行する
    （daily-stores.yml では gen-pages / gen-sitemap と一緒に自動実行される）。 */
 import { readFileSync, writeFileSync } from 'node:fs';
-import { prefPath } from './seo-routes.mjs';
+import { guidePath, prefPath } from './seo-routes.mjs';
 
 const win = {};
-new Function('window', readFileSync(new URL('../data/spots.js', import.meta.url), 'utf8'))(win);
+for (const rel of ['../data/spots.js', '../data/articles.js', '../data/releases.js']) {
+  new Function('window', readFileSync(new URL(rel, import.meta.url), 'utf8'))(win);
+}
 const spots = win.GH_SPOTS || [];
+const articles = win.GH_ARTICLES || [];
+const releases = win.GH_RELEASES || [];
 
 const REGION_LABEL = {
   kanto: '関東', kansai: '関西', tokai: '東海',
@@ -25,6 +27,47 @@ const REGION_ORDER = ['kanto', 'kansai', 'tokai', 'kyushu', 'tohoku', 'chugoku']
 
 const esc = s => String(s)
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+const machinesText = n => (n == null || n === '') ? '—' : '約' + Number(n).toLocaleString('ja-JP') + '台';
+const todayJst = new Date(Date.now() + 9 * 3600 * 1000).toISOString().slice(0, 10);
+const isOpen = s => !(s.opensOn && s.opensOn > todayJst);
+const storePath = (s, board = false) => '/spot/' + encodeURIComponent(s.id) + '.html' + (board ? '#board' : '');
+
+/* マーカーと同じ字下げを保って差し替える。既存JSが置換する data-* コンテナ自体は残す。 */
+function fillMarker(html, name, content) {
+  const start = '<!-- GH:' + name + ':START -->';
+  const end = '<!-- GH:' + name + ':END -->';
+  const re = new RegExp('([ \\t]*)' + start.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') +
+    '[\\s\\S]*?' + end.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+  if (!re.test(html)) return { html, found: false };
+  const body = String(content || '').split('\n').map(line => line ? '  ' + line : '').join('\n');
+  return {
+    html: html.replace(re, (_all, indent) => indent + start + '\n' +
+      body.split('\n').map(line => indent + line).join('\n') + '\n' + indent + end),
+    found: true
+  };
+}
+
+function replaceElementText(html, id, value) {
+  const re = new RegExp('(<(?:strong|span)[^>]*\\bid="' + id + '"[^>]*>)[^<]*(</(?:strong|span)>)');
+  return html.replace(re, '$1' + esc(value) + '$2');
+}
+
+function updateMarkedPage(rel, blocks, mutate) {
+  const url = new URL(rel, import.meta.url);
+  let html;
+  try { html = readFileSync(url, 'utf8'); } catch { return 0; }
+  let found = 0;
+  Object.entries(blocks).forEach(([name, content]) => {
+    const out = fillMarker(html, name, content);
+    html = out.html;
+    if (out.found) found++;
+    else console.warn('skip (マーカーなし):', rel, name);
+  });
+  if (mutate) html = mutate(html);
+  writeFileSync(url, html);
+  return found;
+}
 
 /* 地方 → 都道府県 → 件数 */
 const byRegion = {};
@@ -78,6 +121,165 @@ for (const rel of TARGETS) {
   done++;
 }
 
+/* ── 共通の静的一覧パーツ ─────────────────────────────────────────── */
+const ranked = spots.filter(isOpen).slice().sort((a, b) => (b.machines || 0) - (a.machines || 0));
+
+function rankingRows(limit) {
+  return ranked.slice(0, limit).map((s, i) => {
+    const rank = i + 1;
+    const rankClass = rank === 1 ? ' gh-rank--1' : rank === 2 ? ' gh-rank--2' : rank === 3 ? ' gh-rank--3' : '';
+    return '<tr' + (rank === 1 ? ' class="gh-table__row--top"' : '') + '>' +
+      '<td><span class="gh-rank' + rankClass + '">' + rank + '</span></td>' +
+      '<td><a href="' + storePath(s) + '" class="gh-table__link">' + esc(s.name) + '</a></td>' +
+      '<td>' + esc(s.area) + '</td>' +
+      '<td class="gh-num">' + machinesText(s.machines) + '</td>' +
+      '<td><a href="' + storePath(s) + '" class="gh-btn gh-btn--xs">詳細</a></td>' +
+      '</tr>';
+  }).join('\n');
+}
+
+function articleStoreCount(article) {
+  if (article.ranking) {
+    return spots.filter(s => {
+      if (article.ranking.pref && s.pref !== article.ranking.pref) return false;
+      if (article.ranking.region && s.region !== article.ranking.region) return false;
+      return s.machines != null;
+    }).sort((a, b) => (b.machines || 0) - (a.machines || 0))
+      .slice(0, article.ranking.limit || 10).length;
+  }
+  return spots.filter(s => (article.areas || []).includes(s.area)).length;
+}
+
+function articleLinks(limit = 0) {
+  const list = limit > 0 ? articles.slice(0, limit) : articles;
+  return list.map(a => {
+    const badge = a.ranking ? 'ランキング' : a.type === 'guide' ? 'ガイド' : 'まとめ';
+    const count = articleStoreCount(a);
+    return '<a href="' + guidePath(a.slug) + '" class="gh-news-item">' +
+      '<time class="gh-news-item__date">' + esc(a.updated) + '</time>' +
+      '<span class="gh-badge gh-badge--new">' + badge + '</span>' +
+      '<span>' + esc((a.emoji || '') + ' ' + a.title) + (count ? '（' + count + '店舗掲載）' : '') + '</span>' +
+      '</a>';
+  }).join('\n');
+}
+
+const PREF_ICON = {
+  '東京都': '🗼', '神奈川県': '⚓', '埼玉県': '🌸', '千葉県': '🌊',
+  '群馬県': '♨️', '栃木県': '🍓', '茨城県': '🌰', '大阪府': '🏯', '愛知県': '🏭'
+};
+const prefGroups = [...new Set(spots.map(s => s.pref))].map(pref => {
+  const list = spots.filter(s => s.pref === pref).sort((a, b) => (b.machines || 0) - (a.machines || 0));
+  return { pref, count: list.length };
+}).sort((a, b) => b.count - a.count || a.pref.localeCompare(b.pref, 'ja'));
+const areaLinks = prefGroups.slice(0, 12).map(g =>
+  '<a href="' + prefPath(g.pref) + '" class="gh-area-card">' +
+    '<span class="gh-area-card__icon">' + (PREF_ICON[g.pref] || '📍') + '</span>' +
+    '<strong>' + esc(g.pref) + '</strong><small>' + g.count + '店舗</small>' +
+  '</a>'
+).join('\n');
+
+function releaseOrder(release) {
+  const d = Math.round((new Date(release.date + 'T00:00:00+09:00').getTime() -
+    new Date(todayJst + 'T00:00:00+09:00').getTime()) / 86400000);
+  return { d, rank: d === 0 ? [0, 0] : d > 0 ? [1, d] : [2, -d] };
+}
+const sortedReleases = releases.filter(r => r && r.date && r.title).slice().sort((a, b) => {
+  const x = releaseOrder(a).rank, y = releaseOrder(b).rank;
+  return (x[0] - y[0]) || (x[1] - y[1]);
+});
+function releaseBadge(r, cls) {
+  const d = releaseOrder(r).d;
+  const stateClass = d === 0 ? ' ' + cls + '--today' : d > 0 ? ' ' + cls + '--soon' : '';
+  const text = r.label || (d === 0 ? '本日発売' : r.date.slice(5).replace('-', '/') + ' 発売');
+  return '<span class="' + cls + stateClass + '">' + esc(text) + '</span>';
+}
+function releaseCells(kind, limit = 7) {
+  const shown = sortedReleases.slice(0, limit);
+  if (!shown.length) return '';
+  const base = kind === 'hot' ? 'gh-hot' : 'gh-rel';
+  const restClass = kind === 'hot' ? 'gh-hot-rest' : 'gh-rel-rest';
+  const cell = (r, lead) => {
+    const tag = r.source ? 'a' : 'div';
+    const attrs = r.source ? ' href="' + esc(r.source) + '" target="_blank" rel="noopener"' : '';
+    return '<' + tag + ' class="' + base + (lead ? ' ' + base + '--lead' : ' ' + base + '--row') +
+      (kind === 'hot' && r.source ? ' gh-official-source' : '') + '"' + attrs + '>' +
+      releaseBadge(r, base + '__badge') +
+      '<strong class="' + base + '__title">' + esc(r.title) + '</strong>' +
+      '<small class="' + base + '__meta">' + esc(r.maker || '') +
+        (r.price ? '<span class="' + base + '__price">' + esc(r.price) + '</span>' : '') +
+        (lead && r.note ? '<span class="' + base + '__note">' + esc(r.note) + '</span>' : '') +
+      '</small></' + tag + '>';
+  };
+  return cell(shown[0], true) + (shown.length > 1
+    ? '\n<div class="' + restClass + '">\n' + shown.slice(1).map(r => '  ' + cell(r, false)).join('\n') + '\n</div>'
+    : '');
+}
+
+function currentReleaseLabel() {
+  if (!sortedReleases.length) return '新作ガチャ';
+  const days = sortedReleases.map(releaseOrder).map(x => x.d);
+  if (days.includes(0)) return '本日発売';
+  if (days.some(d => d >= -7 && d <= 10)) return '今週の新作';
+  if (days.some(d => d > 0)) return '発売予定';
+  return '最近発売の新作';
+}
+
+function boardRows(limit = 20) {
+  return ranked.slice(0, limit).map((s, i) => {
+    const rank = i + 1;
+    const rankClass = rank === 1 ? ' gh-rank--1' : rank === 2 ? ' gh-rank--2' : rank === 3 ? ' gh-rank--3' : '';
+    return '<tr' + (rank === 1 ? ' class="gh-table__row--top"' : '') + '>' +
+      '<td><span class="gh-rank' + rankClass + '">' + rank + '</span></td>' +
+      '<td><a href="' + storePath(s, true) + '" class="gh-table__link">' + esc(s.name) + '</a></td>' +
+      '<td>' + esc(s.area) + '</td>' +
+      '<td class="gh-num">' + machinesText(s.machines) + '</td>' +
+      '<td><a href="' + storePath(s, true) + '" class="gh-btn gh-btn--xs">見る</a></td>' +
+      '</tr>';
+  }).join('\n');
+}
+const boardSide = ranked.slice(0, 5).map(s =>
+  '<li><a href="' + storePath(s, true) + '">' + esc(s.name) + '</a>' +
+  '<span class="gh-category-item__count">' + machinesText(s.machines) + '</span></li>'
+).join('\n');
+
+let staticDone = 0;
+staticDone += updateMarkedPage('../index.html', {
+  'HOME-HOT': releaseCells('hot'),
+  'HOME-RANKING': rankingRows(12),
+  'HOME-ARTICLES': articleLinks(5),
+  'HOME-AREAS': areaLinks
+}, html => {
+  const totalMachines = spots.reduce((n, s) => n + (Number(s.machines) || 0), 0);
+  html = replaceElementText(html, 'statStores', spots.length.toLocaleString('ja-JP') + '店舗');
+  html = replaceElementText(html, 'statMachines', '約' + totalMachines.toLocaleString('ja-JP') + '台');
+  html = replaceElementText(html, 'statPrefs', prefCount + '都道府県');
+  if (ranked[0]) {
+    html = replaceElementText(html, 'statTop', machinesText(ranked[0].machines));
+    html = replaceElementText(html, 'statTopName', ranked[0].name);
+  }
+  return html;
+});
+staticDone += updateMarkedPage('../ranking.html', { 'RANKING-LIST': rankingRows(30) });
+staticDone += updateMarkedPage('../news.html', {
+  'NEWS-RELEASES': releaseCells('rel'),
+  'NEWS-ARTICLES': articleLinks()
+}, html => html.replace(/(<span data-gh-releases-label>)[^<]*(<\/span>)/,
+  '$1' + currentReleaseLabel() + '$2'));
+staticDone += updateMarkedPage('../board.html', {
+  'BOARD-LIST': boardRows(20),
+  'BOARD-SIDE': boardSide
+}, html => {
+  const totalMachines = spots.reduce((n, s) => n + (Number(s.machines) || 0), 0);
+  html = replaceElementText(html, 'boardStatBoards', spots.length + '板');
+  html = replaceElementText(html, 'boardStatPrefs', prefCount + '都道府県');
+  html = replaceElementText(html, 'boardStatMachines', '約' + totalMachines.toLocaleString('ja-JP') + '台');
+  if (ranked[0]) {
+    html = replaceElementText(html, 'boardStatTop', ranked[0].name);
+    html = replaceElementText(html, 'boardStatTopSub', machinesText(ranked[0].machines) + '（台数1位）');
+  }
+  return html;
+});
+
 /* ブランド一覧の素HTML件数も更新し、JavaScript未実行時に古い数を残さない。 */
 try {
   const categoryUrl = new URL('../category.html', import.meta.url);
@@ -94,3 +296,4 @@ try {
 }
 console.log('gen-static-blocks: ' + done + ' ページに都道府県インデックスを埋め込みました（' +
   prefCount + '都道府県 / ' + spots.length + '店舗）');
+console.log('gen-static-blocks: 一覧4ページの静的フォールバックを更新しました（' + staticDone + 'ブロック）');

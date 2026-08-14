@@ -82,15 +82,12 @@
     gachaGoodsHeading: '🎁 ガチャ好き向けアイテム',
     gachaGoods: [
       { id: 'rk_search_gacha_machine', emoji: '🎰', title: '家庭用ガチャガチャマシン', note: '誕生日やイベントで使えるガチャ本体を探す', url: 'https://hb.afl.rakuten.co.jp/hgc/5599358c.6687774a.5547dfc7.ed412751/?pc=' + encodeURIComponent('https://search.rakuten.co.jp/search/mall/ガチャガチャ 本体 おもちゃ/') },
-      { id: 'rk_search_capsule_set', emoji: '🥠', title: 'カプセルトイの詰め合わせ', note: 'カプセルトイのセット商品を探す', url: 'https://hb.afl.rakuten.co.jp/hgc/5599358c.6687774a.5547dfc7.ed412751/?pc=' + encodeURIComponent('https://search.rakuten.co.jp/search/mall/カプセルトイ 詰め合わせ/') },
       { id: 'rk_search_display_case', emoji: '🗄️', title: 'コレクションケース', note: '集めたミニフィギュアを飾るケースを探す', url: 'https://hb.afl.rakuten.co.jp/hgc/5599358c.6687774a.5547dfc7.ed412751/?pc=' + encodeURIComponent('https://search.rakuten.co.jp/search/mall/コレクションケース フィギュア/') },
-      { id: 'rk_sanrio_shop_2229', emoji: '🎀', title: 'サンリオ公式 楽天市場店', note: 'キャラクター関連グッズを公式ショップで探す', url: sanrioUrl },
-      { id: 'rk_search_chiikawa', emoji: '🧸', title: 'ちいかわのガチャ・グッズ', note: 'ちいかわ関連のカプセルトイやグッズを探す', url: 'https://hb.afl.rakuten.co.jp/hgc/5599358c.6687774a.5547dfc7.ed412751/?pc=' + encodeURIComponent('https://search.rakuten.co.jp/search/mall/ちいかわ ガチャ/') },
       { id: 'rk_search_keyholder_parts', emoji: '🔑', title: 'キーホルダー・交換用パーツ', note: 'ボールチェーンなどの交換用品を探す', url: 'https://hb.afl.rakuten.co.jp/hgc/5599358c.6687774a.5547dfc7.ed412751/?pc=' + encodeURIComponent('https://search.rakuten.co.jp/search/mall/キーホルダー パーツ カプセルトイ/') }
     ],
 
-    /* サイドバーはガチャ関連2件＋公式ショップ1件に絞る。 */
-    products: [{ campaignId: 'sanrio' }],
+    /* 審査中は汎用サイドバー広告を出さず、本文の文脈広告だけを表示する。 */
+    products: [],
     maxPerSlot: 3
   };
 })();

@@ -199,7 +199,7 @@ function buildPage(store) {
         '<strong class="gh-preopen__title">🎉 ' + esc(openLabel(store.opensOn, true)) + ' オープン予定</strong>' +
         '<p class="gh-preopen__text">' + esc(store.name) + 'は<strong>まだオープンしていません</strong>（あと' + daysUntil(store.opensOn) + '日）。' +
           '下記の営業時間・電話番号はオープン後の情報です。お出かけの際はご注意ください。' +
-          (store.sourceUrl ? ' 最新情報は<a class="gh-official-source" href="' + esc(store.sourceUrl) + '" target="_blank" rel="noopener">店舗の公式情報</a>でも告知されています。' : '') +
+          (store.sourceUrl ? ' 最新情報は<a class="gh-official-source" href="' + esc(store.sourceUrl) + '" target="_blank" rel="noopener">情報の確認元</a>でもご確認ください。' : '') +
         '</p>' +
         '<p class="gh-preopen__text">オープン初日の混雑や品揃えは、このページの掲示板で共有できます。行った人のレポートをお待ちしています。</p>' +
       '</div>'
@@ -225,7 +225,7 @@ function buildPage(store) {
     '</p>' +
     '<p>掲載内容は公開情報をもとにしています。最新の入荷状況・混雑・在庫については、' +
       'このページの掲示板タブで情報をチェック・共有できます。' +
-      '営業時間や設置台数は変更される場合があるため、お出かけ前に店舗の公式情報もあわせてご確認ください。</p>' +
+      '営業時間や設置台数は変更される場合があるため、お出かけ前に店舗・施設の最新情報もあわせてご確認ください。</p>' +
     '</div>';
   html = swap(html, '<div class="gh-detail-layout">', intro + '\n      <div class="gh-detail-layout">');
 
@@ -241,8 +241,8 @@ function buildPage(store) {
     row('設置台数', machinesText(store.machines)) +
     row('アクセス', store.access) +
     row('エリア', store.area) +
-    row('公式情報', store.sourceUrl
-      ? '<a class="gh-official-source" href="' + esc(store.sourceUrl) + '" target="_blank" rel="noopener">掲載元を確認 ↗</a>'
+    row('情報の確認元', store.sourceUrl
+      ? '<a class="gh-official-source" href="' + esc(store.sourceUrl) + '" target="_blank" rel="noopener">確認元を開く ↗</a>'
       : '', true) +
     row('情報確認日', store.verifiedAt) + '</tbody>');
 
