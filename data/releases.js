@@ -13,9 +13,18 @@
       price: 1回いくらか（例 '1回500円／全4種'）。分かる場合だけ入れる。
    =========================================================================== */
 /* 一次情報を実際に再確認した日。生成処理を走らせただけでは更新しないこと。 */
-window.GH_RELEASES_CHECKED_ON = '2026-08-13';
+window.GH_RELEASES_CHECKED_ON = '2026-08-14';
 
 window.GH_RELEASES = [
+  {
+    date: '2026-08-01',
+    label: '2026年8月発売',
+    title: '殻からの脱出。 マスコットフィギュア',
+    maker: 'Qualia',
+    price: '1回400円／全6種',
+    note: '「殻からの脱出。」を題材にした、全6種のマスコットフィギュア。',
+    source: 'https://www.qualia-45.jp/product/view/2031'
+  },
   {
     date: '2026-08-10',
     label: '8月第2週より順次',
@@ -73,15 +82,6 @@ window.GH_RELEASES = [
   {
     date: '2026-08-10',
     label: '8月第2週より順次',
-    title: 'パワプロくん ゆれるんです。～セントラル・リーグ～',
-    maker: 'バンダイ（ガシャポン）',
-    price: '1回500円／全6種',
-    note: 'セ・リーグ6球団のパワプロくんを、頭が揺れるボブルヘッド風フィギュアで展開。',
-    source: 'https://gashapon.jp/products/detail.php?jan_code=4582769935862000'
-  },
-  {
-    date: '2026-08-10',
-    label: '8月第2週より順次',
     title: 'にゃんこ大戦争 めじるしアクセサリー',
     maker: 'バンダイ（ガシャポン）',
     price: '1回300円／全6種',
@@ -90,12 +90,12 @@ window.GH_RELEASES = [
   },
   {
     date: '2026-08-10',
-    label: '8月第2週より順次',
-    title: 'Dr.MORICKY toymini series めじるしアクセサリー',
-    maker: 'バンダイ（ガシャポン）',
-    price: '1回300円／全5種',
-    note: 'イラストレーターDr.MORICKYによる、本商品のための描き下ろしデザイン。',
-    source: 'https://gashapon.jp/products/detail.php?jan_code=4582769832185000'
+    label: '8月10日週 発売',
+    title: 'つながリングチャーム どうぶつの森',
+    maker: 'タカラトミーアーツ',
+    price: '1回300円／全8種',
+    note: '「どうぶつの森」の住民たちを、上下につなげて持ち物のめじるしにできるリングチャーム。',
+    source: 'https://www.takaratomy-arts.co.jp/items/item.html?n=Y906893'
   },
   {
     date: '2026-08-15',
