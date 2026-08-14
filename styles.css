@@ -2026,6 +2026,7 @@ img { display: block; max-width: 100%; }
 /* ============================================================
    AD SLOTS (clearly labelled per 景表法 / stealth-marketing rules)
    ============================================================ */
+.gh-ad:not(.gh-ad--filled) { display: none; }
 .gh-ad {
   position: relative;
   border: 1px dashed #cbd5e1;

@@ -818,8 +818,8 @@
         row('設置台数', machinesText(store.machines)) +
         row('アクセス', store.access) +
         row('エリア', store.area) +
-        row('公式情報', store.sourceUrl
-          ? '<a class="gh-official-source" href="' + esc(store.sourceUrl) + '" target="_blank" rel="noopener">掲載元を確認 ↗</a>'
+        row('情報の確認元', store.sourceUrl
+          ? '<a class="gh-official-source" href="' + esc(store.sourceUrl) + '" target="_blank" rel="noopener">確認元を開く ↗</a>'
           : '', true) +
         row('情報確認日', store.verifiedAt);
     }

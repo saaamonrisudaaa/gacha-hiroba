@@ -1,20 +1,22 @@
 'use strict';
 
 /* ── Google Analytics 4 (gtag.js) ── 測定ID: G-6KSGDTM1VJ
-   ここ1か所で管理。script.js を読み込む全ページに自動適用されます。
-   IDを変えるときは下の GA_ID を書き換えるだけ。 */
-(function () {
-  var GA_ID = 'G-6KSGDTM1VJ';
-  var s = document.createElement('script');
-  s.async = true;
-  s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
-  document.head.appendChild(s);
-  window.dataLayer = window.dataLayer || [];
-  function gtag() { dataLayer.push(arguments); }
-  window.gtag = gtag;
-  gtag('js', new Date());
-  gtag('config', GA_ID);
-})();
+   ここ1か所で管理。プライバシーページなど data-gh-no-tracking を付けたページでは
+   外部計測を読み込まない。IDを変えるときは下の GA_ID を書き換えるだけ。 */
+if (!document.body?.hasAttribute('data-gh-no-tracking') && !/\/privacy\.html$/.test(location.pathname)) {
+  (function () {
+    var GA_ID = 'G-6KSGDTM1VJ';
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    window.gtag = gtag;
+    gtag('js', new Date());
+    gtag('config', GA_ID);
+  })();
+}
 
 /* ── GA4 event helper ──
    流入後に「検索→店舗詳細→経路」まで進めたかを判定するための最小イベント。 */
@@ -39,6 +41,25 @@ if (hamburger && navTabs) {
     });
   });
 }
+
+/* ── Footer trust link fallback ──
+   古い静的ページでも運営情報・編集方針へ辿れるようにする。生成テンプレート側にも
+   同じリンクを持たせ、すでに存在するページでは重複させない。 */
+(function () {
+  document.querySelectorAll('.gh-footer__links').forEach(links => {
+    if (links.querySelector('a[href$="about.html"]')) return;
+    const groups = Array.from(links.children);
+    const infoGroup = groups.find(group => {
+      const heading = group.querySelector('strong');
+      return heading && heading.textContent.trim() === '情報';
+    }) || groups[groups.length - 1];
+    if (!infoGroup) return;
+    const about = document.createElement('a');
+    about.href = '/about.html';
+    about.textContent = '運営情報・編集方針';
+    infoGroup.appendChild(about);
+  });
+})();
 
 /* ── Prevent form submissions (no backend yet) ── */
 document.querySelectorAll('form').forEach(form => {
@@ -1953,8 +1974,12 @@ document.addEventListener('click', e => {
     if (img.complete && !img.naturalWidth) markUnavailable();
   });
 
-  /* サイドバーは関連商品2件＋サンリオ公式ショップ1件に限定する。 */
+  /* 未設定の広告枠は仮表示を残さず、商品を描画できた枠だけ表示する。 */
   const slots = document.querySelectorAll('.gh-ad');
+  slots.forEach(slot => {
+    slot.hidden = true;
+    slot.classList.remove('gh-ad--filled');
+  });
   /* 本文に文脈広告があるページでは、同じ画面のサイドバー広告を重ねない。 */
   if (document.querySelector('.gh-commerce__card')) {
     slots.forEach(slot => { slot.hidden = true; });
@@ -1999,6 +2024,7 @@ document.addEventListener('click', e => {
     const body = slot.querySelector('.gh-ad__body') || slot;
     body.innerHTML = sidebarHtml;
     slot.classList.add('gh-ad--filled');
+    slot.hidden = false;
   });
 
   document.querySelectorAll('.gh-affil__banner img').forEach(img => {
