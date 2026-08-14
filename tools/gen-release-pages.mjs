@@ -113,11 +113,11 @@ function footer() {
       <div class="gh-footer__main">
         <div class="gh-footer__brand">
           <a class="gh-logo" href="/index.html"><img class="gh-logo__icon" src="/assets/mascot-icon.png" alt="ガチャひろばのマスコット" width="34" height="34" /><span class="gh-logo__text">ガチャ<em>ひろば</em></span></a>
-          <p>全国のガチャガチャ設置場所情報を網羅。<br />あなたのガチャライフをサポートします。</p>
+          <p>全国のガチャガチャ設置場所情報を掲載。<br />あなたのガチャライフをサポートします。</p>
         </div>
         <div class="gh-footer__links">
           <div><strong>サービス</strong><a href="/index.html">トップ</a><a href="/ranking.html">ランキング</a><a href="/news.html">新着情報</a><a href="/map.html">マップ検索</a></div>
-          <div><strong>情報</strong><a href="/guide/guide-first-visit.html">ガチャとは</a><a href="/board.html">クチコミを書く</a><a href="/contact.html">未掲載店舗を連絡</a><a href="/about.html">運営情報・編集方針</a></div>
+          <div><strong>情報</strong><a href="/guide/guide-first-visit.html">ガチャとは</a><a href="/board.html">掲示板を探す</a><a href="/contact.html">未掲載店舗を連絡</a><a href="/about.html">運営情報・編集方針</a><a href="/methodology.html">データ確認方法</a></div>
           <div><strong>サポート</strong><a href="/contact.html">お問い合わせ</a><a href="/terms.html">利用規約</a><a href="/privacy.html">プライバシー</a><a href="/sitemap.html">サイトマップ</a><a href="/english.html">English</a><a href="/advertising.html">広告掲載</a></div>
         </div>
       </div>
@@ -150,7 +150,6 @@ function buildPage(month, monthReleases) {
   const sorted = [...monthReleases].sort((a, b) =>
     a.date.localeCompare(b.date, 'ja') || a.title.localeCompare(b.title, 'ja')
   );
-  const hasSanrioRelease = sorted.some(release => /サンリオ/.test(release.title || ''));
   const count = sorted.length;
   const pagePath = '/releases/' + month + '.html';
   const pageUrl = ORIGIN + pagePath;
@@ -210,6 +209,7 @@ function buildPage(month, monthReleases) {
   <meta charset="UTF-8" />
   <meta name="google-site-verification" content="YN5Q0DnCsIhwgitcXjcGqxlmfMec80Wl0uZskCNS11w" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex,follow" />
   <meta name="description" content="${esc(pageDesc)}" />
   <title>${esc(pageTitle)}</title>
   <link rel="canonical" href="${pageUrl}" />
@@ -226,7 +226,6 @@ function buildPage(month, monthReleases) {
   <script type="application/ld+json">${safeJson(collection)}</script>
   <script type="application/ld+json">${safeJson(itemList)}</script>
   <script type="application/ld+json">${safeJson(breadcrumbs)}</script>
-  <script src="/data/ads.js" defer></script>
   <script src="/script.js" defer></script>
 </head>
 <body>
@@ -261,13 +260,6 @@ function buildPage(month, monthReleases) {
             <p class="gh-rel-note">発売時期・価格・種類数はメーカー公式情報にもとづきます。店舗や地域により入荷日・取り扱い・在庫状況が異なる場合があります。</p>
           </section>
 
-          ${hasSanrioRelease ? `<section class="gh-section gh-commerce-sec" hidden aria-labelledby="release-shop-title">
-            <div class="gh-section__header">
-              <h2 class="gh-section__title" id="release-shop-title">サンリオの新作が気になった方へ</h2>
-            </div>
-            <div data-gh-commerce="releaseArchive"></div>
-          </section>` : ''}
-
           <a class="gh-store-cta" href="/map.html">
             <span class="gh-store-cta__icon" aria-hidden="true">🗺️</span>
             <span class="gh-store-cta__body"><strong>近くのガチャ設置場所をマップで探す</strong><small>現在地や表示中のエリアから、取り扱い店舗候補を見つけられます。</small></span>
@@ -292,7 +284,7 @@ function buildPage(month, monthReleases) {
           </div>
           <div class="gh-widget">
             <h2 class="gh-widget__title">情報について</h2>
-            <p class="gh-widget__text">発売情報の出典リンクは各メーカーの公式ページです。PR表示のリンクには楽天アフィリエイトを利用しています。</p>
+            <p class="gh-widget__text">発売情報の出典リンクは各メーカーの公式ページです。掲載内容は確認日以降に変更される場合があります。</p>
           </div>
         </aside>
       </div>

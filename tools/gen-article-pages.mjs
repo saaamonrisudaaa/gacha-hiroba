@@ -13,7 +13,6 @@ import {
 } from 'node:fs';
 
 const ORIGIN = 'https://gacha-hiroba.com';
-const STATIC_ROUTES_LAUNCHED = '2026-08-12';
 const outDir = new URL('../guide/', import.meta.url);
 
 function loadWindowData(relativePath, property) {
@@ -28,6 +27,7 @@ function loadWindowData(relativePath, property) {
 }
 
 const articles = loadWindowData('../data/articles.js', 'GH_ARTICLES');
+const publishedArticles = articles.filter((article) => article.type === 'guide');
 const spots = loadWindowData('../data/spots.js', 'GH_SPOTS');
 
 if (!articles.length) throw new Error('gen-article-pages: 記事データが空です');
@@ -45,23 +45,27 @@ const machinesText = (value) => (value == null || value === '')
   : `約${Number(value).toLocaleString('ja-JP')}台`;
 const guidePath = (slug) => `/guide/${encodeURIComponent(slug)}.html`;
 const spotPath = (id) => `/spot/${encodeURIComponent(id)}.html`;
-const latestDate = (values) => values
-  .filter((value) => /^\d{4}-\d{2}-\d{2}$/.test(value || ''))
-  .sort().at(-1) || '';
+const isVerified = (store) => Boolean(store && store.sourceUrl && store.verifiedAt);
 
 function resolveStores(article) {
   if (article.ranking) {
     return spots.filter((spot) => {
       if (article.ranking.pref && spot.pref !== article.ranking.pref) return false;
       if (article.ranking.region && spot.region !== article.ranking.region) return false;
-      return spot.machines != null;
+      return isVerified(spot) && spot.machines != null;
     }).sort((a, b) => (b.machines || 0) - (a.machines || 0))
       .slice(0, article.ranking.limit || 10);
   }
 
   const areas = Array.isArray(article.areas) ? article.areas : [];
   return spots.filter((spot) => areas.includes(spot.area))
-    .sort((a, b) => (b.machines || 0) - (a.machines || 0));
+    .sort((a, b) => {
+      const aHasVerifiedMachines = isVerified(a) && a.machines != null;
+      const bHasVerifiedMachines = isVerified(b) && b.machines != null;
+      return (Number(bHasVerifiedMachines) - Number(aHasVerifiedMachines)) ||
+        (bHasVerifiedMachines ? Number(b.machines) - Number(a.machines) : 0) ||
+        String(a.name).localeCompare(String(b.name), 'ja');
+    });
 }
 
 function relatedLabel(article) {
@@ -144,7 +148,7 @@ function buildTable(stores) {
                 <tbody>
 ${stores.map((store) => {
   const url = spotPath(store.id);
-  return `                  <tr><td><a class="gh-table__link" href="${url}">${esc(store.name)}</a></td><td class="gh-num">${esc(machinesText(store.machines))}</td><td>${esc(store.hours || '—')}</td><td><a href="${url}" class="gh-btn gh-btn--xs">詳細</a></td></tr>`;
+  return `                  <tr><td><a class="gh-table__link" href="${url}">${esc(store.name)}</a><small class="gh-store-brand">${isVerified(store) ? '一次情報確認済み' : '一次情報未確認'}</small></td><td class="gh-num">${isVerified(store) ? esc(machinesText(store.machines)) : '未確認'}</td><td>${esc(store.hours || '—')}</td><td><a href="${url}" class="gh-btn gh-btn--xs">詳細</a></td></tr>`;
 }).join('\n')}
                 </tbody>
               </table>
@@ -159,7 +163,7 @@ ${stores.map((store, index) => {
   const url = spotPath(store.id);
   const rows = [
     `<tr><th>住所</th><td>${esc(`${store.zip ? `〒${store.zip}　` : ''}${store.address || ''}`)}</td></tr>`,
-    store.machines ? `<tr><th>設置台数</th><td>${esc(machinesText(store.machines))}</td></tr>` : '',
+    store.machines ? `<tr><th>設置台数</th><td>${isVerified(store) ? esc(machinesText(store.machines)) : '未確認'}</td></tr>` : '',
     store.hours ? `<tr><th>営業時間</th><td>${esc(store.hours)}</td></tr>` : '',
     store.access ? `<tr><th>アクセス</th><td>${esc(store.access)}</td></tr>` : ''
   ].filter(Boolean).join('');
@@ -185,7 +189,7 @@ ${(section.body || []).map((paragraph) => `              <p>${esc(paragraph)}</p
   const tips = Array.isArray(article.tips) && article.tips.length
     ? `
             <div class="gh-article__tips">
-              <h2 class="gh-article__h2">編集部メモ（回り方のコツ）</h2>
+              <h2 class="gh-article__h2">実用メモ（確認のコツ）</h2>
               <ul>${article.tips.map((tip) => `<li>${esc(tip)}</li>`).join('')}</ul>
             </div>`
     : '';
@@ -196,14 +200,18 @@ ${(section.body || []).map((paragraph) => `              <p>${esc(paragraph)}</p
               ${article.faq.map((entry) => `<details class="gh-faq"><summary class="gh-faq__q">${esc(entry.q)}</summary><p class="gh-faq__a">${esc(entry.a)}</p></details>`).join('\n              ')}
             </div>`
     : '';
+  const note = stores.length
+    ? '※店舗情報には一次情報の確認作業中の項目も含まれます。未確認店舗の設置台数は集計せず「未確認」と表示します。最新の営業時間・在庫は店舗または確認元の公式ページでご確認ください。'
+    : '※本記事はガチャひろば運営者が、ガチャを探すときに役立つ手順や判断基準を独自に整理したものです。内容の訂正・改善提案はお問い合わせからお寄せください。';
 
   return `
             <h1 class="gh-article__title">${esc(`${article.emoji} ${article.title}`)}</h1>
-            <div class="gh-article__meta">最終更新：<time datetime="${esc(modified)}">${esc(modified)}</time>${stores.length ? `　・　掲載 <strong>${stores.length}店舗</strong>（実データ）` : '　・　保存版ガイド'}</div>
+            <div class="gh-article__meta">最終更新：<time datetime="${esc(modified)}">${esc(modified)}</time>${stores.length ? `　・　掲載 <strong>${stores.length}店舗</strong>（掲載データ）` : '　・　保存版ガイド'}</div>
+            <p class="gh-detail-note">作成・確認：<a href="/about.html">ガチャひろば運営者（個人運営）</a> ／ <a href="/methodology.html">記事・データの作成方法</a></p>
             <div class="gh-article__intro">
 ${intro}${sections}
             </div>${buildTable(stores)}${buildStoreDetails(stores)}${tips}${faq}
-            <p class="gh-detail-note">※掲載情報は各店舗・公式サイトをもとにした参考情報です。最新の営業時間・在庫は店舗または公式サイトでご確認ください。店舗データが更新されると本記事の一覧も自動で最新になります。</p>`;
+            <p class="gh-detail-note">${note}<a href="/methodology.html">データ確認方法を見る</a></p>`;
 }
 
 function buildPage(article) {
@@ -211,8 +219,9 @@ function buildPage(article) {
   const pageUrl = `${ORIGIN}${guidePath(article.slug)}`;
   const pageTitle = `${article.title} | ガチャひろば`;
   const description = (article.intro && article.intro[0]) || `${article.label}のガチャガチャ情報を紹介します。`;
-  const related = articles.filter((item) => item.slug !== article.slug);
-  const modified = latestDate([STATIC_ROUTES_LAUNCHED, article.updated, ...stores.map((store) => store.verifiedAt)]);
+  const related = publishedArticles.filter((item) => item.slug !== article.slug);
+  const modified = article.updated;
+  const indexable = article.type === 'guide';
   const structuredData = buildStructuredData(article, stores, pageUrl, description, modified);
 
   return `<!doctype html>
@@ -221,7 +230,7 @@ function buildPage(article) {
   <meta charset="UTF-8" />
   <meta name="google-site-verification" content="YN5Q0DnCsIhwgitcXjcGqxlmfMec80Wl0uZskCNS11w" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <meta name="robots" content="${indexable ? 'index,follow,max-image-preview:large' : 'noindex,follow'}" />
   <meta name="description" content="${esc(description)}" />
   <title>${esc(pageTitle)}</title>
   <link rel="canonical" href="${pageUrl}" />
@@ -241,8 +250,6 @@ function buildPage(article) {
   <link rel="icon" type="image/png" href="/assets/mascot-icon.png" />
   <link rel="stylesheet" href="/styles.css" />
 ${structuredData}
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5458972550684006" crossorigin="anonymous"></script>
-  <script src="/data/ads.js" defer></script>
   <script src="/script.js" defer></script>
 </head>
 <body>
@@ -281,7 +288,7 @@ ${structuredData}
       <nav class="gh-breadcrumb" aria-label="パンくずリスト">
         <a href="/index.html">トップ</a><span aria-hidden="true">›</span>
         <a href="/news.html">特集記事</a><span aria-hidden="true">›</span>
-        <span aria-current="page">${esc(article.label)}のガチャガチャまとめ</span>
+        <span aria-current="page">${esc(article.type === 'guide' ? article.title : `${article.label}のガチャガチャまとめ`)}</span>
       </nav>
 
       <div class="gh-main__layout">
@@ -291,12 +298,8 @@ ${structuredData}
         </div>
 
         <aside class="gh-sidebar">
-          <div class="gh-ad" aria-label="広告">
-            <span class="gh-ad__label">広告</span>
-            <div class="gh-ad__body"><strong>スポンサーリンク</strong><small>広告枠（レスポンシブ / 300×250）</small></div>
-          </div>
           <div class="gh-widget">
-            <h2 class="gh-widget__title">他のエリアのまとめ記事</h2>
+            <h2 class="gh-widget__title">関連記事</h2>
             <ul class="gh-category-list">
 ${related.map((item) => `              <li><a href="${guidePath(item.slug)}" class="gh-category-item"><span class="gh-category-item__icon">${esc(item.emoji)}</span><span>${esc(relatedLabel(item))}</span></a></li>`).join('\n')}
             </ul>
@@ -319,11 +322,11 @@ ${related.map((item) => `              <li><a href="${guidePath(item.slug)}" cla
       <div class="gh-footer__main">
         <div class="gh-footer__brand">
           <a class="gh-logo" href="/index.html"><img class="gh-logo__icon" src="/assets/mascot-icon.png" alt="ガチャひろばのマスコット" width="34" height="34" /><span class="gh-logo__text">ガチャ<em>ひろば</em></span></a>
-          <p>全国のガチャガチャ設置場所情報を網羅。<br />あなたのガチャライフをサポートします。</p>
+          <p>全国のガチャガチャ設置場所情報を掲載。<br />あなたのガチャライフをサポートします。</p>
         </div>
         <div class="gh-footer__links">
           <div><strong>サービス</strong><a href="/index.html">トップ</a><a href="/stores.html">店舗一覧</a><a href="/ranking.html">ランキング</a><a href="/map.html">マップ検索</a></div>
-          <div><strong>情報</strong><a href="/board.html">掲示板</a><a href="/news.html">新着情報</a><a href="/area.html">エリア別</a><a href="/about.html">運営情報・編集方針</a></div>
+          <div><strong>情報</strong><a href="/board.html">掲示板</a><a href="/news.html">新着情報</a><a href="/area.html">エリア別</a><a href="/about.html">運営情報・編集方針</a><a href="/methodology.html">データ確認方法</a></div>
           <div><strong>サポート</strong><a href="/contact.html">お問い合わせ</a><a href="/terms.html">利用規約</a><a href="/privacy.html">プライバシー</a><a href="/sitemap.html">サイトマップ</a><a href="/english.html">English</a><a href="/advertising.html">広告掲載</a></div>
         </div>
       </div>
@@ -341,7 +344,6 @@ function validatePage(article, stores, html) {
     `<title>${esc(`${article.title} | ガチャひろば`)}</title>`,
     `<link rel="canonical" href="${expectedCanonical}" />`,
     `<h1 class="gh-article__title">${esc(`${article.emoji} ${article.title}`)}</h1>`,
-    '<script src="/data/ads.js" defer></script>',
     '<script src="/script.js" defer></script>',
     '</html>'
   ];
@@ -360,6 +362,13 @@ function validatePage(article, stores, html) {
   }
   if (/spots-ui\.js|data\/(?:spots|articles)\.js|data-gh-/.test(html)) {
     throw new Error(`gen-article-pages: ${article.slug} が不要な動的描画コードを読み込んでいます`);
+  }
+  const expectsIndex = article.type === 'guide';
+  if (expectsIndex !== /name="robots" content="index,follow/i.test(html)) {
+    throw new Error(`gen-article-pages: ${article.slug} のrobots指定が記事種別と一致しません`);
+  }
+  if (/pagead2\.googlesyndication\.com|adsbygoogle|data\/ads\.js|class="gh-ad\b|data-gh-(?:commerce|featured|gacha-goods)/i.test(html)) {
+    throw new Error(`gen-article-pages: ${article.slug} に広告・アフィリエイト要素が残っています`);
   }
 
   const jsonObjects = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
@@ -393,7 +402,7 @@ function validatePage(article, stores, html) {
 mkdirSync(outDir, { recursive: true });
 
 const slugs = new Set();
-for (const article of articles) {
+for (const article of publishedArticles) {
   if (!article || !/^[a-z0-9-]+$/.test(article.slug || '')) {
     throw new Error(`gen-article-pages: 不正な slug: ${article && article.slug}`);
   }
@@ -413,4 +422,4 @@ for (const file of readdirSync(outDir)) {
   }
 }
 
-console.log(`gen-article-pages: ${articles.length}記事を guide/ に生成・検証しました`);
+console.log(`gen-article-pages: ${publishedArticles.length}本の独自ガイドを guide/ に生成・検証しました`);

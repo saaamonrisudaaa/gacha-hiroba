@@ -35,6 +35,16 @@
     if (n == null || n === '') return '—';
     return '約' + Number(n).toLocaleString('ja-JP') + '台';
   }
+  /* 一次情報URLと確認日の両方がある店舗だけを、集計・ランキングの
+     「確認済みデータ」として扱う。未確認値は検索用データとして残すが、
+     公表値ランキングや合計には混ぜない。 */
+  function isVerified(s) { return !!(s && s.sourceUrl && s.verifiedAt); }
+  function verifiedMachinesText(s) {
+    return isVerified(s) ? machinesText(s.machines) : '一次情報未確認';
+  }
+  function verifiedHoursText(s) {
+    return isVerified(s) ? (s.hours || '要確認') : '一次情報未確認';
+  }
 
   /* ── オープン予定の店舗（data/spots.js の opensOn）──
      まだ開いていない店舗を営業中と混ぜないための共通ヘルパー。
@@ -114,8 +124,12 @@
       g[s.pref].push(s);
     });
     return order.map(function (pref) {
-      var list = g[pref].slice().sort(function (a, b) { return (b.machines || 0) - (a.machines || 0); });
-      return { pref: pref, list: list, top: list[0], count: list.length };
+      var list = g[pref].slice().sort(function (a, b) {
+        return (Number(isVerified(b)) - Number(isVerified(a))) ||
+          ((isVerified(b) ? b.machines || 0 : 0) - (isVerified(a) ? a.machines || 0 : 0));
+      });
+      var top = list.filter(function (s) { return isVerified(s) && s.machines != null; })[0] || null;
+      return { pref: pref, list: list, top: top, count: list.length };
     }).sort(function (a, b) { return b.count - a.count; });
   }
 
@@ -156,17 +170,14 @@
   function renderHeroChips() {
     var box = document.querySelector('[data-gh-tophero-chips]');
     if (!box || !SPOTS.length) return;
-    var counts = {};
+    var counts = {}, areaPref = {};
     SPOTS.forEach(function (s) {
       var a = (s.area || '').split('・')[1] || s.area;
-      if (a) counts[a] = (counts[a] || 0) + 1;
+      if (a) { counts[a] = (counts[a] || 0) + 1; areaPref[a] = s.pref; }
     });
     var top = Object.keys(counts).sort(function (a, b) { return counts[b] - counts[a]; }).slice(0, 8);
     box.innerHTML = top.map(function (a) {
-      var article = (window.GH_ARTICLES || []).find(function (item) {
-        return !item.ranking && item.type !== 'guide' && item.label === a;
-      });
-      var url = article ? guideUrl(article.slug) : '/stores.html?q=' + encodeURIComponent(a);
+      var url = areaPref[a] ? prefUrl(areaPref[a]) : '/stores.html?q=' + encodeURIComponent(a);
       return '<a class="gh-tophero__chip" href="' + url + '">' +
         esc(a) + '<span>' + counts[a] + '</span></a>';
     }).join('') +
@@ -305,7 +316,7 @@
   /* ------------------------------------------------------------------ */
   function articleUrl(a) { return guideUrl(a.slug); }
   function articleStores(a) {
-    return SPOTS.filter(function (s) { return a.areas.indexOf(s.area) !== -1; })
+    return SPOTS.filter(function (s) { return isVerified(s) && a.areas.indexOf(s.area) !== -1; })
                 .sort(function (x, y) { return (y.machines || 0) - (x.machines || 0); });
   }
   /* ランキング記事（art.ranking）は、エリアではなく公表設置台数の実データから
@@ -315,7 +326,7 @@
       return SPOTS.filter(function (s) {
         if (a.ranking.pref && s.pref !== a.ranking.pref) return false;
         if (a.ranking.region && s.region !== a.ranking.region) return false;
-        return s.machines != null;
+        return isVerified(s) && s.machines != null;
       }).sort(function (x, y) { return (y.machines || 0) - (x.machines || 0); })
         .slice(0, a.ranking.limit || 10);
     }
@@ -335,6 +346,18 @@
         box.innerHTML =
           '<div class="gh-page-hero"><h1 class="gh-page-hero__title">記事が見つかりませんでした</h1>' +
           '<p class="gh-page-hero__desc"><a href="/news.html">特集記事の一覧へ戻る →</a></p></div>';
+      }
+      return;
+    }
+
+    if (art.type !== 'guide') {
+      markNoindex();
+      var revisionBox = qs('articleContent');
+      if (revisionBox) {
+        revisionBox.innerHTML =
+          '<div class="gh-page-hero"><h1 class="gh-page-hero__title">この記事は確認作業中です</h1>' +
+          '<p class="gh-page-hero__desc">一次情報と本文を見直しているため、現在は公開を停止しています。' +
+          '<a href="/news.html">確認済みのガイドを見る →</a></p></div>';
       }
       return;
     }
@@ -495,7 +518,7 @@
 
   /* 記事一覧（news.html / index.html の [data-gh-article-list]） */
   function renderArticleList() {
-    var arts = window.GH_ARTICLES || [];
+    var arts = (window.GH_ARTICLES || []).filter(function (a) { return a.type === 'guide'; });
     document.querySelectorAll('[data-gh-article-list]').forEach(function (box) {
       var limit = parseInt(box.getAttribute('data-gh-article-list') || '0', 10);
       var items = limit > 0 ? arts.slice(0, limit) : arts;
@@ -521,7 +544,7 @@
       '大阪府': 'Osaka', '愛知県': 'Aichi', '福岡県': 'Fukuoka'
     };
     var box = qs('enTopStores');
-    var top = SPOTS.filter(function (s) { return s.machines; })
+    var top = SPOTS.filter(function (s) { return isVerified(s) && s.machines; })
       .sort(function (a, b) { return b.machines - a.machines; }).slice(0, 10);
     if (!top.length) return;
     setText('enStatStores', String(SPOTS.length));
@@ -536,7 +559,7 @@
           '<td><a class="gh-table__link" href="/spot/' + encodeURIComponent(s.id) + '.html' + '">' + esc(s.name) + '</a>' + openBadge(s) + '</td>' +
           '<td>' + esc(PREF_EN[s.pref] || s.pref) + (areaJp ? '<small class="gh-store-brand">' + esc(areaJp) + '</small>' : '') + '</td>' +
           '<td class="gh-num">' + Number(s.machines).toLocaleString('en-US') + '</td>' +
-          '<td>' + esc(s.hours || '—') + '</td>' +
+          '<td>' + esc(verifiedHoursText(s)) + '</td>' +
           '<td><a class="gh-btn gh-btn--xs" href="' + mapsUrl + '" target="_blank" rel="noopener">Map</a></td>' +
         '</tr>';
       }).join('') + '</tbody></table>';
@@ -551,7 +574,7 @@
 
     /* ① data/spots.js の opensOn 付き＝住所・営業時間まで確定した予定店舗。
           店舗ページが既にあるのでリンクを張る（開業日の早い順）。 */
-    var fromSpots = SPOTS.filter(isPreOpen).sort(function (a, b) {
+    var fromSpots = SPOTS.filter(function (s) { return isVerified(s) && isPreOpen(s); }).sort(function (a, b) {
       return a.opensOn < b.opensOn ? -1 : a.opensOn > b.opensOn ? 1 : 0;
     }).map(function (s) {
       var left = daysLeft(s.opensOn);
@@ -586,17 +609,22 @@
   /* 掲示板ハブ（board.html）: 実店舗の掲示板一覧＋実データ集計＋検索     */
   /* ------------------------------------------------------------------ */
   function renderBoardHub() {
-    var sorted = SPOTS.slice().sort(function (a, b) { return (b.machines || 0) - (a.machines || 0); });
+    var sorted = SPOTS.slice().sort(function (a, b) {
+      return (Number(isVerified(b)) - Number(isVerified(a))) ||
+        ((isVerified(b) ? b.machines || 0 : 0) - (isVerified(a) ? a.machines || 0 : 0));
+    });
+    var confirmed = SPOTS.filter(function (s) { return isVerified(s) && s.machines != null; });
 
     /* サマリー */
-    var totalMachines = SPOTS.reduce(function (n, s) { return n + (Number(s.machines) || 0); }, 0);
+    var totalMachines = confirmed.reduce(function (n, s) { return n + (Number(s.machines) || 0); }, 0);
     var prefs = {}; SPOTS.forEach(function (s) { prefs[s.pref] = 1; });
     setText('boardStatBoards', SPOTS.length + '板');
     setText('boardStatPrefs', Object.keys(prefs).length + '都道府県');
     setText('boardStatMachines', '約' + totalMachines.toLocaleString('ja-JP') + '台');
+    setText('boardStatMachinesNote', '一次情報確認済み' + confirmed.length + '店舗の合計');
     if (sorted[0]) {
       setText('boardStatTop', sorted[0].name.replace('ガチャガチャの森 ', ''));
-      setText('boardStatTopSub', machinesText(sorted[0].machines) + '（台数1位）');
+      setText('boardStatTopSub', verifiedMachinesText(sorted[0]) + '（確認済み台数）');
     }
 
     /* 一覧テーブル（初期は data-board-limit 件だけ出し、残りはボタンで展開する。
@@ -610,7 +638,7 @@
                '<td><span class="gh-rank' + rankCls(rank) + '">' + rank + '</span></td>' +
                '<td><a href="' + url + '" class="gh-table__link">' + esc(s.name) + '</a>' + openBadge(s) + '</td>' +
                '<td>' + esc(s.area) + '</td>' +
-               '<td class="gh-num">' + machinesText(s.machines) + '</td>' +
+               '<td class="gh-num">' + verifiedMachinesText(s) + '</td>' +
                '<td><a href="' + url + '" class="gh-btn gh-btn--xs">見る</a></td>' +
              '</tr>';
     }).join('');
@@ -639,7 +667,7 @@
     if (side) {
       side.innerHTML = sorted.slice(0, 5).map(function (s) {
         return '<li><a href="/spot/' + encodeURIComponent(s.id) + '.html' + '#board">' + esc(s.name) + '</a>' +
-               '<span class="gh-category-item__count">' + machinesText(s.machines) + '</span></li>';
+               '<span class="gh-category-item__count">' + verifiedMachinesText(s) + '</span></li>';
       }).join('');
     }
 
@@ -660,11 +688,13 @@
   /* ------------------------------------------------------------------ */
   function renderSummary() {
     if (!SPOTS.length) return;
-    var totalMachines = SPOTS.reduce(function (n, s) { return n + (Number(s.machines) || 0); }, 0);
+    var confirmed = SPOTS.filter(function (s) { return isVerified(s) && s.machines != null; });
+    var totalMachines = confirmed.reduce(function (n, s) { return n + (Number(s.machines) || 0); }, 0);
     var prefs = {}; SPOTS.forEach(function (s) { prefs[s.pref] = 1; });
-    var topStore = SPOTS.slice().sort(function (a, b) { return (b.machines || 0) - (a.machines || 0); })[0];
+    var topStore = confirmed.slice().sort(function (a, b) { return (b.machines || 0) - (a.machines || 0); })[0];
     setText('statStores', SPOTS.length.toLocaleString('ja-JP') + '店舗');
     setText('statMachines', '約' + totalMachines.toLocaleString('ja-JP') + '台');
+    setText('statMachinesNote', '一次情報確認済み' + confirmed.length + '店舗の合計');
     setText('statPrefs', Object.keys(prefs).length + '都道府県');
     if (topStore) {
       setText('statTop', machinesText(topStore.machines));
@@ -694,6 +724,10 @@
       return;
     }
 
+    /* 参照元URLと確認日のどちらかが欠ける個別ページは、閲覧機能を残しつつ
+       検索インデックスから外す。生成HTML側と同じ品質ゲートをJS側でも担保する。 */
+    if (!isVerified(store)) markNoindex();
+
     /* 旧 /spot.html?id=... を静的な店舗URLへ集約する。 */
     if (getParam('id') && !window.GH_SPOT_STATIC_ID) {
       location.replace('/spot/' + encodeURIComponent(store.id) + '.html');
@@ -704,11 +738,30 @@
     window.GH_SPOT_ID = 'spot-' + store.id;
 
     /* <head> */
-    var pageTitle = store.name + '｜設置台数・営業時間・掲示板 | ガチャひろば';
-    var pageDesc = store.name + '（' + store.area + '）のガチャガチャ設置情報。' +
-      (store.machines ? '設置台数' + machinesText(store.machines) + '、' : '') +
-      (store.hours ? '営業時間 ' + store.hours + '。' : '') +
-      '住所・アクセス・地図・店舗ごとの掲示板で入荷情報や混雑状況をチェック。';
+    var verified = isVerified(store);
+    var soon = isPreOpen(store);
+    var verifiedTitleParts = [
+      store.machines != null ? '設置台数' : '',
+      store.hours ? '営業時間' : '',
+      '店舗情報',
+      '掲示板'
+    ].filter(Boolean);
+    var pageTitle = soon
+      ? store.name + '｜' + openDateText(store.opensOn, true) + 'オープン予定・アクセス・掲示板 | ガチャひろば'
+      : store.name + (verified
+        ? '｜' + verifiedTitleParts.join('・') + ' | ガチャひろば'
+        : '｜店舗情報の確認状況・アクセス・掲示板 | ガチャひろば');
+    var pageDesc = soon
+      ? store.name + '（' + store.area + '）は' + openDateText(store.opensOn, true) +
+        'オープン予定のガチャガチャ・カプセルトイ専門店です。' +
+        (store.hours ? '営業時間 ' + store.hours + '。' : '') +
+        '住所・アクセス・地図に加えて、オープン初日の混雑や入荷情報を掲示板で共有できます。'
+      : store.name + '（' + store.area + '）のガチャガチャ設置情報。' +
+        (verified && store.machines != null ? '設置台数' + machinesText(store.machines) + '、' : '') +
+        (verified && store.hours ? '営業時間 ' + store.hours + '。' : '') +
+        (verified
+          ? '住所・アクセス・地図・店舗ごとの掲示板で入荷情報や混雑状況をチェック。'
+          : '掲載情報は一次情報の確認作業中で、検索エンジンの掲載対象から外しています。');
     document.title = pageTitle;
     var metaDesc = document.querySelector('meta[name="description"]');
     if (metaDesc) metaDesc.setAttribute('content', pageDesc);
@@ -735,8 +788,8 @@
       'description': pageDesc
     };
     if (store.zip) ld.address.postalCode = store.zip;
-    if (store.tel) ld.telephone = store.tel;
-    if (store.lat != null && store.lon != null) {
+    if (isVerified(store) && store.tel) ld.telephone = store.tel;
+    if (isVerified(store) && store.lat != null && store.lon != null) {
       ld.geo = { '@type': 'GeoCoordinates', 'latitude': store.lat, 'longitude': store.lon };
     }
     var crumbs = {
@@ -776,20 +829,22 @@
         '<a class="gh-badge gh-badge--lg" style="text-decoration:none" ' +
           'href="' + brandUrl(store.brand) + '" ' +
           'title="' + esc(store.brand) + 'の店舗一覧を見る">' + esc(store.brand) + '</a>' +
-        '<span class="gh-badge gh-badge--lg">' + esc(store.area) + '</span>';
+        '<span class="gh-badge gh-badge--lg">' + esc(store.area) + '</span>' +
+        '<span class="gh-badge gh-badge--lg">' +
+          (isVerified(store) ? '一次情報確認済み' : '一次情報を確認中') + '</span>';
     }
     var addr = qs('spotAddress');
     if (addr) {
       addr.innerHTML =
         '<span>📍 ' + esc((store.zip ? '〒' + store.zip + ' ' : '') + store.address) + '</span>' +
-        (store.access ? '<span class="gh-tophero__divider">｜</span><span>🚉 ' + esc(store.access) + '</span>' : '');
+        (isVerified(store) && store.access ? '<span class="gh-tophero__divider">｜</span><span>🚉 ' + esc(store.access) + '</span>' : '');
     }
 
     /* 見出し数値（株価の位置＝設置台数） */
-    setText('spotMachines', machinesText(store.machines));
-    setText('spotHours', store.hours
-      ? (isPreOpen(store) ? 'オープン後 ' + store.hours : '営業 ' + store.hours)
-      : '営業時間はお問い合わせ');
+    setText('spotMachines', verifiedMachinesText(store));
+    setText('spotHours', isVerified(store)
+      ? (store.hours ? (isPreOpen(store) ? 'オープン後 ' + store.hours : '営業 ' + store.hours) : '営業時間は公式情報をご確認ください')
+      : '営業時間は一次情報未確認');
 
     /* メトリクス。オープン前は台数がまだ分からないので、先頭の枠を開業日に差し替える */
     var metrics = qs('spotMetrics');
@@ -798,10 +853,13 @@
         (isPreOpen(store)
           ? metric('オープン予定', openDateText(store.opensOn, false),
               'あと' + daysLeft(store.opensOn) + '日', true)
-          : metric('設置台数', machinesText(store.machines), 'ガチャマシン', true)) +
-        metric('営業時間', store.hours || '—', isPreOpen(store) ? 'オープン後の予定' : '定休日は店舗にご確認ください') +
+          : metric('設置台数', verifiedMachinesText(store),
+              isVerified(store) ? '確認元を掲載しています' : '参考値は一次情報確認後に掲載', true)) +
+        metric('営業時間', verifiedHoursText(store), isVerified(store)
+          ? (isPreOpen(store) ? 'オープン後の予定' : '定休日は店舗にご確認ください')
+          : '確認完了後に掲載') +
         metric('エリア', store.area || '—', store.pref || '') +
-        metric('ブランド', store.brand || '—', '公式店舗');
+        metric('ブランド', store.brand || '—', isVerified(store) ? '一次情報確認済み' : '確認中');
     }
 
     /* 詳細情報テーブル */
@@ -813,10 +871,10 @@
           : '') +
         row('ブランド', store.brand) +
         row('住所', (store.zip ? '〒' + store.zip + '　' : '') + store.address) +
-        row('電話番号', store.tel ? '<a href="tel:' + esc(String(store.tel).replace(/[^0-9+]/g, '')) + '">' + esc(store.tel) + '</a>' : '', true) +
-        row('営業時間', store.hours) +
-        row('設置台数', machinesText(store.machines)) +
-        row('アクセス', store.access) +
+        row('電話番号', isVerified(store) && store.tel ? '<a href="tel:' + esc(String(store.tel).replace(/[^0-9+]/g, '')) + '">' + esc(store.tel) + '</a>' : '', true) +
+        row('営業時間', verifiedHoursText(store)) +
+        row('設置台数', verifiedMachinesText(store)) +
+        row('アクセス', isVerified(store) ? store.access : '一次情報未確認') +
         row('エリア', store.area) +
         row('情報の確認元', store.sourceUrl
           ? '<a class="gh-official-source" href="' + esc(store.sourceUrl) + '" target="_blank" rel="noopener">確認元を開く ↗</a>'
@@ -886,13 +944,13 @@
       return 6371 * 2 * Math.atan2(Math.sqrt(x), Math.sqrt(1 - x));
     };
     var tier = function (s) { return s.area === store.area ? 0 : s.pref === store.pref ? 1 : 2; };
-    var others = SPOTS.filter(function (s) { return s.id !== store.id; }).sort(function (a, b) {
+    var others = SPOTS.filter(function (s) { return s.id !== store.id && isVerified(s); }).sort(function (a, b) {
       return (tier(a) - tier(b)) || (dist(store, a) - dist(store, b)) ||
         String(a.name).localeCompare(String(b.name), 'ja');
     }).slice(0, 6);
 
     if (!others.length) {
-      box.innerHTML = '<p class="gh-widget__text">同じエリアの登録店舗は準備中です。' +
+      box.innerHTML = '<p class="gh-widget__text">近隣の一次情報確認済み店舗は準備中です。' +
         '<a href="/stores.html">店舗一覧を見る →</a></p>';
       return;
     }
@@ -900,7 +958,7 @@
       return '<a href="/spot/' + encodeURIComponent(s.id) + '.html' + '" class="gh-nearby__item">' +
                '<span class="gh-rank">🏬</span>' +
                '<div><strong>' + esc(s.name) + '</strong>' +
-               '<small>' + esc(s.area) + ' ・ ' + machinesText(s.machines) + '</small></div>' +
+               '<small>' + esc(s.area) + ' ・ ' + verifiedMachinesText(s) + '</small></div>' +
              '</a>';
     }).join('');
   }
@@ -985,8 +1043,8 @@
             '<td><a class="gh-table__link" href="/spot/' + encodeURIComponent(s.id) + '.html' + '">' + esc(s.name) + '</a>' + openBadge(s) +
               '<small class="gh-store-brand">' + esc(s.brand) + '</small></td>' +
             '<td>' + esc(s.area) + '</td>' +
-            '<td>' + machinesText(s.machines) + '</td>' +
-            '<td>' + esc(s.hours || '—') + '</td>' +
+            '<td>' + verifiedMachinesText(s) + '</td>' +
+            '<td>' + esc(verifiedHoursText(s)) + '</td>' +
           '</tr>';
         }).join('') + '</tbody></table></div></section>';
       return;
@@ -996,13 +1054,16 @@
     if (brand) {
       if (!BRAND_SLUG[brand]) markNoindex();
       var bHits = SPOTS.filter(function (s) { return s.brand === brand; })
-        .sort(function (a, b) { return (b.machines || 0) - (a.machines || 0); });
+        .sort(function (a, b) {
+          return (Number(isVerified(b)) - Number(isVerified(a))) ||
+            ((isVerified(b) ? b.machines || 0 : 0) - (isVerified(a) ? a.machines || 0 : 0));
+        });
       var tabGroup3 = document.querySelector('.gh-tab-group');
       if (tabGroup3) tabGroup3.style.display = 'none';
       var title3 = document.querySelector('.gh-page-hero__title');
       if (title3) title3.textContent = brand + ' の店舗一覧';
       var desc3 = document.querySelector('.gh-page-hero__desc');
-      if (desc3) desc3.innerHTML = '「' + esc(brand) + '」の登録店舗 <strong id="storeCount">' + bHits.length + '</strong> 店舗を設置台数順に掲載しています。';
+      if (desc3) desc3.innerHTML = '「' + esc(brand) + '」の登録店舗 <strong id="storeCount">' + bHits.length + '</strong> 店舗を掲載。一次情報を確認できた店舗から案内しています。';
       document.title = brand + 'の店舗一覧（' + bHits.length + '店舗） | ガチャひろば';
       var bUrl = 'https://gacha-hiroba.com' + brandUrl(brand);
       setAttr('link[rel="canonical"]', 'href', bUrl);
@@ -1025,8 +1086,8 @@
             '<td><a class="gh-table__link" href="/spot/' + encodeURIComponent(s.id) + '.html' + '">' + esc(s.name) + '</a>' + openBadge(s) +
               '<small class="gh-store-brand">' + esc(s.brand) + '</small></td>' +
             '<td>' + esc(s.area) + '</td>' +
-            '<td>' + machinesText(s.machines) + '</td>' +
-            '<td>' + esc(s.hours || '—') + '</td>' +
+            '<td>' + verifiedMachinesText(s) + '</td>' +
+            '<td>' + esc(verifiedHoursText(s)) + '</td>' +
           '</tr>';
         }).join('') + '</tbody></table></div></section>';
       return;
@@ -1077,8 +1138,8 @@
             '<td><a class="gh-table__link" href="/spot/' + encodeURIComponent(s.id) + '.html' + '">' + esc(s.name) + '</a>' + openBadge(s) +
               '<small class="gh-store-brand">' + esc(s.brand) + '</small></td>' +
             '<td>' + esc(s.area) + '</td>' +
-            '<td>' + machinesText(s.machines) + '</td>' +
-            '<td>' + esc(s.hours || '—') + '</td>' +
+            '<td>' + verifiedMachinesText(s) + '</td>' +
+            '<td>' + esc(verifiedHoursText(s)) + '</td>' +
           '</tr>';
       });
       html += '</tbody></table></div>';
@@ -1129,7 +1190,8 @@
   function renderSpotCards() {
     var box = document.querySelector('[data-gh-spot-cards]');
     if (!box) return;
-    var top = SPOTS.slice().sort(function (a, b) { return (b.machines || 0) - (a.machines || 0); }).slice(0, 3);
+    var top = SPOTS.filter(function (s) { return isVerified(s) && s.machines != null; })
+      .sort(function (a, b) { return (b.machines || 0) - (a.machines || 0); }).slice(0, 3);
     if (!top.length) return;
     var grads = ['gh-spot-card__img--akiba', 'gh-spot-card__img--osaka', 'gh-spot-card__img--nagoya'];
     box.innerHTML = top.map(function (s, i) {
@@ -1154,7 +1216,8 @@
   function renderTicker() {
     var box = document.querySelector('[data-gh-ticker]');
     if (!box) return;
-    var top = SPOTS.slice().sort(function (a, b) { return (b.machines || 0) - (a.machines || 0); }).slice(0, 8);
+    var top = SPOTS.filter(function (s) { return isVerified(s) && s.machines != null; })
+      .sort(function (a, b) { return (b.machines || 0) - (a.machines || 0); }).slice(0, 8);
     if (!top.length) return;
     var item = function (s, i) {
       var cls = 'gh-ticker-item' + (i === 0 ? ' gh-ticker-item--hot' : '');
@@ -1186,8 +1249,9 @@
           return '<a href="' + url + '" class="gh-pref-card' + (i === 0 ? ' gh-pref-card--top' : '') + '">' +
                    '<span class="gh-pref-card__name">' + esc(g.pref) + '</span>' +
                    '<span class="gh-pref-card__count">' + g.count + '店舗</span>' +
-                   '<div class="gh-pref-card__top"><small>設置台数トップ</small>' +
-                     '<strong>' + esc(g.top.name) + '（' + machinesText(g.top.machines) + '）</strong></div>' +
+                   (g.top ? '<div class="gh-pref-card__top"><small>確認済み設置台数トップ</small>' +
+                     '<strong>' + esc(g.top.name) + '（' + machinesText(g.top.machines) + '）</strong></div>' :
+                     '<div class="gh-pref-card__top"><small>設置台数</small><strong>一次情報を確認中</strong></div>') +
                  '</a>';
         }
         return '<a href="' + url + '" class="gh-area-card">' +

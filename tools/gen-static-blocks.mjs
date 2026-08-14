@@ -29,6 +29,7 @@ const esc = s => String(s)
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 const machinesText = n => (n == null || n === '') ? '—' : '約' + Number(n).toLocaleString('ja-JP') + '台';
+const isVerified = s => !!(s && s.sourceUrl && s.verifiedAt);
 const todayJst = new Date(Date.now() + 9 * 3600 * 1000).toISOString().slice(0, 10);
 const isOpen = s => !(s.opensOn && s.opensOn > todayJst);
 const storePath = (s, board = false) => '/spot/' + encodeURIComponent(s.id) + '.html' + (board ? '#board' : '');
@@ -77,7 +78,7 @@ spots.forEach(s => {
 
 /* 各都道府県の代表店（設置台数が最も多い店）を1件添えると、リンク先の中身が想像できる */
 const topOf = pref => spots
-  .filter(s => s.pref === pref)
+  .filter(s => s.pref === pref && isVerified(s) && s.machines != null)
   .sort((a, b) => (b.machines || 0) - (a.machines || 0))[0];
 
 const prefCount = new Set(spots.map(s => s.pref)).size;
@@ -104,8 +105,8 @@ const block =
   '    <p class="gh-prefindex__lead">' +
   '「ガチャひろば」では、全国' + prefCount + '都道府県・' + spots.length + '店舗のガチャガチャ設置スポットを掲載しています。' +
   'ガチャガチャの森・ガシャポンのデパート・#C-pla・カプセル楽局などの専門店に加え、' +
-  '家電量販店や商業施設の設置コーナーも対象です。各店舗ページでは、住所・アクセス・営業時間・' +
-  'おおよその設置台数に加えて、その店舗専用の掲示板で入荷や混雑の情報を交換できます。' +
+  '家電量販店や商業施設の設置コーナーも対象です。一次情報URLと確認日がそろう店舗では、住所・アクセス・営業時間・' +
+  '確認できた設置台数を確認元とともに案内します。確認前の情報は検索対象から外し、個別ページに確認状況を表示します。' +
   '下記の都道府県から探すか、ページ上部の検索ボックスに駅名・エリア名・店名を入力してください。</p>\n' +
   regionBlocks + '\n  </div>\n';
 
@@ -122,7 +123,8 @@ for (const rel of TARGETS) {
 }
 
 /* ── 共通の静的一覧パーツ ─────────────────────────────────────────── */
-const ranked = spots.filter(isOpen).slice().sort((a, b) => (b.machines || 0) - (a.machines || 0));
+const ranked = spots.filter(s => isOpen(s) && isVerified(s) && s.machines != null)
+  .slice().sort((a, b) => (b.machines || 0) - (a.machines || 0));
 
 function rankingRows(limit) {
   return ranked.slice(0, limit).map((s, i) => {
@@ -143,15 +145,16 @@ function articleStoreCount(article) {
     return spots.filter(s => {
       if (article.ranking.pref && s.pref !== article.ranking.pref) return false;
       if (article.ranking.region && s.region !== article.ranking.region) return false;
-      return s.machines != null;
+      return isVerified(s) && s.machines != null;
     }).sort((a, b) => (b.machines || 0) - (a.machines || 0))
       .slice(0, article.ranking.limit || 10).length;
   }
-  return spots.filter(s => (article.areas || []).includes(s.area)).length;
+  return spots.filter(s => isVerified(s) && (article.areas || []).includes(s.area)).length;
 }
 
 function articleLinks(limit = 0) {
-  const list = limit > 0 ? articles.slice(0, limit) : articles;
+  const indexable = articles.filter(a => a.type === 'guide');
+  const list = limit > 0 ? indexable.slice(0, limit) : indexable;
   return list.map(a => {
     const badge = a.ranking ? 'ランキング' : a.type === 'guide' ? 'ガイド' : 'まとめ';
     const count = articleStoreCount(a);
@@ -249,9 +252,10 @@ staticDone += updateMarkedPage('../index.html', {
   'HOME-ARTICLES': articleLinks(5),
   'HOME-AREAS': areaLinks
 }, html => {
-  const totalMachines = spots.reduce((n, s) => n + (Number(s.machines) || 0), 0);
+  const totalMachines = ranked.reduce((n, s) => n + (Number(s.machines) || 0), 0);
   html = replaceElementText(html, 'statStores', spots.length.toLocaleString('ja-JP') + '店舗');
   html = replaceElementText(html, 'statMachines', '約' + totalMachines.toLocaleString('ja-JP') + '台');
+  html = replaceElementText(html, 'statMachinesNote', '一次情報確認済み' + ranked.length + '店舗の合計');
   html = replaceElementText(html, 'statPrefs', prefCount + '都道府県');
   if (ranked[0]) {
     html = replaceElementText(html, 'statTop', machinesText(ranked[0].machines));
@@ -269,10 +273,11 @@ staticDone += updateMarkedPage('../board.html', {
   'BOARD-LIST': boardRows(20),
   'BOARD-SIDE': boardSide
 }, html => {
-  const totalMachines = spots.reduce((n, s) => n + (Number(s.machines) || 0), 0);
+  const totalMachines = ranked.reduce((n, s) => n + (Number(s.machines) || 0), 0);
   html = replaceElementText(html, 'boardStatBoards', spots.length + '板');
   html = replaceElementText(html, 'boardStatPrefs', prefCount + '都道府県');
   html = replaceElementText(html, 'boardStatMachines', '約' + totalMachines.toLocaleString('ja-JP') + '台');
+  html = replaceElementText(html, 'boardStatMachinesNote', '一次情報確認済み' + ranked.length + '店舗の合計');
   if (ranked[0]) {
     html = replaceElementText(html, 'boardStatTop', ranked[0].name);
     html = replaceElementText(html, 'boardStatTopSub', machinesText(ranked[0].machines) + '（台数1位）');

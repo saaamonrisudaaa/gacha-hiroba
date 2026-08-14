@@ -21,7 +21,6 @@
   <script src="data/spots.js" defer></script>
   <script src="data/articles.js" defer></script>
   <script src="spots-ui.js" defer></script>
-  <script src="data/ads.js" defer></script>
   <script src="script.js" defer></script>
 </head>
 <body>
@@ -83,7 +82,7 @@
             <div id="articleStores"></div>
 
             <div class="gh-article__tips" id="articleTipsBox" hidden>
-              <h2 class="gh-article__h2">編集部メモ（回り方のコツ）</h2>
+              <h2 class="gh-article__h2">実用メモ（確認のコツ）</h2>
               <ul id="articleTips"></ul>
             </div>
 
@@ -92,36 +91,12 @@
               <div id="articleFaq"></div>
             </div>
 
-            <p class="gh-detail-note">※掲載情報は各店舗・公式サイトをもとにした参考情報です。最新の営業時間・在庫は店舗または公式サイトでご確認ください。店舗データが更新されると本記事の一覧も自動で最新になります。</p>
+            <p class="gh-detail-note">※店舗情報には一次情報の確認作業中の項目も含まれます。未確認店舗の設置台数は集計せず「未確認」と表示します。最新情報は店舗・施設または確認元の公式ページでご確認ください。<a href="methodology.html">データ確認方法を見る</a></p>
           </article>
-
-          <!-- 楽天市場でチェック（アフィリエイト） -->
-          <!-- ガチャ関連グッズ（文脈広告・data/ads.js の gachaGoods を描画） -->
-          <section class="gh-section gh-goods-sec" hidden>
-            <div class="gh-section__header">
-              <h2 class="gh-section__title">🎁 ガチャ好きに人気のアイテム <span class="gh-affil__pr">PR</span></h2>
-            </div>
-            <div data-gh-gacha-goods></div>
-          </section>
-
-          <section class="gh-section gh-featured-sec" hidden>
-            <div class="gh-section__header">
-              <h2 class="gh-section__title">🛒 楽天市場でチェック <span class="gh-affil__pr">PR</span></h2>
-            </div>
-            <div class="gh-featured" data-gh-featured></div>
-          </section>
 
         </div>
 
         <aside class="gh-sidebar">
-          <div class="gh-ad" aria-label="広告">
-            <span class="gh-ad__label">広告</span>
-            <div class="gh-ad__body">
-              <strong>スポンサーリンク</strong>
-              <small>広告枠（レスポンシブ / 300×250）</small>
-            </div>
-          </div>
-
           <div class="gh-widget">
             <h3 class="gh-widget__title">他のエリアのまとめ記事</h3>
             <ul class="gh-category-list" id="articleRelated"></ul>
@@ -145,11 +120,11 @@
       <div class="gh-footer__main">
         <div class="gh-footer__brand">
           <a class="gh-logo" href="index.html"><img class="gh-logo__icon" src="assets/mascot-icon.png" alt="ガチャひろばのマスコット" width="34" height="34" /><span class="gh-logo__text">ガチャ<em>ひろば</em></span></a>
-          <p>全国のガチャガチャ設置場所情報を網羅。<br />あなたのガチャライフをサポートします。</p>
+          <p>全国のガチャガチャ設置場所情報を掲載。<br />あなたのガチャライフをサポートします。</p>
         </div>
         <div class="gh-footer__links">
           <div><strong>サービス</strong><a href="index.html">トップ</a><a href="stores.html">店舗一覧</a><a href="ranking.html">ランキング</a><a href="map.html">マップ検索</a></div>
-          <div><strong>情報</strong><a href="about.html">運営者・編集方針</a><a href="board.html">掲示板</a><a href="news.html">新着情報</a><a href="area.html">エリア別</a></div>
+          <div><strong>情報</strong><a href="about.html">運営者・編集方針</a><a href="methodology.html">データ確認方法</a><a href="board.html">掲示板</a><a href="news.html">新着情報</a><a href="area.html">エリア別</a></div>
           <div><strong>サポート</strong><a href="contact.html">お問い合わせ</a><a href="terms.html">利用規約</a><a href="privacy.html">プライバシー</a><a href="sitemap.html">サイトマップ</a><a href="english.html">English</a><a href="advertising.html">広告掲載</a></div>
         </div>
       </div>

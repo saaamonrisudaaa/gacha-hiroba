@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="google-site-verification" content="YN5Q0DnCsIhwgitcXjcGqxlmfMec80Wl0uZskCNS11w" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex,follow" />
   <meta name="description" content="ガチャひろばの掲示板。全国のガチャスポットごとの掲示板で、入荷情報・混雑状況・狙い目をリアルタイムに共有できます。投稿数・勢いランキングや新着投稿をチェック。" />
   <title>掲示板 | ガチャひろば</title>
   <link rel="canonical" href="https://gacha-hiroba.com/board.html" />
@@ -19,7 +20,6 @@
   <link rel="stylesheet" href="styles.css" />
   <script src="data/spots.js" defer></script>
   <script src="spots-ui.js" defer></script>
-  <script src="data/ads.js" defer></script>
   <!-- 新着書き込みのフォールバック用（Supabase が読めないときもハブが空にならない） -->
   <script src="script.js" defer></script>
 </head>
@@ -91,14 +91,14 @@
           <span class="gh-summary-card__change">順次拡大中</span>
         </div>
         <div class="gh-summary-card">
-          <span class="gh-summary-card__label">合計設置台数</span>
-          <span class="gh-summary-card__value" id="boardStatMachines">約105,390台</span>
-          <span class="gh-summary-card__change">全店舗の合計（目安）</span>
+          <span class="gh-summary-card__label">確認済み設置台数</span>
+          <span class="gh-summary-card__value" id="boardStatMachines">約31,025台</span>
+          <span class="gh-summary-card__change" id="boardStatMachinesNote">一次情報確認済み78店舗の合計</span>
         </div>
         <div class="gh-summary-card">
-          <span class="gh-summary-card__label">最大スポット</span>
-          <span class="gh-summary-card__value" id="boardStatTop">ガシャポンのデパート 池袋総本店</span>
-          <span class="gh-summary-card__change" id="boardStatTopSub">約3,000台（台数1位）</span>
+          <span class="gh-summary-card__label">確認済み最大</span>
+          <span class="gh-summary-card__value" id="boardStatTop">ガチャガチャの森 メイカーズピア店</span>
+          <span class="gh-summary-card__change" id="boardStatTopSub">約1,050台（台数1位）</span>
         </div>
       </div>
 
@@ -150,26 +150,26 @@
                 </thead>
                 <tbody data-gh-board-table>
                   <!-- GH:BOARD-LIST:START -->
-                    <tr class="gh-table__row--top"><td><span class="gh-rank gh-rank--1">1</span></td><td><a href="/spot/gashadepa-ikebukuro-honten.html#board" class="gh-table__link">ガシャポンのデパート 池袋総本店</a></td><td>東京都・池袋</td><td class="gh-num">約3,000台</td><td><a href="/spot/gashadepa-ikebukuro-honten.html#board" class="gh-btn gh-btn--xs">見る</a></td></tr>
-                    <tr><td><span class="gh-rank gh-rank--2">2</span></td><td><a href="/spot/yodobashi-ikebukuro-gacha-jungle.html#board" class="gh-table__link">ヨドバシカメラ マルチメディア池袋 ガチャガチャジャングル</a></td><td>東京都・池袋</td><td class="gh-num">約3,000台</td><td><a href="/spot/yodobashi-ikebukuro-gacha-jungle.html#board" class="gh-btn gh-btn--xs">見る</a></td></tr>
-                    <tr><td><span class="gh-rank gh-rank--3">3</span></td><td><a href="/spot/ggmori-umeda-chayamachi.html#board" class="gh-table__link">ガチャガチャの森 梅田茶屋町店</a></td><td>大阪府・梅田</td><td class="gh-num">約2,400台</td><td><a href="/spot/ggmori-umeda-chayamachi.html#board" class="gh-btn gh-btn--xs">見る</a></td></tr>
-                    <tr><td><span class="gh-rank">4</span></td><td><a href="/spot/cpla-shibuya-center-gai.html#board" class="gh-table__link">#C-pla 渋谷センター街店</a></td><td>東京都・渋谷</td><td class="gh-num">約2,350台</td><td><a href="/spot/cpla-shibuya-center-gai.html#board" class="gh-btn gh-btn--xs">見る</a></td></tr>
-                    <tr><td><span class="gh-rank">5</span></td><td><a href="/spot/cpla-adhoc-shinjuku.html#board" class="gh-table__link">#C-pla アドホック新宿店</a></td><td>東京都・新宿</td><td class="gh-num">約2,200台</td><td><a href="/spot/cpla-adhoc-shinjuku.html#board" class="gh-btn gh-btn--xs">見る</a></td></tr>
-                    <tr><td><span class="gh-rank">6</span></td><td><a href="/spot/gashadepa-yokohama-wp.html#board" class="gh-table__link">ガシャポンのデパート 横浜ワールドポーターズ店</a></td><td>神奈川県・みなとみらい</td><td class="gh-num">約2,200台</td><td><a href="/spot/gashadepa-yokohama-wp.html#board" class="gh-btn gh-btn--xs">見る</a></td></tr>
-                    <tr><td><span class="gh-rank">7</span></td><td><a href="/spot/gashadepa-canalcity-hakata.html#board" class="gh-table__link">ガシャポンのデパート キャナルシティ博多店</a></td><td>福岡県・博多</td><td class="gh-num">約2,200台</td><td><a href="/spot/gashadepa-canalcity-hakata.html#board" class="gh-btn gh-btn--xs">見る</a></td></tr>
-                    <tr><td><span class="gh-rank">8</span></td><td><a href="/spot/yodobashi-umeda-gacha.html#board" class="gh-table__link">ヨドバシカメラ マルチメディア梅田（ガチャガチャコーナー）</a></td><td>大阪府・梅田</td><td class="gh-num">約1,800台</td><td><a href="/spot/yodobashi-umeda-gacha.html#board" class="gh-btn gh-btn--xs">見る</a></td></tr>
-                    <tr><td><span class="gh-rank">9</span></td><td><a href="/spot/gashadepa-tachikawa-takashimaya.html#board" class="gh-table__link">ガシャポンのデパート 立川高島屋S.C.店</a></td><td>東京都・立川</td><td class="gh-num">約1,610台</td><td><a href="/spot/gashadepa-tachikawa-takashimaya.html#board" class="gh-btn gh-btn--xs">見る</a></td></tr>
-                    <tr><td><span class="gh-rank">10</span></td><td><a href="/spot/gashacoco-ikebukuro.html#board" class="gh-table__link">gashacoco（ガシャココ）池袋</a></td><td>東京都・池袋</td><td class="gh-num">約1,500台</td><td><a href="/spot/gashacoco-ikebukuro.html#board" class="gh-btn gh-btn--xs">見る</a></td></tr>
-                    <tr><td><span class="gh-rank">11</span></td><td><a href="/spot/ggmori-ikebukuro-sunshine-alta.html#board" class="gh-table__link">ガチャガチャの森 池袋サンシャインシティアルタ店</a></td><td>東京都・池袋</td><td class="gh-num">約1,240台</td><td><a href="/spot/ggmori-ikebukuro-sunshine-alta.html#board" class="gh-btn gh-btn--xs">見る</a></td></tr>
-                    <tr><td><span class="gh-rank">12</span></td><td><a href="/spot/ggmori-megadonki-utsunomiya.html#board" class="gh-table__link">ガチャガチャの森 MEGAドン・キホーテ宇都宮店</a></td><td>栃木県・宇都宮</td><td class="gh-num">約1,220台</td><td><a href="/spot/ggmori-megadonki-utsunomiya.html#board" class="gh-btn gh-btn--xs">見る</a></td></tr>
-                    <tr><td><span class="gh-rank">13</span></td><td><a href="/spot/ggmori-sakuragicho-colette.html#board" class="gh-table__link">ガチャガチャの森 桜木町コレットマーレ店</a></td><td>神奈川県・桜木町</td><td class="gh-num">約1,180台</td><td><a href="/spot/ggmori-sakuragicho-colette.html#board" class="gh-btn gh-btn--xs">見る</a></td></tr>
-                    <tr><td><span class="gh-rank">14</span></td><td><a href="/spot/cpla-premium-omokado.html#board" class="gh-table__link">#C-pla premium 東急プラザ表参道オモカド店</a></td><td>東京都・表参道</td><td class="gh-num">約1,164台</td><td><a href="/spot/cpla-premium-omokado.html#board" class="gh-btn gh-btn--xs">見る</a></td></tr>
-                    <tr><td><span class="gh-rank">15</span></td><td><a href="/spot/ggmori-shinjuku-subnade.html#board" class="gh-table__link">ガチャガチャの森 新宿サブナード店</a></td><td>東京都・新宿</td><td class="gh-num">約1,050台</td><td><a href="/spot/ggmori-shinjuku-subnade.html#board" class="gh-btn gh-btn--xs">見る</a></td></tr>
-                    <tr><td><span class="gh-rank">16</span></td><td><a href="/spot/gachagachanomori-makers-pier.html#board" class="gh-table__link">ガチャガチャの森 メイカーズピア店</a></td><td>愛知県・金城ふ頭</td><td class="gh-num">約1,050台</td><td><a href="/spot/gachagachanomori-makers-pier.html#board" class="gh-btn gh-btn--xs">見る</a></td></tr>
-                    <tr><td><span class="gh-rank">17</span></td><td><a href="/spot/gachagachanomori-okanoue-plaza.html#board" class="gh-table__link">ガチャガチャの森 丘の上プラザ店</a></td><td>東京都・多摩センター</td><td class="gh-num">約1,009台</td><td><a href="/spot/gachagachanomori-okanoue-plaza.html#board" class="gh-btn gh-btn--xs">見る</a></td></tr>
-                    <tr><td><span class="gh-rank">18</span></td><td><a href="/spot/yodobashi-yokohama-gacha.html#board" class="gh-table__link">ヨドバシカメラ マルチメディア横浜（ガチャガチャコーナー）</a></td><td>神奈川県・横浜駅</td><td class="gh-num">約1,000台</td><td><a href="/spot/yodobashi-yokohama-gacha.html#board" class="gh-btn gh-btn--xs">見る</a></td></tr>
-                    <tr><td><span class="gh-rank">19</span></td><td><a href="/spot/gashadepa-youmetown-hikarinomori.html#board" class="gh-table__link">ガシャポンのデパート ゆめタウン光の森店</a></td><td>熊本県・光の森</td><td class="gh-num">約1,000台</td><td><a href="/spot/gashadepa-youmetown-hikarinomori.html#board" class="gh-btn gh-btn--xs">見る</a></td></tr>
-                    <tr><td><span class="gh-rank">20</span></td><td><a href="/spot/ggmori-mito-opa.html#board" class="gh-table__link">ガチャガチャの森 水戸オーパ店</a></td><td>茨城県・水戸</td><td class="gh-num">約990台</td><td><a href="/spot/ggmori-mito-opa.html#board" class="gh-btn gh-btn--xs">見る</a></td></tr>
+                    <tr class="gh-table__row--top"><td><span class="gh-rank gh-rank--1">1</span></td><td><a href="/spot/gachagachanomori-makers-pier.html#board" class="gh-table__link">ガチャガチャの森 メイカーズピア店</a></td><td>愛知県・金城ふ頭</td><td class="gh-num">約1,050台</td><td><a href="/spot/gachagachanomori-makers-pier.html#board" class="gh-btn gh-btn--xs">見る</a></td></tr>
+                    <tr><td><span class="gh-rank gh-rank--2">2</span></td><td><a href="/spot/gachagachanomori-okanoue-plaza.html#board" class="gh-table__link">ガチャガチャの森 丘の上プラザ店</a></td><td>東京都・多摩センター</td><td class="gh-num">約1,009台</td><td><a href="/spot/gachagachanomori-okanoue-plaza.html#board" class="gh-btn gh-btn--xs">見る</a></td></tr>
+                    <tr><td><span class="gh-rank gh-rank--3">3</span></td><td><a href="/spot/gachagachanomori-pivot-cross.html#board" class="gh-table__link">ガチャガチャの森 ピヴォクロス店</a></td><td>北海道・大通</td><td class="gh-num">約979台</td><td><a href="/spot/gachagachanomori-pivot-cross.html#board" class="gh-btn gh-btn--xs">見る</a></td></tr>
+                    <tr><td><span class="gh-rank">4</span></td><td><a href="/spot/gachagachanomori-itsuki-mall-plaza.html#board" class="gh-table__link">ガチャガチャの森 樹モールプラザ店</a></td><td>埼玉県・川口</td><td class="gh-num">約860台</td><td><a href="/spot/gachagachanomori-itsuki-mall-plaza.html#board" class="gh-btn gh-btn--xs">見る</a></td></tr>
+                    <tr><td><span class="gh-rank">5</span></td><td><a href="/spot/capsulelab-aeonmall-toki.html#board" class="gh-table__link">カプセルラボ・キャラカプ イオンモール土岐店</a></td><td>岐阜県・土岐</td><td class="gh-num">約800台</td><td><a href="/spot/capsulelab-aeonmall-toki.html#board" class="gh-btn gh-btn--xs">見る</a></td></tr>
+                    <tr><td><span class="gh-rank">6</span></td><td><a href="/spot/gachagachanomori-maritime-takamatsu.html#board" class="gh-table__link">ガチャガチャの森 マリタイムプラザ高松店</a></td><td>香川県・高松</td><td class="gh-num">約736台</td><td><a href="/spot/gachagachanomori-maritime-takamatsu.html#board" class="gh-btn gh-btn--xs">見る</a></td></tr>
+                    <tr><td><span class="gh-rank">7</span></td><td><a href="/spot/gachagachanomori-t-face-toyota.html#board" class="gh-table__link">ガチャガチャの森 T-FACE店</a></td><td>愛知県・豊田</td><td class="gh-num">約733台</td><td><a href="/spot/gachagachanomori-t-face-toyota.html#board" class="gh-btn gh-btn--xs">見る</a></td></tr>
+                    <tr><td><span class="gh-rank">8</span></td><td><a href="/spot/gashadepa-plant3-shimizu.html#board" class="gh-table__link">ガシャポンのデパート PLANT-3 清水店</a></td><td>福井県・福井</td><td class="gh-num">約710台</td><td><a href="/spot/gashadepa-plant3-shimizu.html#board" class="gh-btn gh-btn--xs">見る</a></td></tr>
+                    <tr><td><span class="gh-rank">9</span></td><td><a href="/spot/gashadepa-tsutaya-marugame-gunge.html#board" class="gh-table__link">本屋さんのガシャポンのデパートTSUTAYA丸亀郡家店</a></td><td>香川県・丸亀</td><td class="gh-num">約700台</td><td><a href="/spot/gashadepa-tsutaya-marugame-gunge.html#board" class="gh-btn gh-btn--xs">見る</a></td></tr>
+                    <tr><td><span class="gh-rank">10</span></td><td><a href="/spot/gashadepa-edion-jr-amagasaki.html#board" class="gh-table__link">ガシャポンのデパート エディオンJR尼崎駅店</a></td><td>兵庫県・尼崎</td><td class="gh-num">約670台</td><td><a href="/spot/gashadepa-edion-jr-amagasaki.html#board" class="gh-btn gh-btn--xs">見る</a></td></tr>
+                    <tr><td><span class="gh-rank">11</span></td><td><a href="/spot/gachagacha-spot-kitara-toyota.html#board" class="gh-table__link">ガチャガチャスポットKiTARA</a></td><td>愛知県・豊田</td><td class="gh-num">約650台</td><td><a href="/spot/gachagacha-spot-kitara-toyota.html#board" class="gh-btn gh-btn--xs">見る</a></td></tr>
+                    <tr><td><span class="gh-rank">12</span></td><td><a href="/spot/metokyo-shinjuku.html#board" class="gh-table__link">ME TOKYO SHINJUKU</a></td><td>東京都・新宿</td><td class="gh-num">約600台</td><td><a href="/spot/metokyo-shinjuku.html#board" class="gh-btn gh-btn--xs">見る</a></td></tr>
+                    <tr><td><span class="gh-rank">13</span></td><td><a href="/spot/gashadepa-fairmall-fukui-owada.html#board" class="gh-table__link">ガシャポンのデパート フェアモール福井大和田店</a></td><td>福井県・福井</td><td class="gh-num">約600台</td><td><a href="/spot/gashadepa-fairmall-fukui-owada.html#board" class="gh-btn gh-btn--xs">見る</a></td></tr>
+                    <tr><td><span class="gh-rank">14</span></td><td><a href="/spot/gashadepa-lalaport-izumi.html#board" class="gh-table__link">ガシャポンのデパート ららぽーと和泉店</a></td><td>大阪府・和泉</td><td class="gh-num">約570台</td><td><a href="/spot/gashadepa-lalaport-izumi.html#board" class="gh-btn gh-btn--xs">見る</a></td></tr>
+                    <tr><td><span class="gh-rank">15</span></td><td><a href="/spot/gachagachanomori-asunal-kanayama.html#board" class="gh-table__link">ガチャガチャの森 アスナル金山店</a></td><td>愛知県・金山</td><td class="gh-num">約550台</td><td><a href="/spot/gachagachanomori-asunal-kanayama.html#board" class="gh-btn gh-btn--xs">見る</a></td></tr>
+                    <tr><td><span class="gh-rank">16</span></td><td><a href="/spot/capsulelab-youmetown-izumo.html#board" class="gh-table__link">カプセルラボ ゆめタウン出雲店</a></td><td>島根県・出雲</td><td class="gh-num">約500台</td><td><a href="/spot/capsulelab-youmetown-izumo.html#board" class="gh-btn gh-btn--xs">見る</a></td></tr>
+                    <tr><td><span class="gh-rank">17</span></td><td><a href="/spot/dreamcapsule-nagoya-central-park.html#board" class="gh-table__link">ドリームカプセル 名古屋栄セントラルパーク店</a></td><td>愛知県・栄</td><td class="gh-num">約500台</td><td><a href="/spot/dreamcapsule-nagoya-central-park.html#board" class="gh-btn gh-btn--xs">見る</a></td></tr>
+                    <tr><td><span class="gh-rank">18</span></td><td><a href="/spot/gachagachanomori-onoda-sunpark.html#board" class="gh-table__link">ガチャガチャの森 おのだサンパーク店</a></td><td>山口県・山陽小野田</td><td class="gh-num">約500台</td><td><a href="/spot/gachagachanomori-onoda-sunpark.html#board" class="gh-btn gh-btn--xs">見る</a></td></tr>
+                    <tr><td><span class="gh-rank">19</span></td><td><a href="/spot/gashadepa-alplaza-uji-higashi.html#board" class="gh-table__link">ガシャポンのデパート アルプラザ宇治東店</a></td><td>京都府・宇治</td><td class="gh-num">約500台</td><td><a href="/spot/gashadepa-alplaza-uji-higashi.html#board" class="gh-btn gh-btn--xs">見る</a></td></tr>
+                    <tr><td><span class="gh-rank">20</span></td><td><a href="/spot/gashadepa-miyakocity.html#board" class="gh-table__link">ガシャポンのデパート 宮交シティ店</a></td><td>宮崎県・南宮崎</td><td class="gh-num">約490台</td><td><a href="/spot/gashadepa-miyakocity.html#board" class="gh-btn gh-btn--xs">見る</a></td></tr>
                   <!-- GH:BOARD-LIST:END -->
                 </tbody>
               </table>
@@ -178,37 +178,20 @@
             <p class="gh-detail-note" style="margin-top:12px">「見る」を押すと、その店舗の掲示板に移動できます。入荷情報・混雑状況・狙い目をみんなで共有しましょう。</p>
           </section>
 
-          <!-- 楽天市場でチェック（アフィリエイト / data/ads.js の featured を描画） -->
-          <section class="gh-section gh-featured-sec" hidden>
-            <div class="gh-section__header">
-              <h2 class="gh-section__title">🛒 楽天市場でチェック <span class="gh-affil__pr">PR</span></h2>
-            </div>
-            <div class="gh-featured" data-gh-featured></div>
-          </section>
-
         </div>
 
         <!-- Sidebar -->
         <aside class="gh-sidebar">
 
-          <!-- 広告枠 -->
-          <div class="gh-ad" aria-label="広告">
-            <span class="gh-ad__label">広告</span>
-            <div class="gh-ad__body">
-              <strong>スポンサーリンク</strong>
-              <small>広告枠（レスポンシブ / 300×250）</small>
-            </div>
-          </div>
-
           <div class="gh-widget">
             <h3 class="gh-widget__title">大型スポットの掲示板</h3>
             <ol class="gh-trending-list" data-gh-board-side>
               <!-- GH:BOARD-SIDE:START -->
-                <li><a href="/spot/gashadepa-ikebukuro-honten.html#board">ガシャポンのデパート 池袋総本店</a><span class="gh-category-item__count">約3,000台</span></li>
-                <li><a href="/spot/yodobashi-ikebukuro-gacha-jungle.html#board">ヨドバシカメラ マルチメディア池袋 ガチャガチャジャングル</a><span class="gh-category-item__count">約3,000台</span></li>
-                <li><a href="/spot/ggmori-umeda-chayamachi.html#board">ガチャガチャの森 梅田茶屋町店</a><span class="gh-category-item__count">約2,400台</span></li>
-                <li><a href="/spot/cpla-shibuya-center-gai.html#board">#C-pla 渋谷センター街店</a><span class="gh-category-item__count">約2,350台</span></li>
-                <li><a href="/spot/cpla-adhoc-shinjuku.html#board">#C-pla アドホック新宿店</a><span class="gh-category-item__count">約2,200台</span></li>
+                <li><a href="/spot/gachagachanomori-makers-pier.html#board">ガチャガチャの森 メイカーズピア店</a><span class="gh-category-item__count">約1,050台</span></li>
+                <li><a href="/spot/gachagachanomori-okanoue-plaza.html#board">ガチャガチャの森 丘の上プラザ店</a><span class="gh-category-item__count">約1,009台</span></li>
+                <li><a href="/spot/gachagachanomori-pivot-cross.html#board">ガチャガチャの森 ピヴォクロス店</a><span class="gh-category-item__count">約979台</span></li>
+                <li><a href="/spot/gachagachanomori-itsuki-mall-plaza.html#board">ガチャガチャの森 樹モールプラザ店</a><span class="gh-category-item__count">約860台</span></li>
+                <li><a href="/spot/capsulelab-aeonmall-toki.html#board">カプセルラボ・キャラカプ イオンモール土岐店</a><span class="gh-category-item__count">約800台</span></li>
               <!-- GH:BOARD-SIDE:END -->
             </ol>
           </div>
@@ -240,11 +223,11 @@
       <div class="gh-footer__main">
         <div class="gh-footer__brand">
           <a class="gh-logo" href="index.html"><img class="gh-logo__icon" src="assets/mascot-icon.png" alt="ガチャひろばのマスコット" width="34" height="34" /><span class="gh-logo__text">ガチャ<em>ひろば</em></span></a>
-          <p>全国のガチャガチャ設置場所情報を網羅。<br />あなたのガチャライフをサポートします。</p>
+          <p>全国のガチャガチャ設置場所情報を掲載。<br />確認できた情報を随時更新しています。</p>
         </div>
         <div class="gh-footer__links">
           <div><strong>サービス</strong><a href="index.html">トップ</a><a href="board.html">掲示板</a><a href="news.html">新着情報</a><a href="ranking.html">ランキング</a></div>
-          <div><strong>情報</strong><a href="about.html">運営者・編集方針</a><a href="area.html">エリア別</a><a href="category.html">ブランド別</a><a href="advertising.html">広告掲載</a></div>
+          <div><strong>情報</strong><a href="about.html">運営者・編集方針</a><a href="methodology.html">データ確認方法</a><a href="area.html">エリア別</a><a href="category.html">ブランド別</a><a href="advertising.html">広告掲載</a></div>
           <div><strong>サポート</strong><a href="contact.html">お問い合わせ</a><a href="terms.html">利用規約</a><a href="privacy.html">プライバシー</a><a href="sitemap.html">サイトマップ</a><a href="english.html">English</a><a href="advertising.html">広告掲載</a></div>
         </div>
       </div>

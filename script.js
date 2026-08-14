@@ -1,11 +1,16 @@
 'use strict';
 
-/* ── Google Analytics 4 (gtag.js) ── 測定ID: G-6KSGDTM1VJ
-   ここ1か所で管理。プライバシーページなど data-gh-no-tracking を付けたページでは
-   外部計測を読み込まない。IDを変えるときは下の GA_ID を書き換えるだけ。 */
-if (!document.body?.hasAttribute('data-gh-no-tracking') && !/\/privacy\.html$/.test(location.pathname)) {
-  (function () {
-    var GA_ID = 'G-6KSGDTM1VJ';
+/* ── Google Analytics 4 ──
+   利用者が「解析を許可」を選ぶまで外部スクリプトを読み込まない。選択は端末内に保存し、
+   フッターの「Cookie設定」からいつでも変更できる。 */
+(function () {
+  var GA_ID = 'G-6KSGDTM1VJ';
+  var CONSENT_KEY = 'gh-analytics-consent-v1';
+  var noTracking = document.body?.hasAttribute('data-gh-no-tracking') || /\/privacy\.html$/.test(location.pathname);
+  function choice() { try { return localStorage.getItem(CONSENT_KEY); } catch (e) { return null; } }
+  function remember(value) { try { localStorage.setItem(CONSENT_KEY, value); } catch (e) {} }
+  function loadAnalytics() {
+    if (noTracking || window.gtag) return;
     var s = document.createElement('script');
     s.async = true;
     s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
@@ -14,9 +19,54 @@ if (!document.body?.hasAttribute('data-gh-no-tracking') && !/\/privacy\.html$/.t
     function gtag() { dataLayer.push(arguments); }
     window.gtag = gtag;
     gtag('js', new Date());
-    gtag('config', GA_ID);
-  })();
-}
+    gtag('config', GA_ID, { anonymize_ip: true });
+  }
+  function closeBanner() {
+    var el = document.querySelector('[data-gh-consent]');
+    if (el) el.remove();
+  }
+  function showBanner() {
+    closeBanner();
+    var box = document.createElement('aside');
+    box.className = 'gh-consent';
+    box.setAttribute('data-gh-consent', '');
+    box.setAttribute('role', 'dialog');
+    box.setAttribute('aria-label', 'アクセス解析のCookie設定');
+    box.innerHTML = '<div class="gh-consent__text"><strong>アクセス解析の設定</strong>' +
+      '<span>サイト改善のためGoogle Analyticsを利用します。許可するまで解析用スクリプトは読み込みません。' +
+      '<a href="/privacy.html">詳しい説明</a></span></div>' +
+      '<div class="gh-consent__actions"><button type="button" class="gh-btn" data-gh-consent-reject>許可しない</button>' +
+      '<button type="button" class="gh-btn gh-btn--primary" data-gh-consent-accept>解析を許可</button></div>';
+    document.body.appendChild(box);
+    box.querySelector('[data-gh-consent-reject]').addEventListener('click', function () {
+      remember('rejected'); closeBanner();
+    });
+    box.querySelector('[data-gh-consent-accept]').addEventListener('click', function () {
+      remember('accepted'); loadAnalytics(); closeBanner();
+    });
+  }
+  function initConsent() {
+    if (choice() === 'accepted') loadAnalytics();
+    else if (!choice()) showBanner();
+    document.querySelectorAll('.gh-footer__links').forEach(function (links) {
+      if (links.querySelector('[data-gh-consent-settings]')) return;
+      var groups = Array.from(links.children);
+      var support = groups.find(function (group) {
+        var heading = group.querySelector && group.querySelector('strong');
+        return heading && heading.textContent.trim() === 'サポート';
+      }) || groups[groups.length - 1] || links;
+      var button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'gh-footer__consent';
+      button.setAttribute('data-gh-consent-settings', '');
+      button.textContent = 'Cookie設定';
+      button.addEventListener('click', showBanner);
+      support.appendChild(button);
+    });
+  }
+  if (document.body) initConsent();
+  else document.addEventListener('DOMContentLoaded', initConsent, { once: true });
+})();
 
 /* ── GA4 event helper ──
    流入後に「検索→店舗詳細→経路」まで進めたかを判定するための最小イベント。 */
@@ -102,15 +152,15 @@ document.querySelectorAll('.gh-widget__form').forEach(form => {
 /* ── Supabase 接続情報（publishable=公開キー。書き込みはRLS・関数で制御） ── */
 const GH_SUPA_URL = 'https://vyzdekctlynzuaowopso.supabase.co';
 const GH_SUPA_KEY = 'sb_publishable_1GOi0AxMP1emK7hOC_wMeQ_jqmEL47E';
+let ghSupaClient = null;
+function getGhSupaClient() {
+  if (!(window.supabase && typeof window.supabase.createClient === 'function')) return null;
+  if (!ghSupaClient) ghSupaClient = window.supabase.createClient(GH_SUPA_URL, GH_SUPA_KEY);
+  return ghSupaClient;
+}
 
-/* ── アクセス数（裏側データ）──
-   ランキングの並び順にだけ使い、数値はどこにも表示しない。
-   Supabase の spot_views（閲覧カウント）を読み、多い順に順位を変動させる。
-   未設定・オフライン時は従来どおり設置台数順にフォールバック。 */
-let GH_VIEWS = null;                                    // { 店舗id: 閲覧数 }
-const ghViewsOf = s => (GH_VIEWS && GH_VIEWS[s.id]) || 0;
-
-/* ── Ranking: 実店舗（data/spots.js）をアクセス数→設置台数順に描画 ── */
+/* ── Ranking: 一次情報を確認できた設置台数だけで描画 ──
+   閲覧数や広告の有無は順位に使わず、確認元URL・確認日・台数がそろう店舗だけを対象にする。 */
 function renderRanking(key) {
   const tbody = document.querySelector('#rankingTable tbody');
   if (!tbody) return;
@@ -130,8 +180,9 @@ function renderRanking(key) {
   const jstToday = new Date(Date.now() + 9 * 3600 * 1000).toISOString().slice(0, 10);
   const open = s => !(s.opensOn && s.opensOn > jstToday);
 
-  const rows = spots.filter(s => inTab(s) && open(s)).sort((a, b) =>
-    (ghViewsOf(b) - ghViewsOf(a)) || ((b.machines || 0) - (a.machines || 0)));
+  const verified = s => !!(s && s.sourceUrl && s.verifiedAt && s.machines != null);
+  const rows = spots.filter(s => inTab(s) && open(s) && verified(s))
+    .sort((a, b) => (b.machines || 0) - (a.machines || 0));
   if (!rows.length) {
     tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--gh-muted);padding:22px">この地域の店舗は現在準備中です。</td></tr>';
     return;
@@ -287,12 +338,13 @@ if (location.hash === '#board') {
     if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') { e.preventDefault(); currentHandler(); }
   });
 
-  const canSupa = !!(window.supabase && typeof window.supabase.createClient === 'function');
+  const canSupa = !!getGhSupaClient();
   if (canSupa) startSharedBoard(); else startLocalBoard();
 
   /* ---------- Supabase 共有モード（全員の投稿を共有） ---------- */
   function startSharedBoard() {
-    const sb = window.supabase.createClient(GH_SUPA_URL, GH_SUPA_KEY);
+    const sb = getGhSupaClient();
+    if (!sb) { startLocalBoard(); return; }
     let total = 0;
     const toView = (p, num) => ({
       num, name: p.name || '名無しのガチャー', date: fmtDate(new Date(p.created_at)),
@@ -447,35 +499,17 @@ document.querySelectorAll('.gh-tab-group:not([data-tab-group-handled])').forEach
 /* ── Initial ranking render (ranking.html has empty tbody) ── */
 renderRanking('national');
 
-/* ── アクセス数を取得してランキングを並べ替え（index.html / ranking.html） ── */
-(function () {
-  if (!document.querySelector('#rankingTable tbody')) return;
-  if (!(window.supabase && typeof window.supabase.createClient === 'function')) return;
-  try {
-    const sb = window.supabase.createClient(GH_SUPA_URL, GH_SUPA_KEY);
-    sb.from('spot_views').select('spot,views')
-      .then(({ data, error }) => {
-        if (error || !data || !data.length) return;      // テーブル未作成なら台数順のまま
-        GH_VIEWS = {};
-        data.forEach(r => { GH_VIEWS[r.spot] = Number(r.views) || 0; });
-        const active = document.querySelector('[data-tab].active');
-        renderRanking(active ? active.dataset.tab : 'national');
-      })
-      .catch(() => { /* fallback: 台数順のまま */ });
-  } catch (e) { /* fallback */ }
-})();
-
 /* ── 閲覧カウント（spot.html）: 裏側データとして記録。画面には出さない ──
    同じタブでの再読み込み連打はカウントしない（sessionStorage ガード）。 */
 (function () {
   if (!document.getElementById('spotDetail')) return;
   const sid = (window.GH_SPOT_ID || '').replace(/^spot-/, '');
   if (!sid) return;
-  if (!(window.supabase && typeof window.supabase.createClient === 'function')) return;
+  const sb = getGhSupaClient();
+  if (!sb) return;
   const SEEN = 'gh-viewed:' + sid;
   try { if (sessionStorage.getItem(SEEN)) return; } catch (e) {}
   try {
-    const sb = window.supabase.createClient(GH_SUPA_URL, GH_SUPA_KEY);
     sb.rpc('increment_spot_view', { p_spot: sid }).then(({ error }) => {
       if (!error) { try { sessionStorage.setItem(SEEN, '1'); } catch (e) {} }
     }).catch(() => {});
@@ -537,6 +571,9 @@ renderRanking('national');
   var JST_TODAY = new Date(Date.now() + 9 * 3600 * 1000).toISOString().slice(0, 10);
   function isPreOpen(s) { return !!(s.opensOn && s.opensOn > JST_TODAY); }
   function soonText(s) { return s.opensOn.slice(5).split('-').map(Number).join('/'); }
+  function isVerified(s) { return !!(s && s.sourceUrl && s.verifiedAt); }
+  function mapMachines(s) { return isVerified(s) ? machinesText(s.machines) : '未確認'; }
+  function mapHours(s) { return isVerified(s) ? (s.hours || '要確認') : '未確認'; }
 
   /* 検索の正規化（全角→半角・小文字化・ハイフン/#除去）。「Cpla」「#C-pla」を同一視 */
   function norm(s) {
@@ -562,7 +599,7 @@ renderRanking('national');
   function filtered() {
     var arr = ALL.filter(function (s) {
       if (st.pref && s.pref !== st.pref) return false;
-      if (st.minMachines && !(Number(s.machines) >= st.minMachines)) return false;
+      if (st.minMachines && !(isVerified(s) && Number(s.machines) >= st.minMachines)) return false;
       /* 地図を自分で動かした後は、検索語を外して「見えている範囲」を優先する。 */
       if (st.query && !st.viewportMode) {
         var terms = norm(st.query).split(/\s+/).filter(Boolean);
@@ -588,14 +625,20 @@ renderRanking('national');
             distKm(st.here[0], st.here[1], b.lat, b.lon);
         });
       } else {
-        inView.sort(function (a, b) { return (b.machines || 0) - (a.machines || 0); });
+        inView.sort(function (a, b) {
+          return (Number(isVerified(b)) - Number(isVerified(a))) ||
+            ((isVerified(b) ? b.machines || 0 : 0) - (isVerified(a) ? a.machines || 0 : 0));
+        });
       }
       return { rows: inView, total: inView.length, nearestOutside: null };
     }
 
     /* 現在地なし：設置台数の多い順。ピンが多すぎると読めないので上限を掛ける */
     if (!st.here) {
-      var byMach = arr.slice().sort(function (a, b) { return (b.machines || 0) - (a.machines || 0); });
+      var byMach = arr.slice().sort(function (a, b) {
+        return (Number(isVerified(b)) - Number(isVerified(a))) ||
+          ((isVerified(b) ? b.machines || 0 : 0) - (isVerified(a) ? a.machines || 0 : 0));
+      });
       return { rows: byMach.slice(0, FAR_LIMIT), total: byMach.length, nearestOutside: null };
     }
 
@@ -650,8 +693,8 @@ renderRanking('national');
           '<div class="gh-map-spot__meta">' +
             (km == null ? '' : '<span class="gh-map-spot__dist">📍 ' + distText(km) +
               (walk ? '（' + walk + '）' : '') + '</span>') +
-            '<span>🎰 ' + machinesText(s.machines) + '</span>' +
-            '<span>🕒 ' + esc(s.hours || '—') + '</span>' +
+            '<span>🎰 ' + mapMachines(s) + '</span>' +
+            '<span>🕒 ' + esc(mapHours(s)) + '</span>' +
           '</div>' +
         '</div>' +
       '</a>' +
@@ -757,7 +800,7 @@ renderRanking('national');
       (km == null ? '' : '<span style="color:#1d4ed8;font-weight:700">📍 現在地から' + distText(km) +
         (walkText(km) ? '（' + walkText(km) + '）' : '') + '</span><br>') +
       '<span style="color:#6b7280">' + esc(s.area) + '</span><br>' +
-      '🎰 ' + machinesText(s.machines) + ' ・ 🕒 ' + esc(s.hours || '—') + '<br>' +
+      '🎰 ' + mapMachines(s) + ' ・ 🕒 ' + esc(mapHours(s)) + '<br>' +
       '<div class="gh-map-popup__actions">' +
         '<a href="/spot/' + encodeURIComponent(s.id) + '.html">詳細・掲示板</a>' +
         '<a href="' + esc(directionsUrl(s)) + '" target="_blank" rel="noopener">経路を見る ↗</a>' +
@@ -1569,6 +1612,7 @@ document.addEventListener('click', function (event) {
       return { r: k.release, word: k.word, mentions: mentions, d: diff(k.release.date) };
     });
     if (!items.length) return;
+    const hasMentions = items.some(it => it.mentions > 0);
     /* 言及が多い順 → 本日発売 → 直近の発売予定 → 少し前に出た新作。
        発売がまだ先の商品が先頭に来ないよう、日付の降順ではなく今日からの近さで並べる。 */
     const rank = it => (it.d === 0 ? [0, 0] : it.d > 0 ? [1, it.d] : [2, -it.d]);
@@ -1606,7 +1650,20 @@ document.addEventListener('click', function (event) {
         ? '<div class="gh-hot-rest">' + shown.slice(1).map(x => cell(x, false)).join('') + '</div>'
         : '');
     const sec = hotBox.closest('.gh-hot-sec');
-    if (sec) sec.hidden = false;
+    if (sec) {
+      const heading = sec.querySelector('.gh-section__title');
+      if (heading) {
+        const dot = heading.querySelector('.gh-live-dot');
+        const label = heading.querySelector('[data-gh-hot-heading]');
+        if (label) label.textContent = hasMentions ? '今日話題の商品' : '今週・近日発売の新作';
+        else heading.textContent = hasMentions ? '今日話題の商品' : '今週・近日発売の新作';
+        if (dot) {
+          dot.hidden = !hasMentions;
+          if (!label) heading.prepend(dot);
+        }
+      }
+      sec.hidden = false;
+    }
   }
 
   /* ── ⑦ サイドバー：いま書き込みが多い掲示板 ── */

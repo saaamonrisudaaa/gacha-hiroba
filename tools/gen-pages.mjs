@@ -24,26 +24,10 @@ let template = readFileSync(new URL('../spot.html', import.meta.url), 'utf8');
 template = template.replace(/(href|src)="(?!https?:|\/|#|tel:|mailto:|data:)([^"]+)"/g, '$1="/$2"');
 
 
-/* ブランドの事実ベースの説明（各チェーンの公表情報にもとづく一般的な特徴）。
-   薄い店舗ページに、その店を理解するための文脈を足すために使う。 */
-const BRAND_NOTE = {
-  'ガチャガチャの森': 'ガチャガチャの森は、全国のショッピングモールや駅前を中心に展開するカプセルトイ専門店チェーンです。木をイメージした店内に多数のマシンが並びます。',
-  'ガシャポンのデパート': 'ガシャポンのデパートは、バンダイナムコが展開するカプセルトイの大型専門店です。大量のマシンをそろえた「デパート」型の売り場が特徴です。',
-  'カプセル楽局': 'カプセル楽局は、ゲオグループが展開するカプセルトイ専門店です。駅前や商店街など、生活動線上の小型店を中心に出店しています。',
-  '#C-pla（シープラ）': '#C-pla（シープラ）は、トーシンが展開するカプセルトイ専門店です。商業施設内から路面店まで幅広く出店しています。',
-  'ガシャポンバンダイオフィシャルショップ': 'ガシャポンバンダイオフィシャルショップは、バンダイ公式のガシャポン専門ショップです。書店や映画館などの併設型店舗も多く展開しています。',
-  'gashacoco（ガシャココ）': 'gashacoco（ガシャココ）は、駅ビルや商業施設を中心に展開するカプセルトイ専門店です。',
-  'ドリームカプセル': 'ドリームカプセルは、マルイなどの商業施設を中心に展開するカプセルトイ専門店です。',
-  'CAPSULE LAB（カプコン）': 'カプセルラボは、カプコンが展開するカプセルトイ専門コーナーです。ショッピングモール内の大規模な売り場が特徴です。',
-  'ケンエレスタンド': 'ケンエレスタンドは、ケンエレファントが展開する大人向けカプセルトイのショップです。駅構内などに出店しています。',
-  'ガチャステ': 'ガチャステは、タイトーなどが手がけるカプセルトイ専門店です。アミューズメント施設との併設店もあります。',
-  'TOYS SPOT PALO': 'TOYS SPOT PALOは、イオンファンタジーが展開するカプセルトイ専門店です。',
-  'ヨドバシカメラ': 'ヨドバシカメラの一部店舗には、ホビー売り場を中心とした大規模なガチャガチャコーナーが設置されています。'
-};
-
 const esc = (s) => String(s == null ? '' : s)
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const machinesText = (n) => (n == null || n === '') ? '—' : '約' + Number(n).toLocaleString('ja-JP') + '台';
+const isVerified = (store) => Boolean(store && store.sourceUrl && store.verifiedAt);
 const spotPath = (id) => '/spot/' + encodeURIComponent(id) + '.html';
 const distanceKm = (a, b) => {
   if (a.lat == null || a.lon == null || b.lat == null || b.lon == null) return Number.POSITIVE_INFINITY;
@@ -52,7 +36,7 @@ const distanceKm = (a, b) => {
   const x = Math.sin(dLat / 2) ** 2 + Math.cos(rad(a.lat)) * Math.cos(rad(b.lat)) * Math.sin(dLon / 2) ** 2;
   return 6371 * 2 * Math.atan2(Math.sqrt(x), Math.sqrt(1 - x));
 };
-const nearbyFor = (store) => spots.filter((s) => s.id !== store.id).sort((a, b) => {
+const nearbyFor = (store) => spots.filter((s) => s.id !== store.id && isVerified(s)).sort((a, b) => {
   const tier = (s) => s.area === store.area ? 0 : s.pref === store.pref ? 1 : 2;
   return (tier(a) - tier(b)) || (distanceKm(store, a) - distanceKm(store, b)) ||
     String(a.name).localeCompare(String(b.name), 'ja');
@@ -100,23 +84,39 @@ function row(th, td, rawTd) {
 
 function buildPage(store) {
   const pageUrl = ORIGIN + spotPath(store.id);
+  const verified = isVerified(store);
   const soon = isPreOpen(store);
+  const verifiedTitleParts = [
+    store.machines != null ? '設置台数' : '',
+    store.hours ? '営業時間' : '',
+    '店舗情報',
+    '掲示板'
+  ].filter(Boolean);
   const pageTitle = soon
     ? store.name + '｜' + openLabel(store.opensOn, true) + 'オープン予定・アクセス・掲示板 | ガチャひろば'
-    : store.name + '｜設置台数・営業時間・掲示板 | ガチャひろば';
+    : store.name + (verified
+      ? '｜' + verifiedTitleParts.join('・') + ' | ガチャひろば'
+      : '｜店舗情報の確認状況・アクセス・掲示板 | ガチャひろば');
   const pageDesc = soon
     ? store.name + '（' + store.area + '）は' + openLabel(store.opensOn, true) + 'オープン予定のガチャガチャ・カプセルトイ専門店です。' +
       (store.hours ? '営業時間 ' + store.hours + '。' : '') +
       '住所・アクセス・地図に加えて、オープン初日の混雑や入荷情報を掲示板で共有できます。'
     : store.name + '（' + store.area + '）のガチャガチャ設置情報。' +
-      (store.machines ? '設置台数' + machinesText(store.machines) + '、' : '') +
-      (store.hours ? '営業時間 ' + store.hours + '。' : '') +
-      '住所・アクセス・地図・店舗ごとの掲示板で入荷情報や混雑状況をチェック。';
+      (verified && store.machines ? '設置台数' + machinesText(store.machines) + '、' : '') +
+      (verified && store.hours ? '営業時間 ' + store.hours + '。' : '') +
+      (verified
+        ? '住所・アクセス・地図・店舗ごとの掲示板で入荷情報や混雑状況をチェック。'
+        : '掲載情報は一次情報の確認作業中で、検索エンジンの掲載対象から外しています。');
 
   let html = template;
 
-  /* 旧クエリ用テンプレートの noindex は、正規の静的ページへ継承しない。 */
-  html = html.replace(/\s*<meta name="robots" content="noindex,follow" \/>/, '');
+  /* 一次情報のURLと確認日が揃うページだけを検索対象にする。 */
+  html = html.replace(
+    '<meta name="robots" content="noindex,follow" />',
+    verified
+      ? '<meta name="robots" content="index,follow,max-image-preview:large" />'
+      : '<meta name="robots" content="noindex,follow" />'
+  );
 
   /* ── head ── */
   html = swap(html, '<title>店舗詳細 | ガチャひろば</title>', '<title>' + esc(pageTitle) + '</title>');
@@ -135,8 +135,8 @@ function buildPage(store) {
     description: pageDesc
   };
   if (store.zip) ld.address.postalCode = store.zip;
-  if (store.tel) ld.telephone = store.tel;
-  if (store.lat != null && store.lon != null) ld.geo = { '@type': 'GeoCoordinates', latitude: store.lat, longitude: store.lon };
+  if (verified && store.tel) ld.telephone = store.tel;
+  if (verified && store.lat != null && store.lon != null) ld.geo = { '@type': 'GeoCoordinates', latitude: store.lat, longitude: store.lon };
   /* 営業時間は店舗ごとに曜日・例外表記が異なるため、表示文字列を
      schema.org の openingHours へ誤って転記せず、本文だけに掲載する。 */
   const crumbs = {
@@ -149,8 +149,8 @@ function buildPage(store) {
     ]
   };
   const ldTags =
-    '<script type="application/ld+json" data-gh-static>' + JSON.stringify(ld) + '</script>\n' +
-    '  <script type="application/ld+json" data-gh-static>' + JSON.stringify(crumbs) + '</script>\n' +
+    (verified ? '<script type="application/ld+json" data-gh-static>' + JSON.stringify(ld) + '</script>\n  ' : '') +
+    '<script type="application/ld+json" data-gh-static>' + JSON.stringify(crumbs) + '</script>\n' +
     '  <script>window.GH_SPOT_STATIC_ID=' + JSON.stringify(store.id) + ';</script>';
   html = swap(html, '<script src="/data/spots.js" defer></script>', ldTags + '\n  <script src="/data/spots.js" defer></script>');
 
@@ -167,30 +167,35 @@ function buildPage(store) {
       esc(openLabel(store.opensOn, false)) + ' オープン予定</span>' : '') +
     '<a class="gh-badge gh-badge--lg" style="text-decoration:none" href="' + brandPath(store.brand) +
     '" title="' + esc(store.brand) + 'の店舗一覧を見る">' + esc(store.brand) + '</a>' +
-    '<span class="gh-badge gh-badge--lg">' + esc(store.area) + '</span></span>');
+    '<span class="gh-badge gh-badge--lg">' + esc(store.area) + '</span>' +
+    '<span class="gh-badge gh-badge--lg">' + (verified ? '一次情報確認済み' : '一次情報未確認') + '</span></span>');
   html = swap(html, '<div class="gh-quote__address" id="spotAddress"></div>',
     '<div class="gh-quote__address" id="spotAddress"><span>📍 ' +
     esc((store.zip ? '〒' + store.zip + ' ' : '') + store.address) + '</span>' +
-    (store.access ? '<span class="gh-hero__divider">｜</span><span>🚉 ' + esc(store.access) + '</span>' : '') + '</div>');
+    (verified && store.access ? '<span class="gh-hero__divider">｜</span><span>🚉 ' + esc(store.access) + '</span>' : '') + '</div>');
   html = swap(html, '<strong class="gh-quote__rating-num" id="spotMachines">—</strong>',
-    '<strong class="gh-quote__rating-num" id="spotMachines">' + esc(machinesText(store.machines)) + '</strong>');
+    '<strong class="gh-quote__rating-num" id="spotMachines">' + esc(verified ? machinesText(store.machines) : '一次情報未確認') + '</strong>');
   html = swap(html, '<span class="gh-quote__updated" id="spotHours"></span>',
     '<span class="gh-quote__updated" id="spotHours">' +
-    esc(store.hours ? (soon ? 'オープン後 ' + store.hours : '営業 ' + store.hours) : '営業時間はお問い合わせ') + '</span>');
+    esc(verified
+      ? (store.hours ? (soon ? 'オープン後 ' + store.hours : '営業 ' + store.hours) : '営業時間は公式情報をご確認ください')
+      : '営業時間は一次情報未確認') + '</span>');
   html = swap(html, '<div class="gh-metrics" id="spotMetrics"></div>',
     '<div class="gh-metrics" id="spotMetrics">' +
     (soon
       ? metric('オープン予定', openLabel(store.opensOn, false), 'あと' + daysUntil(store.opensOn) + '日', true)
-      : metric('設置台数', machinesText(store.machines), 'ガチャマシン', true)) +
-    metric('営業時間', store.hours || '—', soon ? 'オープン後の予定' : '定休日は店舗にご確認ください') +
+      : metric('設置台数', verified ? machinesText(store.machines) : '一次情報未確認',
+        verified ? '確認元を掲載しています' : '参考値は一次情報確認後に掲載', true)) +
+    metric('営業時間', verified ? (store.hours || '要確認') : '一次情報未確認',
+      verified ? (soon ? 'オープン後の予定' : '定休日は店舗にご確認ください') : '確認完了後に掲載') +
     metric('エリア', store.area || '—', store.pref || '') +
-    metric('ブランド', store.brand || '—', '公式店舗') + '</div>');
+    metric('ブランド', store.brand || '—', verified ? '一次情報確認済み' : '一次情報未確認') + '</div>');
 
   /* ── 店舗紹介文（静的のみ。ユニークテキストで薄いページ化を防ぐ） ── */
-  const samePref = spots.filter((x) => x.pref === store.pref);
-  const sameArea = spots.filter((x) => x.area === store.area && x.id !== store.id);
+  const samePref = spots.filter((x) => x.pref === store.pref && isVerified(x));
+  const sameArea = spots.filter((x) => x.area === store.area && x.id !== store.id && isVerified(x));
   const prefLink = '<a href="' + prefPath(store.pref) + '">' +
-    esc(store.pref) + 'の掲載店舗（' + samePref.length + '件）</a>';
+    esc(store.pref) + 'の一次情報確認済み店舗（' + samePref.length + '件）</a>';
   const brandLink = '<a href="' + brandPath(store.brand) + '">' +
     esc(store.brand) + 'の店舗一覧</a>';
   /* オープン前は、本文より先に「まだ開いていない」ことを伝える */
@@ -204,26 +209,38 @@ function buildPage(store) {
         '<p class="gh-preopen__text">オープン初日の混雑や品揃えは、このページの掲示板で共有できます。行った人のレポートをお待ちしています。</p>' +
       '</div>'
     : '';
+  const verificationNotice = verified
+    ? '<div class="gh-preopen"><strong class="gh-preopen__title">✅ 一次情報確認済み</strong>' +
+        '<p class="gh-preopen__text">店舗情報は<a class="gh-official-source" href="' + esc(store.sourceUrl) +
+        '" target="_blank" rel="noopener noreferrer">確認元のページ</a>を参照し、' + esc(store.verifiedAt) +
+        'に掲載内容を確認しました。変更される場合があるため、お出かけ前にも確認元をご覧ください。</p></div>'
+    : '<div class="gh-preopen"><strong class="gh-preopen__title">⚠️ 一次情報未確認・検索対象外</strong>' +
+        '<p class="gh-preopen__text">この店舗は、確認元URLと確認日の登録がまだ揃っていません。掲載中の店舗名・住所は確認作業中の候補情報であり、' +
+        '確認が完了するまで検索エンジンの掲載対象から外しています。最新情報は店舗・施設へ直接ご確認ください。' +
+        '<a href="/contact.html">確認元や訂正情報を連絡する</a></p></div>';
   const intro =
     preOpenNotice +
+    verificationNotice +
     '<div class="gh-spot-intro">' +
     '<p>' +
       (soon
         ? esc(store.name) + 'は、' + esc(store.pref) + '（' + esc(store.area) + '）に' + esc(openLabel(store.opensOn, true)) +
           'オープン予定のガチャガチャ・カプセルトイ専門店です。'
         : esc(store.name) + 'は、' + esc(store.pref) + '（' + esc(store.area) + '）にあるガチャガチャ・カプセルトイの設置スポットです。') +
-      (store.machines ? 'ガチャマシンの設置台数は' + esc(machinesText(store.machines)) + '。' : '') +
-      (store.hours ? (soon ? 'オープン後の営業時間は' : '営業時間は') + esc(store.hours) + '。' : '') +
-      (store.access ? 'アクセスは' + esc(store.access) + '。' : '') +
+      (verified && store.machines ? 'ガチャマシンの設置台数は' + esc(machinesText(store.machines)) + '。' : '') +
+      (verified && store.hours ? (soon ? 'オープン後の営業時間は' : '営業時間は') + esc(store.hours) + '。' : '') +
+      (verified && store.access ? 'アクセスは' + esc(store.access) + '。' : '') +
     '</p>' +
-    (BRAND_NOTE[store.brand] ? '<p>' + esc(BRAND_NOTE[store.brand]) + '</p>' : '') +
     '<p>' +
-      (sameArea.length
-        ? esc(store.area) + 'エリアには、この店舗を含めて' + (sameArea.length + 1) + '件のガチャスポットを掲載しています。'
+      (sameArea.length || verified
+        ? esc(store.area) + 'エリアでは、一次情報確認済みのガチャスポットを' +
+          (sameArea.length + (verified ? 1 : 0)) + '件掲載しています。'
         : '') +
       '同じ地域のお店は' + prefLink + '、同じブランドのお店は' + brandLink + 'からも探せます。' +
     '</p>' +
-    '<p>掲載内容は公開情報をもとにしています。最新の入荷状況・混雑・在庫については、' +
+    '<p>' + (verified
+      ? '掲載内容は上記の確認元をもとにしています。'
+      : '掲載内容は一次情報の確認作業中です。') + '最新の入荷状況・混雑・在庫については、' +
       'このページの掲示板タブで情報をチェック・共有できます。' +
       '営業時間や設置台数は変更される場合があるため、お出かけ前に店舗・施設の最新情報もあわせてご確認ください。</p>' +
     '</div>';
@@ -236,10 +253,10 @@ function buildPage(store) {
       esc(openLabel(store.opensOn, true)) + '</strong></td></tr>' : '') +
     row('ブランド', store.brand) +
     row('住所', (store.zip ? '〒' + store.zip + '　' : '') + store.address) +
-    row('電話番号', store.tel ? '<a href="tel:' + esc(String(store.tel).replace(/[^0-9+]/g, '')) + '">' + esc(store.tel) + '</a>' : '', true) +
-    row('営業時間', store.hours) +
-    row('設置台数', machinesText(store.machines)) +
-    row('アクセス', store.access) +
+    row('電話番号', verified && store.tel ? '<a href="tel:' + esc(String(store.tel).replace(/[^0-9+]/g, '')) + '">' + esc(store.tel) + '</a>' : '', true) +
+    row('営業時間', verified ? store.hours : '一次情報未確認') +
+    row('設置台数', verified ? machinesText(store.machines) : '一次情報未確認') +
+    row('アクセス', verified ? store.access : '一次情報未確認') +
     row('エリア', store.area) +
     row('情報の確認元', store.sourceUrl
       ? '<a class="gh-official-source" href="' + esc(store.sourceUrl) + '" target="_blank" rel="noopener">確認元を開く ↗</a>'
@@ -274,7 +291,8 @@ function buildPage(store) {
   html = swap(html, '<div class="gh-nearby" id="spotNearby"></div>',
     '<div class="gh-nearby" id="spotNearby">' + nearby.map((s) =>
       '<a href="' + spotPath(s.id) + '" class="gh-nearby__item"><span class="gh-rank">🏬</span>' +
-      '<div><strong>' + esc(s.name) + '</strong><small>' + esc(s.area) + ' ・ ' + esc(machinesText(s.machines)) + '</small></div></a>'
+      '<div><strong>' + esc(s.name) + '</strong><small>' + esc(s.area) + ' ・ ' +
+      esc(isVerified(s) ? machinesText(s.machines) : '一次情報未確認') + '</small></div></a>'
     ).join('') + '</div>');
 
   return html;

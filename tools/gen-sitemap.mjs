@@ -15,25 +15,14 @@ const today = new Date(Date.now() + 9 * 3600 * 1000).toISOString().slice(0, 10);
 const STATIC_ROUTES_LAUNCHED = '2026-08-12';
 const urls = [];
 const isDate = (value) => /^\d{4}-\d{2}-\d{2}$/.test(value || '');
+const isVerified = (store) => Boolean(store && store.sourceUrl && store.verifiedAt);
 const latest = (values, floor = '') => [floor, ...values].filter(isDate).sort().at(-1) || '';
 const latestSpot = (items) => latest(items.map((s) => s.verifiedAt));
-const storesForArticle = (article) => {
-  if (article.ranking) {
-    return spots.filter((spot) => {
-      if (article.ranking.pref && spot.pref !== article.ranking.pref) return false;
-      if (article.ranking.region && spot.region !== article.ranking.region) return false;
-      return spot.machines != null;
-    }).sort((a, b) => (b.machines || 0) - (a.machines || 0)).slice(0, article.ranking.limit || 10);
-  }
-  const areas = Array.isArray(article.areas) ? article.areas : [];
-  return spots.filter((spot) => areas.includes(spot.area)).sort((a, b) => (b.machines || 0) - (a.machines || 0));
-};
-const articleModified = (article) => latest([
-  article.updated,
-  ...storesForArticle(article).map((spot) => spot.verifiedAt)
-]);
-const spotsModified = latestSpot(spots);
-const articlesModified = latest(articles.map(articleModified));
+const articleModified = (article) => isDate(article.updated) ? article.updated : '';
+const verifiedSpots = spots.filter(isVerified);
+const indexableArticles = articles.filter((article) => article.type === 'guide');
+const spotsModified = latestSpot(verifiedSpots);
+const articlesModified = latest(indexableArticles.map(articleModified));
 const add = (path, lastmod = '') => urls.push({ loc: ORIGIN + path, lastmod: isDate(lastmod) ? lastmod : '' });
 
 /* 月別発売情報は、生成済みHTMLの dateModified を読む。 */
@@ -50,11 +39,7 @@ const releasesModified = latest(releasePages.map((p) => p.modified));
 
 /* 固定ページ */
 add('/', latest([spotsModified, articlesModified, releasesModified]));
-add('/stores.html', spotsModified);
-add('/ranking.html', spotsModified);
-add('/board.html', spotsModified);
 add('/area.html', spotsModified);
-add('/map.html', spotsModified);
 add('/news.html', latest([spotsModified, articlesModified, releasesModified]));
 add('/category.html', spotsModified);
 add('/terms.html');
@@ -62,28 +47,26 @@ add('/privacy.html');
 add('/advertising.html');
 add('/contact.html');
 add('/about.html', '2026-08-13');
-add('/sitemap.html', latest([spotsModified, articlesModified, releasesModified]));
-add('/english.html', spotsModified);
+add('/methodology.html', '2026-08-14');
 
 /* 都道府県別一覧 */
-const prefs = [...new Set(spots.map(s => s.pref))].filter((p) => PREF_SLUG[p]);
-prefs.forEach((p) => add(prefPath(p), latest(spots.filter((s) => s.pref === p).map((s) => s.verifiedAt), STATIC_ROUTES_LAUNCHED)));
+const prefs = [...new Set(spots.map(s => s.pref))]
+  .filter((p) => PREF_SLUG[p])
+  .filter((p) => verifiedSpots.filter((s) => s.pref === p).length >= 5);
+prefs.forEach((p) => add(prefPath(p), latest(verifiedSpots.filter((s) => s.pref === p).map((s) => s.verifiedAt), STATIC_ROUTES_LAUNCHED)));
 
 /* ブランド別一覧（2店舗以上のブランドのみ） */
 const brandCount = {};
-spots.forEach(s => { brandCount[s.brand] = (brandCount[s.brand] || 0) + 1; });
-Object.keys(brandCount).filter(b => brandCount[b] >= 2)
+verifiedSpots.forEach(s => { brandCount[s.brand] = (brandCount[s.brand] || 0) + 1; });
+Object.keys(brandCount).filter(b => brandCount[b] >= 5)
   .filter((b) => BRAND_SLUG[b])
-  .forEach((b) => add(brandPath(b), latest(spots.filter((s) => s.brand === b).map((s) => s.verifiedAt), STATIC_ROUTES_LAUNCHED)));
+  .forEach((b) => add(brandPath(b), latest(verifiedSpots.filter((s) => s.brand === b).map((s) => s.verifiedAt), STATIC_ROUTES_LAUNCHED)));
 
 /* エリアまとめ記事 */
-articles.forEach((a) => add(guidePath(a.slug), latest([articleModified(a)], STATIC_ROUTES_LAUNCHED)));
-
-/* 月別の新作ガチャ発売情報 */
-releasePages.forEach((page) => add(page.path, page.modified));
+indexableArticles.forEach((a) => add(guidePath(a.slug), articleModified(a)));
 
 /* 店舗ページ（全件・静的生成された /spot/<id>.html を正とする） */
-spots.forEach((s) => add('/spot/' + encodeURIComponent(s.id) + '.html', s.verifiedAt));
+verifiedSpots.forEach((s) => add('/spot/' + encodeURIComponent(s.id) + '.html', s.verifiedAt));
 
 const esc = s => s.replace(/&/g, '&amp;');
 const xml =
@@ -94,11 +77,11 @@ const xml =
   '\n</urlset>\n';
 
 writeFileSync(new URL('../sitemap.xml', import.meta.url), xml);
-console.log('sitemap.xml written:', urls.length, 'canonical URLs (' + spots.length + ' stores, ' + articles.length + ' guides, ' + releasePages.length + ' releases)');
+console.log('sitemap.xml written:', urls.length, 'indexable URLs (' + verifiedSpots.length + ' verified stores, ' + indexableArticles.length + ' guides)');
 
 /* ── RSS フィード（feed.xml）: 記事を更新日の新しい順に配信 ── */
 const escXml = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-const items = articles.slice()
+const items = indexableArticles.slice()
   .sort((a, b) => articleModified(b).localeCompare(articleModified(a)))
   .map(a => {
     const link = ORIGIN + guidePath(a.slug);
@@ -119,13 +102,13 @@ const rss = '<?xml version="1.0" encoding="UTF-8"?>\n' +
   '  <lastBuildDate>' + new Date((articlesModified || today) + 'T09:00:00+09:00').toUTCString() + '</lastBuildDate>\n' +
   items + '\n</channel>\n</rss>\n';
 writeFileSync(new URL('../feed.xml', import.meta.url), rss);
-console.log('feed.xml written:', articles.length, 'items');
+console.log('feed.xml written:', indexableArticles.length, 'items');
 
 /* ── HTML サイトマップ（sitemap.html）: JS なしでも辿れる全ページへの静的リンク集。
       クローラーのクロール経路確保＋内部リンク強化のために生成する。 ── */
 const escH = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-const prefOrder = [...new Set(spots.map(s => s.pref))];
-const byPref = p => spots.filter(s => s.pref === p);
+const prefOrder = prefs;
+const byPref = p => verifiedSpots.filter(s => s.pref === p);
 const spotLink = s =>
   '        <li><a href="/spot/' + encodeURIComponent(s.id) + '.html">' + escH(s.name) + '</a>' +
   '<small>（' + escH(s.area) + '）</small></li>';
@@ -135,8 +118,9 @@ const html = `<!doctype html>
   <meta charset="UTF-8" />
   <meta name="google-site-verification" content="YN5Q0DnCsIhwgitcXjcGqxlmfMec80Wl0uZskCNS11w" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="ガチャひろばの全ページ一覧。掲載中の全ガチャガチャ店舗（${spots.length}店舗）とエリア別まとめ・ランキング・ガイド記事（${articles.length}本）へのリンク集です。" />
-  <title>サイトマップ｜全${spots.length}店舗・全記事一覧 | ガチャひろば</title>
+  <meta name="robots" content="noindex,follow" />
+  <meta name="description" content="ガチャひろばの検索対象ページ一覧。一次情報を確認したガチャガチャ店舗（${verifiedSpots.length}店舗）と独自ガイド記事（${indexableArticles.length}本）へのリンク集です。" />
+  <title>サイトマップ｜確認済み${verifiedSpots.length}店舗・ガイド一覧 | ガチャひろば</title>
   <link rel="canonical" href="${ORIGIN}/sitemap.html" />
   <link rel="icon" type="image/png" href="assets/mascot-icon.png" />
   <link rel="stylesheet" href="styles.css" />
@@ -156,18 +140,15 @@ const html = `<!doctype html>
     <div class="gh-container">
       <div class="gh-page-hero">
         <h1 class="gh-page-hero__title">サイトマップ</h1>
-        <p class="gh-page-hero__desc">掲載中の全${spots.length}店舗と全${articles.length}記事へのリンク一覧です。</p>
+        <p class="gh-page-hero__desc">一次情報を確認した${verifiedSpots.length}店舗と、独自ガイド${indexableArticles.length}記事へのリンク一覧です。</p>
       </div>
       <section class="gh-section">
         <h2 class="gh-section__title">主要ページ</h2>
         <ul>
           <li><a href="index.html">トップ</a></li>
-          <li><a href="stores.html">店舗一覧</a></li>
-          <li><a href="map.html">マップ検索</a></li>
-          <li><a href="ranking.html">ランキング</a></li>
-          <li><a href="board.html">掲示板</a></li>
           <li><a href="news.html">新着情報・特集記事</a></li>
           <li><a href="about.html">運営情報・編集方針</a></li>
+          <li><a href="methodology.html">データ確認方法</a></li>
           <li><a href="contact.html">お問い合わせ</a></li>
           <li><a href="privacy.html">プライバシーポリシー</a></li>
           <li><a href="terms.html">利用規約</a></li>
@@ -175,21 +156,15 @@ const html = `<!doctype html>
         </ul>
       </section>
       <section class="gh-section">
-        <h2 class="gh-section__title">特集記事・ランキング・ガイド</h2>
+        <h2 class="gh-section__title">独自ガイド</h2>
         <ul>
-${articles.map(a => '          <li><a href="' + guidePath(a.slug) + '">' + escH(a.title) + '</a></li>').join('\n')}
+${indexableArticles.map(a => '          <li><a href="' + guidePath(a.slug) + '">' + escH(a.title) + '</a></li>').join('\n')}
         </ul>
       </section>
-${releasePages.length ? `      <section class="gh-section">
-        <h2 class="gh-section__title">新作ガチャ発売情報</h2>
-        <ul>
-${releasePages.map((page) => '          <li><a href="' + page.path + '">' + escH(page.path.slice('/releases/'.length, -5).replace('-', '年') + '月の新作ガチャ') + '</a></li>').join('\n')}
-        </ul>
-      </section>` : ''}
       <section class="gh-section">
-        <h2 class="gh-section__title">ブランド別店舗一覧</h2>
+        <h2 class="gh-section__title">ブランド別・確認済み店舗一覧</h2>
         <ul>
-${Object.keys(brandCount).filter((b) => brandCount[b] >= 2 && BRAND_SLUG[b]).sort((a, b) => brandCount[b] - brandCount[a]).map((b) => '          <li><a href="' + brandPath(b) + '">' + escH(b) + '（' + brandCount[b] + '店舗）</a></li>').join('\n')}
+${Object.keys(brandCount).filter((b) => brandCount[b] >= 5 && BRAND_SLUG[b]).sort((a, b) => brandCount[b] - brandCount[a]).map((b) => '          <li><a href="' + brandPath(b) + '">' + escH(b) + '（確認済み' + brandCount[b] + '店舗）</a></li>').join('\n')}
         </ul>
       </section>
 ${prefOrder.map(p => `      <section class="gh-section">
@@ -212,4 +187,4 @@ ${byPref(p).map(spotLink).join('\n')}
 </html>
 `;
 writeFileSync(new URL('../sitemap.html', import.meta.url), html);
-console.log('sitemap.html written:', spots.length, 'stores,', articles.length, 'articles');
+console.log('sitemap.html written:', verifiedSpots.length, 'verified stores,', indexableArticles.length, 'guides');

@@ -17,14 +17,20 @@ const esc = (value) => String(value == null ? '' : value)
 const json = (value) => JSON.stringify(value).replace(/</g, '\\u003c');
 const machinesText = (n) => n == null || n === '' ? '—' : '約' + Number(n).toLocaleString('ja-JP') + '台';
 const spotPath = (id) => '/spot/' + encodeURIComponent(id) + '.html';
+const LANDING_MIN_VERIFIED = 5;
+const isVerified = (store) => Boolean(store && store.sourceUrl && store.verifiedAt);
 const localArea = (area) => String(area || '').split('・').slice(1).join('・') || String(area || '');
 const latestVerified = (items) => [STATIC_ROUTES_LAUNCHED, ...items.map((s) => s.verifiedAt)]
   .filter(Boolean).sort().at(-1) || '';
 const jstToday = new Date(Date.now() + 9 * 3600 * 1000).toISOString().slice(0, 10);
 const isPreOpen = (store) => !!(store.opensOn && store.opensOn > jstToday);
-const sortedStores = (items) => items.slice().sort((a, b) =>
-  ((b.machines != null) - (a.machines != null)) || ((b.machines || 0) - (a.machines || 0)) ||
-  String(a.name).localeCompare(String(b.name), 'ja'));
+const sortedStores = (items) => items.slice().sort((a, b) => {
+  const aHasVerifiedMachines = isVerified(a) && a.machines != null;
+  const bHasVerifiedMachines = isVerified(b) && b.machines != null;
+  return (Number(bHasVerifiedMachines) - Number(aHasVerifiedMachines)) ||
+    (bHasVerifiedMachines ? Number(b.machines) - Number(a.machines) : 0) ||
+    String(a.name).localeCompare(String(b.name), 'ja');
+});
 
 const REGION_LABEL = {
   kanto: '関東', kansai: '関西', tokai: '東海・北陸・甲信越',
@@ -51,7 +57,7 @@ function footer() {
   return `<footer class="gh-footer"><div class="gh-container">
     <div class="gh-footer__main">
       <div class="gh-footer__brand"><a class="gh-logo" href="/index.html"><img class="gh-logo__icon" src="/assets/mascot-icon.png" alt="ガチャひろばのマスコット" width="34" height="34" /><span class="gh-logo__text">ガチャ<em>ひろば</em></span></a><p>全国のガチャガチャ設置場所情報を掲載。<br />あなたのガチャライフをサポートします。</p></div>
-      <div class="gh-footer__links"><div><strong>サービス</strong><a href="/index.html">トップ</a><a href="/stores.html">店舗一覧</a><a href="/ranking.html">ランキング</a><a href="/map.html">マップ検索</a></div><div><strong>情報</strong><a href="/board.html">掲示板</a><a href="/news.html">新着情報</a><a href="/area.html">エリア別</a><a href="/about.html">運営情報・編集方針</a></div><div><strong>サポート</strong><a href="/contact.html">お問い合わせ</a><a href="/terms.html">利用規約</a><a href="/privacy.html">プライバシー</a><a href="/sitemap.html">サイトマップ</a></div></div>
+      <div class="gh-footer__links"><div><strong>サービス</strong><a href="/index.html">トップ</a><a href="/stores.html">店舗一覧</a><a href="/ranking.html">ランキング</a><a href="/map.html">マップ検索</a></div><div><strong>情報</strong><a href="/board.html">掲示板</a><a href="/news.html">新着情報</a><a href="/area.html">エリア別</a><a href="/about.html">運営情報・編集方針</a><a href="/methodology.html">データ確認方法</a></div><div><strong>サポート</strong><a href="/contact.html">お問い合わせ</a><a href="/terms.html">利用規約</a><a href="/privacy.html">プライバシー</a><a href="/sitemap.html">サイトマップ</a></div></div>
     </div><div class="gh-footer__bottom"><span>© 2026 ガチャひろば (gacha-hiroba.com)</span><span>Powered by ガチャひろば</span></div>
   </div></footer>`;
 }
@@ -60,8 +66,8 @@ function table(items, mode) {
   return `<div class="gh-table-wrap"><table class="gh-table gh-landing-table">
     <thead><tr><th>店舗名</th><th>エリア</th><th class="gh-num">設置台数</th><th>営業時間</th></tr></thead>
     <tbody>${sortedStores(items).map((s) => `<tr>
-      <td><a class="gh-table__link" href="${spotPath(s.id)}">${esc(s.name)}</a>${isPreOpen(s) ? `<span class="gh-badge gh-badge--soon" data-gh-preopen="${esc(s.opensOn)}">${esc(s.opensOn)} オープン予定</span>` : ''}<small class="gh-store-brand">${esc(mode === 'pref' ? s.brand : s.pref)}</small></td>
-      <td>${esc(localArea(s.area) || s.pref)}</td><td class="gh-num">${esc(machinesText(s.machines))}</td><td>${esc(s.hours || '要確認')}</td>
+      <td><a class="gh-table__link" href="${spotPath(s.id)}">${esc(s.name)}</a>${isPreOpen(s) ? `<span class="gh-badge gh-badge--soon" data-gh-preopen="${esc(s.opensOn)}">${esc(s.opensOn)} オープン予定</span>` : ''}<small class="gh-store-brand">${esc(mode === 'pref' ? s.brand : s.pref)} ・ ${isVerified(s) ? '一次情報確認済み' : '一次情報未確認'}</small></td>
+      <td>${esc(localArea(s.area) || s.pref)}</td><td class="gh-num">${isVerified(s) ? esc(machinesText(s.machines)) : '未確認'}</td><td>${isVerified(s) ? esc(s.hours || '要確認') : '未確認'}</td>
     </tr>`).join('')}</tbody></table></div>`;
 }
 
@@ -88,12 +94,13 @@ function structuredData({ title, description, path, items, crumbParent, crumbPar
   return `<script type="application/ld+json">${json(collection)}</script>\n  <script type="application/ld+json">${json(crumbs)}</script>`;
 }
 
-function documentHtml({ title, description, path, active, crumbParent, crumbParentPath, body, items, modified }) {
+function documentHtml({ title, description, path, active, crumbParent, crumbParentPath, body, items, modified, indexable }) {
   const url = ORIGIN + path;
   return `<!doctype html>
 <html lang="ja"><head>
   <meta charset="UTF-8" /><meta name="google-site-verification" content="YN5Q0DnCsIhwgitcXjcGqxlmfMec80Wl0uZskCNS11w" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="${indexable ? 'index,follow,max-image-preview:large' : 'noindex,follow'}" />
   <meta name="description" content="${esc(description)}" /><title>${esc(title)} | ガチャひろば</title>
   <link rel="canonical" href="${url}" />
   <meta property="og:site_name" content="ガチャひろば" /><meta property="og:type" content="website" /><meta property="og:locale" content="ja_JP" />
@@ -109,45 +116,51 @@ function documentHtml({ title, description, path, active, crumbParent, crumbPare
 }
 
 function prefPage(pref, items) {
+  const verifiedItems = items.filter(isVerified);
+  const indexable = verifiedItems.length >= LANDING_MIN_VERIFIED;
   const path = prefPath(pref);
-  const title = `${pref}のガチャガチャ設置場所（${items.length}店舗）｜営業時間・設置台数`;
-  const areaNames = [...new Set(items.map((s) => localArea(s.area)).filter(Boolean))];
-  const brandNames = [...new Set(items.map((s) => s.brand).filter(Boolean))];
-  const knownMachines = items.filter((s) => s.machines != null);
+  const title = `${pref}のガチャガチャ設置場所（一次情報確認済み${verifiedItems.length}店舗）`;
+  const areaNames = [...new Set(verifiedItems.map((s) => localArea(s.area)).filter(Boolean))];
+  const brandNames = [...new Set(verifiedItems.map((s) => s.brand).filter(Boolean))];
+  const knownMachines = verifiedItems.filter((s) => s.machines != null);
   const top = sortedStores(knownMachines)[0];
-  const modified = latestVerified(items);
-  const description = `${pref}のガチャガチャ・カプセルトイ設置場所${items.length}店舗を一覧で比較。住所、営業時間、アクセス${knownMachines.length ? '、設置台数' : ''}を確認し、店舗別の地図・掲示板へ移動できます。`;
-  const related = articles.filter((a) =>
-    (a.areas || []).some((area) => items.some((s) => s.area === area)) || (a.ranking && a.ranking.pref === pref));
+  const modified = latestVerified(verifiedItems);
+  const description = `${pref}のガチャガチャ・カプセルトイ設置場所から、一次情報URLと確認日がそろう${verifiedItems.length}店舗を掲載。確認元、住所、営業時間${knownMachines.length ? '、設置台数' : ''}を確認できます。`;
+  const related = articles.filter((a) => a.type === 'guide' &&
+    ((a.areas || []).some((area) => items.some((s) => s.area === area)) || (a.ranking && a.ranking.pref === pref)));
   const region = items[0] && items[0].region;
   const nearbyPrefs = [...new Set(spots.filter((s) => s.region === region && s.pref !== pref).map((s) => s.pref))];
-  const body = `<div class="gh-page-hero"><h1 class="gh-page-hero__title">${esc(pref)}のガチャガチャ設置場所</h1><p class="gh-page-hero__desc">${esc(pref)}で掲載中のガチャガチャ・カプセルトイ専門店と設置スポットを、実店舗データからまとめています。</p></div>
-    <section class="gh-section"><div class="gh-metrics gh-landing-metrics"><div class="gh-metric gh-metric--primary"><span class="gh-metric__label">掲載店舗</span><strong class="gh-metric__value">${items.length}店舗</strong><span class="gh-metric__sub">住所・地図つき</span></div><div class="gh-metric"><span class="gh-metric__label">掲載エリア</span><strong class="gh-metric__value">${areaNames.length}エリア</strong><span class="gh-metric__sub">${esc(areaNames.slice(0, 3).join('・') || pref)}</span></div><div class="gh-metric"><span class="gh-metric__label">ブランド</span><strong class="gh-metric__value">${brandNames.length}種類</strong><span class="gh-metric__sub">専門店・設置コーナー</span></div>${top ? `<div class="gh-metric"><span class="gh-metric__label">掲載台数トップ</span><strong class="gh-metric__value">${esc(machinesText(top.machines))}</strong><span class="gh-metric__sub">${esc(top.name)}</span></div>` : ''}</div>
-      <p class="gh-landing-lead">${esc(pref)}内の掲載店は現在${items.length}店舗です。${knownMachines.length ? `うち${knownMachines.length}店舗で設置台数を掲載しています。` : ''}各店舗ページで住所・アクセス・営業時間・地図を確認でき、掲示板では入荷や混雑の情報を共有できます。</p>
+  const body = `<div class="gh-page-hero"><h1 class="gh-page-hero__title">${esc(pref)}のガチャガチャ設置場所</h1><p class="gh-page-hero__desc">${esc(pref)}で一次情報URLと確認日がそろう店舗だけをまとめています。</p></div>
+    <section class="gh-section"><div class="gh-metrics gh-landing-metrics"><div class="gh-metric gh-metric--primary"><span class="gh-metric__label">一次情報確認済み</span><strong class="gh-metric__value">${verifiedItems.length}店舗</strong><span class="gh-metric__sub">確認元・確認日つき</span></div><div class="gh-metric"><span class="gh-metric__label">確認済みエリア</span><strong class="gh-metric__value">${areaNames.length}エリア</strong><span class="gh-metric__sub">${esc(areaNames.slice(0, 3).join('・') || pref)}</span></div><div class="gh-metric"><span class="gh-metric__label">ブランド</span><strong class="gh-metric__value">${brandNames.length}種類</strong><span class="gh-metric__sub">確認済み店舗内</span></div>${top ? `<div class="gh-metric"><span class="gh-metric__label">確認済み台数トップ</span><strong class="gh-metric__value">${esc(machinesText(top.machines))}</strong><span class="gh-metric__sub">${esc(top.name)}</span></div>` : ''}</div>
+      <p class="gh-landing-lead">${esc(pref)}の登録候補${items.length}店舗のうち、一次情報URLと確認日がそろう${verifiedItems.length}店舗を下記に掲載しています。${knownMachines.length ? `うち${knownMachines.length}店舗で確認済みの設置台数を掲載しています。` : ''}確認前の候補はこの一覧と台数集計へ含めません。</p>
+      <p class="gh-detail-note"><strong>確認状況：一次情報確認済み ${verifiedItems.length} / 掲載 ${items.length}店舗</strong>。確認済みが${LANDING_MIN_VERIFIED}店舗未満の一覧は、確認作業が進むまで検索エンジンの掲載対象から外しています。<a href="/methodology.html">データ確認方法を見る</a></p>
       <div class="gh-landing-actions"><a class="gh-btn gh-btn--primary" href="/map.html">🗺️ 地図・現在地から探す</a><a class="gh-btn" href="/stores.html?q=${encodeURIComponent(pref)}">🔎 ${esc(pref)}をキーワード検索</a></div>
     </section>
-    <section class="gh-section"><div class="gh-section__header"><h2 class="gh-section__title">${esc(pref)}の店舗一覧 <span class="gh-store-section__count">${items.length}件</span></h2></div>${table(items, 'pref')}<p class="gh-detail-note">営業時間・設置台数は変更される場合があります。お出かけ前に各店舗の公式情報もご確認ください。${modified ? ` 確認日が登録されている情報のうち最新：${esc(modified)}。` : ''}</p></section>
+    <section class="gh-section"><div class="gh-section__header"><h2 class="gh-section__title">${esc(pref)}の一次情報確認済み店舗 <span class="gh-store-section__count">${verifiedItems.length}件</span></h2></div>${verifiedItems.length ? table(verifiedItems, 'pref') : '<p class="gh-widget__text">一次情報の確認済み店舗は現在準備中です。</p>'}<p class="gh-detail-note">営業時間・設置台数は変更される場合があります。お出かけ前に確認元の最新情報もご確認ください。${modified ? ` 確認日が登録されている情報のうち最新：${esc(modified)}。` : ''}</p></section>
 ${related.length ? `<section class="gh-section"><div class="gh-section__header"><h2 class="gh-section__title">${esc(pref)}の関連記事</h2></div><div class="gh-news-list">${related.map((a) => `<a class="gh-news-item" href="${guidePath(a.slug)}"><span class="gh-badge gh-badge--new">ガイド</span><span>${esc(a.emoji + ' ' + a.title)}</span></a>`).join('')}</div></section>` : ''}
 ${nearbyPrefs.length ? `<section class="gh-section"><div class="gh-section__header"><h2 class="gh-section__title">${esc(REGION_LABEL[region] || '近隣')}の都道府県</h2></div><div class="gh-landing-links">${nearbyPrefs.map((p) => `<a href="${prefPath(p)}">${esc(p)}のガチャガチャ設置場所</a>`).join('')}</div></section>` : ''}`;
-  return documentHtml({ title, description, path, active: 'area', crumbParent: 'エリアから探す', crumbParentPath: '/area.html', body, items, modified });
+  return documentHtml({ title, description, path, active: 'area', crumbParent: 'エリアから探す', crumbParentPath: '/area.html', body, items: verifiedItems, modified, indexable });
 }
 
 function brandPage(brand, items) {
+  const verifiedItems = items.filter(isVerified);
+  const indexable = verifiedItems.length >= LANDING_MIN_VERIFIED;
   const path = brandPath(brand);
-  const title = `${brand}の店舗一覧（${items.length}店舗）｜住所・営業時間・設置台数`;
-  const prefs = [...new Set(items.map((s) => s.pref))];
-  const knownMachines = items.filter((s) => s.machines != null);
-  const modified = latestVerified(items);
-  const description = `${brand}の掲載店舗${items.length}店を都道府県別に一覧で比較。住所、営業時間、アクセス${knownMachines.length ? '、設置台数' : ''}を確認し、店舗別の地図・掲示板へ移動できます。`;
-  const prefCounts = prefs.map((p) => [p, items.filter((s) => s.pref === p).length]).sort((a, b) => b[1] - a[1]);
-  const body = `<div class="gh-page-hero"><h1 class="gh-page-hero__title">${esc(brand)}の店舗一覧</h1><p class="gh-page-hero__desc">「${esc(brand)}」として掲載している全国のガチャガチャ・カプセルトイ店舗を、実店舗データからまとめています。</p></div>
-    <section class="gh-section"><div class="gh-metrics gh-landing-metrics"><div class="gh-metric gh-metric--primary"><span class="gh-metric__label">掲載店舗</span><strong class="gh-metric__value">${items.length}店舗</strong><span class="gh-metric__sub">住所・地図つき</span></div><div class="gh-metric"><span class="gh-metric__label">掲載都道府県</span><strong class="gh-metric__value">${prefs.length}</strong><span class="gh-metric__sub">${esc(prefs.slice(0, 3).join('・'))}</span></div><div class="gh-metric"><span class="gh-metric__label">台数掲載</span><strong class="gh-metric__value">${knownMachines.length}店舗</strong><span class="gh-metric__sub">公表情報がある店舗</span></div></div>
-      <p class="gh-landing-lead">${esc(brand)}の掲載店は現在${items.length}店舗です。店舗ごとの住所・アクセス・営業時間・地図と、入荷・混雑情報を共有できる掲示板を確認できます。</p>
+  const title = `${brand}の店舗一覧（一次情報確認済み${verifiedItems.length}店舗）`;
+  const prefs = [...new Set(verifiedItems.map((s) => s.pref))];
+  const knownMachines = verifiedItems.filter((s) => s.machines != null);
+  const modified = latestVerified(verifiedItems);
+  const description = `${brand}の登録候補から、一次情報URLと確認日がそろう${verifiedItems.length}店舗を掲載。確認元、住所、営業時間${knownMachines.length ? '、設置台数' : ''}を確認できます。`;
+  const prefCounts = prefs.map((p) => [p, verifiedItems.filter((s) => s.pref === p).length]).sort((a, b) => b[1] - a[1]);
+  const body = `<div class="gh-page-hero"><h1 class="gh-page-hero__title">${esc(brand)}の店舗一覧</h1><p class="gh-page-hero__desc">「${esc(brand)}」の登録候補から、一次情報URLと確認日がそろう店舗だけをまとめています。</p></div>
+    <section class="gh-section"><div class="gh-metrics gh-landing-metrics"><div class="gh-metric gh-metric--primary"><span class="gh-metric__label">一次情報確認済み</span><strong class="gh-metric__value">${verifiedItems.length}店舗</strong><span class="gh-metric__sub">確認元・確認日つき</span></div><div class="gh-metric"><span class="gh-metric__label">確認済み都道府県</span><strong class="gh-metric__value">${prefs.length}</strong><span class="gh-metric__sub">${esc(prefs.slice(0, 3).join('・'))}</span></div><div class="gh-metric"><span class="gh-metric__label">台数確認済み</span><strong class="gh-metric__value">${knownMachines.length}店舗</strong><span class="gh-metric__sub">確認元がある店舗</span></div></div>
+      <p class="gh-landing-lead">${esc(brand)}の登録候補${items.length}店舗のうち、一次情報URLと確認日がそろう${verifiedItems.length}店舗を下記に掲載しています。確認前の候補はこの一覧と台数集計へ含めません。</p>
+      <p class="gh-detail-note"><strong>確認状況：一次情報確認済み ${verifiedItems.length} / 掲載 ${items.length}店舗</strong>。確認済みが${LANDING_MIN_VERIFIED}店舗未満の一覧は、確認作業が進むまで検索エンジンの掲載対象から外しています。<a href="/methodology.html">データ確認方法を見る</a></p>
       <div class="gh-landing-actions"><a class="gh-btn gh-btn--primary" href="/map.html">🗺️ 地図・現在地から探す</a><a class="gh-btn" href="/stores.html?q=${encodeURIComponent(brand)}">🔎 店名・エリアを検索</a></div>
     </section>
     <section class="gh-section"><div class="gh-section__header"><h2 class="gh-section__title">都道府県から絞り込む</h2></div><div class="gh-landing-links">${prefCounts.map(([p, count]) => `<a href="${prefPath(p)}">${esc(p)} <span>${count}店</span></a>`).join('')}</div></section>
-    <section class="gh-section"><div class="gh-section__header"><h2 class="gh-section__title">${esc(brand)}の店舗 <span class="gh-store-section__count">${items.length}件</span></h2></div>${table(items, 'brand')}<p class="gh-detail-note">営業時間・設置台数は変更される場合があります。お出かけ前に各店舗の公式情報もご確認ください。${modified ? ` 確認日が登録されている情報のうち最新：${esc(modified)}。` : ''}</p></section>`;
-  return documentHtml({ title, description, path, active: 'brand', crumbParent: 'ブランドから探す', crumbParentPath: '/category.html', body, items, modified });
+    <section class="gh-section"><div class="gh-section__header"><h2 class="gh-section__title">${esc(brand)}の一次情報確認済み店舗 <span class="gh-store-section__count">${verifiedItems.length}件</span></h2></div>${verifiedItems.length ? table(verifiedItems, 'brand') : '<p class="gh-widget__text">一次情報の確認済み店舗は現在準備中です。</p>'}<p class="gh-detail-note">営業時間・設置台数は変更される場合があります。お出かけ前に確認元の最新情報もご確認ください。${modified ? ` 確認日が登録されている情報のうち最新：${esc(modified)}。` : ''}</p></section>`;
+  return documentHtml({ title, description, path, active: 'brand', crumbParent: 'ブランドから探す', crumbParentPath: '/category.html', body, items: verifiedItems, modified, indexable });
 }
 
 function cleanDir(dir, valid) {

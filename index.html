@@ -22,13 +22,10 @@
   <link rel="alternate" type="application/rss+xml" title="ガチャひろば 新着・特集記事" href="https://gacha-hiroba.com/feed.xml" />
   <link rel="icon" type="image/png" href="assets/mascot-icon.png" />
   <link rel="stylesheet" href="styles.css" />
-  <!-- Supabase (アクセス数ランキング用・裏側データ) -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
   <script src="data/spots.js" defer></script>
   <script src="data/articles.js" defer></script>
   <script src="data/releases.js" defer></script>
   <script src="spots-ui.js" defer></script>
-  <script src="data/ads.js" defer></script>
   <script src="script.js" defer></script>
   <script type="application/ld+json">
   {
@@ -41,7 +38,7 @@
     "inLanguage": "ja",
     "publisher": {
       "@type": "Organization",
-      "name": "ガチャひろば運営事務局",
+      "name": "ガチャひろば運営者（個人運営）",
       "url": "https://gacha-hiroba.com/about.html",
       "sameAs": ["https://x.com/gachahiroba"]
     }
@@ -123,13 +120,11 @@
           </div>
         </div>
 
-        <!-- ============================================================
-             ② 今日話題の商品（発売情報 × 掲示板での言及数で並べ替え）
-             ============================================================ -->
+        <!-- 発売情報を掲示板の言及数で並べ替え。言及が無い場合は「新作」と表示する。 -->
         <section class="gh-section gh-sec--tight gh-hot-sec">
           <div class="gh-section__header">
             <h2 class="gh-section__title">
-              <span class="gh-live-dot" aria-hidden="true"></span>今日話題の商品
+              <span class="gh-live-dot" aria-hidden="true" hidden></span><span data-gh-hot-heading>今週・近日発売の新作</span>
             </h2>
             <a href="releases/2026-08.html" class="gh-section__more" data-gh-release-hub>新作発売一覧 →</a>
           </div>
@@ -146,14 +141,6 @@
               </div>
             <!-- GH:HOME-HOT:END -->
           </div>
-        </section>
-
-        <!-- 話題商品と文脈が合う公式ショップだけを表示（data/ads.js） -->
-        <section class="gh-section gh-sec--tight gh-commerce-sec" hidden aria-labelledby="home-hot-shop-title">
-          <div class="gh-section__header">
-            <h2 class="gh-section__title" id="home-hot-shop-title">関連グッズを公式ショップで探す</h2>
-          </div>
-          <div data-gh-commerce="homeHot"></div>
         </section>
 
         <!-- ============================================================
@@ -182,18 +169,18 @@
               </thead>
               <tbody>
                 <!-- GH:HOME-RANKING:START -->
-                  <tr class="gh-table__row--top"><td><span class="gh-rank gh-rank--1">1</span></td><td><a href="/spot/gashadepa-ikebukuro-honten.html" class="gh-table__link">ガシャポンのデパート 池袋総本店</a></td><td>東京都・池袋</td><td class="gh-num">約3,000台</td><td><a href="/spot/gashadepa-ikebukuro-honten.html" class="gh-btn gh-btn--xs">詳細</a></td></tr>
-                  <tr><td><span class="gh-rank gh-rank--2">2</span></td><td><a href="/spot/yodobashi-ikebukuro-gacha-jungle.html" class="gh-table__link">ヨドバシカメラ マルチメディア池袋 ガチャガチャジャングル</a></td><td>東京都・池袋</td><td class="gh-num">約3,000台</td><td><a href="/spot/yodobashi-ikebukuro-gacha-jungle.html" class="gh-btn gh-btn--xs">詳細</a></td></tr>
-                  <tr><td><span class="gh-rank gh-rank--3">3</span></td><td><a href="/spot/ggmori-umeda-chayamachi.html" class="gh-table__link">ガチャガチャの森 梅田茶屋町店</a></td><td>大阪府・梅田</td><td class="gh-num">約2,400台</td><td><a href="/spot/ggmori-umeda-chayamachi.html" class="gh-btn gh-btn--xs">詳細</a></td></tr>
-                  <tr><td><span class="gh-rank">4</span></td><td><a href="/spot/cpla-shibuya-center-gai.html" class="gh-table__link">#C-pla 渋谷センター街店</a></td><td>東京都・渋谷</td><td class="gh-num">約2,350台</td><td><a href="/spot/cpla-shibuya-center-gai.html" class="gh-btn gh-btn--xs">詳細</a></td></tr>
-                  <tr><td><span class="gh-rank">5</span></td><td><a href="/spot/cpla-adhoc-shinjuku.html" class="gh-table__link">#C-pla アドホック新宿店</a></td><td>東京都・新宿</td><td class="gh-num">約2,200台</td><td><a href="/spot/cpla-adhoc-shinjuku.html" class="gh-btn gh-btn--xs">詳細</a></td></tr>
-                  <tr><td><span class="gh-rank">6</span></td><td><a href="/spot/gashadepa-yokohama-wp.html" class="gh-table__link">ガシャポンのデパート 横浜ワールドポーターズ店</a></td><td>神奈川県・みなとみらい</td><td class="gh-num">約2,200台</td><td><a href="/spot/gashadepa-yokohama-wp.html" class="gh-btn gh-btn--xs">詳細</a></td></tr>
-                  <tr><td><span class="gh-rank">7</span></td><td><a href="/spot/gashadepa-canalcity-hakata.html" class="gh-table__link">ガシャポンのデパート キャナルシティ博多店</a></td><td>福岡県・博多</td><td class="gh-num">約2,200台</td><td><a href="/spot/gashadepa-canalcity-hakata.html" class="gh-btn gh-btn--xs">詳細</a></td></tr>
-                  <tr><td><span class="gh-rank">8</span></td><td><a href="/spot/yodobashi-umeda-gacha.html" class="gh-table__link">ヨドバシカメラ マルチメディア梅田（ガチャガチャコーナー）</a></td><td>大阪府・梅田</td><td class="gh-num">約1,800台</td><td><a href="/spot/yodobashi-umeda-gacha.html" class="gh-btn gh-btn--xs">詳細</a></td></tr>
-                  <tr><td><span class="gh-rank">9</span></td><td><a href="/spot/gashadepa-tachikawa-takashimaya.html" class="gh-table__link">ガシャポンのデパート 立川高島屋S.C.店</a></td><td>東京都・立川</td><td class="gh-num">約1,610台</td><td><a href="/spot/gashadepa-tachikawa-takashimaya.html" class="gh-btn gh-btn--xs">詳細</a></td></tr>
-                  <tr><td><span class="gh-rank">10</span></td><td><a href="/spot/gashacoco-ikebukuro.html" class="gh-table__link">gashacoco（ガシャココ）池袋</a></td><td>東京都・池袋</td><td class="gh-num">約1,500台</td><td><a href="/spot/gashacoco-ikebukuro.html" class="gh-btn gh-btn--xs">詳細</a></td></tr>
-                  <tr><td><span class="gh-rank">11</span></td><td><a href="/spot/ggmori-ikebukuro-sunshine-alta.html" class="gh-table__link">ガチャガチャの森 池袋サンシャインシティアルタ店</a></td><td>東京都・池袋</td><td class="gh-num">約1,240台</td><td><a href="/spot/ggmori-ikebukuro-sunshine-alta.html" class="gh-btn gh-btn--xs">詳細</a></td></tr>
-                  <tr><td><span class="gh-rank">12</span></td><td><a href="/spot/ggmori-megadonki-utsunomiya.html" class="gh-table__link">ガチャガチャの森 MEGAドン・キホーテ宇都宮店</a></td><td>栃木県・宇都宮</td><td class="gh-num">約1,220台</td><td><a href="/spot/ggmori-megadonki-utsunomiya.html" class="gh-btn gh-btn--xs">詳細</a></td></tr>
+                  <tr class="gh-table__row--top"><td><span class="gh-rank gh-rank--1">1</span></td><td><a href="/spot/gachagachanomori-makers-pier.html" class="gh-table__link">ガチャガチャの森 メイカーズピア店</a></td><td>愛知県・金城ふ頭</td><td class="gh-num">約1,050台</td><td><a href="/spot/gachagachanomori-makers-pier.html" class="gh-btn gh-btn--xs">詳細</a></td></tr>
+                  <tr><td><span class="gh-rank gh-rank--2">2</span></td><td><a href="/spot/gachagachanomori-okanoue-plaza.html" class="gh-table__link">ガチャガチャの森 丘の上プラザ店</a></td><td>東京都・多摩センター</td><td class="gh-num">約1,009台</td><td><a href="/spot/gachagachanomori-okanoue-plaza.html" class="gh-btn gh-btn--xs">詳細</a></td></tr>
+                  <tr><td><span class="gh-rank gh-rank--3">3</span></td><td><a href="/spot/gachagachanomori-pivot-cross.html" class="gh-table__link">ガチャガチャの森 ピヴォクロス店</a></td><td>北海道・大通</td><td class="gh-num">約979台</td><td><a href="/spot/gachagachanomori-pivot-cross.html" class="gh-btn gh-btn--xs">詳細</a></td></tr>
+                  <tr><td><span class="gh-rank">4</span></td><td><a href="/spot/gachagachanomori-itsuki-mall-plaza.html" class="gh-table__link">ガチャガチャの森 樹モールプラザ店</a></td><td>埼玉県・川口</td><td class="gh-num">約860台</td><td><a href="/spot/gachagachanomori-itsuki-mall-plaza.html" class="gh-btn gh-btn--xs">詳細</a></td></tr>
+                  <tr><td><span class="gh-rank">5</span></td><td><a href="/spot/capsulelab-aeonmall-toki.html" class="gh-table__link">カプセルラボ・キャラカプ イオンモール土岐店</a></td><td>岐阜県・土岐</td><td class="gh-num">約800台</td><td><a href="/spot/capsulelab-aeonmall-toki.html" class="gh-btn gh-btn--xs">詳細</a></td></tr>
+                  <tr><td><span class="gh-rank">6</span></td><td><a href="/spot/gachagachanomori-maritime-takamatsu.html" class="gh-table__link">ガチャガチャの森 マリタイムプラザ高松店</a></td><td>香川県・高松</td><td class="gh-num">約736台</td><td><a href="/spot/gachagachanomori-maritime-takamatsu.html" class="gh-btn gh-btn--xs">詳細</a></td></tr>
+                  <tr><td><span class="gh-rank">7</span></td><td><a href="/spot/gachagachanomori-t-face-toyota.html" class="gh-table__link">ガチャガチャの森 T-FACE店</a></td><td>愛知県・豊田</td><td class="gh-num">約733台</td><td><a href="/spot/gachagachanomori-t-face-toyota.html" class="gh-btn gh-btn--xs">詳細</a></td></tr>
+                  <tr><td><span class="gh-rank">8</span></td><td><a href="/spot/gashadepa-plant3-shimizu.html" class="gh-table__link">ガシャポンのデパート PLANT-3 清水店</a></td><td>福井県・福井</td><td class="gh-num">約710台</td><td><a href="/spot/gashadepa-plant3-shimizu.html" class="gh-btn gh-btn--xs">詳細</a></td></tr>
+                  <tr><td><span class="gh-rank">9</span></td><td><a href="/spot/gashadepa-tsutaya-marugame-gunge.html" class="gh-table__link">本屋さんのガシャポンのデパートTSUTAYA丸亀郡家店</a></td><td>香川県・丸亀</td><td class="gh-num">約700台</td><td><a href="/spot/gashadepa-tsutaya-marugame-gunge.html" class="gh-btn gh-btn--xs">詳細</a></td></tr>
+                  <tr><td><span class="gh-rank">10</span></td><td><a href="/spot/gashadepa-edion-jr-amagasaki.html" class="gh-table__link">ガシャポンのデパート エディオンJR尼崎駅店</a></td><td>兵庫県・尼崎</td><td class="gh-num">約670台</td><td><a href="/spot/gashadepa-edion-jr-amagasaki.html" class="gh-btn gh-btn--xs">詳細</a></td></tr>
+                  <tr><td><span class="gh-rank">11</span></td><td><a href="/spot/gachagacha-spot-kitara-toyota.html" class="gh-table__link">ガチャガチャスポットKiTARA</a></td><td>愛知県・豊田</td><td class="gh-num">約650台</td><td><a href="/spot/gachagacha-spot-kitara-toyota.html" class="gh-btn gh-btn--xs">詳細</a></td></tr>
+                  <tr><td><span class="gh-rank">12</span></td><td><a href="/spot/metokyo-shinjuku.html" class="gh-table__link">ME TOKYO SHINJUKU</a></td><td>東京都・新宿</td><td class="gh-num">約600台</td><td><a href="/spot/metokyo-shinjuku.html" class="gh-btn gh-btn--xs">詳細</a></td></tr>
                 <!-- GH:HOME-RANKING:END -->
               </tbody>
             </table>
@@ -209,9 +196,9 @@
             <span class="gh-summary-card__change">随時追加・更新</span>
           </div>
           <div class="gh-summary-card">
-            <span class="gh-summary-card__label">合計設置台数</span>
-            <strong class="gh-summary-card__value" id="statMachines">約105,390台</strong>
-            <span class="gh-summary-card__change">公表値の合計</span>
+            <span class="gh-summary-card__label">確認済み設置台数</span>
+            <strong class="gh-summary-card__value" id="statMachines">約31,025台</strong>
+            <span class="gh-summary-card__change" id="statMachinesNote">一次情報確認済み78店舗の合計</span>
           </div>
           <div class="gh-summary-card">
             <span class="gh-summary-card__label">掲載都道府県</span>
@@ -219,9 +206,9 @@
             <span class="gh-summary-card__change">全国</span>
           </div>
           <div class="gh-summary-card">
-            <span class="gh-summary-card__label">最多設置</span>
-            <strong class="gh-summary-card__value" id="statTop">約3,000台</strong>
-            <span class="gh-summary-card__change" id="statTopName">ガシャポンのデパート 池袋総本店</span>
+            <span class="gh-summary-card__label">確認済み最大</span>
+            <strong class="gh-summary-card__value" id="statTop">約1,050台</strong>
+            <span class="gh-summary-card__change" id="statTopName">ガチャガチャの森 メイカーズピア店</span>
           </div>
         </section>
 
@@ -229,7 +216,7 @@
         <p class="gh-byline">
           <img src="assets/mascot-icon.png" alt="" width="22" height="22" />
           公開情報と公式情報を確認できた範囲から、店舗情報を随時追加・更新しています。
-          <a href="about.html">確認方法・編集方針</a> ／ <a href="contact.html">情報の間違い・未掲載店の連絡</a>
+          <a href="about.html">編集方針</a> ／ <a href="methodology.html">データ確認方法</a> ／ <a href="contact.html">情報の間違い・未掲載店の連絡</a>
         </p>
 
         <section class="gh-section gh-sec--tight" aria-labelledby="editorial-policy-title">
@@ -304,21 +291,13 @@
           </div>
           <div class="gh-news-list" data-gh-article-list="5">
             <!-- GH:HOME-ARTICLES:START -->
-              <a href="/guide/shibuya.html" class="gh-news-item"><time class="gh-news-item__date">2026-07-02</time><span class="gh-badge gh-badge--new">まとめ</span><span>🐕 渋谷のガチャガチャ設置場所まとめ｜専門店の台数・営業時間【2026年版】（5店舗掲載）</span></a>
-              <a href="/guide/harajuku.html" class="gh-news-item"><time class="gh-news-item__date">2026-07-02</time><span class="gh-badge gh-badge--new">まとめ</span><span>🎀 原宿・竹下通りのガチャガチャまとめ｜専門店の場所・営業時間【2026年版】（4店舗掲載）</span></a>
-              <a href="/guide/ikebukuro.html" class="gh-news-item"><time class="gh-news-item__date">2026-07-02</time><span class="gh-badge gh-badge--new">まとめ</span><span>🦉 池袋のガチャガチャまとめ｜世界最大級ガシャポンのデパートほか【2026年版】（8店舗掲載）</span></a>
-              <a href="/guide/shinjuku.html" class="gh-news-item"><time class="gh-news-item__date">2026-08-11</time><span class="gh-badge gh-badge--new">まとめ</span><span>🌆 新宿のガチャガチャまとめ｜サブナード・#C-plaなど専門店ガイド【2026年版】（5店舗掲載）</span></a>
-              <a href="/guide/tokyo-station.html" class="gh-news-item"><time class="gh-news-item__date">2026-07-02</time><span class="gh-badge gh-badge--new">まとめ</span><span>🚅 東京駅のガチャガチャまとめ｜一番街ガシャポンストリート【2026年版】（2店舗掲載）</span></a>
+              <a href="/guide/guide-first-visit.html" class="gh-news-item"><time class="gh-news-item__date">2026-07-03</time><span class="gh-badge gh-badge--new">ガイド</span><span>📖 はじめてのガチャガチャ専門店ガイド｜回し方・両替・予算の目安【保存版】</span></a>
+              <a href="/guide/guide-find-new.html" class="gh-news-item"><time class="gh-news-item__date">2026-07-03</time><span class="gh-badge gh-badge--new">ガイド</span><span>💡 ガチャガチャの新作・設置場所の探し方｜目当ての商品に出会う3つの方法【保存版】</span></a>
+              <a href="/guide/guide-store-checklist.html" class="gh-news-item"><time class="gh-news-item__date">2026-08-14</time><span class="gh-badge gh-badge--new">ガイド</span><span>✅ ガチャガチャ店舗の選び方｜出発前に確認する5つのチェック項目</span></a>
+              <a href="/guide/guide-release-restock-search.html" class="gh-news-item"><time class="gh-news-item__date">2026-08-14</time><span class="gh-badge gh-badge--new">ガイド</span><span>🔎 ガチャガチャの新作・再入荷を探す手順｜情報を見分ける実践ガイド</span></a>
+              <a href="/guide/guide-capsule-storage.html" class="gh-news-item"><time class="gh-news-item__date">2026-08-14</time><span class="gh-badge gh-badge--new">ガイド</span><span>🗂️ カプセルトイの保管・整理方法｜小物・説明書・空カプセルを迷子にしない</span></a>
             <!-- GH:HOME-ARTICLES:END -->
           </div>
-        </section>
-
-        <!-- ガチャ関連グッズ（文脈広告・data/ads.js の gachaGoods を描画） -->
-        <section class="gh-section gh-goods-sec" hidden>
-          <div class="gh-section__header">
-            <h2 class="gh-section__title">🎁 ガチャ好きに人気のアイテム <span class="gh-affil__pr">PR</span></h2>
-          </div>
-          <div data-gh-gacha-goods></div>
         </section>
 
         <!-- Area browse -->
@@ -349,15 +328,6 @@
 
       <!-- ========== SIDEBAR ========== -->
       <aside class="gh-sidebar">
-
-        <!-- 広告枠（スポンサーリンク） -->
-        <div class="gh-ad" aria-label="広告">
-          <span class="gh-ad__label">広告</span>
-          <div class="gh-ad__body">
-            <strong>スポンサーリンク</strong>
-            <small>広告枠（レスポンシブ / 300×250）</small>
-          </div>
-        </div>
 
         <div class="gh-widget">
           <h3 class="gh-widget__title">エリア・駅名で検索</h3>
@@ -423,11 +393,11 @@
       <div class="gh-footer__main">
         <div class="gh-footer__brand">
           <a class="gh-logo" href="index.html"><img class="gh-logo__icon" src="assets/mascot-icon.png" alt="ガチャひろばのマスコット" width="34" height="34" /><span class="gh-logo__text">ガチャ<em>ひろば</em></span></a>
-          <p>全国のガチャガチャ設置場所情報を網羅。<br />あなたのガチャライフをサポートします。</p>
+          <p>全国のガチャガチャ設置場所情報を掲載。<br />確認できた情報を随時更新しています。</p>
         </div>
         <div class="gh-footer__links">
           <div><strong>サービス</strong><a href="index.html">トップ</a><a href="ranking.html">ランキング</a><a href="news.html">新着情報</a><a href="map.html">マップ検索</a></div>
-          <div><strong>情報</strong><a href="about.html">運営者・編集方針</a><a href="area.html">エリア別</a><a href="category.html">ブランド別</a><a href="advertising.html">広告掲載</a></div>
+          <div><strong>情報</strong><a href="about.html">運営者・編集方針</a><a href="methodology.html">データ確認方法</a><a href="area.html">エリア別</a><a href="category.html">ブランド別</a><a href="advertising.html">広告掲載</a></div>
           <div><strong>サポート</strong><a href="contact.html">お問い合わせ</a><a href="terms.html">利用規約</a><a href="privacy.html">プライバシー</a><a href="sitemap.html">サイトマップ</a><a href="english.html">English</a></div>
         </div>
       </div>
