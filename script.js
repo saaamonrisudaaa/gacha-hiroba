@@ -1,16 +1,121 @@
 'use strict';
 
+/* ── GA4 runtime guard ──
+   運営者端末・非本番環境・計測対象外ページでは、gtag.jsを読み込む前に送信を止める。
+   運営者フラグはこのブラウザのlocalStorageだけに保存し、端末識別情報は保持しない。 */
+var GHAnalyticsControl = (function () {
+  var GA_ID = 'G-6KSGDTM1VJ';
+  var OWNER_KEY = 'gh-analytics-owner-excluded-v1';
+  var DISABLE_KEY = 'ga-disable-' + GA_ID;
+
+  function isProduction() {
+    return location.protocol === 'https:' && location.hostname === 'gacha-hiroba.com';
+  }
+  function isNoTrackingPage() {
+    return Boolean(document.body && document.body.hasAttribute('data-gh-no-tracking')) ||
+      /\/(?:privacy|analytics-control)\.html$/.test(location.pathname);
+  }
+  function getOwnerExclusion() {
+    try {
+      var raw = localStorage.getItem(OWNER_KEY);
+      if (!raw) return null;
+      if (raw === '1') return { excluded: true, setAt: null };
+      var parsed = JSON.parse(raw);
+      return parsed && parsed.excluded === true
+        ? { excluded: true, setAt: typeof parsed.setAt === 'string' ? parsed.setAt : null }
+        : null;
+    } catch (e) {
+      return null;
+    }
+  }
+  function isOwnerExcluded() {
+    return Boolean(getOwnerExclusion());
+  }
+  function setRuntimeDisabled(disabled) {
+    window[DISABLE_KEY] = Boolean(disabled);
+  }
+  function isRuntimeDisabled() {
+    return window[DISABLE_KEY] === true;
+  }
+  function clearAnalyticsCookies() {
+    var names = ['_ga', '_gid', '_gat'];
+    try {
+      document.cookie.split(';').forEach(function (part) {
+        var name = part.split('=')[0].trim();
+        if (/^_ga(?:_|$)/.test(name) && names.indexOf(name) === -1) names.push(name);
+      });
+      names.forEach(function (name) {
+        var expired = name + '=; Max-Age=0; Path=/; SameSite=Lax';
+        document.cookie = expired;
+        if (location.hostname === 'gacha-hiroba.com') {
+          document.cookie = expired + '; Domain=gacha-hiroba.com';
+          document.cookie = expired + '; Domain=.gacha-hiroba.com';
+        }
+      });
+    } catch (e) { /* Cookieが使えなくても送信停止フラグは維持する。 */ }
+  }
+  function shouldBlock() {
+    return !isProduction() || isNoTrackingPage() || isOwnerExcluded();
+  }
+  function stop() {
+    setRuntimeDisabled(true);
+    clearAnalyticsCookies();
+  }
+  function prepare() {
+    var blocked = shouldBlock();
+    setRuntimeDisabled(blocked);
+    return !blocked;
+  }
+  function setOwnerExcluded(excluded) {
+    try {
+      if (excluded) {
+        localStorage.setItem(OWNER_KEY, JSON.stringify({ excluded: true, setAt: new Date().toISOString() }));
+        if (!isOwnerExcluded()) throw new Error('owner exclusion was not persisted');
+        stop();
+        return true;
+      }
+      localStorage.removeItem(OWNER_KEY);
+      if (isOwnerExcluded()) throw new Error('owner exclusion was not removed');
+      prepare();
+      return true;
+    } catch (e) {
+      stop();
+      return false;
+    }
+  }
+
+  /* localStorageは同一ブラウザの別タブにも即時反映し、開いたままのページからの送信も止める。 */
+  window.addEventListener('storage', function (event) {
+    if (event.key === OWNER_KEY && isOwnerExcluded()) stop();
+  });
+
+  prepare();
+  return {
+    measurementId: GA_ID,
+    storageKey: OWNER_KEY,
+    isProduction: isProduction,
+    isNoTrackingPage: isNoTrackingPage,
+    getOwnerExclusion: getOwnerExclusion,
+    isOwnerExcluded: isOwnerExcluded,
+    setOwnerExcluded: setOwnerExcluded,
+    shouldBlock: shouldBlock,
+    isRuntimeDisabled: isRuntimeDisabled,
+    stop: stop,
+    prepare: prepare
+  };
+})();
+window.GHAnalyticsControl = GHAnalyticsControl;
+
 /* ── Google Analytics 4 ──
    利用者が「解析を許可」を選ぶまで外部スクリプトを読み込まない。選択は端末内に保存し、
    フッターの「Cookie設定」からいつでも変更できる。 */
 (function () {
-  var GA_ID = 'G-6KSGDTM1VJ';
+  var GA_ID = GHAnalyticsControl.measurementId;
   var CONSENT_KEY = 'gh-analytics-consent-v1';
-  var noTracking = document.body?.hasAttribute('data-gh-no-tracking') || /\/privacy\.html$/.test(location.pathname);
   function choice() { try { return localStorage.getItem(CONSENT_KEY); } catch (e) { return null; } }
   function remember(value) { try { localStorage.setItem(CONSENT_KEY, value); } catch (e) {} }
   function loadAnalytics() {
-    if (noTracking || window.gtag) return;
+    if (!GHAnalyticsControl.prepare() || window.gtag) return;
     var s = document.createElement('script');
     s.async = true;
     s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
@@ -27,6 +132,7 @@
   }
   function showBanner() {
     closeBanner();
+    if (GHAnalyticsControl.isOwnerExcluded()) return;
     var box = document.createElement('aside');
     box.className = 'gh-consent';
     box.setAttribute('data-gh-consent', '');
@@ -39,15 +145,16 @@
       '<button type="button" class="gh-btn gh-btn--primary" data-gh-consent-accept>解析を許可</button></div>';
     document.body.appendChild(box);
     box.querySelector('[data-gh-consent-reject]').addEventListener('click', function () {
-      remember('rejected'); closeBanner();
+      remember('rejected'); GHAnalyticsControl.stop(); closeBanner();
     });
     box.querySelector('[data-gh-consent-accept]').addEventListener('click', function () {
       remember('accepted'); loadAnalytics(); closeBanner();
     });
   }
   function initConsent() {
-    if (choice() === 'accepted') loadAnalytics();
-    else if (!choice()) showBanner();
+    if (GHAnalyticsControl.isOwnerExcluded()) closeBanner();
+    else if (choice() === 'accepted') loadAnalytics();
+    else if (!choice() && !GHAnalyticsControl.isNoTrackingPage()) showBanner();
     document.querySelectorAll('.gh-footer__links').forEach(function (links) {
       if (links.querySelector('[data-gh-consent-settings]')) return;
       var groups = Array.from(links.children);
@@ -55,15 +162,56 @@
         var heading = group.querySelector && group.querySelector('strong');
         return heading && heading.textContent.trim() === 'サポート';
       }) || groups[groups.length - 1] || links;
-      var button = document.createElement('button');
-      button.type = 'button';
-      button.className = 'gh-footer__consent';
-      button.setAttribute('data-gh-consent-settings', '');
-      button.textContent = 'Cookie設定';
-      button.addEventListener('click', showBanner);
-      support.appendChild(button);
+      if (GHAnalyticsControl.isOwnerExcluded()) {
+        var ownerLink = document.createElement('a');
+        ownerLink.href = '/analytics-control.html';
+        ownerLink.className = 'gh-footer__consent gh-footer__consent--owner';
+        ownerLink.setAttribute('data-gh-consent-settings', '');
+        ownerLink.textContent = '運営者アクセス除外中';
+        support.appendChild(ownerLink);
+      } else {
+        var button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'gh-footer__consent';
+        button.setAttribute('data-gh-consent-settings', '');
+        button.textContent = 'Cookie設定';
+        button.addEventListener('click', showBanner);
+        support.appendChild(button);
+      }
     });
   }
+  /* 別タブで同意・運営者除外を変更した場合も、開いている全タブへ即時反映する。 */
+  window.addEventListener('storage', function (event) {
+    if (event.key === null) {
+      GHAnalyticsControl.stop();
+      closeBanner();
+      if (!GHAnalyticsControl.isNoTrackingPage()) showBanner();
+      return;
+    }
+    if (event.key === GHAnalyticsControl.storageKey) {
+      if (GHAnalyticsControl.isOwnerExcluded()) {
+        GHAnalyticsControl.stop();
+        closeBanner();
+      } else if (choice() === 'accepted') {
+        loadAnalytics();
+      } else {
+        GHAnalyticsControl.stop();
+        if (!choice() && !GHAnalyticsControl.isNoTrackingPage()) showBanner();
+      }
+      return;
+    }
+    if (event.key !== CONSENT_KEY) return;
+    if (event.newValue === 'rejected') {
+      GHAnalyticsControl.stop();
+      closeBanner();
+    } else if (event.newValue === 'accepted') {
+      loadAnalytics();
+      closeBanner();
+    } else if (event.newValue === null) {
+      GHAnalyticsControl.stop();
+      if (!GHAnalyticsControl.isOwnerExcluded() && !GHAnalyticsControl.isNoTrackingPage()) showBanner();
+    }
+  });
   if (document.body) initConsent();
   else document.addEventListener('DOMContentLoaded', initConsent, { once: true });
 })();
@@ -71,7 +219,8 @@
 /* ── GA4 event helper ──
    流入後に「検索→店舗詳細→経路」まで進めたかを判定するための最小イベント。 */
 function ghTrack(name, params) {
-  if (typeof window.gtag !== 'function') return;
+  if (GHAnalyticsControl.shouldBlock() || GHAnalyticsControl.isRuntimeDisabled() ||
+      typeof window.gtag !== 'function') return;
   window.gtag('event', name, params || {});
 }
 function ghSpotUrl(id, hash) {
@@ -1109,17 +1258,20 @@ document.addEventListener('click', function (event) {
   var target = event.target && event.target.closest ? event.target.closest('a[href]') : null;
   if (!target) return;
   var href = target.getAttribute('href') || '';
-  if (/^\/spot\/[a-z0-9_-]+\.html(?:#.*)?$/i.test(href)) {
+  var url = null;
+  try { url = new URL(target.href || href, location.href); } catch (e) { /* 不正URLは計測しない。 */ }
+  var isInternal = Boolean(url && url.origin === location.origin);
+  if (isInternal && /\/spot\.html$/i.test(url.pathname) && url.searchParams.has('id')) {
     ghTrack('store_detail_click', { link_url: href });
-  } else if (/google\.com\/maps|openstreetmap\.org/.test(target.href || '')) {
+  } else if (url && /google\.com\/maps|openstreetmap\.org/.test(url.href)) {
     ghTrack('route_click', { link_url: target.href });
-  } else if (/\/area\/[a-z0-9-]+\.html$/i.test(href)) {
-    ghTrack('area_page_click', { link_url: href });
-  } else if (/\/brand\/[a-z0-9-]+\.html$/i.test(href)) {
-    ghTrack('brand_page_click', { link_url: href });
-  } else if (/\/guide\/[a-z0-9-]+\.html$/i.test(href)) {
+  } else if (isInternal && /\/stores\.html$/i.test(url.pathname) && url.searchParams.has('pref')) {
+    ghTrack('area_page_click', { link_url: href, area_name: url.searchParams.get('pref') });
+  } else if (isInternal && /\/stores\.html$/i.test(url.pathname) && url.searchParams.has('brand')) {
+    ghTrack('brand_page_click', { link_url: href, brand_name: url.searchParams.get('brand') });
+  } else if (isInternal && /\/guide\/[a-z0-9-]+\.html$/i.test(url.pathname)) {
     ghTrack('guide_page_click', { link_url: href });
-  } else if (/\/releases\/\d{4}-\d{2}\.html$/i.test(href)) {
+  } else if (isInternal && /\/releases\/\d{4}-\d{2}\.html$/i.test(url.pathname)) {
     ghTrack('release_hub_click', { link_url: href });
   } else if (target.classList.contains('gh-official-source') || target.classList.contains('gh-rel__src')) {
     ghTrack('official_source_click', { link_url: target.href });

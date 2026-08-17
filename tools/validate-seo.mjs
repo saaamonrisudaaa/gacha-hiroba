@@ -52,6 +52,46 @@ const mainScriptSource = readFileSync(join(root, 'script.js'), 'utf8');
 if (!/return\s+isVerified\(s\)\s*&&\s*s\.lat\s*!=\s*null\s*&&\s*s\.lon\s*!=\s*null/.test(mainScriptSource)) {
   fail('script.js: 確認待ち店舗が公開マップへ混入する可能性があります');
 }
+for (const [pattern, message] of [
+  [/gh-analytics-owner-excluded-v1/, '運営者アクセス除外フラグがありません'],
+  [/ga-disable-['"]?\s*\+\s*GA_ID/, 'GA4の送信停止フラグがありません'],
+  [/location\.protocol\s*===\s*'https:'\s*&&\s*location\.hostname\s*===\s*'gacha-hiroba\.com'/, '非本番ホストの計測遮断がありません'],
+  [/function\s+loadAnalytics\(\)\s*{\s*if\s*\(!GHAnalyticsControl\.prepare\(\)/, 'GA4読込前の除外判定がありません'],
+  [/function\s+ghTrack\([\s\S]{0,180}GHAnalyticsControl\.shouldBlock\(\)/, 'イベント送信時の除外判定がありません'],
+  [/function\s+ghTrack\([\s\S]{0,220}GHAnalyticsControl\.isRuntimeDisabled\(\)/, '同意撤回後のイベント停止判定がありません'],
+  [/remember\('rejected'\);\s*GHAnalyticsControl\.stop\(\)/, '同意撤回時の即時停止がありません'],
+  [/event\.key\s*!==\s*CONSENT_KEY[\s\S]{0,180}event\.newValue\s*===\s*'rejected'[\s\S]{0,120}GHAnalyticsControl\.stop\(\)/, '別タブでの同意撤回を即時反映していません'],
+  [/searchParams\.has\('id'\)[\s\S]{0,120}store_detail_click/, '現行の店舗詳細URLを計測できません'],
+  [/searchParams\.has\('pref'\)[\s\S]{0,160}area_page_click/, '現行の都道府県URLを計測できません'],
+  [/searchParams\.has\('brand'\)[\s\S]{0,160}brand_page_click/, '現行のブランドURLを計測できません']
+]) {
+  if (!pattern.test(mainScriptSource)) fail('script.js: ' + message);
+}
+
+const analyticsControlFile = join(root, 'analytics-control.html');
+const analyticsControlScriptFile = join(root, 'analytics-control.js');
+if (!existsSync(analyticsControlFile)) fail('analytics-control.html: 運営者アクセス設定ページがありません');
+if (!existsSync(analyticsControlScriptFile)) fail('analytics-control.js: 運営者アクセス設定処理がありません');
+if (existsSync(analyticsControlFile)) {
+  const html = readFileSync(analyticsControlFile, 'utf8');
+  const mainScriptAt = html.indexOf('src="/script.js"');
+  const controlScriptAt = html.indexOf('src="/analytics-control.js"');
+  if (!hasNoindex(html) || !/name="robots" content="[^"]*nofollow/i.test(html)) {
+    fail('analytics-control.html: noindex,nofollow指定がありません');
+  }
+  if (!/<body[^>]+data-gh-no-tracking/i.test(html)) {
+    fail('analytics-control.html: 設定ページ自体の計測除外がありません');
+  }
+  if (mainScriptAt < 0 || controlScriptAt < 0 || mainScriptAt > controlScriptAt) {
+    fail('analytics-control.html: 共通GA制御より先に設定処理が読み込まれています');
+  }
+}
+if (existsSync(analyticsControlScriptFile)) {
+  const source = readFileSync(analyticsControlScriptFile, 'utf8');
+  if (!/setOwnerExcluded\(true\)/.test(source) || !/setOwnerExcluded\(false\)/.test(source)) {
+    fail('analytics-control.js: 除外の有効化・解除処理がそろっていません');
+  }
+}
 for (const store of verifiedStores) {
   let host = '';
   try { host = new URL(store.sourceUrl).hostname.toLowerCase(); }
@@ -152,7 +192,7 @@ for (const file of htmlFiles) {
 }
 
 for (const name of ['board.html', 'map.html', 'ranking.html', 'stores.html', 'spot.html', 'article.html',
-  'area.html', 'category.html', 'sitemap.html', 'english.html', 'location.html']) {
+  'area.html', 'category.html', 'sitemap.html', 'english.html', 'location.html', 'analytics-control.html']) {
   const file = join(root, name);
   if (!existsSync(file) || !hasNoindex(readFileSync(file, 'utf8'))) {
     fail(name + ': 再審査中の検索対象外指定がありません');
@@ -203,7 +243,8 @@ for (const path of ['/', '/news.html', '/terms.html', '/privacy.html',
   if (!locs.includes(ORIGIN + path)) fail('sitemap.xml: indexableな固定ページが未掲載 ' + path);
 }
 for (const path of ['/board.html', '/map.html', '/ranking.html', '/stores.html', '/spot.html',
-  '/article.html', '/area.html', '/category.html', '/sitemap.html', '/english.html', '/location.html']) {
+  '/article.html', '/area.html', '/category.html', '/sitemap.html', '/english.html', '/location.html',
+  '/analytics-control.html']) {
   if (locs.includes(ORIGIN + path)) fail('sitemap.xml: 検索対象外の固定ページが掲載されています ' + path);
 }
 
@@ -275,7 +316,8 @@ for (const required of ['about.html', 'ガチャひろばの情報づくり', 'g
   if (!indexHtml.includes(required)) fail('index.html: 信頼性情報が不足しています (' + required + ')');
 }
 const privacyHtml = readFileSync(join(root, 'privacy.html'), 'utf8');
-for (const required of ['policies.google.com/technologies/partner-sites', 'Google Analytics 4', '楽天アフィリエイト', 'Supabase', 'data-gh-no-tracking']) {
+for (const required of ['policies.google.com/technologies/partner-sites', 'Google Analytics 4', '楽天アフィリエイト',
+  'Supabase', 'data-gh-no-tracking', '計測除外フラグ', 'Google Analyticsのタグ自体を読み込みません']) {
   if (!privacyHtml.includes(required)) fail('privacy.html: 実装に対応する開示が不足しています (' + required + ')');
 }
 for (const forbidden of ['8,241スポット', 'ヨドバシAkiba ガチャコーナー', 'アキバガチャ横丁', '梅田LOFT ガチャコーナー', '掲示板 3,241件', '月間訪問 24,580']) {

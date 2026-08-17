@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex,nofollow,noarchive" />
+  <meta name="description" content="ガチャひろば運営者用のGoogle Analytics計測除外設定ページです。" />
+  <title>運営者アクセスの計測除外 | ガチャひろば</title>
+  <link rel="canonical" href="https://gacha-hiroba.com/analytics-control.html" />
+  <link rel="icon" type="image/png" href="/assets/mascot-icon.png" />
+  <link rel="stylesheet" href="/styles.css" />
+  <script src="/script.js" defer></script>
+  <script src="/analytics-control.js" defer></script>
+</head>
+<body data-gh-no-tracking>
+  <header class="gh-header">
+    <div class="gh-header__top">
+      <div class="gh-container gh-header__inner">
+        <a class="gh-logo" href="/index.html" aria-label="ガチャひろば トップへ">
+          <img class="gh-logo__icon" src="/assets/mascot-icon.png" alt="ガチャひろばのマスコット" width="34" height="34" />
+          <span class="gh-logo__text">ガチャ<em>ひろば</em></span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="gh-main">
+    <div class="gh-container gh-analytics-control">
+      <nav class="gh-breadcrumb" aria-label="パンくずリスト">
+        <a href="/index.html">トップ</a><span aria-hidden="true">›</span><span aria-current="page">運営者用設定</span>
+      </nav>
+
+      <div class="gh-page-hero">
+        <h1 class="gh-page-hero__title">運営者アクセスの計測除外</h1>
+        <p class="gh-page-hero__desc">このページ自体はGoogle Analyticsへ送信されません。運営者本人の端末だけで設定してください。</p>
+      </div>
+
+      <section class="gh-owner-control" aria-labelledby="ownerControlTitle">
+        <div class="gh-owner-control__status" aria-live="polite">
+          <span class="gh-owner-control__label">このブラウザの状態</span>
+          <strong id="ownerControlTitle" data-gh-owner-status>確認中</strong>
+          <span data-gh-owner-date></span>
+        </div>
+
+        <div class="gh-owner-control__panel">
+          <div data-gh-owner-enable-panel>
+            <h2>このブラウザを計測対象外にする</h2>
+            <p>有効にすると、このブラウザではGA4タグを読み込まず、ページ表示・検索・店舗詳細などのイベントを送信しません。既存のGA用Cookieも削除します。</p>
+            <button type="button" class="gh-btn gh-btn--primary" data-gh-owner-enable disabled>運営者アクセスの除外を有効にする</button>
+          </div>
+
+          <div data-gh-owner-disable-panel hidden>
+            <h2>計測を再開する</h2>
+            <p>除外を解除すると、通常ページへ移動した後から、保存済みのCookie設定に従って計測されます。</p>
+            <button type="button" class="gh-btn" data-gh-owner-disable disabled>このブラウザの除外を解除する</button>
+          </div>
+
+          <p class="gh-owner-control__message" data-gh-owner-message role="status"></p>
+          <noscript><p class="gh-owner-control__error">JavaScriptが無効なため設定できません。この状態を「除外済み」とはみなさないでください。</p></noscript>
+        </div>
+
+        <div class="gh-owner-control__notes">
+          <h2>正しく除外するための注意</h2>
+          <ul>
+            <li>パソコン、携帯、それぞれのブラウザごとに、このページを開いて1回ずつ有効にしてください。</li>
+            <li>Safari、Chrome、X・LINEなどのアプリ内ブラウザは別々の設定です。</li>
+            <li>プライベートブラウズ、サイトデータの削除、別のブラウザプロファイルでは設定が引き継がれません。</li>
+            <li>設定後は通常ページのフッターに「運営者アクセス除外中」と表示されます。</li>
+            <li>すでにGoogle Analyticsへ記録された過去のアクセスは削除されません。設定後のアクセスから除外されます。</li>
+          </ul>
+          <p><strong>設定用URL：</strong><code>https://gacha-hiroba.com/analytics-control.html</code></p>
+        </div>
+
+        <div class="gh-owner-control__actions">
+          <a class="gh-btn gh-btn--primary" href="/index.html">トップページで状態を確認する</a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="gh-footer">
+    <div class="gh-container">
+      <div class="gh-footer__main">
+        <div class="gh-footer__brand">
+          <a class="gh-logo" href="/index.html"><img class="gh-logo__icon" src="/assets/mascot-icon.png" alt="ガチャひろばのマスコット" width="34" height="34" /><span class="gh-logo__text">ガチャ<em>ひろば</em></span></a>
+          <p>全国のガチャガチャ設置場所情報を掲載。<br />確認できた情報を随時更新しています。</p>
+        </div>
+        <div class="gh-footer__links">
+          <div><strong>サポート</strong><a href="/privacy.html">プライバシー</a><a href="/contact.html">お問い合わせ</a></div>
+        </div>
+      </div>
+      <div class="gh-footer__bottom"><span>© 2026 ガチャひろば (gacha-hiroba.com)</span></div>
+    </div>
+  </footer>
+</body>
+</html>
