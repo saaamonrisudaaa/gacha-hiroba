@@ -3,6 +3,7 @@
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, relative, resolve } from 'node:path';
+import { MIN_INDEXABLE_RELEASES, isIndexableReleaseCount } from './release-policy.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const ORIGIN = 'https://gacha-hiroba.com';
@@ -19,6 +20,7 @@ const articles = win.GH_ARTICLES || [];
 const articleBySlug = new Map(articles.map((article) => [String(article.slug), article]));
 const verifiedStores = spots.filter(isVerified);
 const pendingStores = spots.length - verifiedStores.length;
+if (MIN_INDEXABLE_RELEASES !== 8) fail('release-policy.mjs: 月別新作ページのindex最低件数は8件にしてください');
 
 /* 審査・信頼性に直結する固定ページと広告除外ページ。 */
 const requiredTrustPages = ['about.html', 'methodology.html', 'contact.html', 'privacy.html', 'terms.html', 'advertising.html'];
@@ -47,6 +49,12 @@ if (/href\s*=\s*spotUrl\s*\(/.test(spotsUiSource)) {
 }
 if (!/ALL_SPOTS\.filter\(isVerified\)/.test(spotsUiSource)) {
   fail('spots-ui.js: 確認待ち店舗が公開一覧・詳細へ混入する可能性があります');
+}
+if (!/if\s*\(query\s*\|\|\s*brand\s*\|\|\s*pref\)\s*markNoindex\(\)/.test(spotsUiSource)) {
+  fail('spots-ui.js: 店舗の検索・都道府県・ブランド絞り込みがnoindexになっていません');
+}
+if (/\b(?:bUrl|pUrl)\s*=/.test(spotsUiSource)) {
+  fail('spots-ui.js: 絞り込みURLをcanonicalへ変更する処理が残っています');
 }
 const mainScriptSource = readFileSync(join(root, 'script.js'), 'utf8');
 if (!/return\s+isVerified\(s\)\s*&&\s*s\.lat\s*!=\s*null\s*&&\s*s\.lon\s*!=\s*null/.test(mainScriptSource)) {
@@ -98,14 +106,17 @@ const generated = [
 const titles = new Map();
 const canonicals = new Set();
 const indexableCanonicals = new Set();
+const generatedIndexability = new Map();
 
-function expectedIndexable(rel) {
+function expectedIndexable(rel, html) {
   const match = rel.match(/^\/(guide|releases)\/([^/]+)\.html$/);
   if (!match) return false;
   const [, type, rawSlug] = match;
   const slug = decodeURIComponent(rawSlug);
   if (type === 'guide') return articleBySlug.get(slug)?.type === 'guide';
-  return false; // releases は再審査中 noindex
+  if (type !== 'releases') return false;
+  const count = Number(html.match(/"numberOfItems":(\d+)/)?.[1] || 0);
+  return isIndexableReleaseCount(count);
 }
 
 for (const file of generated) {
@@ -120,7 +131,8 @@ for (const file of generated) {
   if (canonical !== ORIGIN + rel) fail(rel + ': canonical が不一致です (' + (canonical || 'なし') + ')');
   else canonicals.add(canonical);
   if (h1s !== 1) fail(rel + ': H1 が ' + h1s + '個です');
-  const shouldIndex = expectedIndexable(rel);
+  const shouldIndex = expectedIndexable(rel, html);
+  generatedIndexability.set(rel, shouldIndex);
   if (hasNoindex(html) === shouldIndex) {
     fail(rel + ': ページ種別に対するrobots指定が不一致です');
   }
@@ -137,10 +149,27 @@ for (const file of generated) {
   }
   const scripts = [...html.matchAll(/<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/gi)];
   if (!scripts.length) fail(rel + ': JSON-LD がありません');
+  const jsonLd = [];
   scripts.forEach((match, index) => {
-    try { JSON.parse(match[1]); }
+    try { jsonLd.push(JSON.parse(match[1])); }
     catch (error) { fail(rel + ': JSON-LD #' + (index + 1) + ' が不正です (' + error.message + ')'); }
   });
+  if (rel.startsWith('/releases/')) {
+    const itemList = jsonLd.find((data) => data?.['@type'] === 'ItemList');
+    const cardCount = (html.match(/<article class="gh-rel" id="release-\d+">/g) || []).length;
+    if (!itemList) fail(rel + ': 月別新作のItemList構造化データがありません');
+    else {
+      if (itemList.numberOfItems !== cardCount) fail(rel + ': ItemListの商品件数と表示カード数が一致しません');
+      if (!Array.isArray(itemList.itemListElement) || itemList.itemListElement.length !== cardCount) {
+        fail(rel + ': ItemListの商品要素数と表示カード数が一致しません');
+      }
+    }
+    if (shouldIndex) {
+      for (const required of ['掲載データの内訳', 'すべての商品を網羅した一覧ではありません', '在庫を保証するページではありません']) {
+        if (!html.includes(required)) fail(rel + ': 月別新作ページの独自集計・注意事項が不足しています (' + required + ')');
+      }
+    }
+  }
 }
 
 /* 公開HTML全体のローカルリンク切れを確認する。 */
@@ -174,12 +203,37 @@ for (const file of htmlFiles) {
   }
 }
 
-for (const name of ['board.html', 'map.html', 'ranking.html', 'stores.html', 'spot.html', 'article.html',
+for (const name of ['board.html', 'map.html', 'spot.html', 'article.html',
   'area.html', 'category.html', 'sitemap.html', 'english.html', 'location.html']) {
   const file = join(root, name);
   if (!existsSync(file) || !hasNoindex(readFileSync(file, 'utf8'))) {
     fail(name + ': 再審査中の検索対象外指定がありません');
   }
+}
+for (const name of ['stores.html', 'ranking.html']) {
+  const file = join(root, name);
+  if (!existsSync(file) || hasNoindex(readFileSync(file, 'utf8'))) {
+    fail(name + ': 検索対象ページをindexableにしてください');
+    continue;
+  }
+  const html = readFileSync(file, 'utf8');
+  const types = new Set();
+  for (const match of html.matchAll(/<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/gi)) {
+    try {
+      const data = JSON.parse(match[1]);
+      const objects = Array.isArray(data) ? data : [data];
+      objects.forEach((object) => { if (object && object['@type']) types.add(object['@type']); });
+    } catch (error) {
+      fail(name + ': JSON-LD が不正です (' + error.message + ')');
+    }
+  }
+  for (const type of ['CollectionPage', 'ItemList', 'BreadcrumbList']) {
+    if (!types.has(type)) fail(name + ': ' + type + ' の構造化データがありません');
+  }
+}
+const storesHtml = readFileSync(join(root, 'stores.html'), 'utf8');
+if (!/if\s*\(location\.search\)[\s\S]{0,180}meta\[name=["']robots["']\][\s\S]{0,180}noindex,follow/.test(storesHtml)) {
+  fail('stores.html: query付きURLをhead内でnoindexにする処理がありません');
 }
 if (existsSync(join(root, 'methodology.html')) && hasNoindex(readFileSync(join(root, 'methodology.html'), 'utf8'))) {
   fail('methodology.html: データ確認方法ページをindexableにしてください');
@@ -193,6 +247,9 @@ for (const expected of [
   'id="methodTotalTable">' + spots.length + '</span>件'
 ]) {
   if (!methodologyHtml.includes(expected)) fail('methodology.html: 公開件数と店舗データが一致しません (' + expected + ')');
+}
+for (const required of ['全国店舗一覧の基本URL', '設置台数ランキング', '自由入力検索、都道府県・ブランド絞り込みは機能画面として検索対象外']) {
+  if (!methodologyHtml.includes(required)) fail('methodology.html: 検索掲載方針の説明が不足しています (' + required + ')');
 }
 
 /* XML sitemap: query URL・重複・未来日・存在しないページを拒否。 */
@@ -221,11 +278,20 @@ for (const canonical of canonicals) {
     fail('sitemap.xml: 検索対象外の正規ページが掲載されています ' + canonical);
   }
 }
+const htmlSitemap = readFileSync(join(root, 'sitemap.html'), 'utf8');
+for (const [rel, shouldIndex] of generatedIndexability) {
+  if (!rel.startsWith('/releases/')) continue;
+  const appears = htmlSitemap.includes('href="' + rel + '"');
+  if (appears !== shouldIndex) {
+    fail('sitemap.html: 月別新作ページの掲載判定がrobotsと一致しません (' + rel + ')');
+  }
+}
 for (const path of ['/', '/news.html', '/terms.html', '/privacy.html',
-  '/advertising.html', '/contact.html', '/about.html', '/methodology.html']) {
+  '/advertising.html', '/contact.html', '/about.html', '/methodology.html',
+  '/stores.html', '/ranking.html']) {
   if (!locs.includes(ORIGIN + path)) fail('sitemap.xml: indexableな固定ページが未掲載 ' + path);
 }
-for (const path of ['/board.html', '/map.html', '/ranking.html', '/stores.html', '/spot.html',
+for (const path of ['/board.html', '/map.html', '/spot.html',
   '/article.html', '/area.html', '/category.html', '/sitemap.html', '/english.html', '/location.html',
   '/analytics-control.html']) {
   if (locs.includes(ORIGIN + path)) fail('sitemap.xml: 検索対象外の固定ページが掲載されています ' + path);

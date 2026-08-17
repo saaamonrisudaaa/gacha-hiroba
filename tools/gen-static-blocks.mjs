@@ -11,6 +11,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { guidePath, prefPath, spotPath } from './seo-routes.mjs';
 
+const ORIGIN = 'https://gacha-hiroba.com';
 const win = {};
 for (const rel of ['../data/spots.js', '../data/articles.js', '../data/releases.js']) {
   new Function('window', readFileSync(new URL(rel, import.meta.url), 'utf8'))(win);
@@ -27,6 +28,7 @@ const REGION_ORDER = ['kanto', 'kansai', 'tokai', 'kyushu', 'tohoku', 'chugoku']
 
 const esc = s => String(s)
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+const safeJson = value => JSON.stringify(value).replace(/</g, '\\u003c');
 
 const machinesText = n => (n == null || n === '') ? '—' : '約' + Number(n).toLocaleString('ja-JP') + '台';
 const isVerified = s => !!(s && s.sourceUrl && s.verifiedAt);
@@ -53,6 +55,11 @@ function fillMarker(html, name, content) {
 function replaceElementText(html, id, value) {
   const re = new RegExp('(<(?:strong|span)[^>]*\\bid="' + id + '"[^>]*>)[^<]*(</(?:strong|span)>)');
   return html.replace(re, '$1' + esc(value) + '$2');
+}
+
+function replaceJsonLd(html, id, value) {
+  const re = new RegExp('(<script[^>]*\\bid="' + id + '"[^>]*>)[\\s\\S]*?(</script>)');
+  return html.replace(re, '$1' + safeJson(value) + '$2');
 }
 
 function updateMarkedPage(rel, blocks, mutate) {
@@ -119,7 +126,9 @@ for (const rel of TARGETS) {
   try { html = readFileSync(url, 'utf8'); } catch { continue; }
   const re = /(<!-- GH:PREF-INDEX:START -->)[\s\S]*?(<!-- GH:PREF-INDEX:END -->)/;
   if (!re.test(html)) { console.log('skip (マーカーなし):', rel); continue; }
-  writeFileSync(url, html.replace(re, (_m, a, b) => a + block + '  ' + b));
+  html = html.replace(re, (_m, a, b) => a + block + '  ' + b);
+  html = html.replace(/(?:全国|現在)\d+都道府県を掲載中/g, '現在' + prefCount + '都道府県を掲載中');
+  writeFileSync(url, html);
   done++;
 }
 
@@ -178,6 +187,30 @@ const prefGroups = [...new Set(publicSpots.map(s => s.pref))].map(pref => {
   const list = publicSpots.filter(s => s.pref === pref).sort((a, b) => (b.machines || 0) - (a.machines || 0));
   return { pref, count: list.length };
 }).sort((a, b) => b.count - a.count || a.pref.localeCompare(b.pref, 'ja'));
+
+/* 店舗データ更新後も、検索エンジン向けの都道府県集計を画面表示と同期する。 */
+try {
+  const storesUrl = new URL('../stores.html', import.meta.url);
+  let storesHtml = readFileSync(storesUrl, 'utf8');
+  const topPrefs = prefGroups.slice(0, 5);
+  storesHtml = replaceJsonLd(storesHtml, 'gh-stores-list-jsonld', {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    '@id': ORIGIN + '/stores.html#top-prefectures',
+    name: '掲載店舗数上位の都道府県',
+    numberOfItems: topPrefs.length,
+    itemListOrder: 'https://schema.org/ItemListOrderDescending',
+    itemListElement: topPrefs.map((group, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: group.pref + '（' + group.count + '店舗）',
+      url: ORIGIN + prefPath(group.pref)
+    }))
+  });
+  writeFileSync(storesUrl, storesHtml);
+} catch (error) {
+  console.warn('gen-static-blocks: stores.html の構造化データ更新をスキップ:', error.message);
+}
 const areaLinks = prefGroups.slice(0, 12).map(g =>
   '<a href="' + prefPath(g.pref) + '" class="gh-area-card">' +
     '<span class="gh-area-card__icon">' + (PREF_ICON[g.pref] || '📍') + '</span>' +
@@ -200,22 +233,31 @@ function releaseBadge(r, cls) {
   const text = r.label || (d === 0 ? '本日発売' : r.date.slice(5).replace('-', '/') + ' 発売');
   return '<span class="' + cls + stateClass + '">' + esc(text) + '</span>';
 }
+function releaseHubPath(release) {
+  const month = String(release.date || '').slice(0, 7);
+  const monthReleases = releases.filter((item) => String(item && item.date || '').slice(0, 7) === month)
+    .slice().sort((a, b) =>
+      String(a.date).localeCompare(String(b.date), 'ja') || String(a.title).localeCompare(String(b.title), 'ja')
+    );
+  const index = monthReleases.indexOf(release);
+  return '/releases/' + month + '.html' + (index >= 0 ? '#release-' + (index + 1) : '');
+}
 function releaseCells(kind, limit = 7) {
   const shown = sortedReleases.slice(0, limit);
   if (!shown.length) return '';
   const base = kind === 'hot' ? 'gh-hot' : 'gh-rel';
   const restClass = kind === 'hot' ? 'gh-hot-rest' : 'gh-rel-rest';
   const cell = (r, lead) => {
-    const tag = r.source ? 'a' : 'div';
-    const attrs = r.source ? ' href="' + esc(r.source) + '" target="_blank" rel="noopener"' : '';
-    return '<' + tag + ' class="' + base + (lead ? ' ' + base + '--lead' : ' ' + base + '--row') +
-      (kind === 'hot' && r.source ? ' gh-official-source' : '') + '"' + attrs + '>' +
+    const hubPath = releaseHubPath(r);
+    return '<article class="' + base + (lead ? ' ' + base + '--lead' : ' ' + base + '--row') + '">' +
       releaseBadge(r, base + '__badge') +
-      '<strong class="' + base + '__title">' + esc(r.title) + '</strong>' +
+      '<strong class="' + base + '__title"><a href="' + esc(hubPath) + '">' + esc(r.title) + '</a></strong>' +
       '<small class="' + base + '__meta">' + esc(r.maker || '') +
         (r.price ? '<span class="' + base + '__price">' + esc(r.price) + '</span>' : '') +
         (lead && r.note ? '<span class="' + base + '__note">' + esc(r.note) + '</span>' : '') +
-      '</small></' + tag + '>';
+        (r.source ? '<a class="gh-rel__src gh-official-source" href="' + esc(r.source) +
+          '" target="_blank" rel="noopener noreferrer">メーカー公式 ↗</a>' : '') +
+      '</small></article>';
   };
   return cell(shown[0], true) + (shown.length > 1
     ? '\n<div class="' + restClass + '">\n' + shown.slice(1).map(r => '  ' + cell(r, false)).join('\n') + '\n</div>'
@@ -265,9 +307,31 @@ staticDone += updateMarkedPage('../index.html', {
     html = replaceElementText(html, 'statTop', machinesText(ranked[0].machines));
     html = replaceElementText(html, 'statTopName', ranked[0].name);
   }
+  const homeDescription = '掲載根拠URLと確認日のある全国' + prefCount + '都道府県・' +
+    publicSpots.length + '店舗のガチャガチャ設置場所を検索。住所・営業時間・公表設置台数と、' +
+    'メーカー公式情報で確認した新作ガチャを掲載。';
+  html = html.replace(/(<meta name="description" content=")[^"]*(" \/>)/,
+    (_all, before, after) => before + esc(homeDescription) + after);
+  html = html.replace(/(<meta property="og:description" content=")[^"]*(" \/>)/,
+    (_all, before, after) => before + esc(homeDescription) + after);
   return html;
 });
-staticDone += updateMarkedPage('../ranking.html', { 'RANKING-LIST': rankingRows(30) });
+staticDone += updateMarkedPage('../ranking.html', { 'RANKING-LIST': rankingRows(30) }, html =>
+  replaceJsonLd(html, 'gh-ranking-list-jsonld', {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    '@id': ORIGIN + '/ranking.html#top-stores',
+    name: '公表設置台数 上位10店舗',
+    numberOfItems: Math.min(10, ranked.length),
+    itemListOrder: 'https://schema.org/ItemListOrderDescending',
+    itemListElement: ranked.slice(0, 10).map((store, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: store.name + '（' + machinesText(store.machines) + '）',
+      url: ORIGIN + spotPath(store.id)
+    }))
+  })
+);
 staticDone += updateMarkedPage('../news.html', {
   'NEWS-RELEASES': releaseCells('rel'),
   'NEWS-ARTICLES': articleLinks()

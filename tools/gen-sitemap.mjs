@@ -2,8 +2,10 @@
    canonical の静的URLだけを出し、lastmod は確認できる実更新日だけを使う。 */
 import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
 import { guidePath } from './seo-routes.mjs';
+import { isIndexableReleaseCount } from './release-policy.mjs';
 
 const ORIGIN = 'https://gacha-hiroba.com';
+const TRAFFIC_CONTENT_UPDATED = '2026-08-17';
 
 const win = {};
 new Function('window', readFileSync(new URL('../data/spots.js', import.meta.url), 'utf8'))(win);
@@ -26,30 +28,49 @@ const spotsModified = latestSpot(verifiedSpots);
 const articlesModified = latest(indexableArticles.map(articleModified));
 const add = (path, lastmod = '') => urls.push({ loc: ORIGIN + path, lastmod: isDate(lastmod) ? lastmod : '' });
 
-/* 月別発売情報は、生成済みHTMLの dateModified を読む。 */
+/* 月別発売情報は生成済みHTMLを検査し、件数とrobotsがポリシーに合う月だけを検索対象にする。 */
 const releasesDir = new URL('../releases/', import.meta.url);
-let releasePages = [];
+let allReleasePages = [];
 try {
-  releasePages = readdirSync(releasesDir).filter((f) => /^\d{4}-\d{2}\.html$/.test(f)).sort().map((file) => {
+  allReleasePages = readdirSync(releasesDir).filter((f) => /^\d{4}-\d{2}\.html$/.test(f)).sort().map((file) => {
     const html = readFileSync(new URL(file, releasesDir), 'utf8');
-    const match = html.match(/"dateModified":"(\d{4}-\d{2}-\d{2})"/);
-    return { path: '/releases/' + file, modified: match ? match[1] : '' };
+    const modified = html.match(/"dateModified":"(\d{4}-\d{2}-\d{2})"/)?.[1] || '';
+    const countMatch = html.match(/"numberOfItems":(\d+)/);
+    const robotsMatch = html.match(/<meta[^>]+name="robots"[^>]+content="([^"]+)"/i);
+    if (!countMatch || !robotsMatch) {
+      throw new Error('gen-sitemap: ' + file + ' の商品件数またはrobots指定を確認できません');
+    }
+    const count = Number(countMatch[1]);
+    const robotsIndexable = !/\bnoindex\b/i.test(robotsMatch[1]) && /\bindex\b/i.test(robotsMatch[1]);
+    const policyIndexable = isIndexableReleaseCount(count);
+    if (robotsIndexable !== policyIndexable) {
+      throw new Error('gen-sitemap: ' + file + ' の掲載件数とrobots指定が一致しません');
+    }
+    return { path: '/releases/' + file, modified, count, indexable: policyIndexable };
   });
-} catch { /* 発売情報ページがまだ無い環境でも生成を続ける */ }
-const releasesModified = latest(releasePages.map((p) => p.modified));
+} catch (error) {
+  if (error?.code !== 'ENOENT') throw error;
+}
+const releasePages = allReleasePages.filter((page) => page.indexable);
+const releasesModified = latest(allReleasePages.map((page) => page.modified));
 
 /* 固定ページ */
-add('/', latest([spotsModified, articlesModified, releasesModified]));
-add('/news.html', latest([spotsModified, articlesModified, releasesModified]));
+add('/', latest([spotsModified, articlesModified, releasesModified, TRAFFIC_CONTENT_UPDATED]));
+add('/news.html', latest([spotsModified, articlesModified, releasesModified, TRAFFIC_CONTENT_UPDATED]));
+add('/stores.html', latest([spotsModified, TRAFFIC_CONTENT_UPDATED]));
+add('/ranking.html', latest([spotsModified, TRAFFIC_CONTENT_UPDATED]));
 add('/terms.html');
 add('/privacy.html');
 add('/advertising.html');
 add('/contact.html');
 add('/about.html', '2026-08-14');
-add('/methodology.html', '2026-08-14');
+add('/methodology.html', '2026-08-17');
 
-/* 運営者が構成・確認した独自ガイドだけを検索対象にする。 */
+/* 記事のうち、運営者が構成・確認した独自ガイドだけを検索対象にする。 */
 indexableArticles.forEach((a) => add(guidePath(a.slug), articleModified(a)));
+
+/* 公式情報を確認し、静的HTMLへ焼き込んだ月別発売情報。 */
+releasePages.forEach((page) => add(page.path, latest([page.modified, TRAFFIC_CONTENT_UPDATED])));
 
 const esc = s => s.replace(/&/g, '&amp;');
 const xml =
@@ -136,6 +157,16 @@ const html = `<!doctype html>
 ${indexableArticles.map(a => '          <li><a href="' + guidePath(a.slug) + '">' + escH(a.title) + '</a></li>').join('\n')}
         </ul>
       </section>
+      ${releasePages.length ? `<section class="gh-section">
+        <h2 class="gh-section__title">月別の新作ガチャ</h2>
+        <ul>
+${releasePages.slice().reverse().map((page) => {
+  const month = page.path.match(/(\d{4})-(\d{2})/) || [];
+  const label = month.length ? Number(month[1]) + '年' + Number(month[2]) + '月の新作ガチャ' : page.path;
+  return '          <li><a href="' + escH(page.path) + '">' + escH(label) + '</a></li>';
+}).join('\n')}
+        </ul>
+      </section>` : ''}
       <section class="gh-section">
         <h2 class="gh-section__title">運営・ポリシー</h2>
         <ul>

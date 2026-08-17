@@ -6,6 +6,7 @@
    過去月のHTMLは消さない。data/releases.js から古い項目が整理されたあとも、
    すでに公開した月別アーカイブを残すため。 */
 import { mkdirSync, writeFileSync } from 'node:fs';
+import { isIndexableReleaseCount } from './release-policy.mjs';
 
 const ORIGIN = 'https://gacha-hiroba.com';
 const releasesFile = new URL('../data/releases.js', import.meta.url);
@@ -50,6 +51,15 @@ const formatMonth = (month) => {
 const formatDate = (iso) => {
   const [year, month, day] = iso.split('-').map(Number);
   return year + '年' + month + '月' + day + '日';
+};
+const countValues = (values) => {
+  const counts = new Map();
+  values.forEach((value) => counts.set(value, (counts.get(value) || 0) + 1));
+  return [...counts.entries()].sort((a, b) => b[1] - a[1] || String(a[0]).localeCompare(String(b[0]), 'ja'));
+};
+const priceAmount = (price) => {
+  const match = String(price || '').match(/([0-9][0-9,]*)\s*円/);
+  return match ? Number(match[1].replace(/,/g, '')) : null;
 };
 
 const byMonth = new Map();
@@ -141,7 +151,7 @@ function productCard(release, index) {
       ${release.price ? `<span class="gh-rel__price">${esc(release.price)}</span>` : ''}
       ${release.note ? `<span class="gh-rel__note">${esc(release.note)}</span>` : ''}
     </div>
-    <a class="gh-rel__src" href="${esc(release.source)}" target="_blank" rel="noopener noreferrer">メーカー公式情報を確認 →</a>
+    <a class="gh-rel__src gh-official-source" href="${esc(release.source)}" target="_blank" rel="noopener noreferrer">出典：メーカー公式情報 ↗</a>
   </article>`;
 }
 
@@ -151,11 +161,37 @@ function buildPage(month, monthReleases) {
     a.date.localeCompare(b.date, 'ja') || a.title.localeCompare(b.title, 'ja')
   );
   const count = sorted.length;
+  const robots = isIndexableReleaseCount(count)
+    ? 'index,follow,max-image-preview:large'
+    : 'noindex,follow';
   const pagePath = '/releases/' + month + '.html';
   const pageUrl = ORIGIN + pagePath;
   const pageTitle = monthText + 'の新作ガチャ' + count + '商品｜発売時期・価格・メーカー | ガチャひろば';
-  const pageDesc = monthText + 'に発売される新作ガチャ' + count + '商品をメーカー公式情報にもとづき一覧で紹介。商品名・発売時期・メーカー・価格・ラインナップを確認できます。';
+  const pageDesc = monthText + 'に発売される新作ガチャ' + count + '商品をメーカー公式情報にもとづき一覧で紹介。商品名・発売時期・メーカー・価格・確認できた種類数を掲載します。';
   const checkedText = formatDate(checkedOn);
+
+  /* ページ内の集計は、公開データにある値だけから毎回再計算する。 */
+  const makerBreakdown = countValues(sorted.map((release) => release.maker || 'メーカー表記なし'));
+  const priced = sorted.map((release) => priceAmount(release.price)).filter((value) => value != null);
+  const priceBreakdown = countValues(priced).sort((a, b) => Number(a[0]) - Number(b[0]));
+  const scheduleBreakdown = [];
+  const scheduleByLabel = new Map();
+  sorted.forEach((release, index) => {
+    const label = release.label || formatDate(release.date) + ' 発売';
+    if (!scheduleByLabel.has(label)) {
+      const group = { label, count: 0, firstIndex: index };
+      scheduleByLabel.set(label, group);
+      scheduleBreakdown.push(group);
+    }
+    scheduleByLabel.get(label).count++;
+  });
+  const makerSummary = makerBreakdown.map(([maker, makerCount]) => maker + ' ' + makerCount + '商品').join('、');
+  const priceSummary = priceBreakdown.length
+    ? priceBreakdown.map(([price, priceCount]) => Number(price).toLocaleString('ja-JP') + '円 ' + priceCount + '商品').join('、')
+    : '価格を確認できた商品なし';
+  const scheduleLinks = scheduleBreakdown.map((group) =>
+    '<a href="#release-' + (group.firstIndex + 1) + '">' + esc(group.label) + '<span>' + group.count + '商品</span></a>'
+  ).join('\n                ');
 
   const itemList = {
     '@context': 'https://schema.org',
@@ -164,22 +200,26 @@ function buildPage(month, monthReleases) {
     name: monthText + 'の新作ガチャ一覧',
     numberOfItems: count,
     itemListOrder: 'https://schema.org/ItemListOrderAscending',
-    itemListElement: sorted.map((release, index) => ({
-      '@type': 'ListItem',
-      position: index + 1,
-      url: release.source,
-      name: release.title,
-      item: {
-        '@type': 'Product',
+    itemListElement: sorted.map((release, index) => {
+      const itemUrl = pageUrl + '#release-' + (index + 1);
+      return {
+        '@type': 'ListItem',
+        position: index + 1,
+        url: itemUrl,
         name: release.title,
-        url: release.source,
-        ...(release.label
-          ? { additionalProperty: { '@type': 'PropertyValue', name: '発売時期', value: release.label } }
-          : { releaseDate: release.date }),
-        ...(release.note ? { description: release.note } : {}),
-        ...(release.maker ? { brand: { '@type': 'Brand', name: release.maker } } : {})
-      }
-    }))
+        item: {
+          '@type': 'Product',
+          name: release.title,
+          url: itemUrl,
+          sameAs: release.source,
+          ...(release.label
+            ? { additionalProperty: { '@type': 'PropertyValue', name: '発売時期', value: release.label } }
+            : { releaseDate: release.date }),
+          ...(release.note ? { description: release.note } : {}),
+          ...(release.maker ? { brand: { '@type': 'Brand', name: release.maker } } : {})
+        }
+      };
+    })
   };
   const collection = {
     '@context': 'https://schema.org',
@@ -209,7 +249,7 @@ function buildPage(month, monthReleases) {
   <meta charset="UTF-8" />
   <meta name="google-site-verification" content="YN5Q0DnCsIhwgitcXjcGqxlmfMec80Wl0uZskCNS11w" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="robots" content="noindex,follow" />
+  <meta name="robots" content="${robots}" />
   <meta name="description" content="${esc(pageDesc)}" />
   <title>${esc(pageTitle)}</title>
   <link rel="canonical" href="${pageUrl}" />
@@ -249,6 +289,44 @@ function buildPage(month, monthReleases) {
 
       <div class="gh-main__layout">
         <div class="gh-main__content">
+          <section class="gh-section" aria-labelledby="release-summary-title">
+            <div class="gh-section__header">
+              <h2 class="gh-section__title" id="release-summary-title">掲載データの内訳</h2>
+              <span class="gh-section__sub">${count}商品を元データから集計</span>
+            </div>
+            <div class="gh-summary-bar gh-landing-metrics">
+              <div class="gh-summary-card">
+                <span class="gh-summary-card__label">掲載商品</span>
+                <strong class="gh-summary-card__value">${count}商品</strong>
+                <small class="gh-summary-card__change">公式ページを確認済み</small>
+              </div>
+              <div class="gh-summary-card">
+                <span class="gh-summary-card__label">メーカー表記</span>
+                <strong class="gh-summary-card__value">${makerBreakdown.length}区分</strong>
+                <small class="gh-summary-card__change">${esc(makerSummary)}</small>
+              </div>
+              <div class="gh-summary-card">
+                <span class="gh-summary-card__label">価格を確認できた商品</span>
+                <strong class="gh-summary-card__value">${priced.length} / ${count}商品</strong>
+                <small class="gh-summary-card__change">${esc(priceSummary)}</small>
+              </div>
+              <div class="gh-summary-card">
+                <span class="gh-summary-card__label">発売時期の表記</span>
+                <strong class="gh-summary-card__value">${scheduleBreakdown.length}区分</strong>
+                <small class="gh-summary-card__change">日付またはメーカー公表の週単位</small>
+              </div>
+            </div>
+            <p class="gh-landing-lead">メーカー公式ページで確認できた商品だけを掲載しています。この月に発売されるすべての商品を網羅した一覧ではありません。週単位で告知された商品の日付は並び替え用の代表日で、実際の入荷日は地域・店舗によって異なります。</p>
+            <div class="gh-landing-links" aria-label="発売時期からページ内を移動">
+              ${scheduleLinks}
+            </div>
+            <div class="gh-landing-actions">
+              <a class="gh-btn gh-btn--primary" href="/stores.html">エリア・駅名から店舗を探す</a>
+              <a class="gh-btn" href="/map.html">現在地の近くをマップで探す</a>
+              <a class="gh-btn" href="/board.html">入荷情報を掲示板で確認する</a>
+            </div>
+          </section>
+
           <section class="gh-section gh-release-sec" aria-labelledby="release-list-title">
             <div class="gh-section__header">
               <h2 class="gh-section__title" id="release-list-title">${monthText}発売の${count}商品</h2>
@@ -257,7 +335,7 @@ function buildPage(month, monthReleases) {
             <div class="gh-rel-list">
               ${sorted.map(productCard).join('\n              ')}
             </div>
-            <p class="gh-rel-note">発売時期・価格・種類数はメーカー公式情報にもとづきます。店舗や地域により入荷日・取り扱い・在庫状況が異なる場合があります。</p>
+            <p class="gh-rel-note">発売時期・価格・種類数は、<time datetime="${checkedOn}">${checkedText}</time>までに確認したメーカー公式情報にもとづきます。店舗や地域により入荷日・取り扱い・在庫状況が異なり、発売時期や価格が変更される場合があります。在庫を保証するページではありません。</p>
           </section>
 
           <a class="gh-store-cta" href="/map.html">

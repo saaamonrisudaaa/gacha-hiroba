@@ -4,20 +4,49 @@
   <meta charset="UTF-8" />
   <meta name="google-site-verification" content="YN5Q0DnCsIhwgitcXjcGqxlmfMec80Wl0uZskCNS11w" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="robots" content="noindex,follow" />
-  <meta name="description" content="ガチャガチャの設置店舗一覧。全国のガチャ専門店・設置スポットを地方・エリアから探せます。各店舗の営業時間・設置台数・掲示板をチェック。" />
-  <title>店舗一覧 | ガチャひろば</title>
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <script>
+    if (location.search) {
+      document.querySelector('meta[name="robots"]').setAttribute('content', 'noindex,follow');
+    }
+  </script>
+  <meta name="description" content="全国のガチャガチャ設置場所・カプセルトイ専門店を都道府県、駅名、店名、ブランドから検索。掲載根拠URLと確認日のある店舗について、住所・営業時間・公表設置台数を案内します。" />
+  <title>全国のガチャガチャ設置場所・専門店一覧｜都道府県・店名で検索 | ガチャひろば</title>
   <link rel="canonical" href="https://gacha-hiroba.com/stores.html" />
   <meta property="og:site_name" content="ガチャひろば" />
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="ja_JP" />
-  <meta property="og:title" content="店舗一覧 | ガチャひろば" />
-  <meta property="og:description" content="ガチャガチャの設置店舗一覧。全国のガチャ専門店・設置スポットを地方・エリアから探せます。各店舗の営業時間・設置台数・掲示板をチェック。" />
+  <meta property="og:title" content="全国のガチャガチャ設置場所・専門店一覧｜都道府県・店名で検索 | ガチャひろば" />
+  <meta property="og:description" content="全国のガチャガチャ設置場所・カプセルトイ専門店を都道府県、駅名、店名、ブランドから検索。掲載根拠URLと確認日のある店舗について、住所・営業時間・公表設置台数を案内します。" />
   <meta property="og:url" content="https://gacha-hiroba.com/stores.html" />
   <meta property="og:image" content="https://gacha-hiroba.com/assets/ogp.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" type="image/png" href="assets/mascot-icon.png" />
   <link rel="stylesheet" href="styles.css" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "@id": "https://gacha-hiroba.com/stores.html#webpage",
+    "url": "https://gacha-hiroba.com/stores.html",
+    "name": "全国のガチャガチャ設置場所・専門店一覧",
+    "description": "掲載根拠URLと確認日のある全国のガチャガチャ設置場所・カプセルトイ専門店を探せる一覧です。",
+    "inLanguage": "ja-JP",
+    "isPartOf": { "@id": "https://gacha-hiroba.com/#website" },
+    "mainEntity": { "@id": "https://gacha-hiroba.com/stores.html#top-prefectures" }
+  }
+  </script>
+  <script type="application/ld+json" id="gh-stores-list-jsonld">{"@context":"https://schema.org","@type":"ItemList","@id":"https://gacha-hiroba.com/stores.html#top-prefectures","name":"掲載店舗数上位の都道府県","numberOfItems":5,"itemListOrder":"https://schema.org/ItemListOrderDescending","itemListElement":[{"@type":"ListItem","position":1,"name":"愛知県（16店舗）","url":"https://gacha-hiroba.com/stores.html?pref=%E6%84%9B%E7%9F%A5%E7%9C%8C"},{"@type":"ListItem","position":2,"name":"東京都（7店舗）","url":"https://gacha-hiroba.com/stores.html?pref=%E6%9D%B1%E4%BA%AC%E9%83%BD"},{"@type":"ListItem","position":3,"name":"神奈川県（6店舗）","url":"https://gacha-hiroba.com/stores.html?pref=%E7%A5%9E%E5%A5%88%E5%B7%9D%E7%9C%8C"},{"@type":"ListItem","position":4,"name":"山口県（5店舗）","url":"https://gacha-hiroba.com/stores.html?pref=%E5%B1%B1%E5%8F%A3%E7%9C%8C"},{"@type":"ListItem","position":5,"name":"北海道（4店舗）","url":"https://gacha-hiroba.com/stores.html?pref=%E5%8C%97%E6%B5%B7%E9%81%93"}]}</script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "トップ", "item": "https://gacha-hiroba.com/" },
+      { "@type": "ListItem", "position": 2, "name": "全国の店舗一覧", "item": "https://gacha-hiroba.com/stores.html" }
+    ]
+  }
+  </script>
   <script src="data/spots.js" defer></script>
   <script src="data/articles.js" defer></script>
   <script src="spots-ui.js" defer></script>
@@ -60,8 +89,8 @@
     <div class="gh-container">
 
       <div class="gh-page-hero">
-        <h1 class="gh-page-hero__title">店舗一覧</h1>
-        <p class="gh-page-hero__desc">ガチャガチャの設置店舗を地方から探せます。現在 <strong id="storeCount">0</strong> 店舗を掲載中。各店舗ページで営業時間・設置台数・掲示板を確認できます。</p>
+        <h1 class="gh-page-hero__title">全国のガチャガチャ設置場所・専門店一覧</h1>
+        <p class="gh-page-hero__desc">掲載根拠URLと確認日のある店舗を、都道府県・駅名・店名・ブランドから検索できます。各店舗ページで住所・営業時間・公表設置台数・地図を確認できます。</p>
       </div>
 
       <div class="gh-tab-group gh-tab-group--lg" role="tablist" aria-label="地方で絞り込み" style="margin-bottom:20px">

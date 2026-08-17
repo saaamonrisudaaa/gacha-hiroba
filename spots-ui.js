@@ -98,14 +98,6 @@
     '徳島県':'tokushima','香川県':'kagawa','愛媛県':'ehime','高知県':'kochi','福岡県':'fukuoka','佐賀県':'saga','長崎県':'nagasaki',
     '熊本県':'kumamoto','大分県':'oita','宮崎県':'miyazaki','鹿児島県':'kagoshima','沖縄県':'okinawa'
   };
-  var BRAND_SLUG = {
-    'ガチャガチャの森':'gacha-no-mori','ガシャポンのデパート':'gashapon-department-store','#C-pla（シープラ）':'c-pla',
-    'カプセル楽局':'capsule-rakkyoku','ガシャポンバンダイオフィシャルショップ':'gashapon-bandai-official-shop',
-    'gashacoco（ガシャココ）':'gashacoco','ドリームカプセル':'dream-capsule','ガシャポン（バンダイ）':'gashapon-bandai',
-    'ヨドバシカメラ':'yodobashi-camera','ケンエレスタンド':'kenele-stand','CAPSULE LAB（カプコン）':'capsule-lab',
-    'ガチャステ':'gacha-station','がちゃ処':'gachadokoro','カプセルマルシェ':'capsule-marche','TOYS SPOT PALO':'toys-spot-palo',
-    'ガチャ王国':'gacha-okoku','カプセルパーク':'capsule-park'
-  };
   function prefUrl(pref) { return '/stores.html?pref=' + encodeURIComponent(pref || ''); }
   function brandUrl(brand) { return '/stores.html?brand=' + encodeURIComponent(brand || ''); }
   function guideUrl(slug) { return '/guide/' + encodeURIComponent(slug) + '.html'; }
@@ -161,6 +153,18 @@
     document.querySelectorAll('[data-gh-release-hub]').forEach(function (link) {
       link.href = '/releases/' + latest + '.html';
     });
+  }
+
+  function releaseHubPath(release) {
+    var month = String(release && release.date || '').slice(0, 7);
+    var monthReleases = (window.GH_RELEASES || []).filter(function (item) {
+      return String(item && item.date || '').slice(0, 7) === month;
+    }).slice().sort(function (a, b) {
+      return String(a.date).localeCompare(String(b.date), 'ja') ||
+        String(a.title).localeCompare(String(b.title), 'ja');
+    });
+    var index = monthReleases.indexOf(release);
+    return '/releases/' + month + '.html' + (index >= 0 ? '#release-' + (index + 1) : '');
   }
 
 
@@ -293,14 +297,15 @@
     var shown = list.slice(0, 7);
     var cell = function (r, lead) {
       var cls = 'gh-rel' + (lead ? ' gh-rel--lead' : ' gh-rel--row');
+      var hubPath = releaseHubPath(r);
       var inner = badgeOf(r) +
-        '<strong class="gh-rel__title">' + esc(r.title) + '</strong>' +
+        '<strong class="gh-rel__title"><a href="' + esc(hubPath) + '">' + esc(r.title) + '</a></strong>' +
         '<small class="gh-rel__meta">' + esc(r.maker || '') +
           (r.price ? '<span class="gh-rel__price">' + esc(r.price) + '</span>' : '') +
-          (lead && r.note ? '<span class="gh-rel__note">' + esc(r.note) + '</span>' : '') + '</small>';
-      return r.source
-        ? '<a class="' + cls + '" href="' + esc(r.source) + '" target="_blank" rel="noopener">' + inner + '</a>'
-        : '<div class="' + cls + '">' + inner + '</div>';
+          (lead && r.note ? '<span class="gh-rel__note">' + esc(r.note) + '</span>' : '') +
+          (r.source ? '<a class="gh-rel__src gh-official-source" href="' + esc(r.source) +
+            '" target="_blank" rel="noopener noreferrer">メーカー公式 ↗</a>' : '') + '</small>';
+      return '<article class="' + cls + '">' + inner + '</article>';
     };
     box.innerHTML = cell(shown[0], true) +
       (shown.length > 1
@@ -969,11 +974,12 @@
     var query = getParam('q');
     var brand = getParam('brand');
 
+    /* 絞り込み結果は組み合わせが増える機能画面のため、基本URLだけを検索対象にする。 */
+    if (query || brand || pref) markNoindex();
+
     /* ── キーワード検索（?q=）: 店名・エリア・住所・ブランドを横断で部分一致。
           スペース区切りの複数キーワードは AND 検索（例:「浅草 ガチャ」）── */
     if (query) {
-      /* 自由入力の検索結果は無限に増えるため検索インデックスへ出さない。 */
-      markNoindex();
       var nq = normSearch(query);
       var terms = nq.split(/\s+/).filter(function (t) { return t.length > 0; });
       /* 「ガチャ」「カプセルトイ」等の一般語は全店舗が該当するため常にマッチ扱い */
@@ -1037,9 +1043,8 @@
       return;
     }
 
-    /* ── ブランド別一覧（?brand=）: sitemap にも載る SEO 入口 ── */
+    /* ── ブランド別一覧（?brand=）: noindex の利用者向け絞り込み ── */
     if (brand) {
-      if (!BRAND_SLUG[brand]) markNoindex();
       var bHits = SPOTS.filter(function (s) { return s.brand === brand; })
         .sort(function (a, b) {
           return (Number(isVerified(b)) - Number(isVerified(a))) ||
@@ -1052,9 +1057,6 @@
       var desc3 = document.querySelector('.gh-page-hero__desc');
       if (desc3) desc3.innerHTML = '「' + esc(brand) + '」の登録店舗 <strong id="storeCount">' + bHits.length + '</strong> 店舗を掲載。掲載根拠URLと確認日がある店舗から案内しています。';
       document.title = brand + 'の店舗一覧（' + bHits.length + '店舗） | ガチャひろば';
-      var bUrl = 'https://gacha-hiroba.com' + brandUrl(brand);
-      setAttr('link[rel="canonical"]', 'href', bUrl);
-      setAttr('meta[property="og:url"]', 'content', bUrl);
       renderBrandChips(brand);
       if (!bHits.length) {
         markNoindex();
@@ -1089,9 +1091,6 @@
       var title = document.querySelector('.gh-page-hero__title');
       if (title) title.textContent = pref + 'の店舗';
       document.title = pref + 'の店舗一覧 | ガチャひろば';
-      var pUrl = 'https://gacha-hiroba.com' + prefUrl(pref);
-      setAttr('link[rel="canonical"]', 'href', pUrl);
-      setAttr('meta[property="og:url"]', 'content', pUrl);
       if (!source.length) {
         markNoindex();
         box.innerHTML = '<p class="gh-widget__text">' + esc(pref) + 'の登録店舗は現在準備中です。' +

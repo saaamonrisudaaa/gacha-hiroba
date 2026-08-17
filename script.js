@@ -1754,6 +1754,17 @@ document.addEventListener('click', function (event) {
       })
       .filter(k => k.word && k.word.length >= 2);
   }
+  function releaseHubPath(release) {
+    const month = String(release && release.date || '').slice(0, 7);
+    const monthReleases = (window.GH_RELEASES || []).filter(item =>
+      String(item && item.date || '').slice(0, 7) === month
+    ).slice().sort((a, b) =>
+      String(a.date).localeCompare(String(b.date), 'ja') ||
+      String(a.title).localeCompare(String(b.title), 'ja')
+    );
+    const index = monthReleases.indexOf(release);
+    return '/releases/' + month + '.html' + (index >= 0 ? '#release-' + (index + 1) : '');
+  }
   function renderHotItems(rows) {
     if (!hotBox) return;
     const bodies = rows.map(p => String(p.body || ''));
@@ -1788,17 +1799,18 @@ document.addEventListener('click', function (event) {
       return '<span class="gh-hot__badge' + cls + '">' + esc(text) + '</span>';
     };
     const cell = (it, lead) => {
+      const hubPath = releaseHubPath(it.r);
       const inner = badge(it) +
-        '<strong class="gh-hot__title">' + esc(it.r.title) + '</strong>' +
+        '<strong class="gh-hot__title"><a href="' + esc(hubPath) + '">' + esc(it.r.title) + '</a></strong>' +
         '<small class="gh-hot__meta">' + esc(it.r.maker || '') +
           (it.r.price ? '<span class="gh-hot__price">' + esc(it.r.price) + '</span>' : '') +
           (it.mentions ? '<span class="gh-hot__mentions">💬 掲示板で' + it.mentions + '件</span>' : '') +
           (lead && it.r.note ? '<span class="gh-hot__note">' + esc(it.r.note) + '</span>' : '') +
+          (it.r.source ? '<a class="gh-rel__src gh-official-source" href="' + esc(it.r.source) +
+            '" target="_blank" rel="noopener noreferrer">メーカー公式 ↗</a>' : '') +
         '</small>';
       const cls = 'gh-hot' + (lead ? ' gh-hot--lead' : ' gh-hot--row');
-      return it.r.source
-        ? '<a class="' + cls + ' gh-official-source" href="' + esc(it.r.source) + '" target="_blank" rel="noopener">' + inner + '</a>'
-        : '<div class="' + cls + '">' + inner + '</div>';
+      return '<article class="' + cls + '">' + inner + '</article>';
     };
     const shown = items.slice(0, 7);
     hotBox.innerHTML = cell(shown[0], true) +

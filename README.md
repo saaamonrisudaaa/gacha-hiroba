@@ -16,7 +16,7 @@ Cloudflare Pages / Netlify / Vercel などでもそのまま公開できます�
 
 - 掲載中データは `data/spots.js`、追加待ちは `data/spots-queue.json` です。
 - `.github/workflows/daily-stores.yml` が毎日キュー先頭から4件を反映します。4件未満なら部分追加せず正常終了します。
-- 毎回、店舗・都道府県・ブランド・ガイド・月別新作ページとサイトマップ、RSSを再生成します。差分がある場合だけコミットし、`.github/workflows/pages.yml` がGitHub Pagesを再公開します。
+- 毎回、全国店舗一覧・ランキング・独自ガイド・月別新作ページとサイトマップ、RSSを再生成します。店舗詳細と都道府県・ブランド絞り込みは動的機能へ集約し、量産静的ページは生成しません。差分がある場合だけコミットし、`.github/workflows/pages.yml` がGitHub Pagesを再公開します。
 - キューへ追加する店舗は、公式運営元・公式施設・ガシャポン公式などの一次情報で営業中を確認し、`sourceUrl` と `verifiedAt` を保存してください。
 - 追加前の検証は `node tools/validate-stores.mjs --require-queue 4`、選定だけ確認する場合はPowerShellで `$env:DRIP_FORCE='1'; $env:DRIP_DRY_RUN='1'; node tools/drip-stores.mjs` を使います。
 - キューを補充するときは、全国の掲載数が少ない都道府県を優先します。

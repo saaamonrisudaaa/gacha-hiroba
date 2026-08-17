@@ -2210,6 +2210,8 @@ a.gh-rel:hover { background: #fffaf5; text-decoration: none; }
 .gh-rel__badge--today { background: var(--gh-accent, #e94560); color: #fff; }
 .gh-rel__badge--soon  { background: var(--gh-new-bg, #eff6ff); color: var(--gh-link, #1d4ed8); }
 .gh-rel__title { font-size: 13.5px; font-weight: 700; line-height: 1.5; }
+.gh-rel__title a, .gh-hot__title a { color: inherit; text-decoration: none; }
+.gh-rel__title a:hover, .gh-hot__title a:hover { color: var(--gh-link, #1d4ed8); text-decoration: underline; }
 .gh-rel__meta { font-size: 11.5px; color: var(--gh-muted, #6b7280); line-height: 1.5; }
 .gh-rel__note { display: block; margin-top: 2px; }
 .gh-rel__src { font-size: 11.5px; font-weight: 700; color: var(--gh-link, #1d4ed8); margin-top: 2px; }
