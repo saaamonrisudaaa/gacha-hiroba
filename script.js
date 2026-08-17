@@ -13,7 +13,7 @@ var GHAnalyticsControl = (function () {
   }
   function isNoTrackingPage() {
     return Boolean(document.body && document.body.hasAttribute('data-gh-no-tracking')) ||
-      /\/(?:privacy|analytics-control)\.html$/.test(location.pathname);
+      /\/privacy\.html$/.test(location.pathname);
   }
   function getOwnerExclusion() {
     try {
@@ -163,12 +163,11 @@ window.GHAnalyticsControl = GHAnalyticsControl;
         return heading && heading.textContent.trim() === 'サポート';
       }) || groups[groups.length - 1] || links;
       if (GHAnalyticsControl.isOwnerExcluded()) {
-        var ownerLink = document.createElement('a');
-        ownerLink.href = '/analytics-control.html';
-        ownerLink.className = 'gh-footer__consent gh-footer__consent--owner';
-        ownerLink.setAttribute('data-gh-consent-settings', '');
-        ownerLink.textContent = '運営者アクセス除外中';
-        support.appendChild(ownerLink);
+        var ownerStatus = document.createElement('span');
+        ownerStatus.className = 'gh-footer__consent gh-footer__consent--owner';
+        ownerStatus.setAttribute('data-gh-consent-settings', '');
+        ownerStatus.textContent = '運営者アクセス除外中';
+        support.appendChild(ownerStatus);
       } else {
         var button = document.createElement('button');
         button.type = 'button';

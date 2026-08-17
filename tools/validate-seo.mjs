@@ -70,27 +70,10 @@ for (const [pattern, message] of [
 
 const analyticsControlFile = join(root, 'analytics-control.html');
 const analyticsControlScriptFile = join(root, 'analytics-control.js');
-if (!existsSync(analyticsControlFile)) fail('analytics-control.html: 運営者アクセス設定ページがありません');
-if (!existsSync(analyticsControlScriptFile)) fail('analytics-control.js: 運営者アクセス設定処理がありません');
-if (existsSync(analyticsControlFile)) {
-  const html = readFileSync(analyticsControlFile, 'utf8');
-  const mainScriptAt = html.indexOf('src="/script.js"');
-  const controlScriptAt = html.indexOf('src="/analytics-control.js"');
-  if (!hasNoindex(html) || !/name="robots" content="[^"]*nofollow/i.test(html)) {
-    fail('analytics-control.html: noindex,nofollow指定がありません');
-  }
-  if (!/<body[^>]+data-gh-no-tracking/i.test(html)) {
-    fail('analytics-control.html: 設定ページ自体の計測除外がありません');
-  }
-  if (mainScriptAt < 0 || controlScriptAt < 0 || mainScriptAt > controlScriptAt) {
-    fail('analytics-control.html: 共通GA制御より先に設定処理が読み込まれています');
-  }
-}
-if (existsSync(analyticsControlScriptFile)) {
-  const source = readFileSync(analyticsControlScriptFile, 'utf8');
-  if (!/setOwnerExcluded\(true\)/.test(source) || !/setOwnerExcluded\(false\)/.test(source)) {
-    fail('analytics-control.js: 除外の有効化・解除処理がそろっていません');
-  }
+if (existsSync(analyticsControlFile)) fail('analytics-control.html: 設定完了後の非公開ページが残っています');
+if (existsSync(analyticsControlScriptFile)) fail('analytics-control.js: 非公開ページ専用スクリプトが残っています');
+if (/href\s*=\s*['"]\/analytics-control\.html/.test(mainScriptSource)) {
+  fail('script.js: 削除済みの運営者設定ページへのリンクが残っています');
 }
 for (const store of verifiedStores) {
   let host = '';
@@ -192,7 +175,7 @@ for (const file of htmlFiles) {
 }
 
 for (const name of ['board.html', 'map.html', 'ranking.html', 'stores.html', 'spot.html', 'article.html',
-  'area.html', 'category.html', 'sitemap.html', 'english.html', 'location.html', 'analytics-control.html']) {
+  'area.html', 'category.html', 'sitemap.html', 'english.html', 'location.html']) {
   const file = join(root, name);
   if (!existsSync(file) || !hasNoindex(readFileSync(file, 'utf8'))) {
     fail(name + ': 再審査中の検索対象外指定がありません');

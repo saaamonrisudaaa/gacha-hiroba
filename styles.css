@@ -3003,62 +3003,13 @@ a.gh-hot--row:hover { background: #fffaf5; text-decoration: none; }
 .gh-footer__links .gh-footer__consent--owner {
   color: #a7f3d0;
   font-weight: 800;
+  cursor: default;
+  text-decoration: none;
 }
 @media (max-width: 640px) {
   .gh-consent { align-items: stretch; flex-direction: column; gap: 12px; }
   .gh-consent__actions { width: 100%; }
   .gh-consent__actions .gh-btn { flex: 1; }
-}
-
-/* ── 運営者アクセスのGA4除外設定 ─────────────────────────────── */
-.gh-analytics-control { max-width: 900px; }
-.gh-owner-control {
-  display: grid;
-  gap: 18px;
-  margin: 0 0 42px;
-}
-.gh-owner-control__status,
-.gh-owner-control__panel,
-.gh-owner-control__notes {
-  padding: 22px;
-  border: 1px solid var(--gh-border);
-  border-radius: 16px;
-  background: #fff;
-  box-shadow: 0 8px 24px rgba(15, 23, 42, .06);
-}
-.gh-owner-control__status {
-  display: grid;
-  gap: 5px;
-  border-width: 2px;
-}
-.gh-owner-control__label { color: var(--gh-muted); font-size: 12px; font-weight: 800; }
-.gh-owner-control__status strong { font-size: 20px; line-height: 1.5; }
-.gh-owner-control__status strong.is-excluded { color: #087f5b; }
-.gh-owner-control__status strong.is-not-excluded { color: #b45309; }
-.gh-owner-control__status [data-gh-owner-date] { color: var(--gh-muted); font-size: 12px; }
-.gh-owner-control__panel h2,
-.gh-owner-control__notes h2 { margin: 0 0 8px; font-size: 18px; }
-.gh-owner-control__panel p,
-.gh-owner-control__notes p,
-.gh-owner-control__notes li { font-size: 14px; line-height: 1.8; }
-.gh-owner-control__panel .gh-btn { margin-top: 8px; }
-.gh-owner-control__message { min-height: 1.8em; margin: 14px 0 0; color: #087f5b; font-weight: 800; }
-.gh-owner-control__error { color: #b42318 !important; }
-.gh-owner-control__notes { background: #f8fafc; }
-.gh-owner-control__notes ul { margin: 10px 0 18px; padding-left: 1.4em; }
-.gh-owner-control__notes code {
-  overflow-wrap: anywhere;
-  padding: 2px 5px;
-  border-radius: 5px;
-  background: #e2e8f0;
-}
-.gh-owner-control__actions { display: flex; justify-content: center; }
-@media (max-width: 640px) {
-  .gh-owner-control__status,
-  .gh-owner-control__panel,
-  .gh-owner-control__notes { padding: 17px; }
-  .gh-owner-control__panel .gh-btn,
-  .gh-owner-control__actions .gh-btn { width: 100%; text-align: center; }
 }
 
 /* ── 独自データ監査・予算プランナー ─────────────────────────────── */

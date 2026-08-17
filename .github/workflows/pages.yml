@@ -36,7 +36,6 @@ jobs:
       - name: Validate analytics and site integrity
         run: |
           node --check script.js
-          node --check analytics-control.js
           node tools/test-analytics-exclusion.mjs
           node tools/validate-seo.mjs
       - name: Configure Pages

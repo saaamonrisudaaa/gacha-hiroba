@@ -128,12 +128,6 @@ const nonProduction = runScenario({ protocol: 'http:', hostname: '127.0.0.1' });
 assert(nonProduction.control.shouldBlock() === true, 'localhostが計測対象になっています');
 assert(nonProduction.window['ga-disable-G-6KSGDTM1VJ'] === true, 'localhostでGA4が有効です');
 
-const controlPage = runScenario({ pathname: '/analytics-control.html', noTracking: true });
-assert(controlPage.control.shouldBlock() === true, '設定ページ自体が計測対象です');
-assert(controlPage.control.setOwnerExcluded(true) === true, '設定ページから除外を保存できません');
-assert(controlPage.control.setOwnerExcluded(false) === true, '設定ページから除外を解除できません');
-assert(controlPage.window['ga-disable-G-6KSGDTM1VJ'] === true, '解除直後に設定ページ自体の計測が始まっています');
-
 const blockedStorage = runScenario({ throwOnWrite: true });
 assert(blockedStorage.control.setOwnerExcluded(true) === false, '保存失敗を除外成功として扱っています');
 assert(blockedStorage.window['ga-disable-G-6KSGDTM1VJ'] === true, '保存失敗時に安全側へ停止していません');
@@ -183,4 +177,4 @@ assert(rejectedRuntime.appendedScripts.length === 0, '同意拒否済みでもgt
 const noTrackingRuntime = runRuntimeScenario({ pathname: '/privacy.html', noTracking: true });
 assert(noTrackingRuntime.appendedScripts.length === 0, '計測対象外ページでgtag.jsを読み込んでいます');
 
-console.log('test-analytics-exclusion: OK / タグ読込・イベント停止・運営者・非本番・設定ページ・保存失敗を検証');
+console.log('test-analytics-exclusion: OK / タグ読込・イベント停止・運営者・非本番・保存失敗を検証');
