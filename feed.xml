@@ -5,12 +5,12 @@
   <link>https://gacha-hiroba.com/</link>
   <description>ガチャひろば運営者が作成した実用ガイドと店舗データ監査レポートの更新情報を配信します。</description>
   <language>ja</language>
-  <lastBuildDate>Fri, 14 Aug 2026 00:00:00 GMT</lastBuildDate>
+  <lastBuildDate>Thu, 20 Aug 2026 00:00:00 GMT</lastBuildDate>
   <item>
     <title>ガチャ店舗データ監査レポート｜確認状況・欠損率・台数分布を公開</title>
     <link>https://gacha-hiroba.com/guide/store-data-report.html</link>
     <guid isPermaLink="true">https://gacha-hiroba.com/guide/store-data-report.html</guid>
-    <pubDate>Fri, 14 Aug 2026 00:00:00 GMT</pubDate>
+    <pubDate>Thu, 20 Aug 2026 00:00:00 GMT</pubDate>
     <description>ガチャひろばが保有する店舗データについて、「何件あるか」だけでなく、掲載根拠URLと確認日がどこまでそろっているか、営業時間・設置台数・アクセスなど各項目をどの程度確認できているかを集計しました。ページ内の数値は data/spots.js から生成時に再計算しています。</description>
   </item>
   <item>
