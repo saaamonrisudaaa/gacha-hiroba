@@ -693,7 +693,7 @@ renderRanking('national');
   });
 
   var NEAR_LIMIT = 20;        /* 「範囲指定なし」で出す件数 */
-  var FAR_LIMIT = 60;         /* 現在地なしのとき、地図に出すピンの上限 */
+  var FAR_LIMIT = 100;        /* 現在地なしのとき、地図に出すピンの上限 */
   var RADIUS_STEPS = [0.5, 1, 3, 5, 10];
 
   /* 2点間の距離（km・ハーバサイン）。国内の距離なら十分な精度 */

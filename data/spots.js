@@ -5265,6 +5265,287 @@ window.GH_SPOTS = [
   }
 ];
 
+/* ── 2026-08-20 カプセル楽局・東京都公式店舗一覧 ────────────────
+   運営元の現行店舗一覧を正として、既存候補は公式情報で上書きし、未登録店は追加する。
+   公式一覧で確認できない旧候補（野方店・砂町銀座商店街東店・神保町店）は
+   sourceUrl / verifiedAt を付けず、公開検索には出さない。設置台数は公式店舗一覧に
+   記載がないため、既存の参考値も公開しない。 */
+(function () {
+  var sourceUrl = 'https://www.warehousenet.jp/capsule/';
+  var verifiedAt = '2026-08-20';
+  var officialStores = [
+    {
+      id: 'caprak-higashi-jujo', name: 'カプセル楽局 東十条店', area: '東京都・東十条',
+      address: '東京都北区中十条3-17-3 本田ハイツ', tel: '03-5948-4085', hours: '10:00〜22:00', lat: 35.7647618, lon: 139.7251416
+    },
+    {
+      id: 'caprak-kanda', name: 'カプセル楽局 神田店', area: '東京都・神田', zip: '101-0047',
+      address: '東京都千代田区内神田2-9-11 神田森田リズム共同ビル', tel: '03-5207-2965', hours: '10:00〜22:00', lat: 35.6911, lon: 139.7688
+    },
+    {
+      id: 'caprak-yanaka-ginza', name: 'カプセル楽局 谷中銀座商店街店', area: '東京都・谷中', zip: '110-0001',
+      address: '東京都台東区谷中3-13-3 谷中SGビル 1F', tel: '03-5832-1980', hours: '10:00〜22:00', lat: 35.7277331, lon: 139.7651054
+    },
+    {
+      id: 'caprak-ueno-ameyoko', name: 'カプセル楽局 上野アメ横店', area: '東京都・上野', zip: '110-0005',
+      address: '東京都台東区上野6-4-12', tel: '03-5826-4901', hours: '10:00〜20:00', lat: 35.708875, lon: 139.774982
+    },
+    {
+      id: 'caprak-asakusa-rox', name: 'カプセル楽局 浅草ROX・3G店', area: '東京都・浅草', zip: '111-0032',
+      address: '東京都台東区浅草1-25-15 浅草ROX・3G 2F', tel: '03-5830-7981', hours: '10:30〜21:00', lat: 35.7125674, lon: 139.7935966
+    },
+    {
+      id: 'caprak-jujo', name: 'カプセル楽局 十条店', area: '東京都・十条', zip: '114-0031',
+      address: '東京都北区十条仲原1-8-26 清水ビル 1F', tel: '03-6454-3057', hours: '10:00〜22:00', lat: 35.762277, lon: 139.721162
+    },
+    {
+      id: 'caprak-akabane-higashiguchi', name: 'カプセル楽局 赤羽駅東口店', area: '東京都・赤羽', zip: '115-0045',
+      address: '東京都北区赤羽1-13-7 はやまビル 1F', tel: '03-6903-8050', hours: '10:00〜22:00', lat: 35.779357, lon: 139.7215402
+    },
+    {
+      id: 'caprak-akabane-lalagarden', name: 'カプセル楽局 赤羽ララガーデンビル店', area: '東京都・赤羽', zip: '115-0045',
+      address: '東京都北区赤羽2-10-1', tel: '03-5939-9906', hours: '10:00〜22:00', lat: 35.779541, lon: 139.7246262
+    },
+    {
+      id: 'caprak-akabane-suzuran', name: 'カプセル楽局 赤羽スズラン通り店', area: '東京都・赤羽', zip: '115-0045',
+      address: '東京都北区赤羽2-1-18', tel: '03-5939-6057', hours: '10:00〜22:00', lat: 35.779198, lon: 139.7231528
+    },
+    {
+      id: 'caprak-kitasenju-east', name: 'カプセル楽局 北千住東口店', area: '東京都・北千住', zip: '120-0026',
+      address: '東京都足立区千住旭町35-18 書店ビル2', tel: '03-6812-0166', hours: '10:00〜22:00', lat: 35.7493264, lon: 139.8080377
+    },
+    {
+      id: 'caprak-takenotsuka', name: 'カプセル楽局 竹の塚店', area: '東京都・竹の塚', zip: '121-0813',
+      address: '東京都足立区竹の塚6-9-2', tel: '03-5851-9872', hours: '10:00〜22:00', lat: 35.7944214, lon: 139.7935861
+    },
+    {
+      id: 'caprak-ohanajaya-ekimae', name: 'カプセル楽局 お花茶屋駅前店', area: '東京都・お花茶屋', zip: '124-0005',
+      address: '東京都葛飾区宝町2-36-8', tel: '03-5654-6081', hours: '10:00〜22:00', lat: 35.7474313, lon: 139.8403419
+    },
+    {
+      id: 'caprak-shinkoiwa-lumiere', name: 'カプセル楽局 新小岩ルミエール店', area: '東京都・新小岩', zip: '124-0024',
+      address: '東京都葛飾区新小岩1-51-1', tel: '03-5678-9810', hours: '10:00〜22:00', lat: 35.7148396, lon: 139.860626
+    },
+    {
+      id: 'caprak-kameari', name: 'カプセル楽局 亀有店', area: '東京都・亀有', zip: '125-0061',
+      address: '東京都葛飾区亀有3-33-3', tel: '03-6662-5728', hours: '10:00〜22:00', lat: 35.7644189, lon: 139.8488529
+    },
+    {
+      id: 'caprak-aoto-ekimae', name: 'カプセル楽局 青砥駅前店', area: '東京都・青砥', zip: '125-0062',
+      address: '東京都葛飾区青戸3-39-13 都ビル 1F', tel: '03-6240-7605', hours: '10:00〜22:00', lat: 35.7453718, lon: 139.8556165
+    },
+    {
+      id: 'caprak-hirai-ekimae', name: 'カプセル楽局 平井駅前店', area: '東京都・平井', zip: '132-0035',
+      address: '東京都江戸川区平井4-12-1 立花屋ビル 1F', tel: '03-6802-9081', hours: '10:00〜22:00', lat: 35.7065463, lon: 139.8431764
+    },
+    {
+      id: 'caprak-monzen-nakacho', name: 'カプセル楽局 門前仲町店', area: '東京都・門前仲町', zip: '135-0048',
+      address: '東京都江東区門前仲町1-13-10', tel: '03-5875-8417', hours: '10:00〜22:00', lat: 35.6734565, lon: 139.7952357
+    },
+    {
+      id: 'caprak-togoshiginza', name: 'カプセル楽局 戸越銀座店', area: '東京都・戸越銀座', zip: '142-0041',
+      address: '東京都品川区戸越3-2-3 篠嵜ビル 1F', tel: '03-6852-1080', hours: '10:00〜22:00', lat: 35.6150428, lon: 139.7177198
+    },
+    {
+      id: 'caprak-musashikoyama', name: 'カプセル楽局 武蔵小山店', area: '東京都・武蔵小山', zip: '142-0063',
+      address: '東京都品川区荏原3-4-14', tel: '03-6426-8224', hours: '10:00〜22:00', lat: 35.6173684, lon: 139.7074621
+    },
+    {
+      id: 'caprak-kojiya', name: 'カプセル楽局 糀谷店', area: '東京都・糀谷', zip: '144-0047',
+      address: '東京都大田区萩中2-8-15 1F', tel: '03-6715-1662', hours: '10:00〜22:00', lat: 35.5519863, lon: 139.7297874
+    },
+    {
+      id: 'caprak-kamata-west', name: 'カプセル楽局 蒲田駅西口店', area: '東京都・蒲田', zip: '144-0051',
+      address: '東京都大田区西蒲田7-49-10 蒲田ナオミビル 1F', tel: '03-6424-9063', hours: '10:00〜22:00', lat: 35.5623793, lon: 139.7125047
+    },
+    {
+      id: 'caprak-kamata-east', name: 'カプセル楽局 蒲田駅東口店', area: '東京都・蒲田', zip: '144-0052',
+      address: '東京都大田区蒲田5-24-1', tel: '03-6715-7648', hours: '10:00〜22:00', lat: 35.5626377, lon: 139.719342
+    },
+    {
+      id: 'caprak-ookayama', name: 'カプセル楽局 大岡山店', area: '東京都・大岡山', zip: '145-0062',
+      address: '東京都大田区北千束1-40-3', tel: '03-6421-2964', hours: '10:00〜22:00', lat: 35.60936, lon: 139.6857
+    },
+    {
+      id: 'caprak-shibuya-center-gai', name: 'カプセル楽局 渋谷センター街店', area: '東京都・渋谷', zip: '150-0042',
+      address: '東京都渋谷区宇田川町29-3 渋谷平松ビル', tel: '03-6416-3975', hours: '10:00〜23:00', lat: 35.6605331, lon: 139.6984718
+    },
+    {
+      id: 'caprak-hatagaya', name: 'カプセル楽局 幡ヶ谷店', area: '東京都・幡ヶ谷', zip: '151-0072',
+      address: '東京都渋谷区幡ヶ谷2-9-15 エーレ幡ヶ谷', tel: '03-6276-3073', hours: '10:00〜22:00', lat: 35.6789279, lon: 139.6773706
+    },
+    {
+      id: 'caprak-sasazuka-jugodor', name: 'カプセル楽局 笹塚十号通り店', area: '東京都・笹塚', zip: '151-0073',
+      address: '東京都渋谷区笹塚2-41-22', tel: '03-5843-5617', hours: '10:00〜22:00', lat: 35.675602, lon: 139.6679496
+    },
+    {
+      id: 'caprak-jiyugaoka', name: 'カプセル楽局 自由が丘店', area: '東京都・自由が丘', zip: '152-0035',
+      address: '東京都目黒区自由が丘2-12-19 3.4.1 building west 1F', tel: '03-6421-3477', hours: '10:00〜22:00', lat: 35.6071604, lon: 139.667511
+    },
+    {
+      id: 'caprak-shimokitazawa-south', name: 'カプセル楽局 下北沢駅南店', area: '東京都・下北沢', zip: '155-0031',
+      address: '東京都世田谷区北沢2-14-8 下北沢春日ビル', tel: '03-6453-4971', hours: '10:00〜22:00', lat: 35.6602614, lon: 139.6674563
+    },
+    {
+      id: 'caprak-kyodo', name: 'カプセル楽局 経堂農大通り店', area: '東京都・経堂', zip: '156-0052',
+      address: '東京都世田谷区経堂1-11-8 シンフォニー経堂 1F', tel: '03-6413-1447', hours: '10:00〜22:00', lat: 35.6491178, lon: 139.6365759
+    },
+    {
+      id: 'caprak-chitosefunabashi', name: 'カプセル楽局 千歳船橋店', area: '東京都・千歳船橋', zip: '156-0055',
+      address: '東京都世田谷区船橋1-9-21 千歳船橋カクハチ第1ビル 1F', tel: '03-5799-4778', hours: '10:00〜22:00', lat: 35.6480455, lon: 139.6237716
+    },
+    {
+      id: 'caprak-chitosekarasuyama', name: 'カプセル楽局 千歳烏山店', area: '東京都・千歳烏山', zip: '157-0062',
+      address: '東京都世田谷区南烏山6-7-19', tel: '03-5969-8547', hours: '10:00〜22:00', lat: 35.66872, lon: 139.5995
+    },
+    {
+      id: 'caprak-soshigaya-okura-2', name: 'カプセル楽局 祖師ヶ谷大蔵2号店', area: '東京都・祖師ヶ谷大蔵', zip: '157-0072',
+      address: '東京都世田谷区祖師谷1-36-5', tel: '03-6277-9615', hours: '10:00〜22:00', lat: 35.6463056, lon: 139.6086389
+    },
+    {
+      id: 'caprak-soshigaya-okura', name: 'カプセル楽局 祖師ヶ谷大蔵店', area: '東京都・祖師ヶ谷大蔵', zip: '157-0072',
+      address: '東京都世田谷区祖師谷1-9-9 松本ビル 1F', tel: '03-6411-5085', hours: '10:00〜22:00', lat: 35.64402, lon: 139.6089
+    },
+    {
+      id: 'caprak-waseda-ekimae', name: 'カプセル楽局 早稲田駅前店', area: '東京都・早稲田', zip: '162-0045',
+      address: '東京都新宿区馬場下町5-1 ファミリーマート早稲田駅前店内', tel: '03-6205-5426', hours: '10:00〜22:00', lat: 35.70579, lon: 139.72
+    },
+    {
+      id: 'caprak-ex-nakano-sunmall', name: 'カプセル楽局EX 中野サンモール店', area: '東京都・中野', zip: '164-0001',
+      address: '東京都中野区中野5-65-12 中野サンモール スノービル', tel: '03-5942-7881', hours: '10:00〜22:00', lat: 35.7070139, lon: 139.6656106
+    },
+    {
+      id: 'caprak-higashi-nakano', name: 'カプセル楽局 東中野店', area: '東京都・東中野', zip: '164-0003',
+      address: '東京都中野区東中野3-7-23 サトウビル', tel: '03-5937-2161', hours: '10:00〜22:00', lat: 35.7075553, lon: 139.6821472
+    },
+    {
+      id: 'caprak-nogata-station-south', name: 'カプセル楽局 野方駅南店', area: '東京都・野方', zip: '165-0027',
+      address: '東京都中野区野方5-24-5', tel: '03-5327-8350', hours: '10:00〜22:00', lat: 35.7187501, lon: 139.6525801
+    },
+    {
+      id: 'caprak-koenji', name: 'カプセル楽局 高円寺店', area: '東京都・高円寺', zip: '166-0002',
+      address: '東京都杉並区高円寺北3-20-20 アイル高円寺ビル', tel: '03-6265-5823', hours: '10:00〜22:00', lat: 35.7070022, lon: 139.649374
+    },
+    {
+      id: 'caprak-koenji-pal', name: 'カプセル楽局 高円寺パル商店街店', area: '東京都・高円寺', zip: '166-0003',
+      address: '東京都杉並区高円寺南3-46-10 高円寺EMAビル 1F', tel: '03-6304-9135', hours: '10:00〜22:00', lat: 35.7034414, lon: 139.648537
+    },
+    {
+      id: 'caprak-asagaya', name: 'カプセル楽局 阿佐ヶ谷店', area: '東京都・阿佐ヶ谷', zip: '166-0004',
+      address: '東京都杉並区阿佐谷南1-17-17', tel: '03-6314-6602', hours: '10:00〜22:00', lat: 35.70178, lon: 139.6361007
+    },
+    {
+      id: 'caprak-honancho-ekimae', name: 'カプセル楽局 方南町駅前店', area: '東京都・方南町', zip: '168-0062',
+      address: '東京都杉並区方南2-13-7', tel: '03-5913-8804', hours: '10:00〜22:00', lat: 35.6834042, lon: 139.6584862
+    },
+    {
+      id: 'caprak-eifukucho-ekimae', name: 'カプセル楽局 永福町駅前店', area: '東京都・永福町', zip: '168-0063',
+      address: '東京都杉並区和泉3-4-2 友和ビル 1F', tel: '03-6379-1477', hours: '10:00〜22:00', lat: 35.6759756, lon: 139.6438282
+    },
+    {
+      id: 'caprak-hamadayama', name: 'カプセル楽局 浜田山店', area: '東京都・浜田山', zip: '168-0065',
+      address: '東京都杉並区浜田山3-30-5 越路ビル', tel: '03-6379-8756', hours: '10:00〜22:00', lat: 35.6819767, lon: 139.6274507
+    },
+    {
+      id: 'caprak-kugayama-north', name: 'カプセル楽局 久我山駅北口店', area: '東京都・久我山', zip: '168-0082',
+      address: '東京都杉並区久我山4-1-9', tel: '03-6454-2707', hours: '10:00〜22:00', lat: 35.6882259, lon: 139.599791
+    },
+    {
+      id: 'caprak-sugamo-ekimae', name: 'カプセル楽局 巣鴨駅前店', area: '東京都・巣鴨', zip: '170-0002',
+      address: '東京都豊島区巣鴨3-27-6 川合ハウス', tel: '03-5944-5160', hours: '10:00〜22:00', lat: 35.73344, lon: 139.7381
+    },
+    {
+      id: 'caprak-sugamo-jizodori', name: 'カプセル楽局 巣鴨地蔵通り店', area: '東京都・巣鴨', zip: '170-0002',
+      address: '東京都豊島区巣鴨4-22-2', tel: '03-5980-9615', hours: '10:00〜22:00', lat: 35.7361765, lon: 139.7342806
+    },
+    {
+      id: 'caprak-ikebukuro-west', name: 'カプセル楽局 池袋西口店', area: '東京都・池袋', zip: '171-0021',
+      address: '東京都豊島区西池袋1-16-3', tel: '03-6709-1354', hours: '10:00〜22:00', lat: 35.7308323, lon: 139.7089542
+    },
+    {
+      id: 'caprak-ex-ikebukuro', name: 'カプセル楽局EX 池袋店', area: '東京都・池袋', zip: '171-0022',
+      address: '東京都豊島区南池袋1-22-4 エイチ・エフ南池袋ビル', tel: '03-5843-3935', hours: '11:00〜23:00', lat: 35.7260668, lon: 139.7140375
+    },
+    {
+      id: 'caprak-oyama-happyroad', name: 'カプセル楽局 大山ハッピーロード店', area: '東京都・大山', zip: '173-0023',
+      address: '東京都板橋区大山町31-2 トレジャリィ大山', tel: '03-6909-3725', hours: '10:00〜22:00', lat: 35.7495, lon: 139.7005
+    },
+    {
+      id: 'caprak-tokiwadai', name: 'カプセル楽局 ときわ台駅前店', area: '東京都・ときわ台', zip: '174-0072',
+      address: '東京都板橋区南常盤台1-23-14', tel: '03-5926-5921', hours: '10:00〜22:00', lat: 35.7579883, lon: 139.689724
+    },
+    {
+      id: 'caprak-kichijoji-renga', name: 'カプセル楽局 吉祥寺レンガ通り店', area: '東京都・吉祥寺', zip: '180-0004',
+      address: '東京都武蔵野市吉祥寺本町1-2-3', tel: '042-227-2751', hours: '10:00〜22:00', lat: 35.7038, lon: 139.5785
+    },
+    {
+      id: 'caprak-kichijoji', name: 'カプセル楽局 吉祥寺店', area: '東京都・吉祥寺', zip: '180-0004',
+      address: '東京都武蔵野市吉祥寺本町1-7-7 島田ビル 1F', tel: '042-227-1308', hours: '10:00〜22:00', lat: 35.7041941, lon: 139.5782326
+    },
+    {
+      id: 'caprak-musashisakai', name: 'カプセル楽局 武蔵境店', area: '東京都・武蔵境', zip: '180-0022',
+      address: '東京都武蔵野市境1-2-4 パークハウス武蔵野 1F', tel: '042-238-6774', hours: '10:00〜22:00', lat: 35.7031583, lon: 139.5443101
+    },
+    {
+      id: 'caprak-sengawa-2', name: 'カプセル楽局 仙川2号店', area: '東京都・仙川', zip: '182-0002',
+      address: '東京都調布市仙川町1-12-13 仙川マルハタビル 1F', tel: '03-5315-9056', hours: '10:00〜22:00', lat: 35.6609415, lon: 139.5849604
+    },
+    {
+      id: 'caprak-sengawa', name: 'カプセル楽局 仙川店', area: '東京都・仙川', zip: '182-0002',
+      address: '東京都調布市仙川町2-21-12 VICビル7 1F', tel: '03-6382-9718', hours: '10:00〜22:00', lat: 35.6624852, lon: 139.5841528
+    },
+    {
+      id: 'capsule-rakkyoku-musashi-koganei', name: 'カプセル楽局 武蔵小金井駅前店', area: '東京都・武蔵小金井', zip: '184-0004',
+      address: '東京都小金井市本町5-10-18 武蔵小金井ラメゾンヴェール', tel: '042-316-1945', hours: '10:00〜22:00', lat: 35.7018523, lon: 139.5053132
+    },
+    {
+      id: 'caprak-takanodai', name: 'カプセル楽局 鷹の台店', area: '東京都・鷹の台', zip: '187-0024',
+      address: '東京都小平市たかの台44-9', tel: '042-313-4437', hours: '10:00〜21:00', lat: 35.7231079, lon: 139.4608191
+    },
+    {
+      id: 'caprak-aeon-hachioji-takiyama', name: 'カプセル楽局 イオン八王子滝山店', area: '東京都・八王子', zip: '192-0011',
+      address: '東京都八王子市滝山町1-884 イオン八王子滝山 1F', tel: '042-659-3490', hours: '10:00〜20:00', lat: 35.6829259, lon: 139.340369
+    },
+    {
+      id: 'caprak-hachioji-ekimae', name: 'カプセル楽局 八王子駅前店', area: '東京都・八王子', zip: '192-0084',
+      address: '東京都八王子市三崎町4-14 関口ビル', tel: '042-634-8501', hours: '10:00〜22:00', lat: 35.6574115, lon: 139.3373303
+    },
+    {
+      id: 'caprak-machida', name: 'カプセル楽局 町田店', area: '東京都・町田', zip: '194-0013',
+      address: '東京都町田市原町田4-5-10 1F', tel: '042-707-6242', hours: '10:00〜22:00', lat: 35.54174, lon: 139.4491
+    },
+    {
+      id: 'caprak-hibarigaoka', name: 'カプセル楽局 ひばりが丘店', area: '東京都・ひばりが丘', zip: '202-0002',
+      address: '東京都西東京市ひばりが丘北4-3-30 ひばりヶ丘JCビルIII 1F', tel: '042-439-9881', hours: '10:00〜22:00', lat: 35.75255, lon: 139.5447
+    }
+  ];
+
+  officialStores.forEach(function (store) {
+    store.brand = 'カプセル楽局';
+    store.region = 'kanto';
+    store.pref = '東京都';
+    store.sourceUrl = sourceUrl;
+    store.verifiedAt = verifiedAt;
+
+    var target = null;
+    for (var i = 0; i < window.GH_SPOTS.length; i++) {
+      if (window.GH_SPOTS[i].id === store.id) {
+        target = window.GH_SPOTS[i];
+        break;
+      }
+    }
+    if (!target) {
+      window.GH_SPOTS.push(store);
+      return;
+    }
+    Object.keys(store).forEach(function (key) { target[key] = store[key]; });
+    delete target.machines;
+    delete target.access;
+    delete target.opensOn;
+    delete target.closedAfter;
+  });
+})();
+
 /* 閉店店舗の自動非表示：closedAfter（最終営業日）を過ぎた店舗は、
    ここで配列から除外されるため、サイト全体＋sitemap 生成から消える。 */
 window.GH_SPOTS = window.GH_SPOTS.filter(function (s) {
