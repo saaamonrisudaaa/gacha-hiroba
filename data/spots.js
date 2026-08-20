@@ -5546,6 +5546,219 @@ window.GH_SPOTS = [
   });
 })();
 
+/* ── 2026-08-20 東京都23区・公式確認済み店舗 第1回（30店舗） ────────
+   gashacoco、#C-pla、バンダイナムコの現行公式店舗ページを店舗単位で
+   照合し、住所・営業時間・電話・公表台数だけを反映する。公式ページに
+   台数の記載がない gashacoco は、既存の参考値も公開しない。 */
+(function () {
+  var verifiedAt = '2026-08-20';
+  var batch = [
+    {
+      id: 'gashacoco-okubo', brand: 'gashacoco（ガシャココ）', name: 'gashacoco 大久保',
+      area: '東京都・大久保', zip: '169-0073', address: '東京都新宿区百人町1-17-2',
+      tel: '070-5024-5567', hours: '10:00〜21:00', lat: 35.70109558, lon: 139.69741821,
+      sourceUrl: 'https://gashacoco.jp/shop-list/2787'
+    },
+    {
+      id: 'gashacoco-asakusa', brand: 'gashacoco（ガシャココ）', name: 'gashacoco 浅草',
+      area: '東京都・浅草', zip: '111-0032', address: '東京都台東区浅草1-3-4',
+      tel: '070-1595-3887', hours: '10:00〜20:00', lat: 35.7111516, lon: 139.7959049,
+      sourceUrl: 'https://gashacoco.jp/shop-list/3215'
+    },
+    {
+      id: 'gashacoco-kinshicho-marui', brand: 'gashacoco（ガシャココ）', name: 'gashacoco 錦糸町マルイ',
+      area: '東京都・錦糸町', zip: '130-0022', address: '東京都墨田区江東橋3-9-10 錦糸町マルイ 4F',
+      tel: '070-1246-1981', hours: '10:30〜20:00', lat: 35.69494247, lon: 139.81370544,
+      sourceUrl: 'https://gashacoco.jp/shop-list/704'
+    },
+    {
+      id: 'gashacoco-divercity-odaiba', brand: 'gashacoco（ガシャココ）', name: 'gashacoco ダイバーシティ東京 プラザ',
+      area: '東京都・お台場', zip: '135-0064', address: '東京都江東区青海1-1-10 ダイバーシティ東京 プラザ 4F',
+      tel: '080-4208-1336', hours: '平日 11:00〜20:00／土日祝 10:00〜21:00', lat: 35.6247677, lon: 139.7758336,
+      sourceUrl: 'https://gashacoco.jp/shop-list/186'
+    },
+    {
+      id: 'gashacoco-kameido-clock', brand: 'gashacoco（ガシャココ）', name: 'gashacoco カメイドクロック',
+      area: '東京都・亀戸', zip: '136-0071', address: '東京都江東区亀戸6-31-6 カメイドクロック 3F',
+      tel: '070-1246-2371', hours: '10:00〜21:00', lat: 35.69503021, lon: 139.829422,
+      sourceUrl: 'https://gashacoco.jp/shop-list/842'
+    },
+    {
+      id: 'gashacoco-cute-cube-harajuku', brand: 'gashacoco（ガシャココ）', name: 'gashacoco CUTE CUBE 原宿',
+      area: '東京都・原宿', zip: '150-0001', address: '東京都渋谷区神宮前1-7-1 1F',
+      tel: '070-6525-7225', hours: '10:00〜20:00', lat: 35.6707751, lon: 139.7054375,
+      sourceUrl: 'https://gashacoco.jp/shop-list/3217'
+    },
+    {
+      id: 'gashacoco-nakano-sunmall', brand: 'gashacoco（ガシャココ）', name: 'gashacoco 中野サンモール',
+      area: '東京都・中野', zip: '164-0001', address: '東京都中野区中野5-64-9',
+      tel: '080-3558-7830', hours: '11:00〜21:00', lat: 35.70677185, lon: 139.66564941,
+      sourceUrl: 'https://gashacoco.jp/shop-list/480'
+    },
+    {
+      id: 'gashacoco-ikebukuro', brand: 'gashacoco（ガシャココ）', name: 'gashacoco 池袋',
+      area: '東京都・池袋', zip: '170-0013', address: '東京都豊島区東池袋1-41-6 池袋菊邑ビル 1F・B1F',
+      tel: '070-3164-4095', hours: '11:00〜22:00', lat: 35.73152924, lon: 139.71279907,
+      sourceUrl: 'https://gashacoco.jp/shop-list/2482'
+    },
+    {
+      id: 'gashacoco-kitasenju-marui', brand: 'gashacoco（ガシャココ）', name: 'gashacoco 北千住マルイ',
+      area: '東京都・北千住', zip: '120-8501', address: '東京都足立区千住3-92 ミルディスI番館 北千住マルイ 5F',
+      tel: '070-1484-6946', hours: '10:00〜20:00', lat: 35.75048828, lon: 139.80438232,
+      sourceUrl: 'https://gashacoco.jp/shop-list/698'
+    },
+    {
+      id: 'gashacoco-shapo-koiwa', brand: 'gashacoco（ガシャココ）', name: 'gashacoco シャポー小岩',
+      area: '東京都・小岩', zip: '133-0056', address: '東京都江戸川区南小岩7-24-15 シャポー小岩 1F',
+      tel: '070-5558-2826', hours: '平日・土曜 10:00〜21:00／日曜・祝日 10:00〜20:30', lat: 35.7330349, lon: 139.8818105,
+      sourceUrl: 'https://gashacoco.jp/shop-list/3230'
+    },
+    {
+      id: 'cpla-tokyu-plaza-shibuya', brand: '#C-pla（シープラ）', name: '#C-pla 東急プラザ渋谷店',
+      area: '東京都・渋谷', zip: '150-0043', address: '東京都渋谷区道玄坂1-2-3 渋谷フクラス 5F',
+      tel: '070-6560-3548', hours: '11:00〜22:00', machines: 1285, lat: 35.65759473126981, lon: 139.697576877157,
+      sourceUrl: 'https://toshin.jpn.com/shop/%E6%9D%B1%E6%80%A5%E3%83%97%E3%83%A9%E3%82%B6%E6%B8%8B%E8%B0%B7%E5%BA%97/'
+    },
+    {
+      id: 'cpla-premium-omokado', brand: '#C-pla（シープラ）', name: '#C-pla premium 東急プラザ表参道「オモカド」店',
+      area: '東京都・原宿', zip: '150-0001', address: '東京都渋谷区神宮前4-30-3 東急プラザ表参道「オモカド」4F',
+      tel: '070-3180-6839', hours: '11:00〜20:00', machines: 1164, lat: 35.6685817, lon: 139.7057812,
+      sourceUrl: 'https://toshin.jpn.com/shop/%E6%9D%B1%E6%80%A5%E3%83%97%E3%83%A9%E3%82%B6%E8%A1%A8%E5%8F%82%E9%81%93%E3%82%AA%E3%83%A2%E3%82%AB%E3%83%89%E5%BA%97/'
+    },
+    {
+      id: 'cpla-premium-marronniergate-ginza', brand: '#C-pla（シープラ）', name: '#C-pla premium マロニエゲート銀座1店',
+      area: '東京都・銀座', zip: '104-0061', address: '東京都中央区銀座2-2-14 マロニエゲート銀座1 4F',
+      tel: '070-3325-8589', hours: '11:00〜21:00', machines: 1000, lat: 35.67403903036813, lon: 139.76286132634277,
+      sourceUrl: 'https://toshin.jpn.com/shop/%E3%83%9E%E3%83%AD%E3%83%8B%E3%82%A8%E3%82%B2%E3%83%BC%E3%83%88%E9%8A%80%E5%BA%A71%E5%BA%97/'
+    },
+    {
+      id: 'cpla-tokyu-plaza-kamata', brand: '#C-pla（シープラ）', name: '#C-pla 東急プラザ蒲田店',
+      area: '東京都・蒲田', zip: '144-0051', address: '東京都大田区西蒲田7-69-1 東急プラザ蒲田 7F',
+      tel: '090-2159-0577', hours: '10:00〜20:00', machines: 572, lat: 35.5618584, lon: 139.7153432,
+      sourceUrl: 'https://toshin.jpn.com/shop/%E6%9D%B1%E6%80%A5%E3%83%97%E3%83%A9%E3%82%B6%E8%92%B2%E7%94%B0%E5%BA%97/'
+    },
+    {
+      id: 'cpla-granduo-kamata', brand: '#C-pla（シープラ）', name: '#C-pla グランデュオ蒲田店',
+      area: '東京都・蒲田', zip: '144-0052', address: '東京都大田区蒲田5-13-1 グランデュオ蒲田 東館 4F',
+      tel: '070-4344-2744', hours: '通常 10:00〜21:00／日祝 10:00〜20:30', machines: 719, lat: 35.5625567, lon: 139.7164948,
+      sourceUrl: 'https://toshin.jpn.com/shop/%E3%82%B0%E3%83%A9%E3%83%B3%E3%83%87%E3%83%A5%E3%82%AA%E8%92%B2%E7%94%B0%E5%BA%97/'
+    },
+    {
+      id: 'cpla-miraiya-kasai', brand: '#C-pla（シープラ）', name: '#C-pla mini 未来屋書店葛西店',
+      area: '東京都・葛西', zip: '134-0088', address: '東京都江戸川区西葛西3-9-19 イオン葛西店 4F',
+      tel: '080-7449-4806', hours: '9:00〜21:00', machines: 308, lat: 35.6692014, lon: 139.8586547,
+      sourceUrl: 'https://toshin.jpn.com/shop/%E6%9C%AA%E6%9D%A5%E5%B1%8B%E6%9B%B8%E5%BA%97%E8%91%9B%E8%A5%BF%E5%BA%97/'
+    },
+    {
+      id: 'cpla-wing-takanawa', brand: '#C-pla（シープラ）', name: '#C-pla ウィング高輪店',
+      area: '東京都・品川', zip: '108-0074', address: '東京都港区高輪4-10-18 ウィング高輪 1F',
+      tel: '070-3180-6782', hours: '11:00〜20:00', machines: 544, lat: 35.62888887260422, lon: 139.73409177578537,
+      sourceUrl: 'https://toshin.jpn.com/shop/%E3%82%A6%E3%82%A4%E3%83%B3%E3%82%B0%E9%AB%98%E8%BC%AA%E5%BA%97/'
+    },
+    {
+      id: 'cpla-labo-shibuya', brand: '#C-pla（シープラ）', name: '#C-pla Labo',
+      area: '東京都・渋谷', zip: '150-0041', address: '東京都渋谷区神南1-18-2 フレーム神南坂 1F・B1F',
+      tel: '070-4335-1888', hours: '10:00〜21:00', machines: 788, lat: 35.6628751, lon: 139.7001055,
+      sourceUrl: 'https://toshin.jpn.com/shop/%EF%BC%83c-pla-labo/'
+    },
+    {
+      id: 'cpla-lalaterrace-harumi-flag', brand: '#C-pla（シープラ）', name: '#C-pla ららテラスHARUMI FLAG店',
+      area: '東京都・晴海', zip: '104-0053', address: '東京都中央区晴海5-2-31 ららテラスHARUMI FLAG 2F',
+      tel: '080-2870-5837', hours: '10:00〜21:00', machines: 462, lat: 35.651269872596906, lon: 139.77180937578632,
+      sourceUrl: 'https://toshin.jpn.com/shop/%E3%82%89%E3%82%89%E3%83%86%E3%83%A9%E3%82%B9harumi-flag%E5%BA%97/'
+    },
+    {
+      id: 'cpla-daikanyama-address', brand: '#C-pla（シープラ）', name: '#C-pla 代官山アドレス・ディセ店',
+      area: '東京都・代官山', zip: '150-0034', address: '東京都渋谷区代官山町17-6 代官山アドレス・ディセ 3F',
+      tel: '070-5592-1652', hours: '11:00〜20:00', machines: 755, lat: 35.6492744725976, lon: 139.70061177496854,
+      sourceUrl: 'https://toshin.jpn.com/shop/%E4%BB%A3%E5%AE%98%E5%B1%B1%E3%82%A2%E3%83%89%E3%83%AC%E3%82%B9%E3%83%BB%E3%83%87%E3%82%A3%E3%82%BB%E5%BA%97/'
+    },
+    {
+      id: 'cpla-mark-is-katsushika-kanamachi', brand: '#C-pla（シープラ）', name: '#C-pla MARK IS 葛飾かなまち店',
+      area: '東京都・金町', zip: '125-0041', address: '東京都葛飾区東金町1-10-1 MARK IS 葛飾かなまち 3F',
+      tel: '070-6559-4324', hours: '10:00〜21:00', machines: 1581, lat: 35.76996912255872, lon: 139.86407417579161,
+      sourceUrl: 'https://toshin.jpn.com/shop/mark-is-%E8%91%9B%E9%A3%BE%E3%81%8B%E3%81%AA%E3%81%BE%E3%81%A1%E5%BA%97/'
+    },
+    {
+      id: 'cpla-harakado', brand: '#C-pla（シープラ）', name: '#C-pla 東急プラザ原宿「ハラカド」店',
+      area: '東京都・原宿', zip: '150-0001', address: '東京都渋谷区神宮前6-31-21 東急プラザ原宿「ハラカド」B1F',
+      tel: '03-6427-2380', hours: '11:00〜21:00', machines: 450, lat: 35.66837387247711, lon: 139.70221581161954,
+      sourceUrl: 'https://toshin.jpn.com/shop/%E6%9D%B1%E6%80%A5%E3%83%97%E3%83%A9%E3%82%B6%E5%8E%9F%E5%AE%BF%E3%80%8C%E3%83%8F%E3%83%A9%E3%82%AB%E3%83%89%E3%80%8D%E5%BA%97/'
+    },
+    {
+      id: 'cpla-harajuku-takeshita-2', brand: '#C-pla（シープラ）', name: '#C-pla 原宿竹下通り2号店',
+      area: '東京都・原宿', zip: '150-0001', address: '東京都渋谷区神宮前1-9-1 ACN原宿竹下通りビル B1F',
+      tel: '070-1217-3735', hours: '10:00〜21:00', machines: 803, lat: 35.670867772590526, lon: 139.702581476806,
+      sourceUrl: 'https://toshin.jpn.com/shop/%E5%8E%9F%E5%AE%BF%E7%AB%B9%E4%B8%8B%E9%80%9A%E3%82%8A2%E5%8F%B7%E9%A4%A8%E3%83%AF%E3%83%BC%E3%83%95%E5%BA%97/'
+    },
+    {
+      id: 'cpla-2nd-sunamo', brand: '#C-pla（シープラ）', name: '#C-pla 2nd SUNAMO店',
+      area: '東京都・南砂町', zip: '136-0075', address: '東京都江東区新砂3-4-31 南砂町ショッピングセンターSUNAMO 3F',
+      tel: '090-5980-2028', hours: '10:00〜21:00', machines: 542, lat: 35.665143972592475, lon: 139.83263797680573,
+      sourceUrl: 'https://toshin.jpn.com/shop/c-pla-2nd-sunamo%E5%BA%97/'
+    },
+    {
+      id: 'cpla-kinshicho-parco', brand: '#C-pla（シープラ）', name: '#C-pla 錦糸町PARCO店',
+      area: '東京都・錦糸町', zip: '130-0022', address: '東京都墨田区江東橋4-27-14 錦糸町PARCO 5F',
+      tel: '090-2438-3817', hours: '10:30〜21:00', machines: 1090, lat: 35.6963119, lon: 139.8156604,
+      sourceUrl: 'https://toshin.jpn.com/shop/%E9%8C%A6%E7%B3%B8%E7%94%BA%E3%83%91%E3%83%AB%E3%82%B3%E5%BA%97/'
+    },
+    {
+      id: 'cpla-decks-tokyo-beach', brand: '#C-pla（シープラ）', name: '#C-pla デックス東京ビーチ店',
+      area: '東京都・お台場', zip: '135-0091', address: '東京都港区台場1-6-1 デックス東京ビーチ シーサイドモール 3F',
+      tel: '090-8952-9266', hours: '通常 11:00〜20:00／土日祝 11:00〜21:00', machines: 639, lat: 35.629297172604076, lon: 139.77329727578538,
+      sourceUrl: 'https://toshin.jpn.com/shop/%E3%83%87%E3%83%83%E3%82%AF%E3%82%B9%E6%9D%B1%E4%BA%AC%E3%83%93%E3%83%BC%E3%83%81%E5%BA%97/'
+    },
+    {
+      id: 'gbo-aeon-cinema-itabashi', brand: 'ガシャポン（バンダイ）', name: 'ガシャポンバンダイオフィシャルショップイオンシネマ板橋店',
+      area: '東京都・東武練馬', zip: '175-0083', address: '東京都板橋区徳丸2-6-1 イオン板橋ショッピングセンター 5F',
+      tel: '03-3937-1551（自動音声）', hours: '8:00〜22:00（映画館の営業時間に準ずる）', machines: 240, lat: 35.7700328, lon: 139.660993,
+      sourceUrl: 'https://bandainamco-am.co.jp/others/gashapon-bandai-officialshop/store/itabashi/'
+    },
+    {
+      id: 'gashadepa-bigfun-heiwajima', brand: 'ガシャポンのデパート', name: 'ガシャポンのデパートBIGFUN平和島店',
+      area: '東京都・平和島', zip: '143-0006', address: '東京都大田区平和島1-1-1 BIGFUN平和島 1F',
+      tel: '090-5564-1384', hours: '10:00〜22:00', machines: 1700, lat: 35.5845896824373, lon: 139.74039485773372,
+      sourceUrl: 'https://bandainamco-am.co.jp/others/capsule-toy-store/store/BFheiwajima/'
+    },
+    {
+      id: 'gashadepa-iy-kiba', brand: 'ガシャポンのデパート', name: 'ガシャポンのデパートイトーヨーカドー木場店',
+      area: '東京都・木場', zip: '135-0042', address: '東京都江東区木場1-5-30 2F',
+      hours: '10:00〜21:00', machines: 600, lat: 35.665987, lon: 139.8042353,
+      sourceUrl: 'https://bandainamco-am.co.jp/others/capsule-toy-store/store/iykiba/'
+    },
+    {
+      id: 'gashadepa-oji-sunsquare', brand: 'ガシャポンのデパート', name: 'ガシャポンのデパート王子サンスクエア店',
+      area: '東京都・王子', zip: '114-0002', address: '東京都北区王子1-4-1 サンスクエア 2F namco内',
+      tel: '03-5959-9830', hours: '10:00〜23:00', machines: 480, lat: 35.752926080177666, lon: 139.7366689152608,
+      sourceUrl: 'https://bandainamco-am.co.jp/others/capsule-toy-store/store/ouji/'
+    }
+  ];
+
+  batch.forEach(function (store) {
+    store.region = 'kanto';
+    store.pref = '東京都';
+    store.verifiedAt = verifiedAt;
+
+    var target = null;
+    for (var i = 0; i < window.GH_SPOTS.length; i++) {
+      if (window.GH_SPOTS[i].id === store.id) {
+        target = window.GH_SPOTS[i];
+        break;
+      }
+    }
+    if (!target) {
+      window.GH_SPOTS.push(store);
+      return;
+    }
+    Object.keys(store).forEach(function (key) { target[key] = store[key]; });
+    if (store.brand === 'gashacoco（ガシャココ）') delete target.machines;
+    delete target.access;
+    delete target.opensOn;
+    delete target.closedAfter;
+  });
+})();
+
 /* 閉店店舗の自動非表示：closedAfter（最終営業日）を過ぎた店舗は、
    ここで配列から除外されるため、サイト全体＋sitemap 生成から消える。 */
 window.GH_SPOTS = window.GH_SPOTS.filter(function (s) {
