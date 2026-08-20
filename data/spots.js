@@ -5759,6 +5759,242 @@ window.GH_SPOTS = [
   });
 })();
 
+/* ── 2026-08-20 東京都23区・公式確認済み店舗 第2回（30店舗） ────────
+   バンダイ、カプコン、GiGO、イオンファンタジー、ケンエレファントの
+   現行公式店舗ページを照合。公式にない台数・営業時間・電話は補わず、
+   住所と地図位置を確認できた店舗だけを公開する。 */
+(function () {
+  var verifiedAt = '2026-08-20';
+  var batch = [
+    {
+      id: 'gbo-bookoff-seiyu-omori', brand: 'ガシャポン（バンダイ）',
+      name: 'ガシャポンバンダイオフィシャルショップBOOKOFF 西友大森店',
+      area: '東京都・大森', zip: '140-0013', address: '東京都品川区南大井6-27-25 西友大森店 3F',
+      tel: '03-5753-4472', hours: '10:00〜22:00', machines: 300,
+      lat: 35.588201, lon: 139.73043,
+      sourceUrl: 'https://bandainamco-am.co.jp/others/gashapon-bandai-officialshop/store/s_omori/'
+    },
+    {
+      id: 'gbo-miraiya-shinagawa-seaside', brand: 'ガシャポン（バンダイ）',
+      name: 'ガシャポンバンダイオフィシャルショップ未来屋書店品川シーサイド店',
+      area: '東京都・品川シーサイド', zip: '140-0002', address: '東京都品川区東品川4-12-5 イオン品川シーサイドSC 3F',
+      tel: '080-4958-3243', hours: '9:00〜22:00', machines: 300,
+      lat: 35.610994, lon: 139.749077,
+      sourceUrl: 'https://bandainamco-am.co.jp/others/gashapon-bandai-officialshop/store/shinagawa-ss/'
+    },
+    {
+      id: 'gashadepa-bunkodo-nerima-takanodai', brand: 'ガシャポンのデパート',
+      name: '本屋さんのガシャポンのデパート文教堂練馬高野台店',
+      area: '東京都・練馬高野台', zip: '177-0033', address: '東京都練馬区高野台1-7-17 ピーコックストア高野台 2F',
+      tel: '03-5923-7830', hours: '10:00〜21:00', machines: 430,
+      lat: 35.74134, lon: 139.61716,
+      sourceUrl: 'https://bandainamco-am.co.jp/others/capsule-toy-store/store/b_nerima/'
+    },
+    {
+      id: 'gashapon-official-asakusa', brand: 'ガシャポン（バンダイ）',
+      name: 'ガシャポンオフィシャルショップ＠ASAKUSA',
+      area: '東京都・浅草', zip: '111-0032', address: '東京都台東区浅草1-3-4 1F',
+      lat: 35.71114605718832, lon: 139.79591761842462,
+      sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90001661'
+    },
+    {
+      id: 'bandai-gashapon-nitori-shibuya-koendori', brand: 'ガシャポン（バンダイ）',
+      name: 'ニトリ渋谷公園通り店（ガシャポンコーナー）',
+      area: '東京都・渋谷', zip: '150-0041', address: '東京都渋谷区神南1-12-13',
+      hours: '11:00〜22:00', lat: 35.66308884318558, lon: 139.70077370411536,
+      sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90001482'
+    },
+    {
+      id: 'bandai-gashapon-nitori-ikebukuro', brand: 'ガシャポン（バンダイ）',
+      name: 'ニトリ池袋サンシャイン60通り店（ガシャポンコーナー）',
+      area: '東京都・池袋', zip: '170-0013', address: '東京都豊島区東池袋1-28-10',
+      hours: '10:00〜22:00', lat: 35.72983397332056, lon: 139.71645165563893,
+      sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90001481'
+    },
+    {
+      id: 'bandai-gashapon-nitori-meguro-dori', brand: 'ガシャポン（バンダイ）',
+      name: 'ニトリ目黒通り店（ガシャポンコーナー）',
+      area: '東京都・目黒', zip: '153-0064', address: '東京都目黒区下目黒6-1-18',
+      hours: '10:00〜20:00', lat: 35.629637422928646, lon: 139.69980963232075,
+      sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90001602'
+    },
+    {
+      id: 'bandai-gashapon-nitori-akabane', brand: 'ガシャポン（バンダイ）',
+      name: 'ニトリ赤羽店（ガシャポンコーナー）',
+      area: '東京都・赤羽', zip: '115-0043', address: '東京都北区神谷3-6-20',
+      hours: '10:00〜20:00（2026年8月31日までは21:00）', lat: 35.77119811692018, lon: 139.7340614617917,
+      sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90001483'
+    },
+    {
+      id: 'bandai-gashapon-nitori-koiwa-kannan', brand: 'ガシャポン（バンダイ）',
+      name: 'ニトリ小岩環七店（ガシャポンコーナー）',
+      area: '東京都・小岩', zip: '133-0041', address: '東京都江戸川区上一色3-10-1',
+      hours: '10:00〜20:00（2026年8月31日までは21:00）', lat: 35.72888784996015, lon: 139.87052194337005,
+      sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90001490'
+    },
+    {
+      id: 'bandai-gashapon-nitori-kannan-umejima', brand: 'ガシャポン（バンダイ）',
+      name: 'ニトリ環七梅島店（ガシャポンコーナー）',
+      area: '東京都・梅島', zip: '121-0816', address: '東京都足立区梅島2-31-26',
+      hours: '10:00〜21:00', lat: 35.778224196517534, lon: 139.80289425564055,
+      sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90001491'
+    },
+    {
+      id: 'bandai-gashapon-nitori-narimasu', brand: 'ガシャポン（バンダイ）',
+      name: 'ニトリ成増店（ガシャポンコーナー）',
+      area: '東京都・成増', zip: '179-0071', address: '東京都練馬区旭町3-35-6',
+      tel: '03-3977-5861', hours: '10:00〜20:00（2026年8月31日までは21:00）',
+      lat: 35.7786741586014, lon: 139.62507420534345,
+      sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90001601'
+    },
+    {
+      id: 'bandai-gashapon-hands-shibuya', brand: 'ガシャポン（バンダイ）',
+      name: 'ハンズ渋谷店（ガシャポンコーナー）',
+      area: '東京都・渋谷', zip: '150-0042', address: '東京都渋谷区宇田川町12-18 6B',
+      tel: '03-5489-5111', hours: '10:00〜21:00', lat: 35.6619876, lon: 139.6977984,
+      sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90000917'
+    },
+    {
+      id: 'capsulelab-ikebukuro', brand: 'CAPSULE LAB（カプコン）',
+      name: 'カプセルラボ 池袋店（プラサカプコン池袋店内）',
+      area: '東京都・池袋', zip: '170-0013', address: '東京都豊島区東池袋1-30-3 グランドスケープ池袋 3F',
+      tel: '03-5904-9105', hours: '10:00〜23:00', lat: 35.730259, lon: 139.716947,
+      sourceUrl: 'https://www.capcom.co.jp/amusement/game/shop/ikebukuro'
+    },
+    {
+      id: 'capsulelab-lalaterrace-kitaayase', brand: 'CAPSULE LAB（カプコン）',
+      name: 'カプセルラボ ららテラス北綾瀬店',
+      area: '東京都・北綾瀬', zip: '120-0006', address: '東京都足立区谷中4-8-1 ららテラス北綾瀬 4F',
+      tel: '03-5856-1334', hours: '10:00〜21:00', lat: 35.778043, lon: 139.831591,
+      sourceUrl: 'https://www.capcom.co.jp/amusement/game/shop/kitaayase'
+    },
+    {
+      id: 'goron-sohonten', brand: 'GORON!', name: 'GORON!総本店',
+      area: '東京都・池袋', zip: '170-0013', address: '東京都豊島区東池袋1-13-6 ロクマルゲート池袋 2F',
+      tel: '080-7018-7351', hours: '月〜木・日 10:00〜23:00／金・土・祝前日 10:00〜翌1:00',
+      lat: 35.729514, lon: 139.715012, sourceUrl: 'https://www.gigo.co.jp/shops/goron-sohonten'
+    },
+    {
+      id: 'goron-ikebukuro1', brand: 'GORON!', name: 'GORON!池袋1号館',
+      area: '東京都・池袋', zip: '170-0013', address: '東京都豊島区東池袋1-22-12',
+      tel: '070-1458-1779', hours: '10:00〜23:00', lat: 35.729956, lon: 139.71602,
+      sourceUrl: 'https://www.gigo.co.jp/shops/goron-ikebukuro1'
+    },
+    {
+      id: 'gigo-tokyo-dome-city', brand: 'GiGO', name: 'GiGO東京ドームシティ',
+      area: '東京都・後楽園', zip: '112-0004', address: '東京都文京区後楽1-3-61 東京ドームシティ バイキングゾーン 1F',
+      tel: '070-1458-2548', hours: '10:00〜22:00', lat: 35.705023, lon: 139.753769,
+      sourceUrl: 'https://www.gigo.co.jp/shops/tokyodomecity'
+    },
+    {
+      id: 'gigo-shibuya', brand: 'GiGO', name: 'GiGO渋谷',
+      area: '東京都・渋谷', zip: '150-0042', address: '東京都渋谷区宇田川町29-4 ゼンモールビル 1〜3F',
+      tel: '080-3217-7427', hours: '10:00〜23:30', lat: 35.6608, lon: 139.698459,
+      sourceUrl: 'https://www.gigo.co.jp/shops/shibuya'
+    },
+    {
+      id: 'gigo-jiyugaoka', brand: 'GiGO', name: 'GiGO自由が丘',
+      area: '東京都・自由が丘', zip: '152-0035', address: '東京都目黒区自由が丘2-10-9',
+      tel: '070-1458-9668', hours: '10:00〜23:30', lat: 35.60843, lon: 139.667542,
+      sourceUrl: 'https://www.gigo.co.jp/shops/jiyugaoka'
+    },
+    {
+      id: 'gigo-lapark-mizue', brand: 'GiGO', name: 'GiGOラパーク瑞江',
+      area: '東京都・瑞江', zip: '132-0011', address: '東京都江戸川区瑞江2-1-2 ドン・キホーテ ラパーク瑞江店 4F',
+      tel: '070-1201-3904', hours: '10:00〜21:00', lat: 35.692948, lon: 139.896765,
+      sourceUrl: 'https://www.gigo.co.jp/shops/mizue'
+    },
+    {
+      id: 'gigo-akabane-ekimae', brand: 'GiGO', name: 'GiGO赤羽駅前',
+      area: '東京都・赤羽', zip: '115-0045', address: '東京都北区赤羽1-2-4',
+      tel: '070-1458-9504', hours: '10:00〜23:30', lat: 35.77818, lon: 139.72062,
+      sourceUrl: 'https://www.gigo.co.jp/shops/akabane-ekimae'
+    },
+    {
+      id: 'gigo-roppongi-imoarai-zaka', brand: 'GiGO', name: 'GiGO六本木芋洗坂',
+      area: '東京都・六本木', zip: '106-0032', address: '東京都港区六本木6-1-3 六門ビル 1F',
+      tel: '080-4856-7657', hours: '12:00〜翌1:00', lat: 35.662548, lon: 139.732322,
+      sourceUrl: 'https://www.gigo.co.jp/shops/roppongi-imoarai-zaka'
+    },
+    {
+      id: 'gigo-musashikoyama', brand: 'GiGO', name: 'GiGO武蔵小山',
+      area: '東京都・武蔵小山', zip: '142-0062', address: '東京都品川区小山3-22-19',
+      tel: '080-7020-4348', hours: '10:00〜23:00', lat: 35.618981, lon: 139.70527,
+      sourceUrl: 'https://www.gigo.co.jp/shops/musashikoyama'
+    },
+    {
+      id: 'gigo-takenotsuka', brand: 'GiGO', name: 'GiGO竹の塚',
+      area: '東京都・竹の塚', zip: '121-0813', address: '東京都足立区竹の塚6-8',
+      tel: '070-1458-9285', hours: '10:00〜24:00', lat: 35.7943, lon: 139.79302,
+      sourceUrl: 'https://www.gigo.co.jp/shops/takenotsuka'
+    },
+    {
+      id: 'palo-shibuya-a2', brand: 'TOYS SPOT PALO', name: 'TOYS SPOT PALO 渋谷A2ビル店',
+      area: '東京都・渋谷', zip: '150-0042', address: '東京都渋谷区宇田川町28-3 アンテナGSビル（A2ビル）2F',
+      tel: '070-3100-4946', lat: 35.6609229, lon: 139.6989781,
+      sourceUrl: 'https://www.fantasy.co.jp/shoplist/shop-tsp1228/'
+    },
+    {
+      id: 'palo-minamisuna', brand: 'TOYS SPOT PALO', name: 'TOYS SPOT PALO 南砂店',
+      area: '東京都・南砂', zip: '136-0076', address: '東京都江東区南砂6-7-15 イオンスタイル南砂 3F',
+      tel: '070-3100-4050', lat: 35.6717151, lon: 139.833534,
+      sourceUrl: 'https://www.fantasy.co.jp/shoplist/shop-tsp1049/'
+    },
+    {
+      id: 'palo-himonya', brand: 'TOYS SPOT PALO', name: 'TOYS SPOT PALO 碑文谷店',
+      area: '東京都・碑文谷', zip: '152-0003', address: '東京都目黒区碑文谷4-1-1 イオンスタイル碑文谷 6F',
+      tel: '080-3476-8062', lat: 35.6223931, lon: 139.6841724,
+      sourceUrl: 'https://www.fantasy.co.jp/shoplist/shop-tsp1217/'
+    },
+    {
+      id: 'kenele-stand-jr-akihabara', brand: 'ケンエレスタンド', name: 'ケンエレスタンド 秋葉原店',
+      area: '東京都・秋葉原', zip: '101-0021',
+      address: '東京都千代田区外神田1-17-6 JR秋葉原駅3F 改札内総武線6番線ホーム裏コンコース',
+      hours: '10:00〜21:00', lat: 35.6986954, lon: 139.773045,
+      sourceUrl: 'https://kenelephant.co.jp/kenelestand/'
+    },
+    {
+      id: 'kenele-stand-jr-shimbashi', brand: 'ケンエレスタンド', name: 'ケンエレスタンド 新橋駅店',
+      area: '東京都・新橋', zip: '105-0004',
+      address: '東京都港区新橋2-17-14 JR新橋駅構内1F 北改札付近',
+      hours: '10:00〜21:00', lat: 35.6667162, lon: 139.7581496,
+      sourceUrl: 'https://kenelephant.co.jp/kenelestand/'
+    },
+    {
+      id: 'uenoland-kenelephant', brand: 'ケンエレスタンド',
+      name: 'ケンエレスタンド エキュート上野店（上野ランド）',
+      area: '東京都・上野', zip: '110-0005', address: '東京都台東区上野7-1-1 JR東日本上野駅改札内 3F',
+      tel: '03-6231-7780', hours: '月〜木・土日祝 9:00〜21:00／金 9:00〜22:00', machines: 200,
+      lat: 35.71274425, lon: 139.77625165, sourceUrl: 'https://www.ecute.jp/ueno/shop/1168'
+    }
+  ];
+
+  batch.forEach(function (store) {
+    store.region = 'kanto';
+    store.pref = '東京都';
+    store.verifiedAt = verifiedAt;
+
+    var target = null;
+    for (var i = 0; i < window.GH_SPOTS.length; i++) {
+      if (window.GH_SPOTS[i].id === store.id) {
+        target = window.GH_SPOTS[i];
+        break;
+      }
+    }
+    if (!target) {
+      window.GH_SPOTS.push(store);
+      return;
+    }
+    Object.keys(store).forEach(function (key) { target[key] = store[key]; });
+    if (!Object.prototype.hasOwnProperty.call(store, 'machines')) delete target.machines;
+    if (!Object.prototype.hasOwnProperty.call(store, 'hours')) delete target.hours;
+    if (!Object.prototype.hasOwnProperty.call(store, 'tel')) delete target.tel;
+    delete target.access;
+    delete target.opensOn;
+    delete target.closedAfter;
+  });
+})();
+
 /* 閉店店舗の自動非表示：closedAfter（最終営業日）を過ぎた店舗は、
    ここで配列から除外されるため、サイト全体＋sitemap 生成から消える。 */
 window.GH_SPOTS = window.GH_SPOTS.filter(function (s) {
