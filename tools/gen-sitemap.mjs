@@ -64,7 +64,7 @@ add('/privacy.html');
 add('/advertising.html');
 add('/contact.html');
 add('/about.html', '2026-08-14');
-add('/methodology.html', '2026-08-20');
+add('/methodology.html', '2026-08-21');
 
 /* 記事のうち、運営者が構成・確認した独自ガイドだけを検索対象にする。 */
 indexableArticles.forEach((a) => add(guidePath(a.slug), articleModified(a)));

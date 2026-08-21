@@ -6240,6 +6240,260 @@ window.GH_SPOTS = [
   }
 })();
 
+/* ── 2026-08-21 東京都23区・公式確認済み店舗 第4回（公開純増30店舗） ──
+   バンダイ、店舗運営会社、商業施設の現行公式情報を照合し、30店舗を追加・再確認。
+   同一住所・同一売場として扱える候補は1件へ絞り、閉店・設置確認不能の候補は除外。
+   公式にない台数・営業時間・電話は補わず、確認できた項目だけを掲載する。 */
+(function () {
+  var verifiedAt = '2026-08-21';
+  var batch = [
+    {
+      id: 'bandai-jr-ikebukuro-b1-south', brand: 'ガシャポン（バンダイ）',
+      name: 'JR池袋駅B1F 改札外南通路中央（ガシャポンコーナー）',
+      area: '東京都・池袋', zip: '171-0022',
+      address: '東京都豊島区南池袋1-28-2 NewDays KIOSK 池袋駅南通路店付近',
+      lat: 35.72933757485541, lon: 139.71082068049893,
+      sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90000010'
+    },
+    {
+      id: 'bandai-familymart-shinjuku-yasukuni', brand: 'ファミリーマート',
+      name: 'ファミリーマート新宿靖国通り店（ガシャポンコーナー）',
+      area: '東京都・新宿', zip: '160-0022', address: '東京都新宿区新宿5-17-13',
+      lat: 35.69281960677942, lon: 139.70514285417119,
+      sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90001725'
+    },
+    {
+      id: 'bandai-yodobashi-ueno', brand: 'ヨドバシカメラ',
+      name: 'ヨドバシカメラ マルチメディア上野（ガシャポンコーナー）',
+      area: '東京都・上野', zip: '110-0005', address: '東京都台東区上野4-10-10',
+      lat: 35.7111643, lon: 139.774465,
+      sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90000307'
+    },
+    {
+      id: 'gashapon-yokocho-okachimachi', brand: 'ガシャポン（バンダイ）',
+      name: 'ガシャポン横丁', area: '東京都・御徒町', zip: '110-0005',
+      address: '東京都台東区上野4-1-7 MYS御徒町',
+      lat: 35.7084154, lon: 139.7743635,
+      sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90000194'
+    },
+    {
+      id: 'yodobashi-kinshicho-gacha', brand: 'ヨドバシカメラ',
+      name: 'ヨドバシカメラ マルチメディア錦糸町（ガシャポンコーナー）',
+      area: '東京都・錦糸町', zip: '130-8580', address: '東京都墨田区江東橋3-14-5',
+      lat: 35.6964465, lon: 139.8139269,
+      sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90000306'
+    },
+    {
+      id: 'bandai-familymart-fresa-inn-ginza', brand: 'ファミリーマート',
+      name: 'ファミリーマートフレッサイン銀座店（ガシャポンコーナー）',
+      area: '東京都・銀座', zip: '104-0061', address: '東京都中央区銀座7-11-12',
+      lat: 35.6679634667418, lon: 139.76316469164138,
+      sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90001723'
+    },
+    {
+      id: 'bandai-jr-meguro-tokyu-gate', brand: 'ガシャポン（バンダイ）',
+      name: 'JR目黒駅 東急連絡改札内（ガシャポンコーナー）',
+      area: '東京都・目黒', zip: '141-0021', address: '東京都品川区上大崎2-16-9',
+      lat: 35.6344723, lon: 139.7159104,
+      sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90000210'
+    },
+    {
+      id: 'bandai-gashapon-jr-gotanda-inside-ekiresuku', brand: 'ガシャポン（バンダイ）',
+      name: 'JR五反田駅 改札内エキレスク前（ガシャポンコーナー）',
+      area: '東京都・五反田', zip: '141-0022', address: '東京都品川区東五反田1-26-4',
+      lat: 35.6261426, lon: 139.7238511,
+      sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90000207'
+    },
+    {
+      id: 'bandai-jr-nishioi-inside', brand: 'ガシャポン（バンダイ）',
+      name: 'JR西大井駅 改札内改札横（ガシャポンコーナー）',
+      area: '東京都・西大井', zip: '140-0015', address: '東京都品川区西大井1-3-2',
+      lat: 35.6017749, lon: 139.7218166,
+      sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90000203'
+    },
+    {
+      id: 'bandai-labi1-life-select-ikebukuro', brand: 'ヤマダデンキ',
+      name: 'LABI 池袋本店（ガシャポンコーナー）',
+      area: '東京都・池袋', zip: '170-0013', address: '東京都豊島区東池袋1-5-7',
+      lat: 35.730808, lon: 139.713196,
+      sourceUrl: 'https://gashapon.jp/news/campaign_260420/'
+    },
+    {
+      id: 'bandai-biccamera-shinjuku-higashiguchi', brand: 'ビックカメラ',
+      name: 'ビックカメラ新宿東口店（ガシャポンコーナー）',
+      area: '東京都・新宿', zip: '160-0022', address: '東京都新宿区新宿3-29-1',
+      lat: 35.691151, lon: 139.703278,
+      sourceUrl: 'https://gashapon.jp/news/campaign_260420/'
+    },
+    {
+      id: 'bandai-gigo-shinjuku-kabukicho', brand: 'GiGO',
+      name: 'GiGO新宿歌舞伎町（ガシャポンコーナー）',
+      area: '東京都・新宿', zip: '160-0021',
+      address: '東京都新宿区歌舞伎町1-21-1 第二東亜会館 1F',
+      lat: 35.694965, lon: 139.701279,
+      sourceUrl: 'https://gashapon.jp/news/campaign_260420/'
+    },
+    {
+      id: 'yodobashi-ikebukuro-gacha-jungle', brand: 'ヨドバシカメラ',
+      name: 'ヨドバシカメラ マルチメディア池袋 5F（カプセルトイコーナー）',
+      area: '東京都・池袋', zip: '171-0022',
+      address: '東京都豊島区南池袋1-28-1 ヨドバシカメラ マルチメディア池袋 5F',
+      machines: 3000, lat: 35.7273, lon: 139.7145,
+      sourceUrl: 'https://org-photo.yodobashi.com/live/yodobashicamera/ikebukuro/'
+    },
+    {
+      id: 'gachaworld-haneda-t3', brand: 'ガチャワールド',
+      name: 'ガチャワールド（羽田空港第3ターミナル 5F）',
+      area: '東京都・羽田空港', zip: '144-0041',
+      address: '東京都大田区羽田空港2-6-5 羽田空港第3ターミナル 5F TOKYO POPTOWN',
+      hours: '10:00〜21:00', lat: 35.5453, lon: 139.7684,
+      sourceUrl: 'https://tokyo-haneda.com/shop_and_dine/detail/tenant_100082.html'
+    },
+    {
+      id: 'bandai-jr-omori-newdays-outside', brand: 'ガシャポン（バンダイ）',
+      name: 'JR大森駅 改札外 NewDaysミニ大森1号横（ガシャポンコーナー）',
+      area: '東京都・大森', zip: '143-0016',
+      address: '東京都大田区大森北1-6-16 JR大森駅改札外 NewDaysミニ大森1号横',
+      lat: 35.5885212, lon: 139.728228,
+      sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90000196'
+    },
+    {
+      id: 'kenele-stand-gransta-yaekita', brand: 'ケンエレスタンド',
+      name: 'ケンエレスタンド グランスタ八重北店', area: '東京都・東京駅',
+      zip: '100-0005',
+      address: '東京都千代田区丸の内1-9-1 JR東京駅八重洲北口（改札外）グランスタ八重北 1F',
+      hours: '10:00〜21:00', tel: '03-6268-0108', lat: 35.6812, lon: 139.7671,
+      sourceUrl: 'https://kenelephant.co.jp/kenelestand/'
+    },
+    {
+      id: 'kenele-stand-beans-akabane', brand: 'ケンエレスタンド',
+      name: 'ケンエレスタンド ビーンズ赤羽店', area: '東京都・赤羽',
+      zip: '115-0045', address: '東京都北区赤羽1-1-1 ビーンズ赤羽内',
+      hours: '月〜土10:00〜21:00／日祝10:00〜20:30',
+      lat: 35.7780, lon: 139.7209,
+      sourceUrl: 'https://kenelephant.co.jp/kenelestand/'
+    },
+    {
+      id: 'dreamcapsule-magnet-shibuya', brand: 'ドリームカプセル',
+      name: 'ドリームカプセル MAGNET by SHIBUYA109店', area: '東京都・渋谷',
+      zip: '150-0041', address: '東京都渋谷区神南1-23-10 MAGNET by SHIBUYA109 5F',
+      tel: '070-2242-8095', hours: '10:00〜21:00', lat: 35.6598, lon: 139.7006,
+      sourceUrl: 'https://www.dreamcapsule.co.jp/shop/134'
+    },
+    {
+      id: 'capsulelab-harajuku-takeshita', brand: 'CAPSULE LAB（カプコン）',
+      name: 'カプセルラボ 原宿竹下通り店（本館1F）', area: '東京都・原宿',
+      zip: '150-0001', address: '東京都渋谷区神宮前1-19-24 ビレッジ107 1F',
+      tel: '03-5860-5550', hours: '9:30〜21:00', lat: 35.6713, lon: 139.7043,
+      sourceUrl: 'https://www.capcom.co.jp/amusement/game/shop/harajuku'
+    },
+    {
+      id: 'gachapon-kaikan-akihabara', brand: 'ガチャポン会館',
+      name: '秋葉原ガチャポン会館', area: '東京都・秋葉原', zip: '101-0021',
+      address: '東京都千代田区外神田3-15-5 MNビル 1F',
+      lat: 35.7030, lon: 139.7717,
+      sourceUrl: 'https://www.akibagacha.com/'
+    },
+    {
+      id: 'yamashiroya-ueno', brand: 'ヤマシロヤ',
+      name: 'ヤマシロヤ 上野店（カプセル自販機コーナー）', area: '東京都・上野',
+      zip: '110-0005', address: '東京都台東区上野6-14-6',
+      tel: '03-3831-2320', hours: '10:00〜21:30', lat: 35.7113, lon: 139.7758,
+      sourceUrl: 'https://e-yamashiroya.com/floor/'
+    },
+    {
+      id: 'bandai-jonathan-akihabara-ekimae', brand: 'ジョナサン',
+      name: 'ジョナサン秋葉原駅前（ガシャポンコーナー）',
+      area: '東京都・秋葉原', zip: '101-0021', address: '東京都千代田区外神田1-17-4',
+      tel: '03-5296-9047', lat: 35.69791388994254, lon: 139.77262243266506,
+      sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90001385'
+    },
+    {
+      id: 'bandai-jr-osaki-inside', brand: 'ガシャポン（バンダイ）',
+      name: 'JR大崎駅 改札内（ガシャポンコーナー）', area: '東京都・大崎',
+      zip: '141-0032', address: '東京都品川区大崎1-21-4 JR大崎駅改札内',
+      lat: 35.6199636710926, lon: 139.728213370192,
+      sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90000206'
+    },
+    {
+      id: 'bandai-labi-jiyugaoka', brand: 'ヤマダデンキ',
+      name: 'LABI自由が丘（ガシャポンコーナー）', area: '東京都・自由が丘',
+      zip: '152-0034', address: '東京都目黒区緑が丘2-17-9',
+      lat: 35.6088389, lon: 139.672714,
+      sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90000290'
+    },
+    {
+      id: 'bandai-jr-kamata-outside', brand: 'ガシャポン（バンダイ）',
+      name: 'JR蒲田駅 改札外みどりの窓口前（ガシャポンコーナー）',
+      area: '東京都・蒲田', zip: '144-0052', address: '東京都大田区蒲田5丁目 JR蒲田駅改札外',
+      lat: 35.562585938517, lon: 139.716259656158,
+      sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90000195'
+    },
+    {
+      id: 'bandai-jr-ogikubo-outside', brand: 'ガシャポン（バンダイ）',
+      name: 'JR荻窪駅 改札外（ガシャポンコーナー）', area: '東京都・荻窪',
+      zip: '167-0043', address: '東京都杉並区上荻1丁目 JR荻窪駅改札外',
+      lat: 35.7053513, lon: 139.6181156,
+      sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90000683'
+    },
+    {
+      id: 'gachaste-bigbox-takadanobaba', brand: 'ガチャステ（タイトー）',
+      name: 'ガチャステ BIGBOX高田馬場店', area: '東京都・高田馬場',
+      zip: '169-0075', address: '東京都新宿区高田馬場1-35-3 BIGBOX高田馬場 6F',
+      tel: '03-5272-9855', lat: 35.7125, lon: 139.7040,
+      sourceUrl: 'https://www.taito.co.jp/store/00140602'
+    },
+    {
+      id: 'bandai-biccamera-yurakucho', brand: 'ビックカメラ',
+      name: 'ビックカメラ有楽町店（ガシャポンコーナー）', area: '東京都・有楽町',
+      zip: '100-0006', address: '東京都千代田区有楽町1-11-1',
+      lat: 35.6753598, lon: 139.7628974,
+      sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90000296'
+    },
+    {
+      id: 'gachanico-base-nishikasai', brand: 'ガチャニコBASE',
+      name: 'ガチャニコBASE 西葛西店', area: '東京都・西葛西',
+      zip: '134-0088',
+      address: '東京都江戸川区西葛西4-2-28 サニーモール西葛西 3F（キャッツアイ西葛西店内）',
+      tel: '03-5878-3185', hours: '10:00〜21:00',
+      lat: 35.6682648, lon: 139.8617776,
+      sourceUrl: 'https://www.hku.co.jp/catseye/access/nishikasai.php'
+    },
+    {
+      id: 'gashapon-jr-shinagawa', brand: 'ガシャポン（バンダイ）',
+      name: 'JR品川駅 中央改札内ポスト横（ガシャポンコーナー）', area: '東京都・品川',
+      zip: '108-0074', address: '東京都港区高輪3-26-27 JR品川駅中央改札内',
+      lat: 35.6287731, lon: 139.7384435,
+      sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90000200'
+    }
+  ];
+
+  batch.forEach(function (store) {
+    store.region = 'kanto';
+    store.pref = '東京都';
+    store.verifiedAt = verifiedAt;
+
+    var target = null;
+    for (var i = 0; i < window.GH_SPOTS.length; i++) {
+      if (window.GH_SPOTS[i].id === store.id) {
+        target = window.GH_SPOTS[i];
+        break;
+      }
+    }
+    if (!target) {
+      window.GH_SPOTS.push(store);
+      return;
+    }
+    Object.keys(store).forEach(function (key) { target[key] = store[key]; });
+    if (!Object.prototype.hasOwnProperty.call(store, 'machines')) delete target.machines;
+    if (!Object.prototype.hasOwnProperty.call(store, 'hours')) delete target.hours;
+    if (!Object.prototype.hasOwnProperty.call(store, 'tel')) delete target.tel;
+    delete target.access;
+    delete target.opensOn;
+    delete target.closedAfter;
+  });
+})();
+
 /* 閉店店舗の自動非表示：closedAfter（最終営業日）を過ぎた店舗は、
    ここで配列から除外されるため、サイト全体＋sitemap 生成から消える。 */
 window.GH_SPOTS = window.GH_SPOTS.filter(function (s) {
