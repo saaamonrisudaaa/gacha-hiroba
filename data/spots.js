@@ -6494,6 +6494,379 @@ window.GH_SPOTS = [
   });
 })();
 
+/* ── 2026-08-22 東京都23区・公式確認済み店舗 第5回（公開純増50店舗） ──
+   メーカー、運営会社、商業施設の現行公式情報を照合し、専門店以外は名称に
+   「ガチャコーナー」を付けて設置場所であることを明示した。
+   同一施設・同一売場として扱える候補と既存掲載地点は除外し、公式にない
+   台数・営業時間・電話番号は補わず、住所と公式地図位置だけを掲載する。 */
+(function () {
+  var verifiedAt = '2026-08-22';
+  var batch = [
+    {
+      id: 'capsule-lab-harajuku', brand: 'カプセルラボ',
+      name: 'カプセルラボ原宿', area: '東京都・原宿', zip: '150-0001',
+      address: '東京都渋谷区神宮前1-19-6',
+      lat: 35.6715621, lon: 139.7037819,
+      sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90001108'
+    },
+    {
+      id: 'gigo-takadanobaba-gacha', brand: 'GiGO',
+      name: 'GiGO高田馬場（ガチャコーナー）', area: '東京都・高田馬場',
+      address: '東京都新宿区高田馬場4-7-5',
+      lat: 35.7136018, lon: 139.7037221,
+      sourceUrl: 'https://www.takaratomy-arts.co.jp/items/shop.html?shohincd=4904790904479&tenpocd=08698'
+    },
+    {
+      id: 'tree-village-solamachi-gacha', brand: 'Tree Village',
+      name: 'Tree Village 東京スカイツリータウン・ソラマチ店（ガチャコーナー）', area: '東京都・押上',
+      address: '東京都墨田区押上1-1-2 東京スカイツリータウン・ソラマチ 4F',
+      lat: 35.7102511, lon: 139.8121599,
+      sourceUrl: 'https://www.takaratomy-arts.co.jp/items/shop.html?shohincd=4904790905742&tenpocd=03538'
+    },
+    {
+      id: 'metro-m-korakuen-gacha', brand: 'メトロ・エム後楽園',
+      name: 'メトロ・エム後楽園（ガチャコーナー）', area: '東京都・後楽園',
+      address: '東京都文京区春日1-2-3',
+      lat: 35.7072753, lon: 139.7513925,
+      sourceUrl: 'https://www.takaratomy-arts.co.jp/items/shop.html?shohincd=4904790904479&tenpocd=09036'
+    },
+    {
+      id: 'tokyo-metro-ogikubo-gacha', brand: '東京メトロ',
+      name: '東京メトロ丸ノ内線 荻窪駅（ガチャコーナー）', area: '東京都・荻窪',
+      address: '東京都杉並区荻窪5-31-7',
+      lat: 35.704299, lon: 139.6202916,
+      sourceUrl: 'https://www.takaratomy-arts.co.jp/items/shop.html?shohincd=4904790903403&tenpocd=09056'
+    },
+    {
+      id: 'funabori-toki-building-gacha', brand: '船堀駅前TOKIビル',
+      name: '船堀駅前TOKIビル（ガチャコーナー）', area: '東京都・船堀',
+      address: '東京都江戸川区船堀3-5-7',
+      lat: 35.68302, lon: 139.8640183,
+      sourceUrl: 'https://www.takaratomy-arts.co.jp/items/shop.html?shohincd=4904790904479&tenpocd=08875'
+    },
+    {
+      id: 'tokyo-metro-kasai-gacha', brand: '東京メトロ',
+      name: '東京メトロ葛西駅（ガチャコーナー）', area: '東京都・葛西',
+      address: '東京都江戸川区中葛西5-43-11',
+      lat: 35.6636976, lon: 139.8725965,
+      sourceUrl: 'https://www.takaratomy-arts.co.jp/items/shop.html?shohincd=4904790904479&tenpocd=09038'
+    },
+    {
+      id: 'tokyo-metro-kinshicho-gacha', brand: '東京メトロ',
+      name: '東京メトロ錦糸町駅（ガチャコーナー）', area: '東京都・錦糸町',
+      address: '東京都墨田区江東橋3-14-6先',
+      lat: 35.6966901, lon: 139.813947,
+      sourceUrl: 'https://www.takaratomy-arts.co.jp/items/shop.html?shohincd=4904790909108&tenpocd=09044'
+    },
+    {
+      id: 'tokyo-metro-iidabashi-gacha', brand: '東京メトロ',
+      name: '東京メトロ飯田橋駅（ガチャコーナー）', area: '東京都・飯田橋',
+      address: '東京都千代田区飯田橋4-10-3',
+      lat: 35.7020755, lon: 139.7450357,
+      sourceUrl: 'https://www.takaratomy-arts.co.jp/items/shop.html?shohincd=4904790904479&tenpocd=09035'
+    },
+    {
+      id: 'tokyo-metro-kita-ayase-gacha', brand: '東京メトロ',
+      name: '東京メトロ北綾瀬駅（ガチャコーナー）', area: '東京都・北綾瀬',
+      address: '東京都足立区谷中2-6-21',
+      lat: 35.7775951, lon: 139.8322244,
+      sourceUrl: 'https://www.takaratomy-arts.co.jp/items/shop.html?shohincd=4904790908187&tenpocd=09243'
+    },
+    {
+      id: 'tokyo-metro-kitasenju-gacha', brand: '東京メトロ',
+      name: '東京メトロ北千住駅（ガチャコーナー）', area: '東京都・北千住',
+      address: '東京都足立区千住2-63',
+      lat: 35.7488394, lon: 139.8037764,
+      sourceUrl: 'https://www.takaratomy-arts.co.jp/items/shop.html?shohincd=4904790904479&tenpocd=09037'
+    },
+    {
+      id: 'amuseum-oizumi-gacha', brand: 'アミュージアム',
+      name: 'アミュージアム大泉店（ガチャコーナー）', area: '東京都・大泉',
+      address: '東京都練馬区東大泉2-10-11 LIVINオズ大泉 5F',
+      lat: 35.7522726, lon: 139.5954347,
+      sourceUrl: 'https://www.takaratomy-arts.co.jp/items/shop.html?shohincd=4904790904479&tenpocd=01429'
+    },
+    {
+      id: 'alexander-sun-ginza-icon-gacha', brand: 'アレキサンダーアンドサン',
+      name: 'アレキサンダーアンドサン GINZA ICON（ガチャコーナー）', area: '東京都・銀座',
+      address: '東京都中央区銀座1-9-13 プライム銀座柳通りビル 1F',
+      lat: 35.6736578, lon: 139.7684107,
+      sourceUrl: 'https://www.takaratomy-arts.co.jp/items/shop.html?shohincd=4904790908187&tenpocd=09546'
+    },
+    {
+      id: 'aeon-style-itabashi-maeno-gacha', brand: 'イオンスタイル',
+      name: 'イオンスタイル板橋前野町店（ガチャコーナー）', area: '東京都・前野町',
+      address: '東京都板橋区前野町4-21-22',
+      lat: 35.7710986, lon: 139.6918088,
+      sourceUrl: 'https://www.takaratomy-arts.co.jp/items/shop.html?shohincd=4904790907821&tenpocd=06643'
+    },
+    {
+      id: 'itoyokado-ario-nishiarai-gacha', brand: 'イトーヨーカドー',
+      name: 'イトーヨーカドー アリオ西新井店（ガチャコーナー）', area: '東京都・西新井',
+      address: '東京都足立区西新井栄町1-20-1',
+      lat: 35.7745584, lon: 139.7859771,
+      sourceUrl: 'https://www.takaratomy-arts.co.jp/items/shop.html?shohincd=4904790905216&tenpocd=00004'
+    },
+    {
+      id: 'itoyokado-kasai-gacha', brand: 'イトーヨーカドー',
+      name: 'イトーヨーカドー葛西店（ガチャコーナー）', area: '東京都・葛西',
+      address: '東京都江戸川区東葛西9-3-3',
+      lat: 35.6527777, lon: 139.8819286,
+      sourceUrl: 'https://www.takaratomy-arts.co.jp/items/shop.html?shohincd=4904790904479&tenpocd=00038'
+    },
+    {
+      id: 'itoyokado-yotsugi-gacha', brand: 'イトーヨーカドー',
+      name: 'イトーヨーカドー四つ木店（ガチャコーナー）', area: '東京都・四つ木',
+      address: '東京都葛飾区四つ木2-21-1',
+      lat: 35.7372535, lon: 139.8385714,
+      sourceUrl: 'https://www.takaratomy-arts.co.jp/items/shop.html?shohincd=4904790905216&tenpocd=00065'
+    },
+    {
+      id: 'itoyokado-akabane-gacha', brand: 'イトーヨーカドー',
+      name: 'イトーヨーカドー赤羽店（ガチャコーナー）', area: '東京都・赤羽',
+      address: '東京都北区赤羽西1-7-1',
+      lat: 35.7771742, lon: 139.7191424,
+      sourceUrl: 'https://www.takaratomy-arts.co.jp/items/shop.html?shohincd=4904790904479&tenpocd=00091'
+    },
+    {
+      id: 'itoyokado-omori-gacha', brand: 'イトーヨーカドー',
+      name: 'イトーヨーカドー大森店（ガチャコーナー）', area: '東京都・大森',
+      address: '東京都大田区大森北2-13-1',
+      lat: 35.5865027, lon: 139.73311,
+      sourceUrl: 'https://www.takaratomy-arts.co.jp/items/shop.html?shohincd=4904790903403&tenpocd=00102'
+    },
+    {
+      id: 'kappasushi-akihabara-manseibashi-gacha', brand: 'かっぱ寿司',
+      name: 'かっぱ寿司 秋葉原万世橋店（ガチャコーナー）', area: '東京都・秋葉原',
+      address: '東京都千代田区外神田1-16-1 トゥモロービル 7F',
+      lat: 35.6973029, lon: 139.7714694,
+      sourceUrl: 'https://www.takaratomy-arts.co.jp/items/shop.html?shohincd=4904790904479&tenpocd=09411'
+    },
+    {
+      id: 'kappasushi-itabashi-gacha', brand: 'かっぱ寿司',
+      name: 'かっぱ寿司 板橋店（ガチャコーナー）', area: '東京都・板橋',
+      address: '東京都板橋区東新町1-48-10',
+      lat: 35.7573367, lon: 139.6832962,
+      sourceUrl: 'https://www.takaratomy-arts.co.jp/items/shop.html?shohincd=4904790908187&tenpocd=06952'
+    },
+    {
+      id: 'kiddyland-hikarigaoka-gacha', brand: 'キデイランド',
+      name: 'キデイランド光が丘店（ガチャコーナー）', area: '東京都・光が丘',
+      address: '東京都練馬区光が丘5-1-1 光が丘IMA 4F',
+      lat: 35.7598, lon: 139.6282818,
+      sourceUrl: 'https://www.takaratomy-arts.co.jp/items/shop.html?shohincd=4904790906893&tenpocd=01825'
+    },
+    {
+      id: 'kiddyland-shinjuku-gacha', brand: 'キデイランド',
+      name: 'キデイランド新宿店（ガチャコーナー）', area: '東京都・新宿',
+      address: '東京都新宿区新宿3-23-17 オカダヤビル 1〜4F',
+      lat: 35.6929954, lon: 139.7007942,
+      sourceUrl: 'https://www.takaratomy-arts.co.jp/items/shop.html?shohincd=4904790904479&tenpocd=09491'
+    },
+    {
+      id: 'kiddyland-futakotamagawa-gacha', brand: 'キデイランド',
+      name: 'キデイランド二子玉川店（ガチャコーナー）', area: '東京都・二子玉川',
+      address: '東京都世田谷区玉川2-21-1 二子玉川ライズ・ショッピングセンター タウンフロント 6F',
+      lat: 35.6119368, lon: 139.6288904,
+      sourceUrl: 'https://www.takaratomy-arts.co.jp/items/shop.html?shohincd=4904790909108&tenpocd=03804'
+    },
+    {
+      id: 'sushiro-yaechika-gacha', brand: 'スシロー',
+      name: 'スシロー ヤエチカ店（ガチャコーナー）', area: '東京都・東京駅',
+      address: '東京都中央区八重洲2-1 八重洲地下街南1号',
+      lat: 35.6802643, lon: 139.7693083,
+      sourceUrl: 'https://www.takaratomy-arts.co.jp/items/shop.html?shohincd=4904790904479&tenpocd=09266'
+    },
+    {
+      id: 'sushiro-ayase-ekimae-gacha', brand: 'スシロー',
+      name: 'スシロー綾瀬駅前店（ガチャコーナー）', area: '東京都・綾瀬',
+      address: '東京都葛飾区小菅4-10-3 サンライズ綾瀬 3F',
+      lat: 35.7617915, lon: 139.8247034,
+      sourceUrl: 'https://www.takaratomy-arts.co.jp/items/shop.html?shohincd=4904790908187&tenpocd=09720'
+    },
+    {
+      id: 'sushiro-ogikubo-gacha', brand: 'スシロー',
+      name: 'スシロー荻窪店（ガチャコーナー）', area: '東京都・荻窪',
+      address: '東京都杉並区天沼3-2-7 荻窪ルーフ 2F',
+      lat: 35.7054733, lon: 139.6212403,
+      sourceUrl: 'https://www.takaratomy-arts.co.jp/items/shop.html?shohincd=4904790904479&tenpocd=09275'
+    },
+    {
+      id: 'sushiro-ikebukuro-east-gacha', brand: 'スシロー',
+      name: 'スシロー池袋駅東口店（ガチャコーナー）', area: '東京都・池袋',
+      address: '東京都豊島区東池袋1-41-1 池袋とうきゅうビル 3F',
+      lat: 35.7317835, lon: 139.7131558,
+      sourceUrl: 'https://www.takaratomy-arts.co.jp/items/shop.html?shohincd=4904790908187&tenpocd=08229'
+    },
+    {
+      id: 'sushiro-minamiikebukuro-gacha', brand: 'スシロー',
+      name: 'スシロー南池袋店（ガチャコーナー）', area: '東京都・池袋',
+      address: '東京都豊島区南池袋1-16-18 face池袋 B1F',
+      lat: 35.7266371, lon: 139.7115643,
+      sourceUrl: 'https://www.takaratomy-arts.co.jp/items/shop.html?shohincd=4904790908187&tenpocd=09274'
+    },
+    {
+      id: 'sushiro-nerima-sekimachi-gacha', brand: 'スシロー',
+      name: 'スシロー練馬関町店（ガチャコーナー）', area: '東京都・関町',
+      address: '東京都練馬区関町北4-33',
+      lat: 35.7308886, lon: 139.5735179,
+      sourceUrl: 'https://www.takaratomy-arts.co.jp/items/shop.html?shohincd=4904790903403&tenpocd=08181'
+    },
+    {
+      id: 'hana-yori-gacha-kitasenju', brand: 'HANAよりGACHA',
+      name: 'HANAよりGACHA 北千住店', area: '東京都・北千住', zip: '120-0034',
+      address: '東京都足立区千住1-27-1', machines: 54,
+      lat: 35.747856, lon: 139.801819,
+      sourceUrl: 'https://hanayorigacha.com/?p=69'
+    },
+    {
+      id: 'keneleport-haneda-t1', brand: 'ケンエレポート',
+      name: 'ケンエレポート 羽田空港店（第1ターミナル駅）', area: '東京都・羽田空港', zip: '144-0041',
+      address: '東京都大田区羽田空港3-3-2 東京モノレール羽田空港第1ターミナル駅 改札内',
+      hours: '駅営業時間に準ずる', machines: 110,
+      lat: 35.549461, lon: 139.78389,
+      sourceUrl: 'https://kenelephant.co.jp/topics20250121/'
+    },
+    {
+      id: 'keneleport-haneda-t2', brand: 'ケンエレポート',
+      name: 'ケンエレポート 羽田空港店（第2ターミナル駅）', area: '東京都・羽田空港', zip: '144-0041',
+      address: '東京都大田区羽田空港3-4-2 東京モノレール羽田空港第2ターミナル駅 改札内',
+      hours: '駅営業時間に準ずる', machines: 84,
+      lat: 35.55489, lon: 139.784454,
+      sourceUrl: 'https://kenelephant.co.jp/topics20250121/'
+    },
+    {
+      id: 'sqex-capsule-garden-shibuya', brand: 'SQEX CAPSULE GARDEN',
+      name: 'SQEX CAPSULE GARDEN', area: '東京都・渋谷', zip: '150-0031',
+      address: '東京都渋谷区桜丘町1-4 渋谷サクラステージ SHIBUYAサイド 3F',
+      hours: '10:00〜21:00', lat: 35.657001, lon: 139.702011,
+      sourceUrl: 'https://www.jp.square-enix.com/sqexcapsulegarden/'
+    },
+    {
+      id: 'popap-capsule-akihabara', brand: 'POP @P CAPSULE',
+      name: 'POP @P CAPSULE -AKIHABARA-', area: '東京都・秋葉原', zip: '101-0021',
+      address: '東京都千代田区外神田4-3-2 アニメイト秋葉原ANNEX B1F・1F',
+      tel: '03-5209-3330', hours: '平日10:00〜21:00／土日祝10:00〜20:00',
+      lat: 35.700531, lon: 139.771683,
+      sourceUrl: 'https://www.animate.co.jp/shop/akihabara/'
+    },
+    {
+      id: 'bandai-jr-gotanda-outside', brand: 'ガシャポン（バンダイ）',
+      name: 'JR五反田駅 改札外改札横（ガシャポンコーナー）', area: '東京都・五反田', zip: '141-0022',
+      address: '東京都品川区東五反田1-26-4 JR五反田駅改札外改札横',
+      tel: '050-3646-3146', lat: 35.6261426, lon: 139.7238511,
+      sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90000208'
+    },
+    {
+      id: 'bandai-jr-ueno-iriya', brand: 'ガシャポン（バンダイ）',
+      name: 'JR上野駅 入谷改札口付近（ガシャポンコーナー）', area: '東京都・上野', zip: '110-0005',
+      address: '東京都台東区上野7-1-1 JR上野駅 入谷改札口付近',
+      lat: 35.7133078, lon: 139.7770178,
+      sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90000007'
+    },
+    {
+      id: 'bandai-jr-osaki-north-outside', brand: 'ガシャポン（バンダイ）',
+      name: 'JR大崎駅 北改札外（ガシャポンコーナー）', area: '東京都・大崎', zip: '141-0032',
+      address: '東京都品川区大崎1-21-4 JR大崎駅北改札外',
+      tel: '050-3646-3146', lat: 35.6199636710926, lon: 139.728213370192,
+      sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90000204'
+    },
+    {
+      id: 'bandai-jr-osaki-south-outside', brand: 'ガシャポン（バンダイ）',
+      name: 'JR大崎駅 南改札外（ガシャポンコーナー）', area: '東京都・大崎', zip: '141-0032',
+      address: '東京都品川区大崎1-21-4 JR大崎駅南改札外',
+      tel: '050-3646-3146', lat: 35.6199636710926, lon: 139.728213370192,
+      sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90000205'
+    },
+    {
+      id: 'bandai-biccamera-akiba', brand: 'ビックカメラ',
+      name: 'ビックカメラ AKIBA 7F（ガシャポンコーナー）', area: '東京都・秋葉原', zip: '101-0021',
+      address: '東京都千代田区外神田4-1-1 ビックカメラ AKIBA 7F',
+      tel: '03-6260-8111', hours: '10:00〜22:00',
+      lat: 35.699734, lon: 139.771606,
+      sourceUrl: 'https://gashapon.jp/news/campaign_260420/'
+    },
+    {
+      id: 'bandai-gigo-shibuya-miyamasuzaka', brand: 'GiGO',
+      name: 'GiGO渋谷宮益坂（ガシャポンコーナー）', area: '東京都・渋谷', zip: '150-0002',
+      address: '東京都渋谷区渋谷1-14-14 EST 1F・7F',
+      tel: '070-1458-0880', hours: '10:00〜23:30',
+      lat: 35.660069, lon: 139.702484,
+      sourceUrl: 'https://gashapon.jp/news/campaign_260420/'
+    },
+    {
+      id: 'bandai-kohnan-oji-horifune', brand: 'コーナン',
+      name: 'コーナン王子堀船店（ガシャポンコーナー）', area: '東京都・王子', zip: '114-0004',
+      address: '東京都北区堀船1-23-13', hours: '9:00〜21:00',
+      lat: 35.752087, lon: 139.744186,
+      sourceUrl: 'https://gashapon.jp/anpanman/shop/'
+    },
+    {
+      id: 'bandai-kohnan-edogawa-chuo', brand: 'コーナン',
+      name: 'コーナン江戸川中央店（ガシャポンコーナー）', area: '東京都・江戸川中央', zip: '132-0021',
+      address: '東京都江戸川区中央3-3-5', hours: '9:00〜21:00',
+      lat: 35.710556, lon: 139.870132,
+      sourceUrl: 'https://gashapon.jp/anpanman/shop/'
+    },
+    {
+      id: 'party-rico-minamisenju-gacha', brand: 'パーティリコ',
+      name: 'パーティリコ南千住店（ガチャコーナー）', area: '東京都・南千住',
+      address: '東京都荒川区南千住4-7-2 LaLaテラス南千住 2F',
+      lat: 35.7353995, lon: 139.8019672,
+      sourceUrl: 'https://www.takaratomy-arts.co.jp/items/shop.html?shohincd=4904790904479&tenpocd=02233'
+    },
+    {
+      id: 'hamazushi-kamata-west-gacha', brand: 'はま寿司',
+      name: 'はま寿司 蒲田駅西口店（ガチャコーナー）', area: '東京都・蒲田',
+      address: '東京都大田区西蒲田7-46-8 蒲田ライトビル 5F',
+      lat: 35.5628028, lon: 139.7146547,
+      sourceUrl: 'https://www.takaratomy-arts.co.jp/items/shop.html?shohincd=4904790909108&tenpocd=08423'
+    },
+    {
+      id: 'yamada-labi-life-select-shinagawa-gacha', brand: 'ヤマダデンキ',
+      name: 'ヤマダデンキ LABI LIFE SELECT品川（ガチャコーナー）', area: '東京都・大井町',
+      address: '東京都品川区東大井5-20-1',
+      lat: 35.6056721, lon: 139.7352502,
+      sourceUrl: 'https://www.takaratomy-arts.co.jp/items/shop.html?shohincd=4904790904479&tenpocd=03532'
+    },
+    {
+      id: 'yamada-labi-shibuya-gacha', brand: 'ヤマダデンキ',
+      name: 'ヤマダデンキ LABI渋谷店（ガチャコーナー）', area: '東京都・渋谷',
+      address: '東京都渋谷区道玄坂2-29-20',
+      lat: 35.6597809, lon: 139.6980994,
+      sourceUrl: 'https://www.takaratomy-arts.co.jp/items/shop.html?shohincd=4904790909108&tenpocd=06543'
+    },
+    {
+      id: 'tokyo-leisureland-kameari-gacha', brand: '東京レジャーランド',
+      name: '東京レジャーランド亀有店（ガチャコーナー）', area: '東京都・亀有',
+      address: '東京都葛飾区亀有3-21-2',
+      lat: 35.7654192, lon: 139.8479365,
+      sourceUrl: 'https://www.takaratomy-arts.co.jp/items/shop.html?shohincd=4904790906893&tenpocd=05806'
+    },
+    {
+      id: 'seiyu-aoi-gacha', brand: '西友',
+      name: '西友青井店（ガチャコーナー）', area: '東京都・青井',
+      address: '東京都足立区青井3-1-1',
+      lat: 35.7700803, lon: 139.8172305,
+      sourceUrl: 'https://www.takaratomy-arts.co.jp/items/shop.html?shohincd=4904790906893&tenpocd=03556'
+    },
+    {
+      id: 'hakuhinkan-toypark-haneda-t3-gacha', brand: '博品館TOY PARK',
+      name: '博品館TOY PARK 羽田空港店（ガチャコーナー）', area: '東京都・羽田空港',
+      address: '東京都大田区羽田空港2-6-5 第3旅客ターミナル 5F',
+      lat: 35.5450019, lon: 139.7690427,
+      sourceUrl: 'https://www.takaratomy-arts.co.jp/items/shop.html?shohincd=4904790903403&tenpocd=07851'
+    }
+  ];
+
+  batch.forEach(function (store) {
+    store.region = 'kanto';
+    store.pref = '東京都';
+    store.verifiedAt = verifiedAt;
+    window.GH_SPOTS.push(store);
+  });
+})();
+
 /* 閉店店舗の自動非表示：closedAfter（最終営業日）を過ぎた店舗は、
    ここで配列から除外されるため、サイト全体＋sitemap 生成から消える。 */
 window.GH_SPOTS = window.GH_SPOTS.filter(function (s) {
