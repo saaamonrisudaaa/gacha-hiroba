@@ -35,15 +35,18 @@ jobs:
           node-version: 24
       - name: Validate analytics and site integrity
         run: |
+          node tools/validate-stores.mjs
+          node tools/validate-releases.mjs
           node --check script.js
           node tools/test-analytics-exclusion.mjs
           node tools/validate-seo.mjs
+          node tools/build-public-site.mjs
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Upload site
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: _site
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
