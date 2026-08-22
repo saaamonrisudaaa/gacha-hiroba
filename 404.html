@@ -8,7 +8,7 @@
     var match = location.pathname.match(/^\/(spot|area|brand)\/([^/]+)\.html$/);
     if (!match) return;
     if (match[1] === 'spot') {
-      location.replace('/spot.html?id=' + encodeURIComponent(match[2]));
+      location.replace('/spot.html?id=' + encodeURIComponent(match[2]) + location.hash);
       return;
     }
     var prefs = {

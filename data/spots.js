@@ -183,8 +183,8 @@ window.GH_SPOTS = [
     hours: '10:00〜21:00',
     machines: 650,
     sourceUrl: 'https://www.gachagachanomori.com/shoplist/',
-    verifiedAt: '2026-08-20',
-    lat: 35.7549, lon: 139.3878,
+    verifiedAt: '2026-08-22',
+    lat: 35.7464352, lon: 139.3849082,
     access: 'イオンモールむさし村山 3F'
   },
   {
@@ -511,8 +511,8 @@ window.GH_SPOTS = [
     hours: '平日 10:00〜20:00、土日祝 10:00〜21:00',
     machines: 800,
     sourceUrl: 'https://bandainamco-am.co.jp/others/capsule-toy-store/store/tachikawatachihi/',
-    verifiedAt: '2026-08-20',
-    lat: 35.7124, lon: 139.4210,
+    verifiedAt: '2026-08-22',
+    lat: 35.7130703, lon: 139.4181481,
     access: 'ららぽーと立川立飛 namcoおまけ横丁内（多摩モノレール 立飛駅前・地域最大級の800面）・バンダイオフィシャルショップ併設'
   },
   {
@@ -571,8 +571,8 @@ window.GH_SPOTS = [
     hours: '10:00〜21:00',
     machines: 640,
     sourceUrl: 'https://bandainamco-am.co.jp/others/capsule-toy-store/store/iykitasuna/',
-    verifiedAt: '2026-08-20',
-    lat: 35.6873, lon: 139.8266,
+    verifiedAt: '2026-08-22',
+    lat: 35.6825873, lon: 139.825809,
     access: 'アリオ北砂 3F（640面・2022年11月オープン）'
   },
   {
@@ -697,8 +697,8 @@ window.GH_SPOTS = [
     hours: '10:00〜21:00',
     machines: 1250,
     sourceUrl: 'https://toshin.jpn.com/shop/sunamo%E5%BA%97/',
-    verifiedAt: '2026-08-20',
-    lat: 35.6705, lon: 139.8330,
+    verifiedAt: '2026-08-22',
+    lat: 35.6651915, lon: 139.8353347,
     access: '南砂町SUNAMO 3F（東西線 南砂町駅エリア・#C-pla 2ndとガシャポンオフィシャルショップ併設）・同フロアに2nd店もあり計2店舗'
   },
   {
@@ -3101,7 +3101,7 @@ window.GH_SPOTS = [
     area: '佐賀県・佐賀',
     address: '佐賀県佐賀市巨勢町牛島730 モラージュ佐賀',
     machines: 600,
-    lat: 33.2481, lon: 130.3238,
+    lat: 33.2525141, lon: 130.3161929,
     access: 'モラージュ佐賀内（佐賀駅からバス・約600面）・#C-plaも同館に出店'
   },
   {
@@ -3582,9 +3582,9 @@ window.GH_SPOTS = [
     address: '鳥取県境港市竹内団地276 PLANT-5 境港店内',
     tel: '0859-47-5600',
     hours: '8:00〜22:00',
-    sourceUrl: 'https://www.lazuda.com/news/archives/5282',
-    verifiedAt: '2026-07-31',
-    lat: 35.5405, lon: 133.247,
+    sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90001134',
+    verifiedAt: '2026-08-22',
+    lat: 35.52002, lon: 133.252346,
     access: 'PLANT-5境港店内（年中無休・朝8時から回せる／水木しげるロードから車圏）'
   },
   {
@@ -3595,11 +3595,12 @@ window.GH_SPOTS = [
     pref: '島根県',
     area: '島根県・出雲',
     address: '島根県出雲市大塚町650-1 ゆめタウン出雲 本館2F・3F',
-    hours: '10:00〜21:30',
+    tel: '0853-24-6030',
+    hours: '10:00〜20:00',
     machines: 500,
     sourceUrl: 'https://www.izumi.jp/tenpo/izumo/shop/service/capsulalabo',
-    verifiedAt: '2026-07-31',
-    lat: 35.3702, lon: 132.7565,
+    verifiedAt: '2026-08-22',
+    lat: 35.3771467, lon: 132.7550065,
     access: 'ゆめタウン出雲 本館2F・3F（山陰最大級・約500台／2024年4月オープン）'
   },
   {
@@ -3610,10 +3611,12 @@ window.GH_SPOTS = [
     pref: '岐阜県',
     area: '岐阜県・土岐',
     address: '岐阜県土岐市土岐津町土岐口1372-1 イオンモール土岐 2F',
+    tel: '0572-56-2575',
+    hours: '10:00〜20:00（金土日・祝 10:00〜21:00）',
     machines: 800,
     sourceUrl: 'https://toki.aeonmall.jp/shop/ccd2d00a-581c-4d8b-b953-376d4c8be53d',
-    verifiedAt: '2026-07-31',
-    lat: 35.3556, lon: 137.1846,
+    verifiedAt: '2026-08-22',
+    lat: 35.347336, lon: 137.1546264,
     access: 'イオンモール土岐 2F（常時800台以上の大規模コーナー／中央自動車道 土岐JCT近く）'
   },
   {
@@ -3636,11 +3639,13 @@ window.GH_SPOTS = [
     region: 'chugoku',
     pref: '岡山県',
     area: '岡山県・倉敷',
-    address: '岡山県倉敷市寿町12-2 アリオ倉敷',
-    sourceUrl: 'https://www.gachagachanomori.com/shoplist/',
-    verifiedAt: '2026-07-31',
-    lat: 34.599, lon: 133.7757,
-    access: 'アリオ倉敷内（JR倉敷駅北口すぐ・倉敷みらい公園となり）'
+    address: '岡山県倉敷市寿町12-2 アリオ倉敷 2F',
+    tel: '070-5026-6260',
+    machines: 755,
+    sourceUrl: 'https://toshin.jpn.com/shop/%E3%82%A2%E3%83%AA%E3%82%AA%E5%80%89%E6%95%B7%E5%BA%97/',
+    verifiedAt: '2026-08-22',
+    lat: 34.6033812, lon: 133.7641507,
+    access: 'アリオ倉敷2F（JR倉敷駅北口すぐ・倉敷みらい公園となり）'
   },
 
   /* ── 2026-07-31 名古屋の中心部（大須・栄）を追加 ── */
@@ -3653,9 +3658,11 @@ window.GH_SPOTS = [
     area: '愛知県・大須',
     zip: '460-0011',
     address: '愛知県名古屋市中区大須3-26-26 クレスト大須 3A',
+    tel: '070-3304-8143',
     hours: '10:00〜21:00',
-    sourceUrl: 'https://news.yahoo.co.jp/expert/articles/80a6a71a42466793f3d37ff459bdde0c1252604b',
-    verifiedAt: '2026-07-31',
+    machines: 1376,
+    sourceUrl: 'https://toshin.jpn.com/shop/%E5%90%8D%E5%8F%A4%E5%B1%8B%E5%A4%A7%E9%A0%88%E5%BA%97/',
+    verifiedAt: '2026-08-22',
     lat: 35.1595, lon: 136.9033,
     access: '大須商店街内・クレスト大須3A（地下鉄上前津駅から徒歩約3分）'
   },
@@ -3794,11 +3801,12 @@ window.GH_SPOTS = [
     pref: '大阪府',
     area: '大阪府・和泉',
     address: '大阪府和泉市あゆみ野4-4-7 ららぽーと和泉 3F',
-    hours: '平日 10:00〜20:00／土日祝 10:00〜21:00',
-    machines: 570,
-    sourceUrl: 'https://mitsui-shopping-park.com/lalaport/izumi/shopguide/2884510.html',
-    verifiedAt: '2026-08-04',
-    lat: 34.4478, lon: 135.4258,
+    tel: '070-3336-5225',
+    hours: '平日 9:30〜20:00／土日祝 10:00〜21:00',
+    machines: 360,
+    sourceUrl: 'https://bandainamco-am.co.jp/others/capsule-toy-store/store/izumi/',
+    verifiedAt: '2026-08-22',
+    lat: 34.4367864, lon: 135.4482143,
     access: 'ららぽーと和泉3F。2026年3月6日オープン。同じ館内のガシャポンバンダイオフィシャルショップと合わせて回れる'
   },
 
@@ -3809,13 +3817,13 @@ window.GH_SPOTS = [
     region: 'tokai',
     pref: '愛知県',
     area: '愛知県・豊田',
-    address: '愛知県豊田市喜多町2-170 KiTARA ブルー棟',
+    address: '愛知県豊田市喜多町2-170 KiTARA ブルー棟 1F・3F〜6F',
     hours: '8:00〜24:30',
     machines: 650,
     sourceUrl: 'https://kitara-toyota.com/?p=6316',
-    verifiedAt: '2026-08-04',
+    verifiedAt: '2026-08-22',
     lat: 35.0836, lon: 137.156,
-    access: '名鉄豊田市駅すぐのKiTARAブルー棟。愛知県下最大級の650面。朝8時から深夜0時半まで営業'
+    access: '名鉄豊田市駅すぐのKiTARAブルー棟1F・3F〜6F。2Fのバンダイ公式店とは別区画'
   },
   {
     id: 'cpla-plus-markis-minatomirai',
@@ -3854,11 +3862,11 @@ window.GH_SPOTS = [
     pref: '神奈川県',
     area: '神奈川県・横浜駅',
     address: '神奈川県横浜市西区高島2-19-12 横浜スカイビル 7F',
-    tel: '045-534-3212',
+    tel: '070-3107-6970',
     hours: '10:30〜20:30（1月1日を除き無休）',
     machines: 300,
     sourceUrl: 'https://www.yokohama-sky.co.jp/shop/gachagacha',
-    verifiedAt: '2026-08-04',
+    verifiedAt: '2026-08-22',
     lat: 35.4665, lon: 139.6248,
     access: '横浜駅東口すぐの横浜スカイビル7階。約300面。2022年4月オープン（旧マルイシティ横浜の建物）'
   },
@@ -3917,9 +3925,10 @@ window.GH_SPOTS = [
     address: '北海道札幌市清田区平岡1条1-1-3 ザ・ビッグ清田 2階',
     tel: '070-6672-0259',
     hours: '9:00〜21:00',
-    sourceUrl: 'https://toshin.jpn.com/cpla/',
-    verifiedAt: '2026-08-04',
-    lat: 42.9955, lon: 141.429,
+    machines: 1027,
+    sourceUrl: 'https://toshin.jpn.com/shop/%E3%82%B6%E3%83%BB%E3%83%93%E3%83%83%E3%82%B0-%E6%B8%85%E7%94%B0%E5%BA%97/',
+    verifiedAt: '2026-08-22',
+    lat: 42.998013, lon: 141.442932,
     access: 'ザ・ビッグ清田 2階。2026年4月24日オープン。「horenso planet」がテーマの店内に1000種類以上'
   },
 
@@ -3930,13 +3939,14 @@ window.GH_SPOTS = [
     region: 'kansai',
     pref: '大阪府',
     area: '大阪府・和泉',
-    address: '大阪府和泉市あゆみ野4-4-7 ららぽーと和泉',
-    hours: '平日 10:00〜20:00／土日祝 10:00〜21:00',
+    address: '大阪府和泉市あゆみ野4-4-7 ららぽーと和泉 4F',
+    tel: '070-3336-5277',
+    hours: '平日 9:30〜20:00／土日祝 10:00〜21:00',
     machines: 360,
-    sourceUrl: 'https://prtimes.jp/main/html/rd/p/000000306.000159118.html',
-    verifiedAt: '2026-08-04',
-    lat: 34.4478, lon: 135.4258,
-    access: 'ららぽーと和泉。2026年3月6日にガシャポンのデパートと同時オープンしたバンダイ公式ショップ'
+    sourceUrl: 'https://bandainamco-am.co.jp/others/gashapon-bandai-officialshop/store/izumi/',
+    verifiedAt: '2026-08-22',
+    lat: 34.4367864, lon: 135.4482143,
+    access: 'ららぽーと和泉4F。館内3Fのガシャポンのデパートと合わせて回れる'
   },
 
   {
@@ -3947,9 +3957,11 @@ window.GH_SPOTS = [
     pref: '愛知県',
     area: '愛知県・豊田',
     address: '愛知県豊田市喜多町2-170 KiTARA ブルー棟 2階',
+    tel: '0565-41-6081',
+    hours: '8:00〜24:30',
     machines: 310,
     sourceUrl: 'https://bandainamco-am.co.jp/others/gashapon-bandai-officialshop/store/toyota_k/',
-    verifiedAt: '2026-08-04',
+    verifiedAt: '2026-08-22',
     lat: 35.0836, lon: 137.156,
     access: 'KiTARAブルー棟2階。2025年12月12日オープンのバンダイ公式店。同じ館内のガチャガチャスポットKiTARAと合わせて回れる'
   },
@@ -3975,11 +3987,14 @@ window.GH_SPOTS = [
     region: 'kyushu',
     pref: '佐賀県',
     area: '佐賀県・佐賀',
-    address: '佐賀県佐賀市巨勢町大字牛島字二本松730 モラージュ佐賀 北館2階',
+    address: '佐賀県佐賀市巨勢町大字牛島字二本松730 モラージュ佐賀 南館1階',
+    tel: '070-1339-7216',
+    hours: '10:00〜21:00',
+    machines: 856,
     sourceUrl: 'https://toshin.jpn.com/shop/%E3%83%A2%E3%83%A9%E3%83%BC%E3%82%B8%E3%83%A5%E4%BD%90%E8%B3%80%E5%BA%97/',
-    verifiedAt: '2026-08-05',
-    lat: 33.2481, lon: 130.3238,
-    access: 'モラージュ佐賀 北館2階。同じ施設の南館1階に2号店、館内にガシャポンのデパートもあり、まとめて回れる'
+    verifiedAt: '2026-08-22',
+    lat: 33.2525141, lon: 130.3161929,
+    access: 'モラージュ佐賀 南館1階。北館2階の2nd店とは別区画'
   },
   {
     id: 'cpla-2nd-moraju-saga',
@@ -3988,11 +4003,14 @@ window.GH_SPOTS = [
     region: 'kyushu',
     pref: '佐賀県',
     area: '佐賀県・佐賀',
-    address: '佐賀県佐賀市巨勢町大字牛島字二本松730 モラージュ佐賀 南館1階',
+    address: '佐賀県佐賀市巨勢町大字牛島字二本松730 モラージュ佐賀 北館2階',
+    tel: '080-7609-2771',
+    hours: '10:00〜21:00',
+    machines: 1046,
     sourceUrl: 'https://toshin.jpn.com/shop/c-pla-2nd-%E3%83%A2%E3%83%A9%E3%83%BC%E3%82%B8%E3%83%A5%E4%BD%90%E8%B3%80%E5%BA%97/',
-    verifiedAt: '2026-08-05',
-    lat: 33.2481, lon: 130.3238,
-    access: 'モラージュ佐賀 南館1階。北館2階の1号店とは別区画なので、品ぞろえの違いを見比べられる'
+    verifiedAt: '2026-08-22',
+    lat: 33.2525141, lon: 130.3161929,
+    access: 'モラージュ佐賀 北館2階。南館1階の1号店とは別区画'
   },
   {
     id: 'gashadepa-plant3-shimizu',
@@ -4002,11 +4020,12 @@ window.GH_SPOTS = [
     pref: '福井県',
     area: '福井県・福井',
     address: '福井県福井市三留町21号4番地 スーパーセンター PLANT-3 清水店内',
+    tel: '0776-98-7300',
     hours: '8:00〜21:30',
     machines: 710,
     sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90000937',
-    verifiedAt: '2026-08-05',
-    lat: 35.9633, lon: 136.13,
+    verifiedAt: '2026-08-22',
+    lat: 36.0298246, lon: 136.1475744,
     access: '福井県内最大級の710面。スーパーセンター内なので朝8時から回せる（買い物のついでに寄りやすい）'
   },
   {
@@ -4016,11 +4035,12 @@ window.GH_SPOTS = [
     region: 'chugoku',
     pref: '山口県',
     area: '山口県・下関',
-    address: '山口県下関市伊倉新町3-1-1 ゆめシティ',
-    hours: '10:00〜20:00',
-    sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90001318',
-    verifiedAt: '2026-08-05',
-    lat: 33.98, lon: 130.935,
+    address: '山口県下関市伊倉新町3-1-1 ゆめシティ下関 3F',
+    tel: '080-4953-4755',
+    hours: '平日 10:00〜20:00／土日祝 10:00〜21:00',
+    sourceUrl: 'https://gashacoco.jp/shop-list/2415/',
+    verifiedAt: '2026-08-22',
+    lat: 34.0066235, lon: 130.9340756,
     access: 'ゆめシティ（新下関駅側）内。ハピネットのカプセルトイ専門店で、2024年4月オープン'
   },
   {
@@ -4050,8 +4070,8 @@ window.GH_SPOTS = [
     hours: '10:00〜20:00',
     machines: 500,
     sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90001820',
-    verifiedAt: '2026-08-05',
-    lat: 34.006, lon: 131.181,
+    verifiedAt: '2026-08-22',
+    lat: 33.9851376, lon: 131.1708863,
     access: 'おのだサンパーク2F。2026年7月4日オープン・約500台。同じ館内にガシャポンバンダイオフィシャルショップもある'
   },
   {
@@ -4061,10 +4081,10 @@ window.GH_SPOTS = [
     region: 'chugoku',
     pref: '山口県',
     area: '山口県・山陽小野田',
-    address: '山口県山陽小野田市中川6-4-1 おのだサンパーク',
+    address: '山口県山陽小野田市中川6-4-1 おのだサンパーク 2F',
     sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90001757',
-    verifiedAt: '2026-08-05',
-    lat: 34.006, lon: 131.181,
+    verifiedAt: '2026-08-22',
+    lat: 33.9851376, lon: 131.1708863,
     access: 'おのだサンパーク内のバンダイ公式店。同じ館内のガチャガチャの森と合わせて回れる'
   },
 
@@ -4096,8 +4116,8 @@ window.GH_SPOTS = [
     hours: '10:00〜20:00',
     machines: 733,
     sourceUrl: 'https://www.t-face.com/shop/hobby/70102/',
-    verifiedAt: '2026-08-05',
-    lat: 35.083, lon: 137.156,
+    verifiedAt: '2026-08-22',
+    lat: 35.0867615, lon: 137.1550329,
     access: '名鉄豊田市駅直結のT-FACE B館7F。733台。2026年7月24日オープン。KiTARAの2店とあわせて豊田で3館めぐりできる'
   },
 
@@ -4157,11 +4177,11 @@ window.GH_SPOTS = [
     area: '愛知県・栄',
     address: '愛知県名古屋市中区栄3-31-6 ロイヤルビル 1〜3F',
     tel: '090-6165-0063',
-    hours: '10:00〜21:00（1月1日休み）',
-    sourceUrl: 'https://www.dreamcapsule.co.jp/store/8390',
-    verifiedAt: '2026-08-07',
+    hours: '10:00〜20:00（8月は21:00まで）',
+    sourceUrl: 'https://www.dreamcapsule.co.jp/shop/183',
+    verifiedAt: '2026-08-22',
     lat: 35.1637, lon: 136.9063,
-    access: '地下鉄名城線 矢場町駅5番出口から南すぐ、栄ミナミの路面店。1〜3階の3フロアに常時約800種。街とつながるフルオープンスタイルで、名古屋にちなんだオリジナル商品も置く'
+    access: '地下鉄名城線 矢場町駅5番出口から南すぐ。ロイヤルビル1〜3F'
   },
   {
     id: 'gachagachanomori-asunal-kanayama',
@@ -4190,8 +4210,8 @@ window.GH_SPOTS = [
     tel: '070-1553-7379',
     hours: '10:00〜21:00',
     sourceUrl: 'https://gashapon.jp/shop/shop.php?shop_code=S90000989',
-    verifiedAt: '2026-08-07',
-    lat: 35.0872, lon: 136.8064,
+    verifiedAt: '2026-08-22',
+    lat: 35.1034561, lon: 136.8248727,
     access: 'イオンモール名古屋茶屋3F。常時1,130種類は愛知エリア最大級。買い物とあわせてじっくり見られる'
   },
   {
@@ -4596,8 +4616,8 @@ window.GH_SPOTS = [
     machines: 258,
     lat: 35.3618, lon: 132.7442,
     access: '出雲市塩冶有原町1丁目34',
-    sourceUrl: 'https://marusan-dream.co.jp/info-event/%E5%B3%B6%E6%A0%B9%E7%9C%8C%E5%87%BA%E9%9B%B2%E5%B8%82%E5%A1%A9%E6%B2%BB%E6%9C%89%E5%8E%9F%E7%94%BA%E3%81%AB%E3%80%8C%E3%82%AC%E3%83%81%E3%83%A3%E5%90%8D%E4%BA%BA-%E5%87%BA%E9%9B%B2%E5%BA%97%E3%80%8D/',
-    verifiedAt: '2026-08-13'
+    sourceUrl: 'https://marusan-dream.co.jp/info-event/%E5%B3%B6%E6%A0%B9%E7%9C%8C%E5%87%BA%E9%9B%B2%E5%B8%82%E5%A1%A9%E5%86%B6%E6%9C%89%E5%8E%9F%E7%94%BA%E3%81%AB%E3%80%8C%E3%82%AC%E3%83%81%E3%83%A3%E5%90%8D%E4%BA%BA-%E5%87%BA%E9%9B%B2%E5%BA%97%E3%80%8D/',
+    verifiedAt: '2026-08-22'
   },
   {
     id: 'gashapon-bandai-tsutaya-kasaoka',
@@ -5561,9 +5581,9 @@ window.GH_SPOTS = [
     },
     {
       id: 'gashacoco-asakusa', brand: 'gashacoco（ガシャココ）', name: 'gashacoco 浅草',
-      area: '東京都・浅草', zip: '111-0032', address: '東京都台東区浅草1-3-4',
+      area: '東京都・浅草', zip: '111-0032', address: '東京都台東区浅草1-3-4 2F',
       tel: '070-1595-3887', hours: '10:00〜20:00', lat: 35.7111516, lon: 139.7959049,
-      sourceUrl: 'https://gashacoco.jp/shop-list/3215'
+      sourceUrl: 'https://gashacoco.jp/shop-list/3215', verifiedAt: '2026-08-22'
     },
     {
       id: 'gashacoco-kinshicho-marui', brand: 'gashacoco（ガシャココ）', name: 'gashacoco 錦糸町マルイ',
@@ -5694,8 +5714,8 @@ window.GH_SPOTS = [
     {
       id: 'cpla-2nd-sunamo', brand: '#C-pla（シープラ）', name: '#C-pla 2nd SUNAMO店',
       area: '東京都・南砂町', zip: '136-0075', address: '東京都江東区新砂3-4-31 南砂町ショッピングセンターSUNAMO 3F',
-      tel: '090-5980-2028', hours: '10:00〜21:00', machines: 542, lat: 35.665143972592475, lon: 139.83263797680573,
-      sourceUrl: 'https://toshin.jpn.com/shop/c-pla-2nd-sunamo%E5%BA%97/'
+      tel: '090-5980-2028', hours: '10:00〜21:00', machines: 542, lat: 35.6652, lon: 139.83525,
+      sourceUrl: 'https://toshin.jpn.com/shop/c-pla-2nd-sunamo%E5%BA%97/', verifiedAt: '2026-08-22'
     },
     {
       id: 'cpla-kinshicho-parco', brand: '#C-pla（シープラ）', name: '#C-pla 錦糸町PARCO店',
@@ -5738,7 +5758,7 @@ window.GH_SPOTS = [
   batch.forEach(function (store) {
     store.region = 'kanto';
     store.pref = '東京都';
-    store.verifiedAt = verifiedAt;
+    store.verifiedAt = store.verifiedAt || verifiedAt;
 
     var target = null;
     for (var i = 0; i < window.GH_SPOTS.length; i++) {
@@ -5876,9 +5896,9 @@ window.GH_SPOTS = [
     },
     {
       id: 'goron-ikebukuro1', brand: 'GORON!', name: 'GORON!池袋1号館',
-      area: '東京都・池袋', zip: '170-0013', address: '東京都豊島区東池袋1-22-12',
+      area: '東京都・池袋', zip: '170-0013', address: '東京都豊島区東池袋1-22-12 第二高和ビル',
       tel: '070-1458-1779', hours: '10:00〜23:00', lat: 35.729956, lon: 139.71602,
-      sourceUrl: 'https://www.gigo.co.jp/shops/goron-ikebukuro1'
+      sourceUrl: 'https://www.gigo.co.jp/cafe-and-goods/goron?area=13', verifiedAt: '2026-08-22'
     },
     {
       id: 'gigo-tokyo-dome-city', brand: 'GiGO', name: 'GiGO東京ドームシティ',
@@ -5972,7 +5992,7 @@ window.GH_SPOTS = [
   batch.forEach(function (store) {
     store.region = 'kanto';
     store.pref = '東京都';
-    store.verifiedAt = verifiedAt;
+    store.verifiedAt = store.verifiedAt || verifiedAt;
 
     var target = null;
     for (var i = 0; i < window.GH_SPOTS.length; i++) {

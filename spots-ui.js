@@ -719,6 +719,19 @@
 
     if (!store) {
       markNoindex();
+      var notFoundTitle = '店舗が見つかりませんでした（404） | ガチャひろば';
+      var notFoundDesc = 'お探しの店舗情報は見つかりませんでした。店舗一覧やマップからガチャガチャ設置場所をお探しください。';
+      document.title = notFoundTitle;
+      var notFoundMeta = document.querySelector('meta[name="description"]');
+      if (notFoundMeta) notFoundMeta.setAttribute('content', notFoundDesc);
+      var notFoundCanonical = document.querySelector('link[rel="canonical"]');
+      if (notFoundCanonical) notFoundCanonical.setAttribute('href', 'https://gacha-hiroba.com/404.html');
+      var notFoundOgTitle = document.querySelector('meta[property="og:title"]');
+      if (notFoundOgTitle) notFoundOgTitle.setAttribute('content', notFoundTitle);
+      var notFoundOgDesc = document.querySelector('meta[property="og:description"]');
+      if (notFoundOgDesc) notFoundOgDesc.setAttribute('content', notFoundDesc);
+      var notFoundOgUrl = document.querySelector('meta[property="og:url"]');
+      if (notFoundOgUrl) notFoundOgUrl.setAttribute('content', 'https://gacha-hiroba.com/404.html');
       var content = qs('spotContent');
       if (content) {
         content.innerHTML =

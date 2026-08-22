@@ -591,9 +591,29 @@ document.querySelectorAll('.gh-chart__bar').forEach(bar => {
 /* ── Favourite button (detail tab) ── */
 const favBtn = document.getElementById('favoriteBtn');
 if (favBtn) {
-  favBtn.addEventListener('click', () => {
-    const on = favBtn.classList.toggle('is-faved');
+  const favStoreId = (window.GH_SPOT_ID || '').replace(/^spot-/, '');
+  const favStorageKey = 'gh-favorite-spots-v1';
+  const loadFavorites = () => {
+    try {
+      const saved = JSON.parse(localStorage.getItem(favStorageKey));
+      return Array.isArray(saved) ? saved.filter(id => typeof id === 'string') : [];
+    } catch (e) { return []; }
+  };
+  const renderFavorite = on => {
+    favBtn.classList.toggle('is-faved', on);
+    favBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
     favBtn.textContent = on ? '♥ お気に入り済み' : '♡ お気に入り登録';
+  };
+  renderFavorite(!!favStoreId && loadFavorites().includes(favStoreId));
+  favBtn.addEventListener('click', () => {
+    if (!favStoreId) return;
+    const favorites = loadFavorites();
+    const index = favorites.indexOf(favStoreId);
+    const on = index === -1;
+    if (on) favorites.push(favStoreId);
+    else favorites.splice(index, 1);
+    try { localStorage.setItem(favStorageKey, JSON.stringify(favorites)); } catch (e) {}
+    renderFavorite(on);
   });
 }
 
@@ -1034,9 +1054,12 @@ renderRanking('national');
       all.push(st.here);
       /* 半径の円が画面に収まるよう、円の外周も範囲に入れる（約111km=1度で換算） */
       if (st.radiusKm && !st.viewportMode) {
-        var d = st.radiusKm / 111;
-        all.push([st.here[0] + d, st.here[1]]);
-        all.push([st.here[0] - d, st.here[1]]);
+        var latDelta = st.radiusKm / 111;
+        var lonDelta = st.radiusKm / (111 * Math.max(.2, Math.cos(st.here[0] * Math.PI / 180)));
+        all.push([st.here[0] + latDelta, st.here[1]]);
+        all.push([st.here[0] - latDelta, st.here[1]]);
+        all.push([st.here[0], st.here[1] + lonDelta]);
+        all.push([st.here[0], st.here[1] - lonDelta]);
       }
     }
     /* ピンは座標から上に伸びるので、上側の余白を厚めに取って頭が切れないようにする */
