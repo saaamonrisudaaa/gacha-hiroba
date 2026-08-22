@@ -66,12 +66,13 @@ for (const [pattern, message] of [
   [/location\.protocol\s*===\s*'https:'\s*&&\s*location\.hostname\s*===\s*'gacha-hiroba\.com'/, '非本番ホストの計測遮断がありません'],
   [/function\s+loadAnalytics\(\)\s*{\s*if\s*\(!GHAnalyticsControl\.prepare\(\)/, 'GA4読込前の除外判定がありません'],
   [/function\s+ghTrack\([\s\S]{0,180}GHAnalyticsControl\.shouldBlock\(\)/, 'イベント送信時の除外判定がありません'],
-  [/function\s+ghTrack\([\s\S]{0,220}GHAnalyticsControl\.isRuntimeDisabled\(\)/, '同意撤回後のイベント停止判定がありません'],
-  [/remember\('rejected'\);\s*GHAnalyticsControl\.stop\(\)/, '同意撤回時の即時停止がありません'],
-  [/event\.key\s*!==\s*CONSENT_KEY[\s\S]{0,180}event\.newValue\s*===\s*'rejected'[\s\S]{0,120}GHAnalyticsControl\.stop\(\)/, '別タブでの同意撤回を即時反映していません'],
+  [/function\s+ghTrack\([\s\S]{0,220}GHAnalyticsControl\.isRuntimeDisabled\(\)/, '運営者除外後のイベント停止判定がありません'],
+  [/ad_storage:\s*'denied'[\s\S]{0,160}ad_user_data:\s*'denied'[\s\S]{0,160}ad_personalization:\s*'denied'[\s\S]{0,160}analytics_storage:\s*'denied'/, 'Consent Mode v2の既定拒否がありません'],
+  [/remember\('rejected'\);\s*loadAnalytics\(\);\s*updateConsent\('rejected'\)/, '解析Cookie拒否を即時反映していません'],
+  [/event\.key\s*!==\s*CONSENT_KEY[\s\S]{0,180}event\.newValue\s*===\s*'rejected'[\s\S]{0,160}updateConsent\('rejected'\)/, '別タブでの解析Cookie拒否を即時反映していません'],
   [/searchParams\.has\('id'\)[\s\S]{0,120}store_detail_click/, '現行の店舗詳細URLを計測できません'],
-  [/searchParams\.has\('pref'\)[\s\S]{0,160}area_page_click/, '現行の都道府県URLを計測できません'],
-  [/searchParams\.has\('brand'\)[\s\S]{0,160}brand_page_click/, '現行のブランドURLを計測できません']
+  [/prefFilter[\s\S]{0,160}area_page_click/, '現行の都道府県URLを計測できません'],
+  [/brandFilter[\s\S]{0,160}brand_page_click/, '現行のブランドURLを計測できません']
 ]) {
   if (!pattern.test(mainScriptSource)) fail('script.js: ' + message);
 }
@@ -365,8 +366,8 @@ for (const required of ['about.html', 'ガチャひろばの情報づくり', 'g
   if (!indexHtml.includes(required)) fail('index.html: 信頼性情報が不足しています (' + required + ')');
 }
 const privacyHtml = readFileSync(join(root, 'privacy.html'), 'utf8');
-for (const required of ['policies.google.com/technologies/partner-sites', 'Google Analytics 4', '楽天アフィリエイト',
-  'Supabase', 'data-gh-no-tracking', '計測除外フラグ', 'Google Analyticsのタグ自体を読み込みません']) {
+for (const required of ['policies.google.com/technologies/partner-sites', 'Google Analytics 4', 'Consent Mode v2', '楽天アフィリエイト',
+  'Supabase', 'data-gh-no-tracking', '計測除外フラグ', 'Cookieを使わない限定的な測定信号', 'Googleタグ自体を読み込まず']) {
   if (!privacyHtml.includes(required)) fail('privacy.html: 実装に対応する開示が不足しています (' + required + ')');
 }
 for (const forbidden of ['8,241スポット', 'ヨドバシAkiba ガチャコーナー', 'アキバガチャ横丁', '梅田LOFT ガチャコーナー', '掲示板 3,241件', '月間訪問 24,580']) {

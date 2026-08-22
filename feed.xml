@@ -14,6 +14,13 @@
     <description>ガチャひろばが保有する店舗データについて、「何件あるか」だけでなく、掲載根拠URLと確認日がどこまでそろっているか、営業時間・設置台数・アクセスなど各項目をどの程度確認できているかを集計しました。ページ内の数値は data/spots.js から生成時に再計算しています。</description>
   </item>
   <item>
+    <title>東京の大型ガチャガチャスポット20選｜設置台数・エリア別の回り方【2026年版】</title>
+    <link>https://gacha-hiroba.com/guide/tokyo-large-gacha-guide.html</link>
+    <guid isPermaLink="true">https://gacha-hiroba.com/guide/tokyo-large-gacha-guide.html</guid>
+    <pubDate>Sat, 22 Aug 2026 00:00:00 GMT</pubDate>
+    <description>東京都内でガチャガチャを探すとき、店舗数だけを並べても実際の行き先は決めにくいものです。このガイドでは、ガチャひろばの掲載店のうち、店舗・ブランド・商業施設などの確認元URLと確認日があり、設置規模の公表値を確認できた店舗を対象に、上位20店を同じ条件で比較します。表と店舗詳細は元データから生成し、店舗情報が更新されたときは固定URLのまま再計算します。</description>
+  </item>
+  <item>
     <title>ガチャ予算プランナー｜回せる回数・残額をその場で計算</title>
     <link>https://gacha-hiroba.com/guide/gacha-budget-planner.html</link>
     <guid isPermaLink="true">https://gacha-hiroba.com/guide/gacha-budget-planner.html</guid>

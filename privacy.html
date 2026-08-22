@@ -68,7 +68,7 @@
 
       <div class="gh-legal">
         <div class="gh-prose">
-          <p class="gh-prose__updated">最終改定日：2026年8月17日</p>
+          <p class="gh-prose__updated">最終改定日：2026年8月22日</p>
 
           <h2>1. 事業者情報</h2>
           <p>当サイトの運営者の名称・連絡先は以下のとおりです。<br />
@@ -95,7 +95,7 @@
           </ul>
 
           <h2>4. Cookie・端末内保存について</h2>
-          <p>当サイトおよび第三者サービスは、サイトの動作、利用者が許可したアクセス解析、広告配信のためにCookie、Webビーコン、IPアドレス、端末識別子等を利用する場合があります。アクセス解析の選択は端末内に保存し、各ページのフッターにある「Cookie設定」からいつでも変更できます。ブラウザの設定からCookieの削除・拒否、localStorage等の消去もできます。ただし、無効にすると検索条件の保持など一部機能が正しく動作しないことがあります。</p>
+          <p>当サイトおよび第三者サービスは、サイトの動作、アクセス解析、広告配信のためにCookie、Webビーコン、IPアドレス、端末識別子等を利用する場合があります。アクセス解析の選択は端末内のlocalStorageに保存し、各ページのフッターにある「Cookie設定」からいつでも変更できます。初期状態と「解析Cookieを使わない」を選んだ状態では、Google Analyticsの解析Cookieを保存しません。ブラウザの設定からCookieの削除・拒否、localStorage等の消去もできます。ただし、無効にすると検索条件の保持など一部機能が正しく動作しないことがあります。</p>
 
           <h2>5. Google AdSenseと広告配信</h2>
           <p>当サイトはGoogle AdSenseへの参加を申請しており、承認後はGoogleを含む第三者配信事業者が広告を配信する場合があります。Googleや広告配信事業者は、Cookie、Webビーコン、IPアドレス等を使用して、当サイトや他サイトへの過去のアクセス情報に基づく広告の配信・測定・不正防止を行うことがあります。</p>
@@ -106,8 +106,9 @@
           </ul>
 
           <h2>6. Google Analytics</h2>
-          <p>当サイトは、利用状況の把握と改善のためGoogle Analytics 4を利用します。初回表示時には解析用スクリプトを読み込まず、利用者が「解析を許可」を選んだ後だけ読み込みます。許可後はCookie等を使って閲覧ページ、利用端末、参照元などを収集し、Googleへ送信します。選択は各ページのフッターにある「Cookie設定」からいつでも変更でき、「許可しない」を選ぶと以後の送信を停止して当サイトの解析用Cookieを削除します。収集された情報はGoogleの規約・ポリシーに基づいて管理されます。詳細は<a href="https://marketingplatform.google.com/about/analytics/terms/jp/" target="_blank" rel="noopener">Google Analytics利用規約</a>および<a href="https://policies.google.com/privacy?hl=ja" target="_blank" rel="noopener">Googleプライバシーポリシー</a>をご確認ください。</p>
-          <p>外部利用者のアクセス動向を運営者自身のアクセスと分けて把握するため、運営者が明示的に設定したブラウザでは、端末内のlocalStorageに計測除外フラグと設定日時だけを保存し、Google Analyticsのタグ自体を読み込みません。この設定に個人名、端末識別子、位置情報は保存しません。</p>
+          <p>当サイトは、利用状況の把握と改善のためGoogle Analytics 4とGoogleのConsent Mode v2を利用します。通常の本番ページでは、Googleタグを解析用Cookieの保存が拒否された状態（<code>analytics_storage: denied</code>）で初期化します。利用者が「解析Cookieを許可」を選ぶ前、または「解析Cookieを使わない」を選んだ場合は、解析Cookieを保存せず、ページURL、参照元、アクセス時刻、ブラウザ等の技術情報、同意状態を含むCookieを使わない限定的な測定信号をGoogleへ送信します。Googleはこれらを集計やモデリングに利用する場合があります。</p>
+          <p>「解析Cookieを許可」を選ぶと、アクセス解析に限ってCookieの保存を許可し、閲覧ページ、利用端末、参照元などの測定に利用します。この選択だけで広告用ストレージや広告のパーソナライズを許可することはありません。選択は各ページのフッターにある「Cookie設定」からいつでも変更できます。許可後に「解析Cookieを使わない」へ変更すると、同意状態を拒否へ戻し、当サイトの解析用Cookieを削除しますが、Cookieを使わない限定的な測定信号は継続します。収集された情報はGoogleの規約・ポリシーに基づいて管理されます。詳細は<a href="https://marketingplatform.google.com/about/analytics/terms/jp/" target="_blank" rel="noopener">Google Analytics利用規約</a>、<a href="https://policies.google.com/privacy?hl=ja" target="_blank" rel="noopener">Googleプライバシーポリシー</a>および<a href="https://support.google.com/analytics/answer/10000067?hl=ja" target="_blank" rel="noopener">Googleの同意モードに関する説明</a>をご確認ください。</p>
+          <p>外部利用者のアクセス動向を運営者自身のアクセスと分けて把握するため、運営者が明示的に設定したブラウザでは、端末内のlocalStorageに計測除外フラグと設定日時だけを保存します。除外設定がある状態で新しく開いたページではGoogleタグ自体を読み込まず、すでに開いているページでも以後の送信を停止して解析用Cookieを削除します。この設定に個人名、端末識別子、位置情報は保存しません。また、このプライバシーポリシーのページ、非本番環境ではGoogleタグを読み込みません。</p>
 
           <h2>7. 楽天アフィリエイト</h2>
           <p>当サイトが楽天アフィリエイトの「PR」リンクを掲載する場合、リンクを経由した購入により紹介料を受け取ることがあります。リンク先では楽天グループまたは出店者がCookie等を利用する場合があります。購入、決済、配送に関する情報を当サイトが取得することはありません。現在、再審査に向けた内容確認のためアフィリエイトリンクの表示を停止しています。</p>

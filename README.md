@@ -8,9 +8,9 @@
 
 ## 公開
 
-`main` ブランチへの push をきっかけに、GitHub ActionsからGitHub Pagesへ自動公開されます。リポジトリの Settings → Pages で、Source を **GitHub Actions** に設定してください。
+`main` ブランチへの push をきっかけに、GitHub ActionsからGitHub Pagesへ自動公開されます。リポジトリの Settings → Pages で、Source を **GitHub Actions** に設定してください。公開時は `tools/build-public-site.mjs` が `_site/` を生成し、確認済み店舗と表示に必要なファイルだけを配信します。検証ツール、追加待ちキュー、運用ログは公開しません。
 
-Cloudflare Pages / Netlify / Vercel などでもそのまま公開できます。
+Cloudflare Pages / Netlify / Vercel などを使う場合も、ビルドコマンドを `node tools/build-public-site.mjs`、公開ディレクトリを `_site` に設定してください。
 
 ## 店舗データと静的ページの自動更新
 
@@ -40,6 +40,8 @@ Cloudflare Pages / Netlify / Vercel などでもそのまま公開できます�
 - localhost、GitHub Pagesのプレビュー、その他の非本番ホストは常に計測対象外です。
 - 過去に記録済みの自己アクセスは遡って消えないため、公開・設定完了日以降をクリーンな比較期間として扱います。
 - 新しい端末を追加するときだけ、Git履歴から設定ページを一時的に復元し、設定後に再び削除します。
+
+通常の本番アクセスではConsent Mode v2を既定拒否で初期化します。未選択・拒否時は解析Cookieを保存せずCookieを使わない測定信号を送り、許可後だけ解析Cookieを利用します。広告関連ストレージとパーソナライズはこの設定では許可しません。
 
 ## カスタマイズ時の確認項目
 

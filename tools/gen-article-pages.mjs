@@ -89,7 +89,7 @@ function buildStructuredData(article, stores, pageUrl, description, modified) {
       dateModified: modified,
       inLanguage: 'ja',
       mainEntityOfPage: { '@type': 'WebPage', '@id': pageUrl },
-      author: { '@type': 'Organization', name: 'ガチャひろば', url: `${ORIGIN}/` },
+      author: { '@type': 'Organization', name: 'ガチャひろば運営者', url: `${ORIGIN}/about.html` },
       publisher: {
         '@type': 'Organization',
         name: 'ガチャひろば',

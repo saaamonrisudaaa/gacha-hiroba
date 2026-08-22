@@ -60,7 +60,7 @@ add('/news.html', latest([spotsModified, articlesModified, releasesModified, TRA
 add('/stores.html', latest([spotsModified, TRAFFIC_CONTENT_UPDATED]));
 add('/ranking.html', latest([spotsModified, TRAFFIC_CONTENT_UPDATED]));
 add('/terms.html');
-add('/privacy.html');
+add('/privacy.html', '2026-08-22');
 add('/advertising.html');
 add('/contact.html');
 add('/about.html', '2026-08-14');

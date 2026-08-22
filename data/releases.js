@@ -13,12 +13,12 @@
       price: 1回いくらか（例 '1回500円／全4種'）。分かる場合だけ入れる。
    =========================================================================== */
 /* 一次情報を実際に再確認した日。生成処理を走らせただけでは更新しないこと。 */
-window.GH_RELEASES_CHECKED_ON = '2026-08-14';
+window.GH_RELEASES_CHECKED_ON = '2026-08-22';
 
 window.GH_RELEASES = [
   {
-    date: '2026-08-01',
-    label: '2026年8月発売',
+    date: '2026-08-24',
+    label: '8月24日発売',
     title: '殻からの脱出。 マスコットフィギュア',
     maker: 'Qualia',
     price: '1回400円／全6種',
@@ -123,5 +123,77 @@ window.GH_RELEASES = [
     price: '1回400円／全6種',
     note: 'かき氷、りんご飴、チョコバナナをモチーフにした、夏祭りスイーツのフィギュア。',
     source: 'https://gashapon.jp/products/detail.php?jan_code=4582770027471000'
+  },
+  {
+    date: '2026-08-24',
+    label: '8月第4週より順次',
+    title: 'データカードダス アイカツ！ ミニチュアコレクション',
+    maker: 'バンダイ（ガシャポン）',
+    price: '1回500円／全5種',
+    note: '歴代のデータカードダス筐体を小さく再現。ラインナップのうち2種は当時の音声を楽しめる仕様。',
+    source: 'https://gashapon.jp/products/detail.php?jan_code=4582769810541000'
+  },
+  {
+    date: '2026-08-24',
+    label: '8月第4週より順次',
+    title: 'HG ONE PIECE 02',
+    maker: 'バンダイ（ガシャポン）',
+    price: '1回500円／全4種',
+    note: 'ルフィ、シャンクス、ティーチ、バギーの「新四皇」をそろえたHGシリーズ第2弾。',
+    source: 'https://gashapon.jp/products/detail.php?jan_code=4570118206626000'
+  },
+  {
+    date: '2026-08-24',
+    label: '2026年8月下旬発売',
+    title: 'CAPWATCH ベーシックカラー1',
+    maker: 'キタンクラブ',
+    price: '1回500円／全7種',
+    note: 'カプセルトイと腕時計を組み合わせた新シリーズ。7色のシリコンベルトを選べるアナログ時計。',
+    source: 'https://kitan.jp/products/capwatch_basic/'
+  },
+  {
+    date: '2026-08-31',
+    label: '8月第5週より順次',
+    title: 'ポケットモンスター スイングコレクション Type:Grass',
+    maker: 'バンダイ（ガシャポン）',
+    price: '1回300円／全5種',
+    note: 'リーフィア、ドレディア、ナゾノクサ、モクロー、セレビィを集めた、くさタイプのスイング。',
+    source: 'https://gashapon.jp/products/detail.php?jan_code=4582770054132000'
+  },
+  {
+    date: '2026-08-31',
+    label: '8月第5週より順次',
+    title: '米津玄師 ミニCDコレクション',
+    maker: 'バンダイ（ガシャポン）',
+    price: '1回500円／全11種',
+    note: 'CD作品を開閉できるケース、見開きのブックレット、取り外せるディスクで表現。シークレット1種を含む。',
+    source: 'https://gashapon.jp/products/detail.php?jan_code=4582769911255000'
+  },
+  {
+    date: '2026-08-31',
+    label: '8月第5週より順次',
+    title: 'TOY STORY5 ブリスターチャームコレクション',
+    maker: 'バンダイ（ガシャポン）',
+    price: '1回400円／全5種',
+    note: 'ウッディやバズ・ライトイヤーなどを、ブリスターパッケージ風のチャームにした全5種。',
+    source: 'https://gashapon.jp/products/detail.php?jan_code=4570118186607000'
+  },
+  {
+    date: '2026-08-31',
+    label: '8月第5週より順次',
+    title: 'サンリオキャラクターズ みんなでおめかしフィギュア',
+    maker: 'バンダイ（ガシャポン）',
+    price: '1回300円／全5種',
+    note: 'ハローキティ、ディアダニエル、クロミ、マイメロディ、ウサハナを個性の異なるメイク姿で立体化。',
+    source: 'https://gashapon.jp/products/detail.php?jan_code=4582769978920000'
+  },
+  {
+    date: '2026-08-31',
+    label: '8月第5週より順次',
+    title: '僕のヒーローアカデミア すわらせ隊2',
+    maker: 'バンダイ（ガシャポン）',
+    price: '1回400円／全4種',
+    note: '緑谷出久、爆豪勝己、オールマイト、死柄木弔を座り姿で立体化したシリーズ第2弾。',
+    source: 'https://gashapon.jp/products/detail.php?jan_code=4582769995767000'
   }
 ];

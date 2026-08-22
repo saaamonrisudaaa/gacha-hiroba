@@ -31,7 +31,11 @@
     return d.innerHTML;
   }
   function getParam(name) {
-    try { return new URLSearchParams(location.search).get(name); }
+    try {
+      var queryValue = new URLSearchParams(location.search).get(name);
+      if (queryValue !== null) return queryValue;
+      return new URLSearchParams(String(location.hash || '').replace(/^#/, '')).get(name);
+    }
     catch (e) { return null; }
   }
   function machinesText(n) {
@@ -98,8 +102,8 @@
     '徳島県':'tokushima','香川県':'kagawa','愛媛県':'ehime','高知県':'kochi','福岡県':'fukuoka','佐賀県':'saga','長崎県':'nagasaki',
     '熊本県':'kumamoto','大分県':'oita','宮崎県':'miyazaki','鹿児島県':'kagoshima','沖縄県':'okinawa'
   };
-  function prefUrl(pref) { return '/stores.html?pref=' + encodeURIComponent(pref || ''); }
-  function brandUrl(brand) { return '/stores.html?brand=' + encodeURIComponent(brand || ''); }
+  function prefUrl(pref) { return '/stores.html#pref=' + encodeURIComponent(pref || ''); }
+  function brandUrl(brand) { return '/stores.html#brand=' + encodeURIComponent(brand || ''); }
   function guideUrl(slug) { return '/guide/' + encodeURIComponent(slug) + '.html'; }
   function spotUrl(id) { return '/spot.html?id=' + encodeURIComponent(id || ''); }
   function markNoindex() {
@@ -127,9 +131,26 @@
     }).sort(function (a, b) { return b.count - a.count; });
   }
 
+  /* 店舗一覧はhash変更だけで再描画するため、絞り込み前の表示を保持して毎回復元する。 */
+  var storeListDefaults = null;
+
   /* ページ判定 */
   if (qs('spotDetail')) renderDetail();
-  if (qs('storeList'))  renderList();
+  if (qs('storeList')) {
+    var storeListTitle = document.querySelector('.gh-page-hero__title');
+    var storeListDesc = document.querySelector('.gh-page-hero__desc');
+    var storeListTabs = document.querySelector('.gh-tab-group');
+    var storeListRobots = document.querySelector('meta[name="robots"]');
+    storeListDefaults = {
+      pageTitle: document.title,
+      heading: storeListTitle ? storeListTitle.textContent : '',
+      description: storeListDesc ? storeListDesc.innerHTML : '',
+      tabsDisplay: storeListTabs ? storeListTabs.style.display : '',
+      robots: storeListRobots ? storeListRobots.content : 'index,follow,max-image-preview:large'
+    };
+    renderList();
+    window.addEventListener('hashchange', renderList);
+  }
   if (document.querySelector('[data-gh-spot-cards]')) renderSpotCards();
   if (document.querySelector('[data-gh-area-cards]')) renderAreaCards();
   if (document.querySelector('[data-gh-ticker]')) renderTicker();
@@ -983,6 +1004,17 @@
   /* ------------------------------------------------------------------ */
   function renderList() {
     var box = qs('storeList');
+    if (storeListDefaults) {
+      var defaultTitle = document.querySelector('.gh-page-hero__title');
+      var defaultDesc = document.querySelector('.gh-page-hero__desc');
+      var defaultTabs = document.querySelector('.gh-tab-group');
+      var defaultRobots = document.querySelector('meta[name="robots"]');
+      document.title = storeListDefaults.pageTitle;
+      if (defaultTitle) defaultTitle.textContent = storeListDefaults.heading;
+      if (defaultDesc) defaultDesc.innerHTML = storeListDefaults.description;
+      if (defaultTabs) defaultTabs.style.display = storeListDefaults.tabsDisplay;
+      if (defaultRobots) defaultRobots.content = storeListDefaults.robots;
+    }
     var pref = getParam('pref');
     var query = getParam('q');
     var brand = getParam('brand');

@@ -1,15 +1,16 @@
 # ガチャひろば (gacha-hiroba.com)
 
 > 全国のガチャガチャ（カプセルトイ）設置場所・専門店を探せる検索サイト。
-> 店舗ごとの住所・営業時間・設置台数・地図・掲示板を掲載。実店舗データから
-> エリア別まとめ記事・設置台数ランキングを自動生成しています。
+> 掲載根拠URLと確認日のそろう店舗について、住所・営業時間・公表設置台数・地図を掲載。
+> 未確認の候補は公開せず、設置規模の比較、メーカー公式情報に基づく新作一覧、独自ガイドを提供しています。
 
 ## 主要ページ
 - [店舗一覧](https://gacha-hiroba.com/stores.html): 全店舗を地方・都道府県・ブランドで絞り込み
 - [マップ検索](https://gacha-hiroba.com/map.html): 地図表示＋現在地から近い順
-- [新着情報・特集記事](https://gacha-hiroba.com/news.html): エリア別まとめ・ランキング・ガイド
-- [ランキング](https://gacha-hiroba.com/ranking.html): アクセス数に基づく人気店舗
-- [掲示板](https://gacha-hiroba.com/board.html): 店舗ごとの情報交換
+- [新着情報・特集記事](https://gacha-hiroba.com/news.html): メーカー公式情報を確認した新作一覧と独自ガイド
+- [ランキング](https://gacha-hiroba.com/ranking.html): 確認できた公表設置台数による売り場規模の比較
+- [掲示板](https://gacha-hiroba.com/board.html): 利用者投稿による店舗ごとの情報交換
+- [データ確認方法](https://gacha-hiroba.com/methodology.html): 掲載条件・確認日・台数の読み方
 
 ## データ
 - [sitemap](https://gacha-hiroba.com/sitemap.xml)
